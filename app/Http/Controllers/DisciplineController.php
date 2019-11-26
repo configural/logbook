@@ -10,6 +10,12 @@ class DisciplineController extends Controller
 {
     //
     
+    public function view(Request $request) {
+        $discipline = Discipline::find($request->id);
+        return view('discipline', ['discipline' => $discipline]);
+    }
+    
+    
     public function add(Request $request) {
         $discipline = new Discipline;
         $discipline->name = $request->name;

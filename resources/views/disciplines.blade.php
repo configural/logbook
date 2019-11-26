@@ -14,13 +14,14 @@
                     
                     <table class="table table-bordered">
                         <thead class="">
-                            <tr><td>id</td><td>Название дисциплины</td><td>Активна?</td><td>Операции</td></tr>
+                            <tr><td>id</td><td>Название дисциплины</td><td>Кол-во блоков</td><td>Активна?</td><td>Операции</td></tr>
                         </thead>
                         <tbody>
                             @foreach(\App\Discipline::select()->get() as $discipline)
                             <tr class="">
-                                <td>{{ $discipline->id }}</td>
-                                <td>{{ $discipline->name }}</td>
+                                <td>{{ $discipline->id }} </td>
+                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a></td>
+                                <td>{{ $discipline->blocks->count()}}</td>
                                 <td>{{ $discipline->active }}</td>
                                 <td><center><a href="{{url('/')}}/discipline/{{$discipline->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
                                     
