@@ -13,4 +13,10 @@ class Discipline extends Model
     public function blocks() {
         return $this->hasMany('\App\Block', 'discipline_id', 'id');
     }
+    
+    public function programs() {
+        return $this->belongsToMany('\App\Program', 'discipline2program', 'program_id', 'id');
+        
+        
+    }
 }

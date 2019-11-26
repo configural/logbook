@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         
-      DB::table('users')->insert([
+     /* DB::table('users')->insert([
       'name' => 'admin',
       'email' => 'admin@logbook.local',
       'password' => bcrypt('477465'),
@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
       DB::table('roles')->insert(['name' => 'преподаватель']);
       DB::table('roles')->insert(['name' => 'методист']);
       DB::table('roles')->insert(['name' => 'администратор']);
+      */
+      DB::table('forms')->insert(['name' => 'очная']);
+      DB::table('forms')->insert(['name' => 'заочная']);
+      DB::table('forms')->insert(['name' => 'дистанционная']);
       
       
       

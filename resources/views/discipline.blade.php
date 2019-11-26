@@ -12,6 +12,18 @@
                     
                     <p><a href="{{ url('disciplines')}}">Все дисциплины</a></p>
                     <h3>{{$discipline->name}}</h3>
+                    Дисциплина присутствует в программах:
+                    <ul>
+                            <?php $i = 0; ?>
+                    @foreach ($discipline->programs as $program)
+                    <?php $i++; ?>
+                    <li><a href="{{url('/program')}}/{{$program->id}}">{{$program->name}}</a></li>
+                    @endforeach
+                    @if ($i == 0) 
+                    Дисциплина пока нигде не задействована
+                    @endif
+                     </ul>
+                    
                     <p><a href="{{url('block/add')}}/{{$discipline->id}}" class="btn btn-success">Добавить блок</a></p>
                     <table class="table table-bordered">
                         <tr>
