@@ -6,27 +6,23 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Пользователи</div>
+                <div class="panel-heading">Потоки</div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id == 4)
-                    <p><a href="{{url('user/add')}}" class="btn btn-success">Добавить пользователя</a></p>
+                    <p><a href="{{url('stream/add')}}" class="btn btn-success">Создать поток</a></p>
                     
                     <table class="table table-bordered">
                         <thead class="">
-                            <tr><td>id</td><td>Имя пользователя</td><td>Роль</td><td>Email</td><td>Создан</td><td>Операции</td></tr>
+                            <tr><td>id</td><td>Название потока</td><td>Учебный год</td></tr>
                         </thead>
                         <tbody>
-                            @foreach(\App\User::select()->get() as $user)
+                            @foreach(\App\Stream::select()->get() as $stream)
                             <tr class="">
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->role->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->created_at }}</td>
-                                <td><center><a href="{{url('/')}}/user/{{$user->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
-                                    
-                                </td>
+                                <td>{{ $stream->id }}</td>
+                                <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>
+                                <td>{{ $stream->year }}</td>
+                                
                             </tr>
                             @endforeach
                         <tbody>

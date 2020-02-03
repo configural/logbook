@@ -10,7 +10,7 @@
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id == 4)
-                    <p><a href="{{url('discipline/add')}}" class="btn btn-success">Добавить дисциплину</a></p>
+                    <p><a href="{{url('disciplines/add')}}" class="btn btn-success">Добавить дисциплину</a></p>
                     
                     <table class="table table-bordered">
                         <thead class="">
@@ -23,7 +23,7 @@
                                 <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a></td>
                                 <td>{{ $discipline->blocks->count()}}</td>
                                 <td>{{ $discipline->active }}</td>
-                                <td><center><a href="{{url('/')}}/discipline/{{$discipline->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
+                                <td><center><a href="{{url('/')}}/disciplines/{{$discipline->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
                                     
                                 </td>
                             </tr>

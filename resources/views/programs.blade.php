@@ -21,7 +21,7 @@
                             <tr class="">
                                 <td>{{ $program->id }} </td>
                                 <td><a href="{{url('/')}}/program/{{$program->id}}">{{ $program->name }}</a><br><small>{{$program->description}}</small></td>
-                                <td>{{ $program->hours }}</td>
+                                <td>{{ $program->hours() }}</td>
                                 <td>{{ $program->active }}</td>
                                 <td><center><a href="{{url('/')}}/program/{{$program->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
                                     

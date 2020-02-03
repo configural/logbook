@@ -24,12 +24,15 @@ class DatabaseSeeder extends Seeder
       DB::table('roles')->insert(['name' => 'преподаватель']);
       DB::table('roles')->insert(['name' => 'методист']);
       DB::table('roles')->insert(['name' => 'администратор']);
-      */
+      
       DB::table('forms')->insert(['name' => 'очная']);
       DB::table('forms')->insert(['name' => 'заочная']);
       DB::table('forms')->insert(['name' => 'дистанционная']);
-      
-      
+      */
+      DB::table('attestation')->insert(['name' => 'зачет']);
+      DB::table('attestation')->insert(['name' => 'экзамен']);
+      DB::table('attestation')->insert(['name' => 'экзамен в форме тестирования']);
+      DB::table('attestation')->insert(['name' => 'выпускная квалификационная работа']);
       
     }
 }

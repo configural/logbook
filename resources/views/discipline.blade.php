@@ -29,12 +29,18 @@
                         <tr>
                             <td>id</td>
                             <td>Название блока</td>
+                            <td>Лекции, ч</td>
+                            <td>Практика, ч</td>
+                            <td>Самост., ч</td>
                             <td>Состояние</td>
                         </tr>
                          @foreach($discipline->blocks as $block)
                         <tr>
                             <td>{{$block->id}}</td>
                             <td><a href="{{url('/')}}/block/{{$block->id}}/edit">{{$block->name}}</td>
+                            <td>{{$block->l_hours}}</td>
+                            <td>{{$block->p_hours}}</td>
+                            <td>{{$block->s_hours}}</td>
                             <td>
                                 @if($block->active) <i class="fa fa-check-circle green fa-2x"></i>
                                 @else <i class="fa fa-times-circle red fa-2x"></i>

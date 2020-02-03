@@ -28,10 +28,10 @@ Route::post('/user/{id}/store', 'UserController@store')->middleware('auth');
 // Управление списком дисциплин
 Route::get('/disciplines', function() {return view('disciplines');})->middleware('auth');
 Route::get('/discipline/{id}', 'DisciplineController@view')->middleware('auth');
-Route::get('/discipline/add', function() {return view('disciplineadd');})->middleware('auth');
-Route::get('/discipline/{id}/edit', 'DisciplineController@edit')->middleware('auth');
-Route::post('/discipline/add', 'DisciplineController@add')->middleware('auth');
-Route::post('/discipline/{id}/store', 'DisciplineController@store')->middleware('auth');
+Route::get('/disciplines/add', function() {return view('disciplineadd');})->middleware('auth');
+Route::get('/disciplines/{id}/edit', 'DisciplineController@edit')->middleware('auth');
+Route::post('/disciplines/add', 'DisciplineController@add')->middleware('auth');
+Route::post('/disciplines/{id}/store', 'DisciplineController@store')->middleware('auth');
 
 // Управление списком тематических блоков внутри дисциплин
 Route::get('/block/add/{id}', function($id) {return view('blockadd', ['id'=>$id]);})->middleware('auth');
@@ -42,3 +42,30 @@ Route::post('/block/{id}/store', 'BlockController@store')->middleware('auth');
 
 // Управление списком дополнительных образовательных программ 
 Route::get('/programs', function(){ return view('programs');})->middleware('auth');
+Route::get('/program/{id}', function($id){ return view('program', ['id' => $id]);})->middleware('auth');
+//добавить редактирование и удаление!
+//
+//
+
+// Управление потоками
+Route::get('/streams', function(){return view('streams');});
+Route::get('/stream/add', function(){return view('streamadd');});
+Route::get('/stream/{id}/edit', 'StreamController@edit')->middleware('auth');
+Route::post('/stream/add', 'StreamController@add')->middleware('auth');
+Route::post('/stream/{id}/store', 'StreamController@store')->middleware('auth');
+
+// Управление группами
+Route::get('/group/add/{id}', function($id){return view('groupadd', ['id' => $id]);});
+Route::get('/group/{id}/edit', 'GroupController@edit')->middleware('auth');
+Route::post('/group/add', 'GroupController@add')->middleware('auth');
+Route::post('/group/{id}/store', 'GroupController@store')->middleware('auth');
+
+// Расписание
+Route::get('/timetable', function(){return view('timetable');})->middleware('auth');
+
+// Журнал
+Route::get('/journal/{id}', 'JournalController@show')->middleware('auth');
+Route::post('/journal/update', 'JournalController@update')->middleware('auth');
+
+// Нагрузка
+Route::get('/workload', function() {return view('workload');})->middleware('auth');
