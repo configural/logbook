@@ -42,7 +42,15 @@ Route::post('/block/{id}/store', 'BlockController@store')->middleware('auth');
 
 // Управление списком дополнительных образовательных программ 
 Route::get('/programs', function(){ return view('programs');})->middleware('auth');
+Route::get('/program/add', function(){ return view('programadd');})->middleware('auth');
+Route::post('/program/add', 'ProgramController@add')->middleware('auth');
 Route::get('/program/{id}', function($id){ return view('program', ['id' => $id]);})->middleware('auth');
+Route::post('/program/{id}/store', 'ProgramController@store')->middleware('auth');
+Route::get('/program/{id}/edit', function($id){ return view('programedit', ['id' => $id]);})->middleware('auth');
+
+Route::get('/program/{program_id}/discipline_unbind/{discipline_id}', 'DisciplineController@unbind_discipline')->middleware('auth');
+Route::post('/program/discipline_bind', 'DisciplineController@bind_discipline')->middleware('auth');
+
 //добавить редактирование и удаление!
 //
 //
@@ -69,3 +77,9 @@ Route::post('/journal/update', 'JournalController@update')->middleware('auth');
 
 // Нагрузка
 Route::get('/workload', function() {return view('workload');})->middleware('auth');
+Route::get('/workload/get/{id}', 'WorkloadController@take_workload')->middleware('auth');
+Route::get('/workload/cancel/{id}', 'WorkloadController@cancel_workload')->middleware('auth');
+
+// ajax маршруты
+Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
+Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->middleware('auth');

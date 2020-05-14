@@ -24,6 +24,7 @@ class BlockController extends Controller
         $block->active = $request->active; // опубликовано?
         $block->discipline_id = $request->discipline_id; // ид дисциплины, к которому привязваны
         $block->save();
+        
         return redirect('discipline/'.$block->discipline_id);
         
     }

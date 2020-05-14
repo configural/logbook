@@ -15,6 +15,7 @@
                     <form action="add" method="post">
                           
                           <p><label>Название</label><input type="text" value="" class="form-control" name="name"></p>
+                          <p><label>Часы</label><input type="text" value="" class="form-control" name="hours"></p>
                           <p><label>Опубликована (1/0)?</label>
                               <input type="text" value="" class="form-control" name="active">
                           </p>

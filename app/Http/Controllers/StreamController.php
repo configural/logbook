@@ -13,10 +13,12 @@ class StreamController extends Controller
     public function add(Request $request) {
         $stream = new Stream;
         $stream->name = $request->name;
+        $stream->date_start = $request->date_start;
+        $stream->date_finish = $request->date_finish;
         $stream->year = $request->year;
         $stream->save();
-        $id = DB::table('programs2stream')->insertGetId(['program_id' => $request->program_id, 'stream_id' => $stream->id]);
-        dump($id);
+      //  $id = DB::table('programs2stream')->insertGetId(['program_id' => $request->program_id, 'stream_id' => $stream->id]);
+      //  dump($id);
         
         return view('streams');
         
@@ -32,6 +34,8 @@ class StreamController extends Controller
     public function store(Request $request) {
         $stream = Stream::find($request->id);
         $stream->name = $request->name;
+        $stream->date_start = $request->date_start;
+        $stream->date_finish = $request->date_finish;
         $stream->year = $request->year;
         $stream->save();
         

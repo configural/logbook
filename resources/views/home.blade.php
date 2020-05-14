@@ -50,22 +50,26 @@
                             <th>Статус</th>
                         </tr>
                     @foreach(\App\Timetable::select()->where('teacher_id', Auth::user()->id)->get() as $timetable)
+                    @if (isset($timetable))
                     <tr>
                     <td>{{ $timetable->start_at}}</td>
                     <td>{{ $timetable->group->name }}</td>
                     <td><strong>{{ $timetable->block->discipline->name }}</strong><br/>Тема:  {{ $timetable->block->name }}</td>
-                    <td>{{ $timetable->block->l_hours }} / {{ $timetable->block->p_hours }}</td>
-                    <td>{{ $timetable->journal->l_hours }} / {{ $timetable->journal->p_hours }}</td>
-                    <td><a href="{{url('/')}}/journal/{{ $timetable->id}}">В журнал</a></td>
-                    <td>
+                    <td>@if (isset($timetable->block->l_hours)) {{ $timetable->block->l_hours }} @endif / 
+                        @if (isset($timetable->block->p_hours)) {{ $timetable->block->p_hours }} @endif </td>
+                    <td>@if (isset($timetable->journal->l_hours)) {{ $timetable->journal->l_hours }} @endif / 
+                        @if (isset($timetable->journal->p_hours)) {{ $timetable->journal->p_hours }} @endif</td>
+                    <td>@if (isset($timetable->id)) <a href="{{url('/')}}/journal/{{ $timetable->id}}">В журнал</a> @endif</td>
+                    <td>@if (isset($timetable->block) and (isset($timetable->block)))
                         @if ($timetable->block->l_hours == $timetable->journal->l_hours and $timetable->block->p_hours == $timetable->journal->p_hours)
-                        Выполнено
+                        OK
                         @else
-                        Не выполнено
+                        -
                         @endif
-                        
+                        @endif
                     </td>
                     </tr>
+                    @endif
                     @endforeach
                     </table>
                     

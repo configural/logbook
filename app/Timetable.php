@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Timetable extends Model
 {
     //
@@ -30,5 +31,8 @@ class Timetable extends Model
         return $this->hasOne('\App\Journal', 'timetable_id', 'id');
     }
     
+    function classroom() {
+        return $this->hasOne('\App\Classroom', 'id', 'room_id');
+    }
     
 }

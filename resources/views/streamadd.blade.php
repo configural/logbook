@@ -12,6 +12,8 @@
                 <form action="add" method="post">
                           
                           <p><label>Название потока</label><input type="text" value="" class="form-control" name="name"></p>
+                          <p><label>Начало обучения</label><input type="date" value="" class="form-control" name="date_start"></p>
+                          <p><label>Окончание обучения</label><input type="date" value="" class="form-control" name="date_finish"></p>
                           <p><label>Учебный год</label><input type="text" value="" class="form-control" name="year"></p>
                           
                           <p><label>Образовательная программа</label>

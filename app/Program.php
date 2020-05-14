@@ -24,9 +24,11 @@ class Program extends Model
     public function hours() {
         $hours = 0;
         foreach($this->disciplines as $discipline) {
-            $hours += $discipline->blocks->sum('l_hours');
-            $hours +=  $discipline->blocks->sum('p_hours');
-            $hours +=  $discipline->blocks->sum('s_hours');
+            
+                $hours += $discipline->active_blocks->sum('l_hours');
+                $hours +=  $discipline->active_blocks->sum('p_hours');
+                $hours +=  $discipline->active_blocks->sum('s_hours');
+            
         };
         return $hours;
     }

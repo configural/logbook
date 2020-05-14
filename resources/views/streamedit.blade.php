@@ -14,7 +14,9 @@
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $stream->id }}" class="form-control" name="id"></p>
                           <p><label>Название потока</label><input type="text" value="{{ $stream->name }}" class="form-control" name="name"></p>
-                           <p><label>Год</label><input type="text" value="{{ $stream->year }}" class="form-control" name="year"></p>
+                          <p><label>Начало обучения</label><input type="date" value="{{ $stream->date_start}}" class="form-control" name="date_start"></p>
+                          <p><label>Окончание обучения</label><input type="date" value="{{ $stream->date_finish}}" class="form-control" name="date_finish"></p>
+                          <p><label>Год</label><input type="text" value="{{ $stream->year }}" class="form-control" name="year"></p>
                            
                           <p><button class="btn btn-success">Обновить</button>
                     {{ csrf_field() }}
@@ -37,7 +39,15 @@
                     
                     @endforeach
                     </table>
-                    {{--<p><a class="btn btn-primary"><i class="fa fa-graduation-cap"></i> Прикрепить еще одну программу</a>--}}
+                    <form action="bind_program" method="post">
+                        <p>
+                        <select name="program_id" class="form-control">
+                            @foreach(\App\Program::select()->where('active', 1)->get() as $program)
+                            <option value='{{ $program->id }}'>{{$program->name}}</option>
+                            @endforeach
+                        </select>
+                        </p>
+                    <p><a class="btn btn-primary"><i class="fa fa-graduation-cap"></i> Добавить программу</a>
                     
                     <hr/>
                     <h4>Учебные группы в потоке</h4>

@@ -13,6 +13,7 @@
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $discipline->id }}" class="form-control" name="id"></p>
                           <p><label>Название дисциплины</label><input type="text" value="{{ $discipline->name }}" class="form-control" name="name"></p>
+                          <p><label>Часы</label><input type="text" value="{{ $discipline->hours }}" class="form-control" name="hours"></p>
                            <p><label>Опубликована (1/0)?</label><input type="text" value="{{ $discipline->active }}" class="form-control" name="active"></p>
                            <p><a href="{{ url('/') }}/discipline/{{ $discipline->id }}">Список блоков дисциплины</a></p> 
                           <p><button class="btn btn-success">Обновить</button>

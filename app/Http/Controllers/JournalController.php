@@ -35,18 +35,13 @@ class JournalController extends Controller
     
     public function update(Request $request) {
         // сериализация массива "Посещаемость"
-        $l_hours = 0;
-        $p_hours = 0;
-        
-        if ($request->lesson_type == 0) $l_hours = $request->hours;
-        if ($request->lesson_type == 1) $p_hours = $request->hours;
         
         count(Journal::find($request->id)) ? $journal = Journal::find($request->id) : $journal = new Journal();
         
         $journal->timetable_id = $request->timetable_id;
         $journal->teacher_id = Auth::user()->id;
-        $journal->l_hours = $l_hours;
-        $journal->p_hours = $p_hours;
+        $journal->l_hours = $request->l_hours;
+        $journal->p_hours = $request->p_hours;
         $journal->attendance = serialize($request->attendance);
         
         

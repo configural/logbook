@@ -60,26 +60,18 @@
                     <p><strong>Дата и время занятия:</strong> {{$timetable->start_at}}</p>
                     <p><strong>Дисциплина:</strong> {{ $block->discipline->name }}</p>
                     <p><strong>Тема занятия:</strong> {{$block->name}}</p>
+                    <p><strong>Вид занятия:</strong> {{$block->type->name}}</p>
                     <p>По учебно-тематическому плану предусмотрено:</p>
                     <ul>
                         <li>Лекции: {{$block->l_hours}} ч. </li>
                         <li>Практика: {{$block->p_hours}} ч.</li>
                     </ul>
      
-                    
-                    
-                    
-                    <p>Какой вид занятия вы провели?<br/>
-                    <select class="form-control" name="lesson_type" required>
-                                <option value="">выберите</option>        
-                                <option value="0" @if ($journal->l_hours) selected @endif>Лекция</option>
-                                <option value="1" @if ($journal->p_hours) selected @endif>Практика</option>
-                    </select></p>
                     <p>Сколько академических часов?<br/>
-                        @if ($journal->l_hours) <input class="form-control" type="number" name="hours" value = "{{ $journal->l_hours }}"  required>
-                        @elseif($journal->p_hours) <input class="form-control" type="number" name="hours" value = "{{ $journal->p_hours }}"  required>
-                        @else <input class="form-control" type="number" name="hours" required>@endif
-                    </p>
+                    <p><label>Лекции</label> <input class="form-control" type="number" name="l_hours" value = "{{ $journal->l_hours }}"  required></p>
+                    <p><label>Практика</label> <input class="form-control" type="number" name="p_hours" value = "{{ $journal->p_hours }}"  required></p>
+                        
+                    
                     
                     
                 </div>

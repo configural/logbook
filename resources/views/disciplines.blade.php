@@ -20,7 +20,7 @@
                             @foreach(\App\Discipline::select()->get() as $discipline)
                             <tr class="">
                                 <td>{{ $discipline->id }} </td>
-                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a></td>
+                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a> {{ $discipline->hours }}</td>
                                 <td>{{ $discipline->blocks->count()}}</td>
                                 <td>{{ $discipline->active }}</td>
                                 <td><center><a href="{{url('/')}}/disciplines/{{$discipline->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>

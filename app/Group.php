@@ -11,7 +11,7 @@ class Group extends Model
     protected $fillable = ['name', 'stream_id', 'description', 'active'];
     
     public function stream() {
-        return $this->hasOne('stream', 'id', 'stream_id');
+        return $this->hasOne('\App\Stream', 'id', 'stream_id');
     }
     
     public function students() {

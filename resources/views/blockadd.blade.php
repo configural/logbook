@@ -15,16 +15,11 @@
                     <form action="{{url('/')}}/block/add" method="post">
                           
                         <p><input type="hidden" name="discipline_id" value="{{$id}}"></p>
-                        <p><label>Название блока</label><input type="text" value="" class="form-control" name="name"></p>
+                        <p><label>Название блока</label><input type="text" value="" class="form-control" name="name" required></p>
                           <p><label>Лекции (часов)</label><input type="text" value="0" class="form-control" name="l_hours"></p>
                           <p><label>Практика (часов)</label><input type="text" value="0" class="form-control" name="p_hours"></p>
                           <p><label>Самост. работа (часов)</label><input type="text" value="0" class="form-control" name="s_hours"></p>
-                          <p><label>Опубликован (1/0)?</label><input type="text" value="{{ $block->active }}" class="form-control" name="active"></p>
-                          
-                          <p><label>Опубликована (1/0)?</label>
-                              <input type="text" value="" class="form-control" name="active">
-                          </p>
-                          
+                          <p><label>Опубликован (1/0)?</label><input type="text" value="1" class="form-control" name="active"></p>
                           <p><button class="btn btn-success">Создать блок</button>
                     {{ csrf_field() }}
                       </form>
