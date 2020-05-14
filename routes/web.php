@@ -47,6 +47,8 @@ Route::post('/program/add', 'ProgramController@add')->middleware('auth');
 Route::get('/program/{id}', function($id){ return view('program', ['id' => $id]);})->middleware('auth');
 Route::post('/program/{id}/store', 'ProgramController@store')->middleware('auth');
 Route::get('/program/{id}/edit', function($id){ return view('programedit', ['id' => $id]);})->middleware('auth');
+Route::get('/program/{id}/clone', 'ProgramController@clone_program')->middleware('auth');
+Route::get('/program/{id}/delete', 'ProgramController@delete')->middleware('auth');
 
 Route::get('/program/{program_id}/discipline_unbind/{discipline_id}', 'DisciplineController@unbind_discipline')->middleware('auth');
 Route::post('/program/discipline_bind', 'DisciplineController@bind_discipline')->middleware('auth');

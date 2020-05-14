@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -24,9 +24,11 @@
                                 <td>{{ $program->hours }}</td>
                                 <td>{{ $program->hours() }}</td>
                                 <td>{{ $program->active }}</td>
-                                <td><center><a href="{{url('/')}}/program/{{$program->id}}/edit" title="Изменить название, описание"><i class="fa fa-edit fa-2x"></i></a>
-                                    <a href="{{url('/')}}/program/{{$program->id}}" title="Редактировать дисциплины и блоки"><i class="fa fa-gears fa-2x green"></i>
-                                    
+                                <td><a href="{{url('/')}}/program/{{$program->id}}/edit" title="Изменить название, описание"><i class="fa fa-edit"></i> изменить</a><br/>
+                                    <a href="{{url('/')}}/program/{{$program->id}}" title="Редактировать дисциплины и блоки"><i class="fa fa-gears"></i> УТП <br/>
+                                    <a href="{{url('/')}}/program/{{$program->id}}/clone" title="Клонировать программу"><i class="fa fa-copy"></i> клонировать<br/>
+                                    <a href="{{url('/')}}/program/{{$program->id}}/delete" title="Удалить программу" onClick="return window.confirm('Действительно удалить?');"><i class="fa fa-times"></i> удалить<br/>
+                                            
                                 </td>
                             </tr>
                             @endforeach
