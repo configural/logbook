@@ -27,7 +27,7 @@
                                 <th>Дисциплина, тема, часы</th>
                                 <th>Взять нагрузку</th>
                             </tr>
-                        @foreach(\App\Timetable::select()->where('teacher_id', 0)->get() as $timetable)
+                        @foreach(\App\Timetable::select()->where('teacher_id', NULL)->get() as $timetable)
                         <tr>
                             <td>{{$timetable->group->stream->name}} / 
                                 {{$timetable->group->name}}<br>

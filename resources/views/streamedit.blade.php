@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
@@ -34,21 +34,29 @@
                     <tr>
                         <td><a href="{{url('/program/')}}/{{$program->id}}" target="_blank">{{ $program->name }}</td>
                         <td>{{ $program->hours }}</td>
-                        <td></td>
+                        <td><a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" onClick="return window.confirm('Действительно удалить?');"><i class="fa fa-times"></i> Удалить привязку</a></td>
                     </tr>
                     
                     @endforeach
                     </table>
-                    <form action="bind_program" method="post">
+                    
+                    @if($stream->programs->count() == 0)
+                    <p>Образовательная программа для потока не назначена. Выберите из списка. После назначения программы будет автоматически сформирована нераспределенная нагрузка для данного потока.</p>
+                    <form action="program_bind" method="post">
                         <p>
+                    <input type="hidden" name="stream_id" value="{{$stream->id}}">
                         <select name="program_id" class="form-control">
-                            @foreach(\App\Program::select()->where('active', 1)->get() as $program)
-                            <option value='{{ $program->id }}'>{{$program->name}}</option>
+                            @foreach(\App\Program::select()->where('active', 1)->orderby('name', 'asc')->get() as $program)
+                            <option value='{{ $program->id }}'>{{$program->name}} - {{ $program->description}}</option>
                             @endforeach
                         </select>
                         </p>
-                    <p><a class="btn btn-primary"><i class="fa fa-graduation-cap"></i> Добавить программу</a>
-                    
+                    <p><button class="btn btn-primary">Назначить программу потоку</button>
+                    {{ csrf_field() }}
+                    </form>
+                    @endif
+
+                        
                     <hr/>
                     <h4>Учебные группы в потоке</h4>
                     <table class="table table-bordered">
@@ -56,13 +64,16 @@
                             <td>id</td>
                             <td>Название группы</td>
                             <td>Описание</td>
+                            <td>Слушателей</td>
                             <td>Активна</td>
                         </tr>
                         @foreach($stream->groups as $group)
                         <tr>
                             <td>{{$group->id}}</td>
                             <td><a href="{{url('/group')}}/{{$group->id}}/edit">{{$group->name}}</a></td>
+                            
                             <td>{{$group->description}}</td>
+                            <td>{{$group->students->count()}}</td>
                             <td>{{$group->active}}</td>
                         </tr>
                         @endforeach

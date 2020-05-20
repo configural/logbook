@@ -10,11 +10,19 @@
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id == 4)  
-                    <h4>Редактировать детали потока</h4>
+                    <h4>Редактировать детали группы</h4>
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $group->id }}" class="form-control" name="id"></p>
                           <p><label>Название группы</label><input type="text" value="{{ $group->name }}" class="form-control" name="name" required></p>
-                          <p><label>Поток</label><input type="text" value="{{ $group->stream_id }}" class="form-control" name="stream_id"></p>
+                          <p><label>Поток</label>
+                              <select name="stream_id" class="form-control">
+                              @foreach(\App\Stream::select()->get() as $stream)
+                              @if($group->stream_id == $stream->id) <option value="{{$stream->id}}" selected>{{$stream->name}}</option>
+                              @else <option value="{{$stream->id}}">{{$stream->name}}</option>
+                              @endif
+                              @endforeach
+                              </select>
+                              
                           <p><label>Группа активна?</label><input type="text" value="{{ $group->active }}" class="form-control" name="active"></p>
                           <p><label>Описание группы</label>
                               <textarea name="description" class="form-control">{{$group->description}}</textarea>
@@ -43,11 +51,15 @@
                     </table>
                     @else
                     @endif
-                    
+                    <a href="{{url('/')}}/group/{{$group->id}}/addstudents" class="btn btn-success">Добавить студентов в группу</a>
                     
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
 @endsection

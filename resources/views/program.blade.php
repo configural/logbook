@@ -32,9 +32,10 @@
                     <th>{{ $discipline->active_blocks->sum('p_hours')}}</th>
                     <th>{{ $discipline->active_blocks->sum('s_hours')}}</th>
                     <th><a href="{{$id}}/discipline_unbind/{{$discipline->id}}">Убрать&nbsp;<i class="fa fa-thumbs-down red " aria-hidden="true"></i></a></th></tr>
-                    
+                    {{--    
                         <ul>    
                         @foreach(\App\Block::select()->where('discipline_id', $discipline->id)->where('active', 1)->get() as $block)
+                        {{--    
                         <tr>
                             <td></td>
                         <td>{{ $block->name }}</td>
@@ -45,8 +46,9 @@
                         
                         </tr>
                                 @endforeach
-                        
+                    --}}    
                     @endforeach
+                    
                     </table>
 
                     

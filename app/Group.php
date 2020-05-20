@@ -15,6 +15,6 @@ class Group extends Model
     }
     
     public function students() {
-        return $this->hasMany('\App\Student', 'group_id', 'id');
+        return $this->hasMany('\App\Student', 'group_id', 'id')->orderby('secname', 'asc');
     }
 }

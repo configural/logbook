@@ -20,11 +20,11 @@
                             @foreach(\App\Program::select()->get() as $program)
                             <tr class="">
                                 <td>{{ $program->id }} </td>
-                                <td><a href="{{url('/')}}/program/{{$program->id}}">{{ $program->name }}</a><br><small>{{$program->description}}</small></td>
+                                <td><a href="{{url('/')}}/program/{{$program->id}}/edit">{{ $program->name }}</a><br><small>{{$program->description}}</small></td>
                                 <td>{{ $program->hours }}</td>
                                 <td>{{ $program->hours() }}</td>
                                 <td>{{ $program->active }}</td>
-                                <td><a href="{{url('/')}}/program/{{$program->id}}/edit" title="Изменить название, описание"><i class="fa fa-edit"></i> изменить</a><br/>
+                                <td>
                                     <a href="{{url('/')}}/program/{{$program->id}}" title="Редактировать дисциплины и блоки"><i class="fa fa-gears"></i> УТП <br/>
                                     <a href="{{url('/')}}/program/{{$program->id}}/clone" title="Клонировать программу"><i class="fa fa-copy"></i> клонировать<br/>
                                     <a href="{{url('/')}}/program/{{$program->id}}/delete" title="Удалить программу" onClick="return window.confirm('Действительно удалить?');"><i class="fa fa-times"></i> удалить<br/>

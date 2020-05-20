@@ -63,11 +63,15 @@ Route::get('/stream/add', function(){return view('streamadd');});
 Route::get('/stream/{id}/edit', 'StreamController@edit')->middleware('auth');
 Route::post('/stream/add', 'StreamController@add')->middleware('auth');
 Route::post('/stream/{id}/store', 'StreamController@store')->middleware('auth');
+Route::post('/stream/{stream_id}/program_bind', 'StreamController@bind_program')->middleware('auth');
+Route::get('/stream/{stream_id}/program_unbind/{program_id}', 'StreamController@unbind_program')->middleware('auth');
 
 // Управление группами
 Route::get('/group/add/{id}', function($id){return view('groupadd', ['id' => $id]);});
 Route::get('/group/{id}/edit', 'GroupController@edit')->middleware('auth');
 Route::post('/group/add', 'GroupController@add')->middleware('auth');
+Route::get('/group/{id}/addstudents', function($id){return view('groupaddstudents', ['id' => $id]);})->middleware('auth');
+Route::post('/group/addstudents', 'GroupController@add_students')->middleware('auth');
 Route::post('/group/{id}/store', 'GroupController@store')->middleware('auth');
 
 // Расписание

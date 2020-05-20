@@ -23,6 +23,8 @@
                         <div class="icon"><a href="{{url('/')}}/programs"><i class="fa fa-graduation-cap fa-3x orange"></i><br/>Образовательные программы</a></div>
                         <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
                         <div class="icon"><a href="{{url('/')}}/timetable"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
+                        <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Распределение нагрузки</a></div>
+
                 </p>
                     @elseif (Auth::user()->role_id == 3)
                     <strong>Приветствую тебя, Методист!</strong>
@@ -34,9 +36,7 @@
                     <strong>Приветствую тебя, Преподаватель!</strong>
                     
                      <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Распределение нагрузки</a></div>
-                     <div class="icon"><a href="{{url('/')}}/webinars"><i class="fa fa-video-camera fa-3x orange"></i><br/>Вебинары</a></div>
-                     <div class="icon"><a href="{{url('/')}}/testing"><i class="fa fa-check fa-3x green"></i><br/>Тесты</a></div>
-                    
+                     
                     <p>Распределение нагрузки</p>
                     <p>Назначенные занятия:</p>
                     <table class="table table-bordered">
@@ -60,14 +60,14 @@
                     <td>@if (isset($timetable->journal->l_hours)) {{ $timetable->journal->l_hours }} @endif / 
                         @if (isset($timetable->journal->p_hours)) {{ $timetable->journal->p_hours }} @endif</td>
                     <td>@if (isset($timetable->id)) <a href="{{url('/')}}/journal/{{ $timetable->id}}">В журнал</a> @endif</td>
-                    <td>@if (isset($timetable->block) and (isset($timetable->block)))
+{{--                    <td>@if (isset($timetable->block) and (isset($timetable->block)))
                         @if ($timetable->block->l_hours == $timetable->journal->l_hours and $timetable->block->p_hours == $timetable->journal->p_hours)
                         OK
                         @else
                         -
                         @endif
                         @endif
-                    </td>
+                    </td>--}}
                     </tr>
                     @endif
                     @endforeach
