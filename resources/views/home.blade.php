@@ -22,7 +22,7 @@
                         <div class="icon"><a href="{{url('/')}}/disciplines"><i class="fa fa-book fa-3x green"></i><br/>Дисциплины</a></div>
                         <div class="icon"><a href="{{url('/')}}/programs"><i class="fa fa-graduation-cap fa-3x orange"></i><br/>Образовательные программы</a></div>
                         <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
-                        <div class="icon"><a href="{{url('/')}}/timetable"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
+                        <div class="icon"><a href="{{url('/')}}/rasp"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
                         <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Распределение нагрузки</a></div>
 
                 </p>
