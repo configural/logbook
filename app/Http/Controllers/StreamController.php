@@ -52,12 +52,28 @@ class StreamController extends Controller
 
     }
     public function unbind_program($stream_id, $program_id) {
+        $group_id = 0;
+
+        foreach(\App\Group::select()->where('stream_id', $stream_id)->get() as $group){
+            $group_id = $group->id;
+            $program = \App\Program::find($program_id);
+            foreach ($program->disciplines as $discipline) {
+                $block = $discipline->blocks;
+                foreach($block as $b) {
+                    
+                    DB::table('timetable')
+                            ->where('block_id', $b->id)
+                            ->where('group_id', $group_id)
+                            ->delete();
+                }
+            }
+        }
         DB::table('programs2stream')
                 ->where('stream_id', $stream_id)
                 ->where('program_id', $program_id)
                 ->limit(1)
                 ->delete();
-        return redirect('stream/'.$stream_id.'/edit');
+      return redirect('stream/'.$stream_id.'/edit');
     }
         
     private function make_workload($stream_id, $program_id) {

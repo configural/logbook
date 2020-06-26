@@ -19,7 +19,7 @@ class WorkloadController extends Controller
     
     public function cancel_workload($id) {
         $timetable = Timetable::find($id);
-        $timetable->teacher_id = 0;
+        $timetable->teacher_id = NULL;
         $timetable->start_at = NULL;
         
         $timetable->save();

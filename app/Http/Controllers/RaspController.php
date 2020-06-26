@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Rasp;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class RaspController extends Controller
 {
@@ -43,6 +44,15 @@ class RaspController extends Controller
         $rasp->room_id = $request->room_id;
         $rasp->interval = $request->interval;
         $rasp->save();
+        DB::table('timetable')->where('id', $rasp->timetable_id)->update(['rasp_id' => $rasp->id]);
         return redirect(url('rasp')."?date=".$rasp->date);
+    }
+    
+    function delete($id) {
+        DB::table('timetable')->where('rasp_id', $id)->update(['rasp_id' => NULL]);
+        $rasp = Rasp::find($id);
+        $rasp->delete();
+        return redirect(url('rasp')."?date=".$rasp->date);
+       
     }
 }

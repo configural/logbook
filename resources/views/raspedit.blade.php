@@ -48,8 +48,10 @@
                             </select>
                             
                         <p>Занятие (из распределенной нагрузки):
+                            
                             <select name="timetable_id" class="form-control">
-                            @foreach(\App\Timetable::select()->whereNotNull('teacher_id')->get() as $timetable)
+                                
+                            @foreach(\App\Timetable::select()->whereNotNull('teacher_id')->whereNull('rasp_id')->orWhere('id', $rasp->timetable_id)->get() as $timetable)
                             @if($timetable->id == $rasp->timetable_id)
                             <option value="{{$timetable->id}}" selected>{{$timetable->teacher->name}} :: {{$timetable->group->name}} :: {{$timetable->block->name}}</option>
                             @else
@@ -61,6 +63,7 @@
                         {{csrf_field()}}
                         <button class="btn btn-success">Сохранить</button>
                     </form>
+                    <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}">Удалить это занятие из расписания</a></p>
                     
                     
                     @else

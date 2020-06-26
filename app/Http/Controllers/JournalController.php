@@ -7,12 +7,26 @@ use App\Timetable;
 use App\Student;
 use App\Block;
 use App\Journal;
+use App\Rasp;
 use Illuminate\Support\Facades\Auth;
 
 
 class JournalController extends Controller
 {
-    //
+    
+    public function index() {
+            $user_id = Auth::user()->id;
+            $timetable = Timetable::select()->where('teacher_id', $user_id)->whereNotNull('rasp_id')->get();
+            //dump($timetable);
+            foreach ($timetable as $t) {
+                $rasp = Rasp::select()->where('timetable_id', $t->id)->get();
+                foreach($rasp as $r) {
+                    echo $r->id;
+                }
+            }
+            
+    }
+//
     public function show(Request $request) {
         
             $timetable = Timetable::select()->where('id', $request->id)->first();

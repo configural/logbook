@@ -77,11 +77,13 @@ Route::post('/group/{id}/store', 'GroupController@store')->middleware('auth');
 // Расписание
 Route::get('/timetable', function(){return view('timetable');})->middleware('auth');
 Route::get('/rasp', 'RaspController@view')->middleware('auth');
+Route::get('/rasp/delete/{id}', 'RaspController@delete')->middleware('auth');
 Route::get('/raspedit/{id}', 'RaspController@edit')->middleware('auth');
 Route::post('/raspedit/{id}', 'RaspController@store')->middleware('auth');
 Route::get('/raspadd/{date}/{room}/{pair}', 'RaspController@add')->middleware('auth');
 
 // Журнал
+Route::get('/journal', function() {return view('journal');})->middleware('auth');
 Route::get('/journal/{id}', 'JournalController@show')->middleware('auth');
 Route::post('/journal/update', 'JournalController@update')->middleware('auth');
 

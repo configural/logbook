@@ -30,13 +30,17 @@
                         @foreach(\App\Pair::select()->get() as $pair)
                         <td>
                             @foreach(\App\Rasp::select()->where('room_id', $room->id)->where('pair_id', $pair->id)->where('date', $date)->get() as $rasp)
-                            <p><a href="{{url('raspedit')}}/{{$rasp->id}}">{{$rasp->interval}}</a> 
-                                <small class='red' title='препод'>{{$rasp->timetable->teacher->name}}</small>  - 
-                                <small class='blue' title='группа'>{{$rasp->timetable->group->name}}</small> - 
-                                <small title='тема'><strong>{{$rasp->timetable->block->name}}</strong></small>
-                            </p>
+                            <div class="rasp">{{$rasp->interval}}
+                                <small title='группа'>{{$rasp->timetable->group->name or 'нет группы'}}</small> 
+                                <small title='тема'><strong>{{$rasp->timetable->block->name or 'нет темы'}}</strong></small>
+                                <small title='препод'>({{$rasp->timetable->teacher->name or 'нет препода'}})</small> 
+                                <br/><a href="{{url('raspedit')}}/{{$rasp->id}}">изменить</a>
+                            </div>
                             @endforeach
-                            <p><a href="{{url('raspadd')}}/{{$date}}/{{$room->id}}/{{$pair->id}}">Назначить</a></p>
+                            
+                                @if (\App\Timetable::whereNotNull('teacher_id')->whereNull('rasp_id')->count()) 
+                                <p><a href="{{url('raspadd')}}/{{$date}}/{{$room->id}}/{{$pair->id}}">Назначить</a></p>
+                                @endif
                         </td>
                         @endforeach
 

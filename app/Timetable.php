@@ -35,4 +35,8 @@ class Timetable extends Model
         return $this->hasOne('\App\Classroom', 'id', 'room_id');
     }
     
+    function rasp() {
+        return $this()->hasOne('\App\Rasp', 'id', 'timetable_id');
+    }
+    
 }
