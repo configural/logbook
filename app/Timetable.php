@@ -39,4 +39,8 @@ class Timetable extends Model
         return $this()->hasOne('\App\Rasp', 'id', 'timetable_id');
     }
     
+    function teachers() {
+        return $this->belongsToMany('\App\User', 'teachers2timetable', 'teacher_id', 'timetable_id');
+       
+    }
 }

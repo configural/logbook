@@ -3457,6 +3457,7 @@ return array(
     'Symfony\\Polyfill\\Util\\TestListenerForV6' => $vendorDir . '/symfony/polyfill-util/TestListenerForV6.php',
     'Symfony\\Polyfill\\Util\\TestListenerForV7' => $vendorDir . '/symfony/polyfill-util/TestListenerForV7.php',
     'Symfony\\Polyfill\\Util\\TestListenerTrait' => $vendorDir . '/symfony/polyfill-util/TestListenerTrait.php',
+    'Teachers2timetable' => $baseDir . '/database/migrations/2020_06_30_120023_teachers2timetable.php',
     'Tests\\CreatesApplication' => $baseDir . '/tests/CreatesApplication.php',
     'Tests\\Feature\\ExampleTest' => $baseDir . '/tests/Feature/ExampleTest.php',
     'Tests\\TestCase' => $baseDir . '/tests/TestCase.php',

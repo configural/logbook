@@ -8,45 +8,50 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                                     <form >
-                        Составление расписания <input type="date" name="date" value="<?php echo date('Y-m-d'); ?>">
+                        Редактирование строки расписания
                     </form>
                 </div>
 
                 <div class="panel-body">
-                    <table class="table table-bordered">
-                        <tr><td></td>
-                           @foreach(\App\Pair::select()->get() as $pair)
-                           <td>{{$pair->name}}</td>
-                           @endforeach
-                           
-                            
-                        </tr>
+
                     @if(Auth::user()->role_id == 4)
-                    @foreach(\App\Classroom::select()->get() as $room)
-                    <tr><td>{{ $room->name}}</td>
-                           @foreach(\App\Pair::select()->get() as $pair)
-                        <td><select name='time_interval' class='form-control'>
-                        <option value=''></option>
-                        <option value='{{$pair->variant0}}'>{{$pair->variant0}}</option>
-                        <option value='{{$pair->variant1}}'>{{$pair->variant1}}</option>
-                        <option value='{{$pair->variant2}}'>{{$pair->variant2}}</option>
-                        <option value='{{$pair->variant3}}'>{{$pair->variant3}}</option>
-                            </select>
-                            <select name='timetable_id' class="form-control form-control-static">   
-                        @foreach(\App\Timetable::select()->whereNotNull('teacher_id')->get() as $timetable)
-                        <option  value='{{$timetable->id}}'>{{$timetable->group->name}} - {{$timetable->teacher->name}} - {{$timetable->block->name}}</option>
-                        @endforeach
-                            </select>
-                            <p><button class='btn btn-sm'>Сохранить</button></p>
+                    <form action="{{url('raspedit')}}/0" method="post">
+                        <input name="id" type="hidden" value="">
                         
-                        </td> 
-                        @endforeach                        
+                        Дата: <input name="date" type="date" value="{{$date}}" class="form-control-static">
+                        
+                        <p><input name="pair_id" type="hidden" value="{{$pair}}">
+  
+                        </p>
+                        
+                        <p>Время:
+                            <select name="interval" class='form-control-static'>
+                            @php ($p = \App\Pair::find($pair))
+                            <option value='{{$p->variant0}}'>{{$p->variant0}}</option>
+                            <option value='{{$p->variant1}}'>{{$p->variant1}}</option>
+                            <option value='{{$p->variant2}}'>{{$p->variant2}}</option>
+                            <option value='{{$p->variant3}}'>{{$p->variant3}}</option>
+                            </select>
+                        </p>
+                       <input name="room_id" type="hidden" value="{{$room}}">
+                       
+                       
+                                                        
+                        <p>Занятие (из распределенной нагрузки):
+                            
+                            <select name="timetable_id" class="form-control">
+                                
+                            @foreach(\App\Timetable::select()->whereNotNull('teacher_id')->whereNull('rasp_id')->get() as $timetable)
+                            <option value="{{$timetable->id}}">{{$timetable->teacher->name}} :: {{$timetable->group->name}} :: {{$timetable->block->name}}</option>
+                            @endforeach
+                            </select>
+                        </p>
+                        {{csrf_field()}}
+                        <button class="btn btn-success">Сохранить</button>
+                    </form>
+                   
                     
                     
-                    </tr>        
-                    
-                    @endforeach
-                    </table>
                     @else
                     Доступ только для администраторов
                     @endif

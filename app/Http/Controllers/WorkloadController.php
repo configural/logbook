@@ -11,10 +11,10 @@ class WorkloadController extends Controller
     //
     public function take_workload($id) {
         $timetable = Timetable::find($id);
-        $timetable->teacher_id = Auth::user()->id;
-        $timetable->save();
+       // $timetable->teacher_id = Auth::user()->id;
+       //$timetable->save();
         
-        return view('workload');
+        return view('workloadadd', ['timetable' => $timetable]);
     }
     
     public function cancel_workload($id) {

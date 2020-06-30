@@ -65,7 +65,14 @@
                             Лекции – {{ $timetable->block->l_hours }} ч, практика – {{ $timetable->block->p_hours }} ч.
                             
                             </td>
-                            <td><a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-success">Не мое!</a></td>
+                            <td>
+                                @if(!$timetable->rasp_id)
+                                <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-success">Не мое!</a>
+                                @else
+                                Внесено в расписание
+                                @endif
+                            </td>
+                            
                         </tr>
                         @endforeach
                         </table>
