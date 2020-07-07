@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Timetable;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class WorkloadController extends Controller
 {
     //
     public function take_workload($id) {
-        $timetable = Timetable::find($id);
+        //$timetable = Timetable::find($id);
+        DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $id]);
        // $timetable->teacher_id = Auth::user()->id;
        //$timetable->save();
         
-        return view('workloadadd', ['timetable' => $timetable]);
+        return redirect('workload#'.$id);
     }
     
     public function cancel_workload($id) {

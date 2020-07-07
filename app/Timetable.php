@@ -40,7 +40,8 @@ class Timetable extends Model
     }
     
     function teachers() {
-        return $this->belongsToMany('\App\User', 'teachers2timetable', 'teacher_id', 'timetable_id');
+        return $this->belongsToMany('\App\User', 'teachers2timetable', 'timetable_id', 'teacher_id');
+                
        
     }
 }
