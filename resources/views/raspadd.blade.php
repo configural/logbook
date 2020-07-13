@@ -20,29 +20,36 @@
                         
                         Дата: <input name="date" type="date" value="{{$date}}" class="form-control-static">
                         
-                        <p><input name="pair_id" type="hidden" value="{{$pair}}">
+                        
   
                         </p>
                         
                         <p>Время:
-                            <select name="interval" class='form-control-static'>
-                            @php ($p = \App\Pair::find($pair))
-                            <option value='{{$p->variant0}}'>{{$p->variant0}}</option>
-                            <option value='{{$p->variant1}}'>{{$p->variant1}}</option>
-                            <option value='{{$p->variant2}}'>{{$p->variant2}}</option>
-                            <option value='{{$p->variant3}}'>{{$p->variant3}}</option>
-                            </select>
+
                         </p>
                        <input name="room_id" type="hidden" value="{{$room}}">
                        
-                       
+                       Свободные пары:
+                       <select name="pair_id" class="form_control">
+                       @php ($busy = Array())
+                       @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room)->get() as $rasp)
+                       @php ($busy[] = $rasp->pair_id)
+                       @endforeach
+                       @foreach(\App\Pair::select()->whereNotIn('id', $busy)->get() as $pair)
+                       <option value="{{$pair->id}}">{{$pair->id}}</option>
+                       @endforeach
+                       </select>
                                                         
                         <p>Занятие (из распределенной нагрузки):
                             
-                            <select name="timetable_id" class="form-control">
+                            <select name="timetable_id" class="form-control" required>
                                 
-                            @foreach(\App\Timetable::select()->whereNotNull('teacher_id')->whereNull('rasp_id')->get() as $timetable)
-                            <option value="{{$timetable->id}}">{{$timetable->teacher->name}} :: {{$timetable->group->name}} :: {{$timetable->block->name}}</option>
+                            @foreach(\App\Timetable::select()->whereNull('rasp_id')->get() as $timetable)
+                            
+                            @foreach($timetable->teachers as $teacher)
+                            <option value="{{$timetable->id}}">л{{$timetable->block->l_hours}}/п{{$timetable->block->p_hours}} {{$timetable->group->name}} :: {{$timetable->block->name}}
+                            </option>
+                            @endforeach
                             @endforeach
                             </select>
                         </p>

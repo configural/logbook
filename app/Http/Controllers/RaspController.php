@@ -19,10 +19,10 @@ class RaspController extends Controller
         return view('rasp', ['date' => $date]);
     }
     
-    function add($date, $room, $pair)
+    function add($date, $room)
     {
         // добавить блокировку
-        return view('raspadd', ['date' => $date, 'room' => $room, 'pair' => $pair]);
+        return view('raspadd', ['date' => $date, 'room' => $room]);
 
     }
     

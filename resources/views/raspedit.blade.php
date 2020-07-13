@@ -51,12 +51,11 @@
                             
                             <select name="timetable_id" class="form-control">
                                 
-                            @foreach(\App\Timetable::select()->whereNotNull('teacher_id')->whereNull('rasp_id')->orWhere('id', $rasp->timetable_id)->get() as $timetable)
-                            @if($timetable->id == $rasp->timetable_id)
-                            <option value="{{$timetable->id}}" selected>{{$timetable->teacher->name}} :: {{$timetable->group->name}} :: {{$timetable->block->name}}</option>
-                            @else
-                            <option value="{{$timetable->id}}">{{$timetable->teacher->name}} :: {{$timetable->group->name}} :: {{$timetable->block->name}}</option>
-                            @endif
+                            @foreach(\App\Timetable::select()->whereNull('rasp_id')->orWhere('id', $rasp->timetable_id)->get() as $timetable)
+                            @foreach($timetable->teachers as $teacher)
+                            <option value="{{$timetable->id}}">л{{$timetable->block->l_hours}}/п{{$timetable->block->p_hours}} {{$timetable->group->name}} :: {{$timetable->block->name}}
+                            </option>
+                            @endforeach
                             @endforeach
                             </select>
                         </p>

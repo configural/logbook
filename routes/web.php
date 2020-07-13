@@ -80,7 +80,7 @@ Route::get('/rasp', 'RaspController@view')->middleware('auth');
 Route::get('/rasp/delete/{id}', 'RaspController@delete')->middleware('auth');
 Route::get('/raspedit/{id}', 'RaspController@edit')->middleware('auth');
 Route::post('/raspedit/{id}', 'RaspController@store')->middleware('auth');
-Route::get('/raspadd/{date}/{room}/{pair}', 'RaspController@add')->middleware('auth');
+Route::get('/raspadd/{date}/{room}', 'RaspController@add')->middleware('auth');
 
 // Журнал
 Route::get('/journal', function() {return view('journal');})->middleware('auth');

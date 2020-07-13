@@ -21,52 +21,44 @@
                     
                     
                     
-                    <div class="container">
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                           @foreach(\App\Pair::select()->get() as $pair)
-                           <div class="col-md-2">{{$pair->name}}</div>
-                           @endforeach
-                           
-                            
-                    </div>
-                    </div>
+
                     
                     @foreach(\App\Classroom::select()->get() as $room)
                     <div class="container">
                     <div class="row">
                     
-                    <div class="col-lg-2">{{$room->name}}</div>
+                    <div class="col-lg-2">{{$room->name}}
+                        <p><a href="{{url('raspadd')}}/{{ $date }}/{{$room->id}}">Назначить занятие</a></p>
+                    </div>
                         @foreach(\App\Pair::select()->get() as $pair)
                         
-                        <div class="col-lg-2">
+                        
                             @foreach(\App\Rasp::select()->where('room_id', $room->id)->where('pair_id', $pair->id)->where('date', $date)->get() as $rasp)
+                            @php ($hours = $rasp->timetable->block->l_hours)
+                            @if ($hours == 0) 
+                            @php ($hours = $rasp->timetable->block->p_hours)
+                            @endif
+                            
+                            <div class="col-lg-{{ $hours }}">
+                                                           
                             @if ($rasp->id)
                             
                             <div class="rasp">{{$rasp->interval}}
+                                <h3>{{$rasp->pair_id}}</h3>
                                 <small title='группа'>{{$rasp->timetable->group->name or 'нет группы'}}</small> 
                                 <small title='тема'><strong>{{$rasp->timetable->block->name or 'нет темы'}}</strong></small>
                                 <small title='тема'><strong>{{$rasp->timetable->block->l_hours or 'нет лекций'}}</strong></small>
-                                <small title='тема'><strong>{{$rasp->timetable->block->p_hours or 'нет лекций'}}</strong></small>
+                                <small title='тема'><strong>{{$rasp->timetable->block->p_hours or 'нет практики'}}</strong></small>
                                 <small title='препод'>({{$rasp->timetable->teacher->name or 'нет препода'}})</small> 
                                 <br/><a href="{{url('raspedit')}}/{{$rasp->id}}">изменить</a>
                             </div>
-
- 
-                            
                             @else
-                            <div class="col-lg-2" style="border:1px solid blue;">-</div>
-                            @endif
-                            @endforeach
-                                @if (\App\Timetable::whereNotNull('teacher_id')->whereNull('rasp_id')->count()) 
-                                <p><a href="{{url('raspadd')}}/{{$date}}/{{$room->id}}/{{$pair->id}}">Назначить</a></p>
-                                @endif
-                        
-                        </div>
-                            
-
-
+                            <div class="col-lg-2" style="border:1px solid blue;">
                                 
+                            </div>
+                            @endif
+                            </div>
+                            @endforeach
                         @endforeach
                     </div>
                     </div><hr>
