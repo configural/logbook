@@ -39,15 +39,30 @@ class RaspController extends Controller
             $rasp = new Rasp;
         }
         $rasp->date = $request->date;
-        $rasp->pair_id = $request->pair_id;
+       // $rasp->pair_id = $request->pair_id;
         $rasp->timetable_id = $request->timetable_id;
         $rasp->room_id = $request->room_id;
-        $rasp->interval = $request->interval;
+        $rasp->start_at = $request->start_at;
+        $rasp->finish_at = $request->finish_at;
+        
+        // свободна ли аудитория?
+        $aud_free = 1;
+        $check_rasp = Rasp::select()->where('id', '!=', $request->id)->where('room_id', $request->room_id)->get();
+        foreach($check_rasp as $check) {
+            if (($rasp->start_at >= $check->start_at)&& ($rasp->start_at <= $check->finish_at)) {$aud_free = 0;}
+            if (($rasp->finish_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = 0;}
+            if (($rasp->start_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = 0;}
+            if (($rasp->start_at <= $check->start_at) && ($rasp->finish_at >= $check->finish_at)) {$aud_free = 0;}
+        }
+        if ($aud_free) {
+        
         $rasp->save();
         DB::table('timetable')->where('id', $rasp->timetable_id)->update(['rasp_id' => $rasp->id]);
         
         // снять блокировку
         return redirect(url('rasp')."?date=".$rasp->date);
+        }
+        else {echo "Аудитория в это время занята! <a href=javascript:history.back(1)>вернуться</a>";}
         
     }
     

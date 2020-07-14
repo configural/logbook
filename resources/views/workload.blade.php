@@ -25,7 +25,8 @@
                             <tr><th>id нагрузки</th>
                                 <th>Поток/группа</th>
                                 <th>Период обучения</th>
-                                <th>Дисциплина, тема, часы</th>
+                                <th>Дисциплина, тема</th>
+                                <th>Часы</th>
                                 <th>Преподавател(и)</th>
                                 <th>Взять нагрузку</th>
                             </tr>
@@ -37,9 +38,17 @@
                                 {{$timetable->group->stream->date_finish}}<br>
                             </td>
                             
-                            <td><small><strong>{{ $timetable->block->discipline->name }}</strong><br/>{{ $timetable->block->name }}<br/>
-                            Лекции – {{ $timetable->block->l_hours }} ч, практика – {{ $timetable->block->p_hours }} ч.
-                            
+                            <td><small>{{ $timetable->block->discipline->name }}<br/>
+                                    <strong>{{ $timetable->block->name }}</strong><br/>
+                            </td>
+                            <td>{{ $timetable->hours }} ч, 
+                            @if ($timetable->lessontype == 1)
+                            лекция
+                            @elseif ($timetable->lessontype == 2)
+                            практика
+                            @else
+                            не определено
+                            @endif
                             </td>
                             <td>@php ($i = 0)
                                 @foreach($timetable->teachers as $teacher)
@@ -48,12 +57,13 @@
                                 @php ($i++)
                                 @endif
                                 @endforeach
-                                
+                                Месяц {{$timetable->month or 'не определен'}} 
                             </td>
                             <td>
                                 @if($i == 0)
                                 <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Мое!</a></td>
                                 @else
+                                
                                 <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-danger">Не мое!</a></td>
                                 @endif
                         </tr>

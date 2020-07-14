@@ -78,8 +78,8 @@ Route::post('/group/{id}/store', 'GroupController@store')->middleware('auth');
 Route::get('/timetable', function(){return view('timetable');})->middleware('auth');
 Route::get('/rasp', 'RaspController@view')->middleware('auth');
 Route::get('/rasp/delete/{id}', 'RaspController@delete')->middleware('auth');
-Route::get('/raspedit/{id}', 'RaspController@edit')->middleware('auth');
-Route::post('/raspedit/{id}', 'RaspController@store')->middleware('auth');
+Route::get('/rasp/edit/{id}', 'RaspController@edit')->middleware('auth');
+Route::post('/rasp/edit/{id}', 'RaspController@store')->middleware('auth');
 Route::get('/raspadd/{date}/{room}', 'RaspController@add')->middleware('auth');
 
 // Журнал
@@ -90,6 +90,8 @@ Route::post('/journal/update', 'JournalController@update')->middleware('auth');
 // Нагрузка
 Route::get('/workload', function() {return view('workload');})->middleware('auth');
 Route::get('/workload/get/{id}', 'WorkloadController@take_workload')->middleware('auth');
+Route::post('/workload/get/{id}', 'WorkloadController@store_workload')->middleware('auth');
+
 Route::get('/workload/cancel/{id}', 'WorkloadController@cancel_workload')->middleware('auth');
 
 // ajax маршруты

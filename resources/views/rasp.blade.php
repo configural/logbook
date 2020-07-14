@@ -22,51 +22,30 @@
                     
                     
 
-                    
+                    <table class="table table-bordered">
                     @foreach(\App\Classroom::select()->get() as $room)
-                    <div class="container">
-                    <div class="row">
-                    
-                    <div class="col-lg-2">{{$room->name}}
+                    <tr>
+                        <td width="20%">{{$room->name}}
                         <p><a href="{{url('raspadd')}}/{{ $date }}/{{$room->id}}">Назначить занятие</a></p>
-                    </div>
-                        @foreach(\App\Pair::select()->get() as $pair)
-                        
-                        
-                            @foreach(\App\Rasp::select()->where('room_id', $room->id)->where('pair_id', $pair->id)->where('date', $date)->get() as $rasp)
-                            @php ($hours = $rasp->timetable->block->l_hours)
-                            @if ($hours == 0) 
-                            @php ($hours = $rasp->timetable->block->p_hours)
-                            @endif
-                            
-                            <div class="col-lg-{{ $hours }}">
-                                                           
-                            @if ($rasp->id)
-                            
-                            <div class="rasp">{{$rasp->interval}}
-                                <h3>{{$rasp->pair_id}}</h3>
-                                <small title='группа'>{{$rasp->timetable->group->name or 'нет группы'}}</small> 
-                                <small title='тема'><strong>{{$rasp->timetable->block->name or 'нет темы'}}</strong></small>
-                                <small title='тема'><strong>{{$rasp->timetable->block->l_hours or 'нет лекций'}}</strong></small>
-                                <small title='тема'><strong>{{$rasp->timetable->block->p_hours or 'нет практики'}}</strong></small>
-                                <small title='препод'>({{$rasp->timetable->teacher->name or 'нет препода'}})</small> 
-                                <br/><a href="{{url('raspedit')}}/{{$rasp->id}}">изменить</a>
-                            </div>
-                            @else
-                            <div class="col-lg-2" style="border:1px solid blue;">
-                                
-                            </div>
-                            @endif
-                            </div>
-                            @endforeach
-                        @endforeach
-                    </div>
-                    </div><hr>
-                    @endforeach                        
-                           
-                    </div>
-
-      
+                        </td>
+                        <td><!--вывод строк расписания-->
+                            <table class='table table-borderless'>
+                            @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room->id)->orderBy('start_at')->get() as $rasp)                            
+                    <tr><td>{{$rasp->start_at}}–{{$rasp->finish_at}}</td>
+                        <td>   {{$rasp->timetable->block->name}}</td>
+                         <td>{{$rasp->timetable->group->name}}</td>
+                            <td>@foreach($rasp->timetable->teachers as $teacher)
+                            {{$teacher->name}}
+                            @endforeach</td>
+                            <td><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a>&nbsp;
+                                <a href="{{url('rasp')}}/delete/{{$rasp->id}}">Отменить</a></td>
+                            @endforeach</tr>
+                    </table>
+                            <!--/ вывод строк расписания-->
+                        </td>
+                    </tr>
+                    @endforeach
+                    </table>
                     @else
                     Доступ только для администраторов
                     @endif

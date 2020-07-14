@@ -14,18 +14,16 @@
 
                 <div class="panel-body">
                     <p><h3>{{ $timetable->block->name}}</h3></p>
-                <p>Лекции - {{ $timetable->block->l_hours }} ч, практика - {{ $timetable->block->p_hours }} ч</p>
+                <p>Часов - {{ $timetable->hours }}</p>
+                <p>Тип занятия - {{ $timetable->lessontype }}</p>
                 <p>Группа: <strong>{{$timetable->group->name}}</strong>, поток: <strong>{{$timetable->group->stream->name}}</strong></p>
                 <p>Начало обучения: {{$timetable->group->stream->date_start}}</p>
                 <p>Окончание обучения: {{$timetable->group->stream->date_finish}}</p>
                     <hr>
                     <form action='' method='post'>
-                    <p>Планируете ли делить этут тему с кем-то еще?</p>
-                        <p><input type="radio" name="share" value="0"  checked=""> нет</input></p>
-                        <p><input type="radio" name="share" value="1"> да</input></p>
-                    
+                        <input type="hidden" name="id" value="{{$timetable->id}}">
                         <hr>
-                    <p>В каком месяце вы готовы вести занятия: 
+                        <p>В каком месяце вы готовы вести занятия: 
                         <select name="month" class="form-control-static">
                             
                             @php ($n = date('n'));

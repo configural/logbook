@@ -17,24 +17,25 @@
                     @if(Auth::user()->role_id == 4)
                     <form action="" method="post">
                         <input name="id" type="hidden" value="{{$rasp->id}}">
-                        
-                        Дата: <input name="date" type="date" value="{{$rasp->date}}" class="form-control">
-                        
-                        <p>Пара:
-                            <select name="pair_id" class="form-control">
-                                @foreach(\App\Pair::select()->get() as $pair)
-                                @if($pair->id == $rasp->pair_id)
-                                <option value="{{$pair->id}}" selected>{{$pair->name}} ({{$pair->variant0}}, {{$pair->variant1}}, {{$pair->variant2}}, {{$pair->variant3}})</option>
-                                @else
-                                <option value="{{$pair->id}}">{{$pair->name}} ({{$pair->variant0}}, {{$pair->variant1}}, {{$pair->variant2}}, {{$pair->variant3}})</option>
-                                @endif
-                                @endforeach
-                            </select>
-                            
+                        <p>
+                        Дата:<br/> <input name="date" type="date" value="{{$rasp->date}}" class="form-control-static">
                         </p>
-                        
-                        <p>Время:
-                            <input type="text" name="interval" value="{{$rasp->interval}}" class="form-control">
+                        <p>
+                           Аудитория занята:
+                           @php ($i = 0)
+                           @foreach(\App\Rasp::select()->where('date', $rasp->date)->where('room_id', $rasp->room_id)->orderby('start_at')->get() as $rasp)
+                           <br/>
+                           <span class="red">{{$rasp->start_at}} – {{$rasp->finish_at}}</span>
+                           @php ($i++)
+                           @endforeach
+                           @if ($i == 0) 
+                           свободна весь день!
+                           @endif
+                           
+                       </p>
+                        <p>Время:<br/>
+                            <input type="time" name="start_at" value="{{$rasp->start_at}}" class="form-control-static" required>
+                            <input type="time" name="finish_at" value="{{$rasp->finish_at}}" class="form-control-static" required>
                         </p>
                         <p>Аудитория:
                             <select name="room_id" class="form-control">

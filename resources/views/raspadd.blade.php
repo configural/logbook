@@ -15,7 +15,7 @@
                 <div class="panel-body">
 
                     @if(Auth::user()->role_id == 4)
-                    <form action="{{url('raspedit')}}/0" method="post">
+                    <form action="{{url('rasp/edit')}}/0" method="post">
                         <input name="id" type="hidden" value="">
                         
                         Дата: <input name="date" type="date" value="{{$date}}" class="form-control-static">
@@ -24,34 +24,38 @@
   
                         </p>
                         
-                        <p>Время:
 
-                        </p>
                        <input name="room_id" type="hidden" value="{{$room}}">
-                       
-                       Свободные пары:
-                       <select name="pair_id" class="form_control">
-                       @php ($busy = Array())
-                       @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room)->get() as $rasp)
-                       @php ($busy[] = $rasp->pair_id)
-                       @endforeach
-                       @foreach(\App\Pair::select()->whereNotIn('id', $busy)->get() as $pair)
-                       <option value="{{$pair->id}}">{{$pair->id}}</option>
-                       @endforeach
-                       </select>
-                                                        
+                       <p>
+                           Аудитория занята:
+                           @php ($i = 0)
+                           @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room)->get() as $rasp)
+                           <br/><span class="red">{{$rasp->start_at}} – {{$rasp->finish_at}}</span>
+                           @php ($i++)
+                           @endforeach
+                           @if ($i == 0) 
+                           свободна весь день!
+                           @endif
+                           
+               
                         <p>Занятие (из распределенной нагрузки):
                             
                             <select name="timetable_id" class="form-control" required>
-                                
                             @foreach(\App\Timetable::select()->whereNull('rasp_id')->get() as $timetable)
                             
                             @foreach($timetable->teachers as $teacher)
-                            <option value="{{$timetable->id}}">л{{$timetable->block->l_hours}}/п{{$timetable->block->p_hours}} {{$timetable->group->name}} :: {{$timetable->block->name}}
+                            <option value="{{$timetable->id}}">{{$timetable->hours}} ч ({{$timetable->lessontype}}) :: {{$timetable->group->name}} :: {{$timetable->block->name}}
                             </option>
                             @endforeach
                             @endforeach
                             </select>
+                           
+                       </p>
+                       <p>Время занятий:<br/>
+                       <input type="time" name="start_at" class="form-control-static" required>
+                       <input type="time" name="finish_at" class="form-control-static" required>
+                       </p>                            
+                           
                         </p>
                         {{csrf_field()}}
                         <button class="btn btn-success">Сохранить</button>

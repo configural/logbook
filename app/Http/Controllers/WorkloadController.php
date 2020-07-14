@@ -11,8 +11,17 @@ class WorkloadController extends Controller
 {
     //
     public function take_workload($id) {
-        DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $id]);
-        return redirect('workload#'.$id);
+       $timetable = Timetable::find($id);
+       return view('workloadadd', ['timetable' => $timetable]);
+
+    }
+    
+    public function store_workload(Request $request) {
+       $timetable = Timetable::find($request->id);
+       $timetable->month = $request->month;
+       if ($timetable->save()) {
+       DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $request->id]);}
+       return redirect('workload#'.$request->id);
     }
     
     public function cancel_workload($id) {

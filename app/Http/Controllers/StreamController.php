@@ -86,17 +86,25 @@ class StreamController extends Controller
                foreach($program->disciplines as $discipline) {
                     foreach($discipline->blocks as $block) {
                     //   dump($block->name);
-                       
-                       $workload = ["group_id" => $group_id, "block_id" => $block->id];
-                       //dump($workload);
+                       if ($block->l_hours) {$hours = $block->l_hours; // если лекция
+                       $workload = ["group_id" => $group_id, "block_id" => $block->id, "hours" => $hours, "lessontype" => 1];
                        DB::table('timetable')->insert($workload);
+                       }
+                       if ($block->p_hours) {$hours = $block->p_hours; // если практика
+                       $workload = ["group_id" => $group_id, "block_id" => $block->id, "hours" => $hours, "lessontype" => 2];
+                       DB::table('timetable')->insert($workload);
+                       }
+                    }
+                       
+                       //dump($workload);
+                       //DB::table('timetable')->insert($workload);
                    }
                }
 
             }
         }
         
-    }
+    
         
     
 
