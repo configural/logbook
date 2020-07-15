@@ -28,24 +28,21 @@ class JournalController extends Controller
     }
 //
     public function show(Request $request) {
-        
-            $timetable = Timetable::select()->where('id', $request->id)->first();
-            if (count($timetable)) {
-            $students = Student::select()->where('group_id', $timetable->group_id)->get();
-            $block = Block::select()->where('id', $timetable->block_id)->first();
-            $journal = Journal::select()->where('timetable_id', $timetable->id)->first();
-            if (count($journal)) {
-              $journal->attendance = unserialize($journal->attendance);
-            } else {$journal = new Journal();}
+            $rasp_id = $request->id;
+            $rasp = \App\Rasp::find($rasp_id);
+            
+            $journal = Journal::select()->where('rasp_id', $rasp->id)->get();
+                                   
+            if ($journal->count()){
+            // переходим во вью    
+            } else {
+            // создаем запись журнала и переходим во вью
             }
-        
-
-        
-       return view('journal', ['timetable' => $timetable, 'students' => $students, 'journal' => $journal, 'block' => $block ]);
-       
-       
-       
+                
+            
     }
+       
+      
     
     public function update(Request $request) {
         // сериализация массива "Посещаемость"

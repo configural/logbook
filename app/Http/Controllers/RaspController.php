@@ -47,7 +47,7 @@ class RaspController extends Controller
         
         // свободна ли аудитория?
         $aud_free = 1;
-        $check_rasp = Rasp::select()->where('id', '!=', $request->id)->where('room_id', $request->room_id)->get();
+        $check_rasp = Rasp::select()->where('id', '!=', $request->id)->where('room_id', $request->room_id)->where('date', $request->date)->get();
         foreach($check_rasp as $check) {
             if (($rasp->start_at >= $check->start_at)&& ($rasp->start_at <= $check->finish_at)) {$aud_free = 0;}
             if (($rasp->finish_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = 0;}
@@ -62,7 +62,9 @@ class RaspController extends Controller
         // снять блокировку
         return redirect(url('rasp')."?date=".$rasp->date);
         }
-        else {echo "Аудитория в это время занята! <a href=javascript:history.back(1)>вернуться</a>";}
+        else {
+            dump($check_rasp);
+            echo "Аудитория в это время занята! <a href=javascript:history.back(1)>вернуться</a>";}
         
     }
     
