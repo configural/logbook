@@ -3209,6 +3209,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'StudentsTable' => __DIR__ . '/../..' . '/database/migrations/2020_01_14_112811_students_table.php',
         'Studyplan' => __DIR__ . '/../..' . '/database/migrations/2019_11_26_111338_studyplan.php',
         'Studyplans' => __DIR__ . '/../..' . '/database/migrations/2019_11_26_071058_studyplans.php',
+        'Subgroups' => __DIR__ . '/../..' . '/database/migrations/2020_07_16_065448_subgroups.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
         'Symfony\\Component\\Console\\CommandLoader\\ContainerCommandLoader' => __DIR__ . '/..' . '/symfony/console/CommandLoader/ContainerCommandLoader.php',

@@ -2882,6 +2882,7 @@ return array(
     'StudentsTable' => $baseDir . '/database/migrations/2020_01_14_112811_students_table.php',
     'Studyplan' => $baseDir . '/database/migrations/2019_11_26_111338_studyplan.php',
     'Studyplans' => $baseDir . '/database/migrations/2019_11_26_071058_studyplans.php',
+    'Subgroups' => $baseDir . '/database/migrations/2020_07_16_065448_subgroups.php',
     'Symfony\\Component\\Console\\Application' => $vendorDir . '/symfony/console/Application.php',
     'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => $vendorDir . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
     'Symfony\\Component\\Console\\CommandLoader\\ContainerCommandLoader' => $vendorDir . '/symfony/console/CommandLoader/ContainerCommandLoader.php',

@@ -90,7 +90,10 @@ Route::post('/journal/update', 'JournalController@update')->middleware('auth');
 // Нагрузка
 Route::get('/workload', function() {return view('workload');})->middleware('auth');
 Route::get('/workload/get/{id}', 'WorkloadController@take_workload')->middleware('auth');
+Route::get('/workload/edit/{id}', function($id) {return view('workloadedit', ['id' => $id]);})->middleware('auth');
+Route::post('/workload/edit/{id}', 'WorkloadController@update_workload')->middleware('auth');
 Route::post('/workload/get/{id}', 'WorkloadController@store_workload')->middleware('auth');
+Route::get('/workload/split/{id}', 'WorkloadController@split_workload')->middleware('auth');
 
 Route::get('/workload/cancel/{id}', 'WorkloadController@cancel_workload')->middleware('auth');
 

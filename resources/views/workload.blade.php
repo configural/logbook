@@ -21,25 +21,38 @@
                     <div class="panel-body">
                         
                         <div id="allWorkload"></div>
-                        <table class="table table-bordered">
-                            <tr><th>id нагрузки</th>
+                        <table class="table table-bordered display" id="sortTable">
+                            <thead><tr><th>id нагрузки</th>
                                 <th>Поток/группа</th>
                                 <th>Период обучения</th>
                                 <th>Дисциплина, тема</th>
                                 <th>Часы</th>
+                                <th>Подгруппы?</th>
                                 <th>Преподавател(и)</th>
                                 <th>Взять нагрузку</th>
-                            </tr>
+                                </tr></thead>
+                                
+                            <tfoot><tr><th>id нагрузки</th>
+                                <th>Поток/группа</th>
+                                <th>Период обучения</th>
+                                <th>Дисциплина, тема</th>
+                                <th>Часы</th>
+                                <th>Подгруппы?</th>
+                                <th>Преподавател(и)</th>
+                                <th>Взять нагрузку</th>
+                                </tr></tfoot>
+                            <tbody>
                         @foreach(\App\Timetable::select()->get() as $timetable)
-                        <tr><td><a name="{{$timetable->id}}">{{$timetable->id}}</a></td>
+                        <tr><td><a href="workload/edit/{{$timetable->id}}" name="{{$timetable->id}}">{{$timetable->id}}</a></td>
                             <td>{{$timetable->group->stream->name}} / 
                                 {{$timetable->group->name}}</td>
                             <td>{{$timetable->group->stream->date_start}}—
                                 {{$timetable->group->stream->date_finish}}<br>
                             </td>
                             
-                            <td><small>{{ $timetable->block->discipline->name }}<br/>
-                                    <strong>{{ $timetable->block->name }}</strong><br/>
+                            <td><strong>{{ $timetable->block->name }}</strong><br/>
+                                <small>{{ $timetable->block->discipline->name }}</small>
+                                    
                             </td>
                             <td>{{ $timetable->hours }} ч, 
                             @if ($timetable->lessontype == 1)
@@ -49,6 +62,15 @@
                             @else
                             не определено
                             @endif
+                            </td>
+                            <td>
+                                @if($timetable->lessontype == 2)
+                                @if($timetable->subgroup)
+                                Подгруппа {{$timetable->subgroup}}
+                                @else
+                                <a href="workload/split/{{$timetable->id}}">разделить на подгруппы</a>
+                                @endif
+                                @endif
                             </td>
                             <td>@php ($i = 0)
                                 @foreach($timetable->teachers as $teacher)
@@ -68,6 +90,7 @@
                                 @endif
                         </tr>
                         @endforeach
+                            </tbody>
                         </table>
                     </div>
 
@@ -81,5 +104,7 @@
     </div>
 
 </div>
+
+
 @endsection
 
