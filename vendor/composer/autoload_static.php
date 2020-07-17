@@ -3804,6 +3804,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'Timetable' => __DIR__ . '/../..' . '/database/migrations/2020_01_14_095851_timetable.php',
         'Timetable2rasp' => __DIR__ . '/../..' . '/database/migrations/2020_06_26_072416_timetable2rasp.php',
+        'Timetable2rasp1' => __DIR__ . '/../..' . '/database/migrations/2020_07_17_065513_timetable2rasp1.php',
         'TimetableUpdate' => __DIR__ . '/../..' . '/database/migrations/2020_01_31_125219_timetable-update.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
         'UpdateHelper\\ComposerPlugin' => __DIR__ . '/..' . '/kylekatarnls/update-helper/src/UpdateHelper/ComposerPlugin.php',

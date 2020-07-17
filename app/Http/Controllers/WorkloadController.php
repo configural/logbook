@@ -25,10 +25,14 @@ class WorkloadController extends Controller
     }
     
     public function update_workload(Request $request) {
+        $timetable = Timetable::find($request->id);
+        $timetable->month = $request->month;
+        DB::table('teachers2timetable')->where('timetable_id', $request->id)->delete();
         foreach($request->teachers as $teacher_id) {
-            $tmp = DB::table('teachers2timetable')->where('teacher_id', $teacher_id)->where('timetable_id', $request->id)->get();
-            dump($tmp);
-        }
+            $tmp = DB::table('teachers2timetable')->insert(['timetable_id' => $request->id, 'teacher_id' => $teacher_id]);
+            }
+        $timetable->save();
+        return redirect('workload#'.$request->id);
     }
     
     public function cancel_workload($id) {

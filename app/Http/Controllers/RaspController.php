@@ -45,26 +45,41 @@ class RaspController extends Controller
         $rasp->start_at = $request->start_at;
         $rasp->finish_at = $request->finish_at;
         
-        // свободна ли аудитория?
-        $aud_free = 1;
+        $errors = Array();
+        // свободна ли аудитория? правильно ли указана длительность?
+        $aud_free = true;
+        $union_available = false;
         $check_rasp = Rasp::select()->where('id', '!=', $request->id)->where('room_id', $request->room_id)->where('date', $request->date)->get();
         foreach($check_rasp as $check) {
-            if (($rasp->start_at >= $check->start_at)&& ($rasp->start_at <= $check->finish_at)) {$aud_free = 0;}
-            if (($rasp->finish_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = 0;}
-            if (($rasp->start_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = 0;}
-            if (($rasp->start_at <= $check->start_at) && ($rasp->finish_at >= $check->finish_at)) {$aud_free = 0;}
+            if (($rasp->start_at >= $check->start_at)&& ($rasp->start_at <= $check->finish_at)) {$aud_free = false;}
+            if (($rasp->finish_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = false;}
+            if (($rasp->start_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = false;}
+            if (($rasp->start_at <= $check->start_at) && ($rasp->finish_at >= $check->finish_at)) {$aud_free = false;}
         }
-        if ($aud_free) {
         
+        // можно ли присоединить нагрузку (тот же препод и та же тема)?
+        $check_rasp = Rasp::select()->where('room_id', $request->room_id)->where('date', $request->date)
+                ->where('start_at', $request->start_at)->where('finish_at', $request->finish_at)->get();
+        
+        foreach($check_rasp as $check) {
+            
+            if ($rasp->timetable->block_id == $check->timetable->block_id
+                    and $rasp->timetable->lessontype == $check->timetable->lessontype) $union_available = true;
+        }
+
+        
+        
+        if ($aud_free || $union_available) {
         $rasp->save();
+        
         DB::table('timetable')->where('id', $rasp->timetable_id)->update(['rasp_id' => $rasp->id]);
         
         // снять блокировку
         return redirect(url('rasp')."?date=".$rasp->date);
         }
         else {
-            dump($check_rasp);
-            echo "Аудитория в это время занята! <a href=javascript:history.back(1)>вернуться</a>";}
+         
+            echo "Аудитория в это время занята. Объединение занятий невозможно. <a href=javascript:history.back(1)>вернуться</a>";}
         
     }
     

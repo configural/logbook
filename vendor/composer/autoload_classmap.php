@@ -3477,6 +3477,7 @@ return array(
     'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => $vendorDir . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
     'Timetable' => $baseDir . '/database/migrations/2020_01_14_095851_timetable.php',
     'Timetable2rasp' => $baseDir . '/database/migrations/2020_06_26_072416_timetable2rasp.php',
+    'Timetable2rasp1' => $baseDir . '/database/migrations/2020_07_17_065513_timetable2rasp1.php',
     'TimetableUpdate' => $baseDir . '/database/migrations/2020_01_31_125219_timetable-update.php',
     'TypeError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
     'UpdateHelper\\ComposerPlugin' => $vendorDir . '/kylekatarnls/update-helper/src/UpdateHelper/ComposerPlugin.php',
