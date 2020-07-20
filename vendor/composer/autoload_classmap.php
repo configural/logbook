@@ -51,6 +51,7 @@ return array(
     'App\\User' => $baseDir . '/app/User.php',
     'ArithmeticError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
     'AssertionError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
+    'Attendance2text' => $baseDir . '/database/migrations/2020_07_20_094926_attendance2text.php',
     'AttendanceTable' => $baseDir . '/database/migrations/2020_01_21_111502_attendance_table.php',
     'Attestation' => $baseDir . '/database/migrations/2019_11_26_120758_attestation.php',
     'BlockDetails' => $baseDir . '/database/migrations/2019_11_26_122328_block-details.php',

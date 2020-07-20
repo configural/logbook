@@ -14,16 +14,14 @@ use Illuminate\Support\Facades\Auth;
 class JournalController extends Controller
 {
     
-    public function index() {
-            $user_id = Auth::user()->id;
-            $timetable = Timetable::select()->where('teacher_id', $user_id)->whereNotNull('rasp_id')->get();
-            //dump($timetable);
-            foreach ($timetable as $t) {
-                $rasp = Rasp::select()->where('timetable_id', $t->id)->get();
-                foreach($rasp as $r) {
-                    echo $r->id;
-                }
-            }
+    public function index(Request $request) {
+        if ($request->date) { 
+            $date = $request->date;
+        }
+        else {
+            $date = date('Y-m-d');
+        }
+        return view('journal', ['date' => $date]);
             
     }
 //
@@ -31,14 +29,33 @@ class JournalController extends Controller
             $rasp_id = $request->id;
             $rasp = \App\Rasp::find($rasp_id);
             
-            $journal = Journal::select()->where('rasp_id', $rasp->id)->get();
+            $journal = Journal::select()->where('rasp_id', $rasp->id)->first();
                                    
-            if ($journal->count()){
-            // переходим во вью    
+            if ($journal){
+            // переходим во вью   l
+                                
             } else {
             // создаем запись журнала и переходим во вью
+                $journal = new Journal();
+                $journal->teacher_id = Auth::user()->id;
+                $journal->rasp_id = $rasp_id;
+                $journal->attendance = "";
+                $journal->save();
             }
+            
+            
+            $group_id = $rasp->timetable->group_id;
+            $block_name = $rasp->timetable->block->name;
+            $attendance = unserialize($journal->attendance);
+            
+          //  dump($attendance);
+            
+            return view('journalitem', ['id' => $journal->id, 
+                    'group_id' => $group_id,
+                    'block' => $block_name,
+                    'attendance' => $attendance]);
                 
+            
             
     }
        
@@ -46,20 +63,12 @@ class JournalController extends Controller
     
     public function update(Request $request) {
         // сериализация массива "Посещаемость"
+        //dump($request);
+        $journal = Journal::find($request->id);
         
-        count(Journal::find($request->id)) ? $journal = Journal::find($request->id) : $journal = new Journal();
-        
-        $journal->timetable_id = $request->timetable_id;
-        $journal->teacher_id = Auth::user()->id;
-        $journal->l_hours = $request->l_hours;
-        $journal->p_hours = $request->p_hours;
         $journal->attendance = serialize($request->attendance);
-        
-        
         $journal->save();
-        return view('home');
-        
-        
+        return redirect(url('journal'));
     }
     
 }

@@ -378,6 +378,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
+        'Attendance2text' => __DIR__ . '/../..' . '/database/migrations/2020_07_20_094926_attendance2text.php',
         'AttendanceTable' => __DIR__ . '/../..' . '/database/migrations/2020_01_21_111502_attendance_table.php',
         'Attestation' => __DIR__ . '/../..' . '/database/migrations/2019_11_26_120758_attestation.php',
         'BlockDetails' => __DIR__ . '/../..' . '/database/migrations/2019_11_26_122328_block-details.php',

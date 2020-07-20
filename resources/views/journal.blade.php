@@ -9,11 +9,16 @@
                 <div class="panel-heading">
                                 
                 Журнал преподавателя
+                <form action='' method='get'>
+                    
+                    <input name='date' type='date' value='{{$date}}'>
+                    <button>>></button>
+                </form>
                 </div>
 
                 <div class="panel-body">
                 <?php 
-                $date = date("Y-m-d");
+
                 $me = Auth::user()->id;
                 ?>
                     <h3>Занятия на {{$date}}</h3>
@@ -35,7 +40,7 @@
                     <td>{{$rasp->timetable->block->name}}</td>
                     <td>{{$rasp->timetable->hours}}</td>
                     <td>{{$rasp->timetable->lessontype}}</td>
-                    <td><a href='journal/{{$rasp->id}}'>Открыть журнал</a></td>
+                    <td><a href='journal/item/{{$rasp->id}}'>Открыть журнал</a></td>
                 </tr>
                     @endif
                 @endforeach

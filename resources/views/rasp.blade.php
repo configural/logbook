@@ -28,18 +28,18 @@
                             @php($finish = 0)
                             
                             @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room->id)->orderBy('start_at')->get() as $rasp)                            
-                            <tr><td>@if($start != $rasp->start_at) {{$rasp->start_at}}–{{$rasp->finish_at}}
+                            <tr><td width='20%'>@if($start != $rasp->start_at) {{$rasp->start_at}}–{{$rasp->finish_at}}
                                 @endif
                                 </td>
                             @php($start = $rasp->start_at)
                             @php($finish = $rasp->finish_at)    
                                 
-                        <td>   {{$rasp->timetable->lessontype}}:  {{$rasp->timetable->block->name}}</td>
-                         <td>{{$rasp->timetable->group->name}}</td>
-                            <td>@foreach($rasp->timetable->teachers as $teacher)
+                        <td width='40%'>   {{$rasp->timetable->lessontype}}:  {{$rasp->timetable->block->name}}</td>
+                         <td width='15%'>{{$rasp->timetable->group->name}}</td>
+                            <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
                             {{$teacher->name}}
                             @endforeach</td>
-                            <td><!--<a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a>&nbsp;-->
+                            <td width='10%'><!--<a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a>&nbsp;-->
                                 <a href="{{url('rasp')}}/delete/{{$rasp->id}}" >Отменить</a></td>
                             @endforeach</tr>
                     </table>

@@ -83,9 +83,11 @@ Route::post('/rasp/edit/{id}', 'RaspController@store')->middleware('auth');
 Route::get('/raspadd/{date}/{room}', 'RaspController@add')->middleware('auth');
 
 // Журнал
-Route::get('/journal', function() {return view('journal');})->middleware('auth');
-Route::get('/journal/{id}', 'JournalController@show')->middleware('auth');
-Route::post('/journal/update', 'JournalController@update')->middleware('auth');
+
+Route::get('/journal', 'JournalController@index')->middleware('auth');
+Route::get('/journal/{date}', 'JournalController@index')->middleware('auth');
+Route::get('/journal/item/{id}', 'JournalController@show')->middleware('auth');
+Route::post('/journal/item/update', 'JournalController@update')->middleware('auth');
 
 // Нагрузка
 Route::get('/workload', function() {return view('workload');})->middleware('auth');
