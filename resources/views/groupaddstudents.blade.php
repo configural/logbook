@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
@@ -38,9 +38,7 @@
 @foreach($problems as $p)
 {{ $p[0] }} {{ $p[1] }} {{ $p[2] }} {{ $p[3] }}
 @endforeach
-@endif
-                        
-                        </textarea>
+@endif</textarea>
                         </p>  
                           <p><button class="btn btn-success">Загрузить список</button>
                     {{ csrf_field() }}
@@ -54,5 +52,5 @@
             </div>
         </div>
     </div>
-</div>
+
 @endsection

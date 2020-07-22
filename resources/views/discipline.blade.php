@@ -5,6 +5,9 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-md-12">
+            <p>
+                Тематический блок - неделимая часть дисциплины. Для каждого блока прописываются часы лекционные, практические, самостоятельная работа.
+            </p>
             <div class="panel panel-primary">
                 <div class="panel-heading ">Блоки дисциплины</div>
 
@@ -23,17 +26,22 @@
                     Дисциплина пока нигде не задействована
                     @endif
                      </ul>
+                    <p>Изменение состава тематических блоков повлияет на программы, в которых эта дисциплина присутствует. 
                     
-                    <p><a href="{{url('block/add')}}/{{$discipline->id}}" class="btn btn-success">Добавить блок</a></p>
-                    <table class="table table-bordered">
+                    </p>
+                    <p><a href="{{url('block/add')}}/{{$discipline->id}}" class="btn btn-success">Добавить тематический блок</a></p>
+                    <table class="table table-bordered" id="sortTable">
+                        <thead>
                         <tr>
                             <td>id</td>
-                            <td>Название блока</td>
+                            <td>Тематические блоки</td>
                             <td>Лекции, ч</td>
                             <td>Практика, ч</td>
                             <td>Самост., ч</td>
                             <td>Состояние</td>
                         </tr>
+                        </thead>
+                        <tbody>
                          @foreach($discipline->blocks as $block)
                         <tr>
                             <td>{{$block->id}}</td>
@@ -48,6 +56,7 @@
                             </td>
                          </tr>
                          @endforeach
+                            </tbody>
                     </table>
                     
                     

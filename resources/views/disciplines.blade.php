@@ -4,26 +4,32 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+        <div class="col-md-12">
+                            <p>Дисциплина включается в состав образовательной программы. Одна дисциплина может быть задействована в нескольких образовательных программах.  В одной образовательной программе может быть много дисциплин.
+                    Дисциплина делится на тематические блоки (темы)</p>
+            <div class="panel panel-primary">
                 <div class="panel-heading">Дисциплины</div>
+
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id == 4)
                     <p><a href="{{url('disciplines/add')}}" class="btn btn-success">Добавить дисциплину</a></p>
                     
-                    <table class="table table-bordered">
-                        <thead class="">
-                            <tr><td>id</td><td>Название дисциплины</td><td>Кол-во блоков</td><td>Активна?</td><td>Операции</td></tr>
+                    <table class="table table-bordered" id="sortTable">
+                        <thead>
+                            <tr><th>id</th><th>Название дисциплины</th><th>Активна?</th><th>Темы</th><th>Операции</th></tr>
                         </thead>
                         <tbody>
                             @foreach(\App\Discipline::select()->get() as $discipline)
                             <tr class="">
                                 <td>{{ $discipline->id }} </td>
-                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a> {{ $discipline->hours }}</td>
-                                <td>{{ $discipline->blocks->count()}}</td>
+                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a> ({{ $discipline->hours }} ч.)<br/>
+                                {{$discipline->description or ''}}</td>
                                 <td>{{ $discipline->active }}</td>
-                                <td><center><a href="{{url('/')}}/disciplines/{{$discipline->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
+                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}" class="btn btn-primary">Темы ({{ $discipline->blocks->count()}})</a></td>
+                                
+                                <td><a href="{{url('/')}}/disciplines/{{$discipline->id}}/edit" class="btn btn-success">Редактировать</a>
+                                    <a href="{{url('/')}}/disciplines/{{$discipline->id}}/clone" class="btn btn-warning">Клонировать</a>
                                     
                                 </td>
                             </tr>

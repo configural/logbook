@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading ">{{ $block->name }}</div>
 
@@ -13,7 +13,7 @@
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $block->id }}" class="form-control" name="id"></p>
                           <p><label>Название блока</label><input type="text" value="{{ $block->name }}" class="form-control" name="name"></p>
-                          <p><label>Лекции (часов)</label><input type="text" value="{{ $block->l_hours }}" class="form-control" name="l_hours"></p>
+                          <p><label>Лекции (часов): </label><input type="text" value="{{ $block->l_hours }}" class="form-control" name="l_hours"></p>
                           <p><label>Практика (часов)</label><input type="text" value="{{ $block->p_hours }}" class="form-control" name="p_hours"></p>
                           <p><label>Самост. работа (часов)</label><input type="text" value="{{ $block->s_hours }}" class="form-control" name="s_hours"></p>
                            <p><label>Опубликован (1/0)?</label><input type="text" value="{{ $block->active }}" class="form-control" name="active"></p>
