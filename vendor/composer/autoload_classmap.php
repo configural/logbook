@@ -28,6 +28,7 @@ return array(
     'App\\Http\\Controllers\\ProgramController' => $baseDir . '/app/Http/Controllers/ProgramController.php',
     'App\\Http\\Controllers\\RaspController' => $baseDir . '/app/Http/Controllers/RaspController.php',
     'App\\Http\\Controllers\\StreamController' => $baseDir . '/app/Http/Controllers/StreamController.php',
+    'App\\Http\\Controllers\\StudentController' => $baseDir . '/app/Http/Controllers/StudentController.php',
     'App\\Http\\Controllers\\WorkloadController' => $baseDir . '/app/Http/Controllers/WorkloadController.php',
     'App\\Http\\Controllers\\userController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
