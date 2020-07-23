@@ -4,13 +4,13 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-3">
             <div class="panel panel-primary">
-                <div class="panel-heading panel-success ">Группа {{ $group->name }} - редактирование</div>
+                <div class="panel-heading panel-success ">{{ $group->name }} - редактирование</div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id == 4)  
-                    <h4>Редактировать детали группы</h4>
+                    
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $group->id }}" class="form-control" name="id"></p>
                           <p><label>Название группы</label><input type="text" value="{{ $group->name }}" class="form-control" name="name" required></p>
@@ -31,16 +31,25 @@
                     {{ csrf_field() }}
                       </form>
                     <hr/>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading panel-success ">Слушатели</div>
+
+                <div class="panel-body">                   
                     
-                    
-                    <h3>Слушатели в группе</h3>
-                    <table class='table table-bordered'>
+                    <table class='table table-bordered' id="sortTable">
+                        <thead>
                         <tr>
                             <th>id</th>
                             <th>ФИО</th>
                             <th>Код СОНО</th>
                             
                         </tr>
+                        </thead>
+                        <tbody>
                     @foreach($group->students as $student)
                     <tr>
                         <td>{{ $student->id }} </td>
@@ -48,6 +57,7 @@
                         <td>{{ $student->sono }}</td>
                     </tr>
                     @endforeach
+                        </tbody>
                     </table>
                     @else
                     @endif

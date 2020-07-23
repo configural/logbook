@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading panel-success ">{{ $stream->name }} - редактирование</div>
 
@@ -22,8 +22,15 @@
                     {{ csrf_field() }}
                       </form>
                     <hr/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Образовательная программа</div>
+
+                <div class="panel-body">
                     
-                    <h4>Назначенные образовательные программы</h4>
                     <table class="table table-bordered">
                         <tr>
                             <td>Наименование</td>
@@ -34,7 +41,7 @@
                     <tr>
                         <td><a href="{{url('/program/')}}/{{$program->id}}" target="_blank">{{ $program->name }}</td>
                         <td>{{ $program->hours }}</td>
-                        <td><a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" onClick="return window.confirm('Действительно удалить?');"><i class="fa fa-times"></i> Удалить привязку</a></td>
+                        <td><a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" onClick="return window.confirm('Вся нагрузка будет удалена. Действительно привязку?');" class="btn btn-danger"><i class="fa fa-times"></i> Удалить</a></td>
                     </tr>
                     
                     @endforeach
@@ -52,13 +59,18 @@
                         </select>
                         </p>
                     <p><button class="btn btn-primary">Назначить программу потоку</button>
+                        <a href="{{url('programs')}}">Перейти в «Образовательные программы»</a> 
                     {{ csrf_field() }}
                     </form>
                     @endif
+                </div>
+            </div>
 
-                        
-                    <hr/>
-                    <h4>Учебные группы в потоке</h4>
+            <div class="panel panel-primary">
+                <div class="panel-heading panel-success ">Учебные группы в потоке</div>
+
+                <div class="panel-body">
+                    
                     <table class="table table-bordered">
                        <tr>
                             <td>id</td>

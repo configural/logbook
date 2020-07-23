@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
 
-        <title>Laravel</title>
+        <title>LogBook</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 90px;
             }
 
             .links > a {
@@ -70,25 +70,27 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Начало</a>
                     @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
+                        <a href="{{ url('/login') }}">Вход</a>
+                        <a href="{{ url('/register') }}">Регистрация</a>
                     @endif
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    LogBook
                 </div>
+                <p style="font-size: 30px">Журнал учебного процесса</p>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    
+                    <a href="http://cpp-nnov.nalog.ru">Сайт Института</a>
+                    <a href="http://profdop-gs.ipknnov.ru">Такспортал (ГС)</a>
+                    <a href="http://profdop.ipknnov.ru">Такспортал (плат.)</a>
+                    <a href="http://profdop-gs.ipknnov.ru/tax-anketa-admin">ФРДО</a>
+                    <a href="http://www.artem-kashkanov.ru">Разработчик</a>
                 </div>
             </div>
         </div>

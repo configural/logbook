@@ -15,8 +15,9 @@ class StudentController extends Controller
     
     public function store (Request $request) {
         $student = Student::find($request->id);
-        dump($request);
-//$student->fill($request);
-        dump($student);
+        $r = $request->all();
+        $student->fill($r);
+        $student->save();
+        return redirect('group/'.$student->group_id.'/edit');
     }
 }

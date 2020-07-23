@@ -99,8 +99,14 @@ Route::get('/workload/edit/{id}', function($id) {return view('workloadedit', ['i
 Route::post('/workload/edit/{id}', 'WorkloadController@update_workload')->middleware('auth');
 Route::post('/workload/get/{id}', 'WorkloadController@store_workload')->middleware('auth');
 Route::get('/workload/split/{id}', 'WorkloadController@split_workload')->middleware('auth');
-
 Route::get('/workload/cancel/{id}', 'WorkloadController@cancel_workload')->middleware('auth');
+
+// Аудитории
+Route::get('/classrooms', function() {return view('classrooms');})->middleware('auth');
+Route::get('/classroom/add', function() {return view('classroomadd');})->middleware('auth');
+Route::post('/classroom/add', 'ClassroomController@store')->middleware('auth');
+Route::get('/classroom/edit/{id}', 'ClassroomController@edit')->middleware('auth');
+Route::post('/classroom/edit/{id}', 'ClassroomController@store')->middleware('auth');
 
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');

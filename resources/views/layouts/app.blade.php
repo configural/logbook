@@ -36,7 +36,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/home') }}">
-                        Журнал преподавателя
+                        Журнал
                     </a>
                 </div>
 
@@ -86,7 +86,12 @@
 
 <script>
     $(document).ready(function() {
-    $('#sortTable').DataTable();} );
+    $('#sortTable').DataTable(
+            {"stateSave": true,
+            "pageLength": 25
+
+            }
+    );} );
 </script>
     <!---->
     

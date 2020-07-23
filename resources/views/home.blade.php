@@ -24,7 +24,8 @@
                         <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
                         <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
                         <div class="icon"><a href="{{url('/')}}/rasp"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
-                        <div class="icon"><a href="{{url('/journal')}}"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
+                        <div class="icon"><a href="{{url('/')}}/journal"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
+                        <div class="icon"><a href="{{url('/')}}/classrooms"><i class="fa fa-building fa-3x blue"></i><br/>Аудитории</a></div>
                         
 
                 </p>

@@ -8,5 +8,5 @@ class Classroom extends Model
 {
     // аудитории
     protected $table = "classrooms";
-    protected $fillable = ["name", "address", "description"];
+    protected $fillable = ["name", "address", "description", "capacity"];
 }
