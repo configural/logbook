@@ -14,6 +14,15 @@
                           <p><label>ФИО</label><input type="text" value="" class="form-control" name="name" required></p>
                           <p><label>Логин (email)</label><input type="email" value="" class="form-control" name="email" required></p>
                           <p><label>Пароль</label><input type="text" value="" class="form-control" name="password" required></p>
+                          <p><label>Подразделение</label>
+                              <select name="department_id" class="form-control">
+                              @foreach(\App\Department::select()->get() as $department)
+                             <option value="{{$department->id}}">{{$department->name}}</option>
+                              
+                              @endforeach
+                              </select>
+                          </p>
+                          
                           <p><label>Роль пользователя</label>
                               <select name="role_id" class="form-control">
                               @foreach(\App\Role::select()->get() as $role)

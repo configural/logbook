@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Discipline extends Model
 {
     //
-    protected $fillable = ['name', 'active', 'hours'];
+    protected $fillable = ['name', 'active', 'hours', 'department_id'];
     
     
     

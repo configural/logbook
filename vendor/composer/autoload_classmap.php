@@ -59,6 +59,7 @@ return array(
     'BlockDetails' => $baseDir . '/database/migrations/2019_11_26_122328_block-details.php',
     'BlockType' => $baseDir . '/database/migrations/2020_05_13_055546_block_type.php',
     'Blocks' => $baseDir . '/database/migrations/2019_11_25_105326_blocks.php',
+    'CafedraTable' => $baseDir . '/database/migrations/2020_07_24_071452_cafedra_table.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',
     'Carbon\\CarbonInterval' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
     'Carbon\\CarbonPeriod' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonPeriod.php',

@@ -24,6 +24,8 @@ Route::post('/user/add', 'UserController@add')->middleware('auth');
 Route::get('/user/{id}/edit', 'UserController@edit')->middleware('auth');
 Route::post('/user/{id}/store', 'UserController@store')->middleware('auth');
 
+// Управление списком кафедр
+Route::get('/departments', function() {return view('departments');})->middleware('auth');
 
 // Управление списком дисциплин
 Route::get('/disciplines', function() {return view('disciplines');})->middleware('auth');

@@ -386,6 +386,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'BlockDetails' => __DIR__ . '/../..' . '/database/migrations/2019_11_26_122328_block-details.php',
         'BlockType' => __DIR__ . '/../..' . '/database/migrations/2020_05_13_055546_block_type.php',
         'Blocks' => __DIR__ . '/../..' . '/database/migrations/2019_11_25_105326_blocks.php',
+        'CafedraTable' => __DIR__ . '/../..' . '/database/migrations/2020_07_24_071452_cafedra_table.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\CarbonPeriod' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonPeriod.php',
