@@ -16,6 +16,13 @@
                           
                           <p><label>Название</label><input type="text" value="" class="form-control" name="name"></p>
                           <p><label>Часы</label><input type="text" value="" class="form-control" name="hours"></p>
+                          <p><label>Кафедра</label>
+                              <select name="department_id" class="form-control">
+                                  @foreach(\App\Department::select()->get() as $department)
+                                  <option value="{{$department->id}}">{{$department->name}}</option>
+                                  @endforeach
+                              </select>
+                          </p>
                           <p><label>Опубликована (1/0)?</label>
                               <input type="text" value="" class="form-control" name="active">
                           </p>

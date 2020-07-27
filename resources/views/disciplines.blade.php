@@ -17,7 +17,12 @@
                     
                     <table class="table table-bordered" id="sortTable">
                         <thead>
-                            <tr><th>id</th><th>Название дисциплины</th><th>Активна?</th><th>Темы</th><th>Операции</th></tr>
+                            <tr><th width="5%">id</th>
+                                <th width="40%">Название дисциплины</th>
+                                <th width="10%">Кафедра</th>
+                                <th>Активна?</th>
+                                <th>Темы</th>
+                                <th>Операции</th></tr>
                         </thead>
                         <tbody>
                             @foreach(\App\Discipline::select()->get() as $discipline)
@@ -25,11 +30,12 @@
                                 <td>{{ $discipline->id }} </td>
                                 <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a> ({{ $discipline->hours }} ч.)<br/>
                                 {{$discipline->description or ''}}</td>
+                                <td>{{$discipline->department->name or 'нет'}}</td>
                                 <td>{{ $discipline->active }}</td>
                                 <td><a href="{{url('/')}}/discipline/{{$discipline->id}}" class="btn btn-primary">Темы ({{ $discipline->blocks->count()}})</a></td>
                                 
-                                <td><a href="{{url('/')}}/disciplines/{{$discipline->id}}/edit" class="btn btn-success">Редактировать</a>
-                                    <a href="{{url('/')}}/disciplines/{{$discipline->id}}/clone" class="btn btn-warning">Клонировать</a>
+                                <td><a href="{{url('/')}}/disciplines/{{$discipline->id}}/edit" class="btn btn-success">Ред.</a>
+                                    <a href="{{url('/')}}/disciplines/{{$discipline->id}}/clone" class="btn btn-warning">Клон.</a>
                                     
                                 </td>
                             </tr>

@@ -22,6 +22,7 @@ class RaspController extends Controller
     function add($date, $room)
     {
         // добавить блокировку
+        \App\Classroom::block_classroom($date, $room);
         return view('raspadd', ['date' => $date, 'room' => $room]);
 
     }
@@ -75,6 +76,8 @@ class RaspController extends Controller
         DB::table('timetable')->where('id', $rasp->timetable_id)->update(['rasp_id' => $rasp->id]);
         
         // снять блокировку
+                \App\Classroom::unblock_classroom($rasp->date, $rasp->room_id);
+
         return redirect(url('rasp')."?date=".$rasp->date);
         }
         else {

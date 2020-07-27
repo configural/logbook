@@ -20,7 +20,14 @@
                     @foreach(\App\Classroom::select()->get() as $room)
                     <tr>
                         <td width="20%">{{$room->name}}
-                        <p><a href="{{url('raspadd')}}/{{ $date }}/{{$room->id}}">Назначить занятие</a></p>
+                        <p>
+                        @if($blockedBy = \App\Classroom::is_blocked($date, $room->id))
+                        <i class='fa fa-lock'></i> {{\App\User::find($blockedBy)->name   }}
+                        <br><a href="{{url('room_unlock')}}/{{$date}}/{{$room->id}}">Снять блокировку</a></br>
+                        @else
+                        <a href="{{url('raspadd')}}/{{ $date }}/{{$room->id}}">Назначить занятие</a>
+                        @endif
+                        </p>
                         </td>
                         <td><!--вывод строк расписания-->
                             <table class='table table-borderless'>
@@ -28,7 +35,9 @@
                             @php($finish = 0)
                             
                             @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room->id)->orderBy('start_at')->get() as $rasp)                            
-                            <tr><td width='20%'>@if($start != $rasp->start_at) {{$rasp->start_at}}–{{$rasp->finish_at}}
+                            <tr><td width='20%'>
+                                @if($start != $rasp->start_at) 
+                                {{$rasp->start_at}}–{{$rasp->finish_at}}
                                 @endif
                                 </td>
                             @php($start = $rasp->start_at)

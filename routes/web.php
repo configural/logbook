@@ -34,6 +34,8 @@ Route::get('/disciplines/add', function() {return view('disciplineadd');})->midd
 Route::get('/disciplines/{id}/edit', 'DisciplineController@edit')->middleware('auth');
 Route::post('/disciplines/add', 'DisciplineController@add')->middleware('auth');
 Route::post('/disciplines/{id}/store', 'DisciplineController@store')->middleware('auth');
+Route::get('/disciplines/{id}/clone', 'DisciplineController@clone_discipline')->middleware('auth');
+
 
 // Управление списком тематических блоков внутри дисциплин
 Route::get('/block/add/{id}', function($id) {return view('blockadd', ['id'=>$id]);})->middleware('auth');

@@ -19,9 +19,8 @@ class DisciplineController extends Controller
     
     public function add(Request $request) {
         $discipline = new Discipline;
-        $discipline->name = $request->name;
-        $discipline->hours = $request->hours;
-        $discipline->active = $request->active;
+        $new_discipline = $request->all();
+        $discipline->fill($new_discipline);
         $discipline->save();
         return view('disciplines');
         
@@ -36,11 +35,11 @@ class DisciplineController extends Controller
     
     public function store(Request $request) {
         $discipline = Discipline::find($request->id);
-        $discipline->name = $request->name;
-        $discipline->active = $request->active;
-        $discipline->hours = $request->hours;
+        $new_discipline = $request->all();
+        $discipline->fill($new_discipline);
         $discipline->save();
-        return view('disciplines');
+        
+        return redirect('disciplines');
     }
     
     public function bind_discipline(Request $request) {
@@ -62,7 +61,29 @@ class DisciplineController extends Controller
                 
     }
     
-
+    public function clone_discipline (Request $request) {
+        $discipline0 = Discipline::find($request->id);
+        $discipline1 = $discipline0->replicate(); // клонируем программу
+        $discipline1->name = "[клон от " . date("d.m.Y H:i") . "] - " . $discipline1->name;
+        $discipline1->save();
+        
+        $blocks = \App\Block::select()->where('discipline_id', $request->id)->get();
+        foreach ($blocks as $block) {
+            $newblock = new \App\Block();
+            $newblock->name = $block->name;
+            $newblock->discipline_id = $discipline1->id;
+            $newblock->active = $block->active;
+            $newblock->l_hours = $block->l_hours;
+            $newblock->p_hours = $block->p_hours;
+            $newblock->type_id = $block->type_id;
+            $newblock->save();
+            
+        }
+        
+        
+       
+        return redirect(url('/disciplines'));
+    }
     
     
 }

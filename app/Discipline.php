@@ -12,7 +12,10 @@ class Discipline extends Model
     
     
     
-
+    public function department() {
+        return $this->hasOne('\App\Department', 'id', 'department_id');
+        
+    }
     
     public function blocks() {
         return $this->hasMany('\App\Block', 'discipline_id', 'id');
