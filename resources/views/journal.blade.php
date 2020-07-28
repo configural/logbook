@@ -36,10 +36,15 @@
                     @if($teacher->id == $me)
                     <tr>
                     <td>{{$rasp->start_at}}–{{$rasp->finish_at}}</td>
-                    <td>{{$rasp->timetable->group->name}}</td>
+                    <td>{{$rasp->timetable->group->name}} 
+                        @if ($rasp->timetable->subgroup)
+                        <br/>Подгруппа {{$rasp->timetable->subgroup}}
+                        @endif
+                    </td>
+                    
                     <td>{{$rasp->timetable->block->name}}</td>
                     <td>{{$rasp->timetable->hours}}</td>
-                    <td>{{$rasp->timetable->lessontype}}</td>
+                    <td>{{$rasp->timetable->lesson_type->name}}</td>
                     <td><a href='journal/item/{{$rasp->id}}'>Открыть журнал</a></td>
                 </tr>
                     @endif

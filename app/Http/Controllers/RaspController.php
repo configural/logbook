@@ -76,7 +76,7 @@ class RaspController extends Controller
         DB::table('timetable')->where('id', $rasp->timetable_id)->update(['rasp_id' => $rasp->id]);
         
         // снять блокировку
-                \App\Classroom::unblock_classroom($rasp->date, $rasp->room_id);
+        \App\Classroom::unblock_classroom($rasp->date, $rasp->room_id);
 
         return redirect(url('rasp')."?date=".$rasp->date);
         }
@@ -94,4 +94,5 @@ class RaspController extends Controller
         return redirect(url('rasp')."?date=".$rasp->date);
        
     }
+    
 }

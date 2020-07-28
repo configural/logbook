@@ -88,6 +88,7 @@ Route::get('/rasp/delete/{id}', 'RaspController@delete')->middleware('auth');
 Route::get('/rasp/edit/{id}', 'RaspController@edit')->middleware('auth');
 Route::post('/rasp/edit/{id}', 'RaspController@store')->middleware('auth');
 Route::get('/raspadd/{date}/{room}', 'RaspController@add')->middleware('auth');
+Route::get('/room_unlock/{date}/{room}', function($date, $room_id){\App\Classroom::unblock_classroom($date, $room_id); return redirect(url('rasp')."?date=".$date);})->middleware('auth');
 
 // Журнал
 
@@ -111,6 +112,11 @@ Route::get('/classroom/add', function() {return view('classroomadd');})->middlew
 Route::post('/classroom/add', 'ClassroomController@store')->middleware('auth');
 Route::get('/classroom/edit/{id}', 'ClassroomController@edit')->middleware('auth');
 Route::post('/classroom/edit/{id}', 'ClassroomController@store')->middleware('auth');
+
+// Отчеты
+Route::get('/reports/journal', function() {return view('report_journal');})->middleware('auth');
+Route::get('/reports/journal/{user_id}', 'ReportController@user_journal_list')->middleware('auth');
+
 
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');

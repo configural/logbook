@@ -14,4 +14,21 @@ class Journal extends Model
     public function timetable() {
         return $this->hasOne('\App\Timetable', 'id', 'timetable_id');
     }
+    
+    public function rasp()
+    {
+        return $this->hasOne('\App\Rasp', 'id', 'rasp_id');
+    }
+    
+    public function percent()
+    {
+    
+    $group = unserialize($this->attendance);
+    $total = count($group);
+    $absent = 0;
+    foreach($group as $g){
+        if($g == 0) $absent++;
+    }
+    return round((($total - $absent)/$total), 2);
+    }
 }

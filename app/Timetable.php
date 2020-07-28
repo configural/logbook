@@ -41,7 +41,9 @@ class Timetable extends Model
     
     function teachers() {
         return $this->belongsToMany('\App\User', 'teachers2timetable', 'timetable_id', 'teacher_id');
-                
-       
+    }           
+    
+    function lesson_type() {
+        return $this->hasOne('\App\LessonType', 'id', 'lessontype');
     }
 }

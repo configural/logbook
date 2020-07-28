@@ -43,7 +43,7 @@
                             @php($start = $rasp->start_at)
                             @php($finish = $rasp->finish_at)    
                                 
-                        <td width='40%'>   {{$rasp->timetable->lessontype}}:  {{$rasp->timetable->block->name}}</td>
+                        <td width='40%'>   {{$rasp->timetable->lesson_type->name  }}:  {{$rasp->timetable->block->name}}</td>
                          <td width='15%'>{{$rasp->timetable->group->name}}</td>
                             <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
                             {{$teacher->name}}

@@ -45,14 +45,20 @@ class JournalController extends Controller
             
             
             $group_id = $rasp->timetable->group_id;
+            $subgroup = $rasp->timetable->subgroup;
             $block_name = $rasp->timetable->block->name;
+            $hours = $rasp->timetable->hours;
+            $lessontype = $rasp->timetable->lesson_type->name;
             $attendance = unserialize($journal->attendance);
             
           //  dump($attendance);
             
             return view('journalitem', ['id' => $journal->id, 
                     'group_id' => $group_id,
+                    'subgroup' => $subgroup, 
                     'block' => $block_name,
+                    'hours' => $hours,
+                    'lessontype' => $lessontype,
                     'attendance' => $attendance]);
                 
             

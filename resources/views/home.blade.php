@@ -17,6 +17,8 @@
                     @if(Auth::user()->role_id == 4) 
                     <strong>Приветствую тебя, Администратор!</strong>
                     <p>
+                    <h3>Администрирование</h3>
+                    <hr>
                     
                         <div class="icon"><a href="{{url('/')}}/users"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>
                         <div class="icon"><a href="{{url('/')}}/departments"><i class="fa fa-graduation-cap fa-3x blue"></i><br/>Кафедры</a></div>
@@ -31,6 +33,10 @@
                         
 
                 </p>
+                <h3>Отчеты</h3>
+                <hr>
+                        <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
+
                     @elseif (Auth::user()->role_id == 3)
                     <strong>Приветствую тебя, Методист!</strong>
                     

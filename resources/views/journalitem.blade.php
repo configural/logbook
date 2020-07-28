@@ -15,6 +15,7 @@
                 
                 <div class="panel-body">
                     <p>Тема занятия:  {{$block or 'не определена'}}</p>
+                    <p>Подгруппа: {{ $subgroup or 'не определена' }}</p>
                     <p>Вид занятия:  {{$lessontype or 'не определен'}}</p>
                     <p>Количество часов:  {{$hours or 'не определено'}}</p>
                     <form name='attendance' action='update' method='post'>
@@ -27,7 +28,9 @@
                         </thead>
                         <tbody>
                     
-                    @foreach(\App\Student::select()->where('group_id', $group_id)->get() as $student)
+                    @foreach(\App\Student::select()->where('group_id', $group_id)->orderBy('id')->get() as $student)
+                    
+                    @if (($subgroup == 1 and $student->id % 2) || ($subgroup == 2 and !($student->id % 2)) || ($subgroup == 0))
                     <tr>
                         <td>{{$student->id}}</td>
                         <td>{{$student->secname or 'нет данных'}}</td>
@@ -41,6 +44,7 @@
                             @endif
                         </td>
                     </tr>
+                    @endif
                 @endforeach
                 </tbody>
                     </table>

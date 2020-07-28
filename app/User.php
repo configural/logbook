@@ -34,4 +34,8 @@ class User extends Authenticatable
     public function department() {
             return $this->hasOne('App\Department', 'id', 'department_id');
     }
+    
+    public function journal() {
+        return $this->hasMany('\App\Journal', 'teacher_id', 'id');
+    }
 }

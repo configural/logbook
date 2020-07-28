@@ -55,13 +55,7 @@
                                     
                             </td>
                             <td>{{ $timetable->hours }} ч, 
-                            @if ($timetable->lessontype == 1)
-                            лекция
-                            @elseif ($timetable->lessontype == 2)
-                            практика
-                            @else
-                            не определено
-                            @endif
+                            {{ $timetable->lesson_type->name or 'не определено'}}
                             </td>
                             <td>
                                 @if($timetable->lessontype == 2)
@@ -74,12 +68,13 @@
                             </td>
                             <td>@php ($i = 0)
                                 @foreach($timetable->teachers as $teacher)
-                                <span class="badge btn-danger">{{$teacher->name}}</span>
+                                <span class="green"><strong>{{$teacher->name}}</strong></span>
                                 @if($teacher->id == Auth::user()->id)
                                 @php ($i++)
                                 @endif
                                 @endforeach
-                                Месяц {{$timetable->month or 'не определен'}} 
+                                <br/>
+                                Месяц ({{$timetable->month or 'не определен'}})
                             </td>
                             <td>
                                 @if($i == 0)
