@@ -121,3 +121,4 @@ Route::get('/reports/journal/{user_id}', 'ReportController@user_journal_list')->
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
 Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->middleware('auth');
+Route::get('/ajax/is_busy/{user_id};{date};{start_at};{finish_at}', 'UserController@is_busy')->middleware('auth');

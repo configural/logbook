@@ -18,7 +18,7 @@
                     <form action="{{url('rasp/edit')}}/0" method="post">
                         <input name="id" type="hidden" value="">
                         
-                        Дата: <input name="date" type="date" value="{{$date}}" class="form-control-static">
+                        Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static">
                         
                         
   
@@ -40,25 +40,30 @@
                
                         <p>Занятие (из распределенной нагрузки):
                             
-                            <select name="timetable_id" class="form-control" required>
+                            <select name="timetable_id" class="form-control" required id="timetableId">
                             @foreach(\App\Timetable::select()->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
                             
                             @foreach($timetable->teachers as $teacher)
-                            <option value="{{$timetable->id}}">{{$timetable->hours}} ч ({{$timetable->lessontype}}) :: {{$timetable->group->name}} :: {{$timetable->block->name}} ({{$teacher->name}})
+                            <option value="{{$timetable->id}}" data-hours="{{$timetable->hours}}" data-teacher="{{$teacher->id}}">{{$timetable->hours}} ч ({{$timetable->lesson_type->name}}) :: {{$timetable->group->name}} 
+                                @if($timetable->subgroup)
+                                (подгруппа {{$timetable->subgroup }})
+                                @endif
+                                :: {{$timetable->block->name}} ({{$teacher->name}})
                             </option>
                             @endforeach
                             @endforeach
                             </select>
                            
                        </p>
-                       <p>Время занятий:<br/>
-                       <input type="time" name="start_at" class="form-control-static" required>
-                       <input type="time" name="finish_at" class="form-control-static" required>
+                       <p>Время занятий: <strong><span id="needHours" class="red"></span></strong><br/>
+                       <input type="time" id="startAt" name="start_at" class="form-control-static" required>
+                       <input type="time" id="finishAt" name="finish_at" class="form-control-static" required>
                        </p>                            
-                           
+                       <span id="teacherBusy"></span>
+                       <span id="groupBusy"></span>
                         </p>
                         {{csrf_field()}}
-                        <button class="btn btn-success">Сохранить</button>
+                        <button class="btn btn-success" id="saveButton">Сохранить</button>
                     </form>
                    
                     
@@ -71,4 +76,62 @@
         </div>
     </div>
 </div>
+
+<script>
+$('#timetableId').change(function(){
+    var hours = $('#timetableId option:selected').data('hours');
+    $('#needHours').html(hours + " часа");
+});
+
+$('#startAt').change(function() {check_teacher();});
+$('#finishAt').change(function() {check_teacher();});
+
+function check_teacher() {
+    var start_at = $('#startAt').val();
+    var finish_at = $('#finishAt').val();
+    var teacher = $('#timetableId option:selected').data('teacher');
+
+    var date = $('#date').val();
+        if (start_at && finish_at) {
+        console.log(date + ";" + start_at + ";" + finish_at);
+    $.ajax({
+        url: "{{url('/')}}/ajax/is_busy/" + teacher + ";" + date + ";" + start_at + ";" + finish_at, 
+        success: function(param) {
+            if (param == 1) {$('#teacherBusy').html('Преподаватель в это время занят');
+                $('#saveButton').hide();
+            }
+            else {$('#teacherBusy').html('');
+                $('#saveButton').show();
+        }
+        }
+        
+    });
+    }
+}
+
+function check_group() {
+    var start_at = $('#startAt').val();
+    var finish_at = $('#finishAt').val();
+    var teacher = $('#timetableId option:selected').data('teacher');
+
+    var date = $('#date').val();
+        if (start_at && finish_at) {
+        console.log(date + ";" + start_at + ";" + finish_at);
+    $.ajax({
+        url: "{{url('/')}}/ajax/is_busy/" + teacher + ";" + date + ";" + start_at + ";" + finish_at, 
+        success: function(param) {
+            if (param == 1) {$('#teacherBusy').html('Преподаватель в это время занят');
+                $('#saveButton').hide();
+            }
+            else {$('#teacherBusy').html('');
+                $('#saveButton').show();
+        }
+        }
+        
+    });
+    }
+}
+
+
+</script>
 @endsection

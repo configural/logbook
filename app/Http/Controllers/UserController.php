@@ -46,4 +46,24 @@ class userController extends Controller
         return redirect('users');
     }
     
+        
+    public function is_busy($user_id, $date, $start_at, $finish_at) {
+        $busy = false;
+        /*$user_id = $request->user_id;
+        $date = $request->date;
+        $start_at = $request->start_at;
+        $finish_at = $request->finish_at;*/
+        $rasp = \App\Rasp::where('date', $date)
+                ->WhereBetween('start_at', [$start_at, $finish_at])
+                ->orWhereBetween('finish_at', [$start_at, $finish_at])
+                ->get();
+        foreach($rasp as $r) {
+           foreach($r->timetable->teachers as $teacher) {
+               if ($teacher->id == $user_id) $busy = true;
+           }
+            
+        }
+        echo $busy;
+    }
+    
 }

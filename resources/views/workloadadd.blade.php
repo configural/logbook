@@ -22,7 +22,6 @@
                     <hr>
                     <form action='' method='post'>
                         <input type="hidden" name="id" value="{{$timetable->id}}">
-                        <hr>
                         <p>В каком месяце вы готовы вести занятия: 
                         <select name="month" class="form-control-static">
                             

@@ -38,4 +38,5 @@ class User extends Authenticatable
     public function journal() {
         return $this->hasMany('\App\Journal', 'teacher_id', 'id');
     }
+
 }

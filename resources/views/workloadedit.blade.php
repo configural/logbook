@@ -25,7 +25,7 @@
                         <input type="hidden" name="id" value="{{$timetable->id}}">
                         <p>Преподавател(и)</p>
 
-                        <select name="teachers[]" multiple class="form-control-static">
+                        <select name="teachers[]" multiple class="form-control">
                             @foreach(\App\User::select()->get() as $user)
                             @php($in_list = 0)
     

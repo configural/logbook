@@ -77,12 +77,23 @@
                                 Месяц ({{$timetable->month or 'не определен'}})
                             </td>
                             <td>
+                                @if($timetable->rasp_id)
+                                Назначено на:
+                                <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">{{$timetable->rasp->date or ''}}</a>
+                                @else
                                 @if($i == 0)
-                                <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Мое!</a></td>
+                                <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Мое!</a>
+                                
+                            
                                 @else
                                 
-                                <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-danger">Не мое!</a></td>
-                                @endif
+                                <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-danger">Не мое!</a>
+
+                        @endif  
+                        @endif
+
+   
+                        </td>
                         </tr>
                         @endforeach
                             </tbody>
