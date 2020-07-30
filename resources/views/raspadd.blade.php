@@ -41,6 +41,7 @@
                         <p>Занятие (из распределенной нагрузки):
                             
                             <select name="timetable_id" class="form-control" required id="timetableId">
+                                <option value="">Выберите!</option>
                             @foreach(\App\Timetable::select()->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
                             
                             @foreach($timetable->teachers as $teacher)
@@ -55,11 +56,12 @@
                             </select>
                            
                        </p>
+                       <span id="teacherBusy"></span>
                        <p>Время занятий: <strong><span id="needHours" class="red"></span></strong><br/>
                        <input type="time" id="startAt" name="start_at" class="form-control-static" required>
                        <input type="time" id="finishAt" name="finish_at" class="form-control-static" required>
                        </p>                            
-                       <span id="teacherBusy"></span>
+                       
                        <span id="groupBusy"></span>
                         </p>
                         {{csrf_field()}}
@@ -81,14 +83,17 @@
 $('#timetableId').change(function(){
     var hours = $('#timetableId option:selected').data('hours');
     $('#needHours').html(hours + " часа");
+    
+    check_teacher();
+    
 });
 
 $('#startAt').change(function() {check_teacher();});
 $('#finishAt').change(function() {check_teacher();});
 
 function check_teacher() {
-    var start_at = $('#startAt').val();
-    var finish_at = $('#finishAt').val();
+    var start_at = "00:00";//$('#startAt').val();
+    var finish_at = "23:59";// $('#finishAt').val();
     var teacher = $('#timetableId option:selected').data('teacher');
 
     var date = $('#date').val();
@@ -96,14 +101,7 @@ function check_teacher() {
         console.log(date + ";" + start_at + ";" + finish_at);
     $.ajax({
         url: "{{url('/')}}/ajax/is_busy/" + teacher + ";" + date + ";" + start_at + ";" + finish_at, 
-        success: function(param) {
-            if (param == 1) {$('#teacherBusy').html('Преподаватель в это время занят');
-                $('#saveButton').hide();
-            }
-            else {$('#teacherBusy').html('');
-                $('#saveButton').show();
-        }
-        }
+        success: function(param) { $('#teacherBusy').html(param);  }
         
     });
     }
