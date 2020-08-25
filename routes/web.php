@@ -116,9 +116,11 @@ Route::post('/classroom/edit/{id}', 'ClassroomController@store')->middleware('au
 // Отчеты
 Route::get('/reports/journal', function() {return view('report_journal');})->middleware('auth');
 Route::get('/reports/journal/{user_id}', 'ReportController@user_journal_list')->middleware('auth');
+Route::get('/reports/rasp_group/{group_id}/{date}', 'ReportController@rasp_group')->middleware('auth');
 
 
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
 Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->middleware('auth');
-Route::get('/ajax/is_busy/{user_id};{date};{start_at};{finish_at}', 'UserController@is_busy')->middleware('auth');
+Route::get('/ajax/teacher_busy/{user_id};{date};{start_at};{finish_at}', 'UserController@teacher_busy')->middleware('auth');
+Route::get('/ajax/group_busy/{group_id};{date};{start_at};{finish_at}', 'GroupController@group_busy')->middleware('auth');

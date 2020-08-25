@@ -15,6 +15,8 @@ class Rasp extends Model
         return $this->hasOne('\App\Timetable', 'id', 'timetable_id');
     }
     
-    
+    function classroom() {
+        return $this->hasOne('\App\Classroom', 'id', 'room_id');
+    }    
     
 }

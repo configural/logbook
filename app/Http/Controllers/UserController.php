@@ -47,38 +47,28 @@ class userController extends Controller
     }
     
         
-    public function is_busy($user_id, $date, $start_at, $finish_at) {
+    public function teacher_busy($user_id, $date, $start_at, $finish_at) {
         $busy = false;
-        /*$user_id = $request->user_id;
-        $date = $request->date;
-        $start_at = $request->start_at;
-        $finish_at = $request->finish_at;*/
-
-               
-        $rasp = \App\Rasp::where('date', $date)
-               
-                ->get();
-                //dump($rasp);
-        
+              
+        $rasp = \App\Rasp::where('date', $date)->get();
         echo "<p><strong>Преподаватель в этот день ведет следующие занятия:</strong></p>";
         echo "<table class='table table-bordered'>";
-        echo "<tr><th>Препод.</th><th>Начало</th><th>Конец</th><th>группа</th><th>подгруппа</th><th>тема</th></tr>";
+        echo "<tr><th>Начало</th><th>Конец</th><th>Группа [подгруппа]</th><th>Аудитория</th></tr>";
                 foreach($rasp as $r) {
            foreach($r->timetable->teachers as $teacher) {
                if ($teacher->id == $user_id) { 
                echo "<tr>";
-               echo "<td>" . $teacher->name . "</td>";
+               
                 echo "<td>" . $r->start_at . "</td>";
                 echo "<td>" . $r->finish_at . "</td>";
-                echo "<td>" . $r->timetable->group->name . "</td>";
-                echo "<td>" . $r->timetable->subgroup . "</td>";
-                echo "<td>". $r->timetable->block->name . "</td>";
+                echo "<td>" . $r->timetable->group->name . " [" .$r->timetable->subgroup . "]</td>";
+                echo "<td>". $r->classroom->name . "</td>";
                echo "</tr>";}
            }
             
         }
         echo "</table>";
-        echo "<p>Укажите время занятия с учетом этого списка. При указании того же времени произойдет объединение групп (подгрупп) в расписании</p>";
+        echo "";
     }
     
 }

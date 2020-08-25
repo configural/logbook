@@ -85,4 +85,30 @@ class GroupController extends Controller
                 }
         return view('groupaddstudents', ['id' => $group_id, 'problems' => $problems, 'message' => $message] );
     }
-}
+
+        public function group_busy($group_id, $date, $start_at, $finish_at) {
+        $busy = false;
+              
+        $rasp = \App\Rasp::where('date', $date)->get();
+        echo "<p><strong>У группы в этот день следующие занятия:</strong></p>";
+        echo "<table class='table table-bordered'>";
+        echo "<tr><th>Начало</th><th>Конец</th><th>тема</th><th>Аудитория</th></tr>";
+                foreach($rasp as $r) {
+           
+               if ($r->timetable->group_id == $group_id) { 
+               echo "<tr>";
+               
+                echo "<td>" . $r->start_at . "</td>";
+                echo "<td>" . $r->finish_at . "</td>";
+
+                echo "<td>". $r->timetable->block->name . "</td>";
+                echo "<td>". $r->classroom->name . "</td>";
+
+               echo "</tr>";}
+           
+            
+        }
+        echo "</table>";
+    }
+    
+                }
