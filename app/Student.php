@@ -14,4 +14,9 @@ class Student extends Model
     function students() {
         return hasMany('\App\Group', 'id', 'group_id');
     }
+    
+    function fio(){
+        $fio = $this->secname . " " . $this->name . " " . $this->fathername;
+        return $fio;
+    }
 }

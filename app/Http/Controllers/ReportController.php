@@ -11,8 +11,17 @@ class ReportController extends Controller
 {
     //
     public function user_journal_list($user_id) {
-        $journals = \App\Journal::where('teacher_id', $user_id)->get();
+        $journals = \App\Journal::where('teacher_id', $user_id)->orderBy('created_at', 'desc')->get();
         return view('report_journal_list', ['journals' => $journals]);
+        
+    }
+    
+    public function view_journal($id) {
+        $journal = \App\Journal::find($id);
+        $attendance = unserialize($journal->attendance);
+       // dump($attendance);
+        return view('report_journal_view', ['attendance' => $attendance]);
+        
     }
     
     public function rasp_group($group_id, $date) {
