@@ -24,12 +24,20 @@ class ReportController extends Controller
         
     }
     
-    public function rasp_group($group_id, $date) {
-        
-        $spreadsheet = new Spreadsheet();
+    public function rasp_group(Request $request) {
+        $group_id = $request->group_id;
+        $date = $request->date;
+        $template_file = "templates/temp_rasp.xlsx";
+        //$spreadsheet = new Spreadsheet();
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($template_file);
+
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Привет мир!');
-        $i = 1;
+        
+        $group = \App\Group::find($group_id);
+        dump($group);
+        $sheet->setCellValue('B2', $group->name);
+        $sheet->setCellValue('B3', $date);
+        $i = 5;
         $rasp = Rasp::select()->where('date', $date)->get();
         foreach ($rasp as $r) {
             if ($r->timetable->group_id == $group_id) {
@@ -38,15 +46,14 @@ class ReportController extends Controller
                 $sheet->setCellValue('B'.$i, $r->finish_at);
                 $sheet->setCellValue('C'.$i, $r->timetable->block->name);
                 $sheet->setCellValue('D'.$i, $r->timetable->lesson_type->name);
-                
-                
-
             }
         }
         
 
-
         $writer = new Xlsx($spreadsheet);
-        $writer->save('reports/hello world.xlsx');
+        $filename =  $date . "-rasp-" . $group->name . '.xlsx';
+        $writer->save('reports/' . $filename);
+        
+        echo "<a href='".$filename."'>Скачать</a>";
     }
 }

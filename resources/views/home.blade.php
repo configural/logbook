@@ -33,9 +33,10 @@
                         
 
                 </p>
-                <h3>Отчеты</h3>
+                <h3>Отчеты и документы</h3>
                 <hr>
                         <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
+                        <div class="icon"><a href="{{url('/')}}/reports/rasp"><i class="fa fa-calendar fa-3x orange"></i><br/>Печать расписания</a></div>
 
                     @elseif (Auth::user()->role_id == 3)
                     <strong>Приветствую тебя, Методист!</strong>
