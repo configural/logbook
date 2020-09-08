@@ -22,9 +22,9 @@
                     
                         <div class="icon"><a href="{{url('/')}}/users"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>
                         <div class="icon"><a href="{{url('/')}}/departments"><i class="fa fa-graduation-cap fa-3x blue"></i><br/>Кафедры</a></div>
+                        <div class="icon"><a href="{{url('/')}}/programs"><i class="fa fa-graduation-cap fa-3x orange"></i><br/>Образовательные программы</a></div>
 
                         <div class="icon"><a href="{{url('/')}}/disciplines"><i class="fa fa-book fa-3x green"></i><br/>Дисциплины</a></div>
-                        <div class="icon"><a href="{{url('/')}}/programs"><i class="fa fa-graduation-cap fa-3x orange"></i><br/>Образовательные программы</a></div>
                         <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
                         <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
                         <div class="icon"><a href="{{url('/')}}/rasp"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
@@ -38,52 +38,30 @@
                         <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
                         <div class="icon"><a href="{{url('/')}}/reports/rasp"><i class="fa fa-calendar fa-3x orange"></i><br/>Печать расписания</a></div>
 
+
                     @elseif (Auth::user()->role_id == 3)
                     <strong>Приветствую тебя, Методист!</strong>
-                    
-
+                    <h3>Администрирование</h3>
+                        <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>                    
+                        <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
+                         <div class="icon"><a href="{{url('/')}}/rasp"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
+                <h3>Отчеты и документы</h3>
+                <hr>
+                        <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
+                        <div class="icon"><a href="{{url('/')}}/reports/rasp"><i class="fa fa-calendar fa-3x orange"></i><br/>Печать расписания</a></div>
                         
                         
                     @elseif (Auth::user()->role_id == 2 )
-                    <strong>Приветствую тебя, Преподаватель!</strong>
-                    
-                     <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Распределение нагрузки</a></div>
-                     
-                    <p>Распределение нагрузки</p>
-                    <p>Назначенные занятия:</p>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Дата, время</th>
-                            <th>Группа</th>
-                            <th>Тема</th>
-                            <th>Часы (лекции/практика)</th>
-                            <th>Выполнено (лекции/практика)</th>
-                            <th>Операции</th>
-                            <th>Статус</th>
-                        </tr>
-                    @foreach(\App\Timetable::select()->where('teacher_id', Auth::user()->id)->get() as $timetable)
-                    @if (isset($timetable))
-                    <tr>
-                    <td>{{ $timetable->start_at}}</td>
-                    <td>{{ $timetable->group->name }}</td>
-                    <td><strong>{{ $timetable->block->discipline->name }}</strong><br/>Тема:  {{ $timetable->block->name }}</td>
-                    <td>@if (isset($timetable->block->l_hours)) {{ $timetable->block->l_hours }} @endif / 
-                        @if (isset($timetable->block->p_hours)) {{ $timetable->block->p_hours }} @endif </td>
-                    <td>@if (isset($timetable->journal->l_hours)) {{ $timetable->journal->l_hours }} @endif / 
-                        @if (isset($timetable->journal->p_hours)) {{ $timetable->journal->p_hours }} @endif</td>
-                    <td>@if (isset($timetable->id)) <a href="{{url('/')}}/journal/{{ $timetable->id}}">В журнал</a> @endif</td>
-{{--                    <td>@if (isset($timetable->block) and (isset($timetable->block)))
-                        @if ($timetable->block->l_hours == $timetable->journal->l_hours and $timetable->block->p_hours == $timetable->journal->p_hours)
-                        OK
-                        @else
-                        -
-                        @endif
-                        @endif
-                    </td>--}}
-                    </tr>
-                    @endif
-                    @endforeach
-                    </table>
+                    <strong>Преподаватель</strong>
+                    <p>
+
+                        <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
+                        
+                        <div class="icon"><a href="{{url('/')}}/journal"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
+                        
+                        
+
+                </p>
                     
                     @elseif (Auth::user()->role_id == 1)
                     <strong>Приветствую тебя, Слушатель!</strong>

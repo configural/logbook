@@ -64,7 +64,7 @@ class DisciplineController extends Controller
     public function clone_discipline (Request $request) {
         $discipline0 = Discipline::find($request->id);
         $discipline1 = $discipline0->replicate(); // клонируем программу
-        $discipline1->name = "[клон от " . date("d.m.Y H:i") . "] - " . $discipline1->name;
+        $discipline1->name = $discipline1->name . "[клон " . date("d.m.Y H:i:s") . "]";
         $discipline1->save();
         
         $blocks = \App\Block::select()->where('discipline_id', $request->id)->get();

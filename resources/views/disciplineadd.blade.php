@@ -16,6 +16,16 @@
                           
                           <p><label>Название</label><input type="text" value="" class="form-control" name="name"></p>
                           <p><label>Часы</label><input type="text" value="" class="form-control" name="hours"></p>
+                          <p><label>Аттестация по дисциплине</label>
+                              <select name="attestation_id" class="form-control">
+                                  @foreach(\App\Attestation::select()->get() as $attestation)
+                                  <option value="{{$attestation->id}}">{{$attestation->name}}</option>
+                                  @endforeach
+                              </select>
+                          </p>
+                          <p><label>Аттестация, часы</label><input type="number" value="0" class="form-control" name="attestation_hours" required></p>
+
+                          
                           <p><label>Кафедра</label>
                               <select name="department_id" class="form-control">
                                   @foreach(\App\Department::select()->get() as $department)
@@ -23,6 +33,7 @@
                                   @endforeach
                               </select>
                           </p>
+                          
                           <p><label>Опубликована (1/0)?</label>
                               <input type="text" value="" class="form-control" name="active">
                           </p>

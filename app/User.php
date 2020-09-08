@@ -38,5 +38,18 @@ class User extends Authenticatable
     public function journal() {
         return $this->hasMany('\App\Journal', 'teacher_id', 'id');
     }
+    
+    public function secname() {
+        $tmp = explode(" ", $this->name);
+        $secname = $tmp[0];/* . " ";
+        $n = "";
+        $f = "";
+        if (isset($tmp[1])) $n = substr($tmp[1], 0, 1) . ". ";
+        if (isset($tmp[2])) $f = substr($tmp[2], 0, 1) . " . ";
+        */
+        return $secname;
+        
+        
+    }
 
 }

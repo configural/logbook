@@ -9,10 +9,10 @@
                 <div class="panel-heading">Потоки</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)
+                    @if(Auth::user()->role_id >= 3)
                     <p><a href="{{url('stream/add')}}" class="btn btn-success">Создать поток</a></p>
                     
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="sortTable">
                         <thead class="">
                             <tr><td>id</td><td>Название потока</td><td>Учебный год</td></tr>
                         </thead>

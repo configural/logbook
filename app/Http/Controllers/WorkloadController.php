@@ -21,23 +21,31 @@ class WorkloadController extends Controller
        $timetable->month = $request->month;
        if ($timetable->save()) {
        DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $request->id]);}
-       return redirect('workload#'.$request->id);
+       return redirect('workload');#'.$request->id);
     }
     
     public function update_workload(Request $request) {
         $timetable = Timetable::find($request->id);
         $timetable->month = $request->month;
         DB::table('teachers2timetable')->where('timetable_id', $request->id)->delete();
-        foreach($request->teachers as $teacher_id) {
-            $tmp = DB::table('teachers2timetable')->insert(['timetable_id' => $request->id, 'teacher_id' => $teacher_id]);
+        if (is_array($request->teachers)){
+            foreach($request->teachers as $teacher_id) {
+                $tmp = DB::table('teachers2timetable')->insert(['timetable_id' => $request->id, 'teacher_id' => $teacher_id]);
+                }
             }
-        $timetable->save();
-        return redirect('workload#'.$request->id);
+            $timetable->save();
+        //return redirect('workload#'.$request->id);
+            return redirect('workload');
+    }
+    
+    public function delete_workload($id) {
+        Timetable::find($id)->delete();
+        return redirect('workload');
     }
     
     public function cancel_workload($id) {
        DB::table('teachers2timetable')->where(['teacher_id' => Auth::user()->id, 'timetable_id' => $id])->delete();
-        return redirect('workload#'.$id);
+        return redirect('workload');#'.$id);
     }    
     
     public function split_workload($id) {
@@ -45,22 +53,30 @@ class WorkloadController extends Controller
         $w1 = Timetable::find($id);
         if ($w1->rasp_id) $error[] = "Эта нагрузка уже внесена в расписание!";
         if (!is_null($w1->subgroup)) $error[] = "Это уже подгруппа, ее нельзя разбивать!";
+        
         if (count($error) == 0) {
+            
+            $subgroup_count = $w1->group->subgroup_count;
             $w1->subgroup = 1;
             $w1->save();
+            
+            for ($i = 1; $i < $subgroup_count; $i++) {
             $w2 = new Timetable();
             $w2->group_id =  $w1->group_id;
             $w2->block_id =  $w1->block_id;
             $w2->hours =  $w1->hours;
             $w2->month =  $w1->month;
             $w2->lessontype = $w1->lessontype;
-            $w2->subgroup = 2;
-            $w2->save();
-            return redirect('workload#'.$id);
+            $w2->subgroup = $i + 1;
+            $w2->save();}
+        
+            //return redirect('workload#'.$id);
+            return redirect('workload');
         } else {
             echo "что-то пошло не так!";
+             dump($w1);
         }
-        dump($w1);
+       
         
     }
     

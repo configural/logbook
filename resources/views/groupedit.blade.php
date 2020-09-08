@@ -9,7 +9,7 @@
                 <div class="panel-heading panel-success ">{{ $group->name }} - редактирование</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)  
+                    @if(Auth::user()->role_id >=3)  
                     
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $group->id }}" class="form-control" name="id"></p>
@@ -22,7 +22,8 @@
                               @endif
                               @endforeach
                               </select>
-                              
+                           <p><label>Количество подгрупп</label><input type="integer" value="{{ $group->subgroup_count }}" class="form-control" name="subgroup_count"></p>
+    
                           <p><label>Группа активна?</label><input type="text" value="{{ $group->active }}" class="form-control" name="active"></p>
                           <p><label>Описание группы</label>
                               <textarea name="description" class="form-control">{{$group->description}}</textarea>
@@ -45,6 +46,7 @@
                         <tr>
                             <th>id</th>
                             <th>ФИО</th>
+                            <th>Подгруппа</th>
                             <th>Код СОНО</th>
                             
                         </tr>
@@ -54,6 +56,7 @@
                     <tr>
                         <td>{{ $student->id }} </td>
                         <td><a href="{{url('/')}}/student/{{ $student->id}}/edit">{{ $student->secname }} {{ $student->name }} {{ $student->fathername }}</a></td>
+                        <td>{{ $student->subgroup }}</td>
                         <td>{{ $student->sono }}</td>
                     </tr>
                     @endforeach

@@ -16,6 +16,8 @@ class ProgramController extends Controller
         $program->hours = $request->hours;
         $program->form_id = $request->form_id;
         $program->attestation_id = $request->attestation_id;
+        $program->attestation_hours = $request->attestation_hours;
+        $program->vkr_hours = $request->vkr_hours;
         $program->active = $request->active;
         $program->save();
         return view('programs');
@@ -29,6 +31,8 @@ class ProgramController extends Controller
         $program->hours = $request->hours;
         $program->form_id = $request->form_id;
         $program->attestation_id = $request->attestation_id;
+        $program->attestation_hours = $request->attestation_hours;
+        $program->vkr_hours = $request->vkr_hours;
         $program->active = $request->active;
         $program->save();
         return view('programs');

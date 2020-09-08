@@ -30,7 +30,7 @@ class JournalController extends Controller
             $rasp = \App\Rasp::find($rasp_id);
             
             $journal = Journal::select()->where('rasp_id', $rasp->id)->first();
-                                   
+            
             if ($journal){
             // переходим во вью   l
                                 
@@ -39,14 +39,17 @@ class JournalController extends Controller
                 $journal = new Journal();
                 $journal->teacher_id = Auth::user()->id;
                 $journal->rasp_id = $rasp_id;
-                $journal->attendance = "";
+                
+                $journal->attendance = serialize([]);
                 $journal->save();
             }
             
             
             $group_id = $rasp->timetable->group_id;
             $subgroup = $rasp->timetable->subgroup;
-            $block_name = $rasp->timetable->block->name;
+            if (isset($rasp->timetable->block->name)) {
+                $block_name = $rasp->timetable->block->name;
+                } else {$block_name = "";}
             $hours = $rasp->timetable->hours;
             $lessontype = $rasp->timetable->lesson_type->name;
             $attendance = unserialize($journal->attendance);
@@ -71,10 +74,14 @@ class JournalController extends Controller
         // сериализация массива "Посещаемость"
         //dump($request);
         $journal = Journal::find($request->id);
-        
-        $journal->attendance = serialize($request->attendance);
+        //dump($journal);
+        if (is_array($request->attendance)) {
+            $journal->attendance = serialize($request->attendance);
+            } else {
+                $journal->attendance = serialize([]);
+            }
         $journal->save();
-        return redirect(url('journal'));
+        return redirect(url('journal')."?date=" . $journal->rasp->date);
     }
     
 }

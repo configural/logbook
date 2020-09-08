@@ -20,27 +20,33 @@
                     <p>Количество часов:  <u>{{$hours or 'не определено'}}</u></p>
                     <form name='attendance' action='update' method='post'>
                         <input type='hidden' name='id' value='{{$id}}'>
-                    <table class='table table-bordered' id="sortTable">
+                        
+                        <p><button class='btn btn-success'>Сохранить запись журнала</button></p>
+                        
+                    <table class='table table-bordered'>
                         <thead>
                         <th>id</th>
                         <th>ФИО</th>
+                        
                         <th>Посещаемость/Оценка</th>
                         </thead>
                         <tbody>
                     
                     @foreach(\App\Student::select()->where('group_id', $group_id)->orderBy('secname')->get() as $student)
                     
-                    @if (($subgroup == 1 and $student->id % 2) || ($subgroup == 2 and !($student->id % 2)) || ($subgroup == 0))
+                    @if ($subgroup == 0 || $subgroup == $student->subgroup)
                     <tr>
                         <td>{{$student->id}}</td>
-                        <td>{{$student->secname or 'нет данных'}} {{$student->name or 'нет данных'}} {{$student->fathername or 'нет данных'}}</td>
+                        
+                        <td width="50%">{{$student->secname or ''}} {{$student->name or ''}} {{$student->fathername or ''}}</td>
+                        <!--<td>{{ $student->subgroup }}</td>-->
                         <td>
-                            @if($attendance[$student->id] == 1 or $attendance === false)
-                            <input type='radio' name='attendance[{{$student->id}}]' value='1' checked> присутствует&nbsp;&nbsp;&nbsp;
-                            <input type='radio' name='attendance[{{$student->id}}]' value='0'> отсутствует  
-                            @else
+                            @if(!array_key_exists("$student->id", $attendance) or $attendance[$student->id]==0)
                             <input type='radio' name='attendance[{{$student->id}}]' value='1'> присутствует&nbsp;&nbsp;&nbsp;
-                            <input type='radio' name='attendance[{{$student->id}}]' value='0' checked> отсутствует
+                            <input type='radio' name='attendance[{{$student->id}}]' value='0' checked > отсутствует  
+                            @else
+                            <input type='radio' name='attendance[{{$student->id}}]' value='1' checked> присутствует&nbsp;&nbsp;&nbsp;
+                            <input type='radio' name='attendance[{{$student->id}}]' value='0'> отсутствует
                             @endif
                         </td>
                     </tr>
@@ -48,7 +54,7 @@
                 @endforeach
                 </tbody>
                     </table>
-  {{ csrf_field() }}
+            {{ csrf_field() }}
                         <button class='btn btn-success'>Сохранить запись журнала</button>
                     </form>
                 </div>

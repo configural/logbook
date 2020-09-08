@@ -6,10 +6,10 @@
     <div class="row">
         <div class="col-md-3">
             <div class="panel panel-primary">
-                <div class="panel-heading panel-success ">{{ $stream->name }} - редактирование</div>
+                <div class="panel-heading panel-success ">{{ $stream->name }}</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)  
+                    @if(Auth::user()->role_id >= 3)  
                     <h4>Редактировать детали потока</h4>
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $stream->id }}" class="form-control" name="id"></p>
@@ -26,48 +26,10 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Образовательная программа</div>
-
-                <div class="panel-body">
-                    
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>Наименование</td>
-                            <td>Часов</td>
-                            <td>Действия</td>
-                        </tr>
-                    @foreach($stream->programs as $program)
-                    <tr>
-                        <td><a href="{{url('/program/')}}/{{$program->id}}" target="_blank">{{ $program->name }}</td>
-                        <td>{{ $program->hours }}</td>
-                        <td><a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" onClick="return window.confirm('Вся нагрузка будет удалена. Действительно привязку?');" class="btn btn-danger"><i class="fa fa-times"></i> Удалить</a></td>
-                    </tr>
-                    
-                    @endforeach
-                    </table>
-                    
-                    @if($stream->programs->count() == 0)
-                    <p>Образовательная программа для потока не назначена. Выберите из списка. После назначения программы будет автоматически сформирована нераспределенная нагрузка для данного потока.</p>
-                    <form action="program_bind" method="post">
-                        <p>
-                    <input type="hidden" name="stream_id" value="{{$stream->id}}">
-                        <select name="program_id" class="form-control">
-                            @foreach(\App\Program::select()->where('active', 1)->orderby('name', 'asc')->get() as $program)
-                            <option value='{{ $program->id }}'>{{$program->name}} - {{ $program->description}}</option>
-                            @endforeach
-                        </select>
-                        </p>
-                    <p><button class="btn btn-primary">Назначить программу потоку</button>
-                        <a href="{{url('programs')}}">Перейти в «Образовательные программы»</a> 
-                    {{ csrf_field() }}
-                    </form>
-                    @endif
-                </div>
-            </div>
+            
 
             <div class="panel panel-primary">
-                <div class="panel-heading panel-success ">Учебные группы в потоке</div>
+                <div class="panel-heading panel-success ">1. Сформировать ВСЕ группы для потока</div>
 
                 <div class="panel-body">
                     
@@ -90,7 +52,7 @@
                         </tr>
                         @endforeach
                     </table>
-                    <p><a href="{{url('/group/add')}}/{{$stream->id}}" class="btn btn-primary"><i class="fa fa-group"></i> Создать группу в этом потоке</a>
+                    <p><a href="{{url('/group/add')}}/{{$stream->id}}" class="btn btn-success"><i class="fa fa-group"></i> Создать группу в этом потоке</a>
     
                     @else
                     @endif
@@ -98,6 +60,52 @@
                     
                 </div>
             </div>
+            
+            <div class="panel panel-primary">
+                <div class="panel-heading">2. Назначить потоку образовательную программу</div>
+
+                <div class="panel-body">
+                    
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Наименование</td>
+                            <td>Часов</td>
+                            <td>Действия</td>
+                        </tr>
+                    @foreach($stream->programs as $program)
+                    <tr>
+                        <td><a href="{{url('/program/')}}/{{$program->id}}" target="_blank">{{ $program->name }}</td>
+                        <td>{{ $program->hours }}</td>
+                        <td>
+                            @if (Auth::user()->role_id == 4)
+                            <a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" onClick="return window.confirm('Вся нагрузка будет удалена. Действительно привязку?');" class="btn btn-danger"><i class="fa fa-times"></i> Удалить</a>
+                            @endif
+                        </td>
+                        
+                    </tr>
+                    
+                    @endforeach
+                    </table>
+                    
+                    @if($stream->programs->count() == 0)
+                    <p>Образовательная программа для потока не назначена. Выберите из списка. После назначения программы будет автоматически сформирована нераспределенная нагрузка для данного потока.</p>
+                    <form action="program_bind" method="post">
+                        <p>
+                    <input type="hidden" name="stream_id" value="{{$stream->id}}">
+                        <select name="program_id" class="form-control">
+                            @foreach(\App\Program::select()->where('active', 1)->orderby('name', 'asc')->get() as $program)
+                            <option value='{{ $program->id }}'>{{$program->name}} - {{ $program->description}}</option>
+                            @endforeach
+                        </select>
+                        </p>
+                    <p><button class="btn btn-success">Назначить программу потоку</button>
+                        <a href="{{url('programs')}}">Перейти в «Образовательные программы»</a> 
+                    {{ csrf_field() }}
+                    </form>
+                    @endif
+                </div>
+            </div>
+            
         </div>
     </div>
 

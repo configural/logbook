@@ -14,12 +14,16 @@
 
                 <div class="panel-body">
 
-                    @if(Auth::user()->role_id == 4)
+                    @if(Auth::user()->role_id >= 3)
                     <form action="{{url('rasp/edit')}}/0" method="post">
                         <input name="id" type="hidden" value="">
                         
                         Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static">
-                        
+                       Группа: <select id="filterGroup" class='form-control-static'>
+                           @foreach(\App\Group::select()->where('active',1)->orderby('name')->get() as $group)
+                           <option value='{{$group->name}}'>{{$group->name}}</option>
+                           @endforeach
+                       </select>                        
                         
   
                         </p>
@@ -27,7 +31,7 @@
 
                        <input name="room_id" type="hidden" value="{{$room}}">
                        
-                           
+
                
                         <p>Занятие (из распределенной нагрузки):
                             
@@ -36,11 +40,11 @@
                             @foreach(\App\Timetable::select()->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
                             
                             @foreach($timetable->teachers as $teacher)
-                            <option value="{{$timetable->id}}" data-hours="{{$timetable->hours}}" data-teacher="{{$teacher->id}}" data-group_id="{{$timetable->group_id}}">{{$timetable->hours}} ч ({{$timetable->lesson_type->name}}) :: {{$timetable->group->name}} 
+                            <option value="{{$timetable->id}}" data-hours="{{$timetable->hours}}" data-teacher="{{$teacher->id}}" data-group_id="{{$timetable->group_id}}">{{$timetable->group->name}} 
                                 @if($timetable->subgroup)
                                 (подгруппа {{$timetable->subgroup }})
                                 @endif
-                                :: {{$timetable->block->name}} ({{$teacher->name}})
+                                :: {{$teacher->name}} :: {{$timetable->hours}} ч ({{$timetable->lesson_type->name}}) ::  {{ $timetable->block->name or ''}} 
                             </option>
                             @endforeach
                             @endforeach
@@ -88,6 +92,14 @@
 </div>
 
 <script>
+    
+$('#filterGroup').change(function() {
+    var group_name = $("#filterGroup option:selected").val();
+    
+    $('#timetableId option:contains(":")').hide();
+    $('#timetableId option:contains("' + group_name + '")').show();
+});    
+    
 $('#timetableId').change(function(){
     var hours = $('#timetableId option:selected').data('hours');
     $('#needHours').html(hours + " часа");

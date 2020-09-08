@@ -11,18 +11,12 @@
                 @if(Auth::user()->role_id == 4)    
                 <form action="add" method="post">
                           
-                          <p><label>Название потока</label><input type="text" value="" class="form-control" name="name"></p>
-                          <p><label>Начало обучения</label><input type="date" value="" class="form-control" name="date_start"></p>
-                          <p><label>Окончание обучения</label><input type="date" value="" class="form-control" name="date_finish"></p>
-                          <p><label>Учебный год</label><input type="text" value="" class="form-control" name="year"></p>
+                          <p><label>Название потока</label><input type="text" value="" class="form-control" name="name" required></p>
+                          <p><label>Начало обучения</label><input type="date" value="" class="form-control" name="date_start" required></p>
+                          <p><label>Окончание обучения</label><input type="date" value="" class="form-control" name="date_finish" required></p>
+                          <p><label>Учебный год</label><input type="text" value="" class="form-control" name="year" required></p>
                           
-                          <p><label>Образовательная программа</label>
-                              <select name="program_id" class="form-control">
-                                  @foreach(\App\Program::select()->get() as $program)
-                                  <option value="{{$program->id}}">{{$program->hours}} ч. - {{$program->name}}</option>
-                                  
-                                  @endforeach
-                              </select>
+                         
                           
                           <p><button class="btn btn-success">Создать поток</button>
                     {{ csrf_field() }}

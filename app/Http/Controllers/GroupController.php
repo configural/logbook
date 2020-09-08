@@ -20,10 +20,13 @@ class GroupController extends Controller
         $group->description = $request->description; // описание
         $group->stream_id = $request->stream_id; // id потока
         $group->active = $request->active; // опубликовано?
+        $group->subgroup_count = $request->subgroup_count; // количество подгрупп
         $group->save();
         return redirect('stream/'.$group->stream_id.'/edit');
         
     }
+    
+       
     
     public function edit(Request $request) {
         $id = $request->id;
@@ -38,12 +41,25 @@ class GroupController extends Controller
         $group->description = $request->description; // описание
         $group->stream_id = $request->stream_id; // id потока
         $group->active = $request->active; // опубликовано?
+        $group->subgroup_count = $request->subgroup_count; // количество подгрупп
         $group->save();
         return redirect('stream/'.$group->stream_id.'/edit');
     }
     
+    public function add_empty_students(Request $request) {
+        for ($i = 0; $i < $request->count; $i++) {
+            $student = new Student;            
+            $student->group_id = $request->group_id;
+            $student->name = "student";
+            $student->save();
+        }
+        return redirect('group/' . $request->group_id . '/edit');
+    }
+    
+    
     public function add_students(Request $request) {
         $group_id = $request->group_id;
+        $subgroup_count = Group::find($group_id)->subgroup_count;
         $divider = stripcslashes($request->divider);
         $import = str_replace($divider, ' ', $request->import); 
         $import = preg_replace("/ {2,}/", " ", $import);
@@ -51,6 +67,7 @@ class GroupController extends Controller
         $problems = array();
         $message = "";
         $count = 0;
+        $subgroup = 1;
         foreach ($strings as $string) {
             $item = explode(' ', $string);
             $sono = trim($item[0]);
@@ -69,8 +86,11 @@ class GroupController extends Controller
                     $student->name = $item[2];
                     $student->fathername = $item[3];
                     $student->sono = $sono;
+                    $student->subgroup = $subgroup;
                     $student->save();
                     $count++;
+                    $subgroup++;
+                    if ($subgroup > $subgroup_count) $subgroup = 1;
                     } else {
                         
                     }

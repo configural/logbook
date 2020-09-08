@@ -65,7 +65,15 @@ class StreamController extends Controller
                             ->where('block_id', $b->id)
                             ->where('group_id', $group_id)
                             ->delete();
-                }
+                    DB::table('timetable')
+                            ->where('discipline_id', $b->discipline->id)
+                            ->where('group_id', $group_id)
+                            ->delete();
+                    DB::table('timetable')
+                            ->where('program_id', $program_id)
+                            ->where('group_id', $group_id)
+                            ->delete();
+                    }
             }
         }
         DB::table('programs2stream')
@@ -95,12 +103,22 @@ class StreamController extends Controller
                        DB::table('timetable')->insert($workload);
                        }
                     }
-                       
-                       //dump($workload);
-                       //DB::table('timetable')->insert($workload);
-                   }
+                    if ($discipline->attestation_id) {
+                    $attestation_discipline = ["group_id" => $group_id, "discipline_id" => $discipline->id, "hours" => $discipline->attestation_hours, "lessontype" => 3];
+                    if ($discipline->attestation_hours) {DB::table('timetable')->insert($attestation_discipline);}
+                    }
+               }   
+                if ($program->attestation_id) {
+                $attestation_program = ["group_id" => $group_id, "program_id" => $program->id, "hours" => $program->attestation_hours, "lessontype" => 3];
+                if ($program->attestation_hours) {DB::table('timetable')->insert($attestation_program);  }
+               }
+               
+               if ($program->vkr_hours) {
+                $attestation_program = ["group_id" => $group_id, "program_id" => $program->id, "hours" => $program->vkr_hours, "lessontype" => 4];
+   
                }
 
+               }
             }
         }
         

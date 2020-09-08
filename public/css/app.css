@@ -15,3 +15,6 @@
  .violet {color: #blueviolet}
  
  .rasp {display: block; padding: 5px; background: #ddffcc; margin-bottom: 5px;}
+ 
+ .panel-heading {font-weight: bold; font-size: 20px;}
+ .itogo {background: #ddffcc; font-weight: bold;}

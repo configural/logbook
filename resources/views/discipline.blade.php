@@ -34,29 +34,38 @@
                         <thead>
                         <tr>
                             <td>id</td>
-                            <td>Тематические блоки</td>
+                            <td>Темы в расписании</td>
                             <td>Лекции, ч</td>
                             <td>Практика, ч</td>
                             <td>Самост., ч</td>
-                            <td>Состояние</td>
+                            
                         </tr>
                         </thead>
                         <tbody>
-                         @foreach($discipline->blocks as $block)
-                        <tr>
+                        @foreach($discipline->blocks as $block)
+                        @if($block->active)
+                         <tr>
                             <td>{{$block->id}}</td>
                             <td><a href="{{url('/')}}/block/{{$block->id}}/edit">{{$block->name}}</td>
                             <td>{{$block->l_hours}}</td>
                             <td>{{$block->p_hours}}</td>
                             <td>{{$block->s_hours}}</td>
-                            <td>
-                                @if($block->active) <i class="fa fa-check-circle green fa-2x"></i>
-                                @else <i class="fa fa-times-circle red fa-2x"></i>
-                                @endif
-                            </td>
+
                          </tr>
+                         @endif
                          @endforeach
                             </tbody>
+                            <tr class="itogo"><td rowspan="2"></td>
+                                <td rowspan="2">ИТОГО</td>
+                                <td>{{ $discipline->l_hours_total() }} </td>
+                                <td>{{ $discipline->p_hours_total() }} </td>
+                                <td>{{ $discipline->s_hours_total() }} </td>
+                            </tr>
+                            <tr class="itogo">
+                                
+                                <td colspan="3">{{ $discipline->hours_total() }} </td>
+                                
+                            </tr>                            
                     </table>
                     
                     

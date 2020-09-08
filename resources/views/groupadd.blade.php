@@ -16,10 +16,11 @@
                           
                         <p><input type="hidden" name="stream_id" value="{{$id}}"></p>
                         <p><label>Название группы</label><input type="text" value="" class="form-control" name="name" required></p>
+                        <p><label>Количество подгрупп</label><input type="number" value="1" class="form-control" name="subgroup_count"></p>
                         <p><label>Описание группы</label>
                             <textarea name="description" class="form-control"></textarea></p>
-                          
-                        <p><label>Опубликовано (1/0)?</label><input type="text" value="" class="form-control" name="active"></p>
+
+                      <p><label>Опубликовано (1/0)?</label><input type="number" value="" class="form-control" name="active"></p>
                           
                           
                           <p><button class="btn btn-success">Создать группу</button>

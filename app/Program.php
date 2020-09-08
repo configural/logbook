@@ -10,7 +10,7 @@ class Program extends Model
     //
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $fillable = ['name', 'description', 'hours', 'form_id', 'active'];
+    protected $fillable = ['name', 'description', 'hours', 'form_id', 'active', 'attestation_id', 'attestation_hours', 'vkr_hours'];
     
     public function form() {
         return $this->hasOne('\App\Form', 'id', 'form_id');
@@ -31,8 +31,9 @@ class Program extends Model
                 $hours += $discipline->active_blocks->sum('l_hours');
                 $hours +=  $discipline->active_blocks->sum('p_hours');
                 $hours +=  $discipline->active_blocks->sum('s_hours');
-            
+                $hours += $discipline->attestation_hours;
         };
+        $hours += $this->attestation_hours;
         return $hours;
     }
     

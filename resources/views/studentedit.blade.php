@@ -9,7 +9,7 @@
                 <div class="panel-heading ">Редактирование дисциплины</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)  
+                    @if(Auth::user()->role_id >= 3)  
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $student->id }}" class="form-control" name="id"></p>
                           <p><label>Фамилия</label>
@@ -32,8 +32,11 @@
                                   @endforeach
                               
                               </select>
+                          
                           </p>
                           
+                          <p><label>Подгруппа</label>
+                              <input type="text" value="{{ $student->subgroup }}" class="form-control" name="subgroup"></p>                         
                           
                           <p><label>Код СОНО</label>
                               <input type="text" value="{{ $student->sono }}" class="form-control" name="sono"></p>

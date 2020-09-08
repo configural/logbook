@@ -28,7 +28,13 @@
                             @foreach(\App\Discipline::select()->get() as $discipline)
                             <tr class="">
                                 <td>{{ $discipline->id }} </td>
-                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a> ({{ $discipline->hours }} ч.)<br/>
+                                <td><a href="{{url('/')}}/discipline/{{$discipline->id}}">{{ $discipline->name }}</a> ({{ $discipline->hours }} ч.)
+                                    @if($discipline->hours != $discipline->hours_total())
+                                    <span class="red">По факту {{$discipline->hours_total()}} ч!</span>
+                                    @endif
+                                    
+                                    
+                                    <br/>
                                 {{$discipline->description or ''}}</td>
                                 <td>{{$discipline->department->name or 'нет'}}</td>
                                 <td>{{ $discipline->active }}</td>

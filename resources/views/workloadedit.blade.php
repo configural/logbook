@@ -14,19 +14,17 @@
 
                 <div class="panel-body">
                 @php ($timetable = \App\Timetable::find($id))
-                <p><h3>{{ $timetable->block->name}}</h3></p>
-                <p>Часов - {{ $timetable->hours }}</p>
-                <p>Тип занятия - {{ $timetable->lessontype }}</p>
+                <p><h3>{{ $timetable->block->name or ''}}</h3></p>
+                <h4>{{ $timetable->lesson_type->name }}, {{ $timetable->hours }} ч.</h4>
                 <p>Группа: <strong>{{$timetable->group->name}}</strong>, поток: <strong>{{$timetable->group->stream->name}}</strong></p>
-                <p>Начало обучения: {{$timetable->group->stream->date_start}}</p>
-                <p>Окончание обучения: {{$timetable->group->stream->date_finish}}</p>
+                <p>Период обучения: {{$timetable->group->stream->date_start}} — {{$timetable->group->stream->date_finish}}</p>
                     <hr>
                     <form action='' method='post'>
                         <input type="hidden" name="id" value="{{$timetable->id}}">
                         <p>Преподавател(и)</p>
 
-                        <select name="teachers[]" multiple class="form-control">
-                            @foreach(\App\User::select()->get() as $user)
+                        <select name="teachers[]" multiple class="form-control" style="height: 600px;">
+                            @foreach(\App\User::select()->where('role_id', 2)->orderBy('name')->get() as $user)
                             @php($in_list = 0)
     
                             @foreach($timetable->teachers as $teacher)
@@ -54,11 +52,24 @@
                                 @endif
                             @endfor
                         </select>
-                    <hr>   
+                    <hr>
+                    <p>
+                     @if (!$timetable->rasp_id)
                     <button class="btn btn-success">Сохранить нагрузку</button>
+                    @else
+                    Как изменить? Сначала уберите из расписания. Занятие назначено на <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">{{$timetable->rasp->date}}</a>
+                    @endif
+                    </p>
+                    <p>
+                    @if (!$timetable->teachers->count() && !$timetable->rasp_id)
+                    <a class="btn btn-danger pull-right" href="{{url('workload')}}/delete/{{$id}}"  onClick="return window.confirm('Нагрузка будет удалена. Продолжить?');" >Удалить нагрузку</a>
+                    @else
+                    <span class="pull-left">Как удалить? Уберите эту нагрузку из расписания и удалите привязку преподавателей.</span>
+                    @endif
+                    </p>
                     {{ csrf_field() }}
                     </form>
-
+                    
                         
                 </div>
             </div>

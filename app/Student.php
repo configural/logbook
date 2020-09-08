@@ -9,7 +9,7 @@ class Student extends Model
     //
     protected $table = 'students';
     
-    protected $fillable = ['group_id', 'secname', 'name', 'fathername', 'sono', 'qualification', 'edu_level', 'doc_number', 'doc_seria', 'doc_secname', 'status'];
+    protected $fillable = ['group_id', 'subgroup', 'secname', 'name', 'fathername', 'sono', 'qualification', 'edu_level', 'doc_number', 'doc_seria', 'doc_secname', 'status'];
     
     function students() {
         return hasMany('\App\Group', 'id', 'group_id');

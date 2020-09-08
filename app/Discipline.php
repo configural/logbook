@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Discipline extends Model
 {
     //
-    protected $fillable = ['name', 'active', 'hours', 'department_id'];
+    protected $fillable = ['name', 'active', 'hours', 'department_id', 'attestation_id', 'attestation_hours'];
     
     
     
@@ -29,4 +29,22 @@ class Discipline extends Model
         return $this->belongsToMany('\App\Program', 'discipline2program', 'discipline_id', 'program_id');
         
     }
+    
+    function l_hours_total() {
+        return $this->active_blocks->sum('l_hours');
+    }
+    
+    function p_hours_total() {
+        return $this->active_blocks->sum('p_hours');
+    }
+    
+    function s_hours_total() {
+        return $this->active_blocks->sum('s_hours');
+    }
+    
+    function hours_total() {
+        return $this->active_blocks->sum('s_hours') + $this->active_blocks->sum('p_hours') + $this->active_blocks->sum('l_hours') + $this->attestation_hours;
+    }
+    
 }
+

@@ -9,7 +9,7 @@
                 <div class="panel-heading ">Журналы преподавателей</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)  
+                    @if(Auth::user()->role_id >= 3)  
                     
                     <table class="table table-bordered" id="sortTable">
                         <thead>

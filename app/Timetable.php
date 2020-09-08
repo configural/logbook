@@ -22,6 +22,11 @@ class Timetable extends Model
     function block() {
         return $this->hasOne('\App\Block', 'id', 'block_id');
     }
+
+    function discipline() {
+        return $this->hasOne('\App\Discipline', 'id', 'discipline_id');
+    }
+
     
     function group() {
         return $this->hasOne('\App\Group', 'id', 'group_id');

@@ -17,6 +17,10 @@ class Rasp extends Model
     
     function classroom() {
         return $this->hasOne('\App\Classroom', 'id', 'room_id');
-    }    
+    }   
+    
+    function teachers() {
+        return "teachers";
+    }
     
 }

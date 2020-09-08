@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <p><h3>{{ $timetable->block->name}}</h3></p>
+                    <p><h3>{{ $timetable->block->name or ''}}</h3></p>
                 <p>Часов - {{ $timetable->hours }}</p>
                 <p>Тип занятия - {{ $timetable->lessontype }}</p>
                 <p>Группа: <strong>{{$timetable->group->name}}</strong>, поток: <strong>{{$timetable->group->stream->name}}</strong></p>

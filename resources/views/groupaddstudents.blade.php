@@ -6,14 +6,24 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Создание группы</div>
+                <div class="panel-heading ">Состав группы</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)  
+                    @if(Auth::user()->role_id >= 3)  
                     
+                    <h2>Группа: <a href="{{url('/')}}/group/{{$id}}/edit">{{ \App\Group::find($id)->name}}</a> </h2>
                     
+                    <form action="{{url('/')}}/group/addemptystudents" method="post">
+                        <h3>Добавление «пустых» записей</h3>
+                        <p><input type="hidden" name="group_id" value="{{$id}}"></p>
+                        <label>Количество создаваемых записей (от 1 до 100): </label> <input name="count" value="20" type="number" class="form-control-static" min="1" max="100" required>
+                        {{ csrf_field() }}
+                        <button class="btn btn-success">Заполнить группу пустыми записями</button>
+                    </form>
+                    <hr>
+                    <h3>Копирование из буфера обмена</h3>
                     <form action="{{url('/')}}/group/addstudents" method="post">
-                        <h3>Группа: <a href="{{url('/')}}/group/{{$id}}/edit">{{ \App\Group::find($id)->name}}</a> </h3>
+                        
                         <p><input type="hidden" name="group_id" value="{{$id}}"></p>
                         <p>
                             

@@ -29,7 +29,10 @@
                                   @endforeach
                               </select>
                               
-                              
+                          <p><label>Часов на аттестацию</label><input type="number" value="" class="form-control" name="attestation_hours"></p>
+                          
+                          <p><label>Часов на защиту ВКР (Проставляется только для программ длительностью от 72 часов. В противном случае - оставляем "0").</label><input type="number" value="" class="form-control" name="vkr_hours"></p>
+                          
                           </p>
                           <p><label>Краткое описание</label><input type="text" value="" class="form-control" name="description"></p>
                           <p><label>Опубликована (1/0)?</label>

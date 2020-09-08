@@ -8,18 +8,19 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <form action='rasp' method='get'>
-                    Составление расписания <input type="date" name="date" value="{{$date}}"> <button> >></button>
+                        Составление расписания <input type="date" name="date" value="{{$date}}" onchange="javascript:form.submit()" >
                     </form>
                 </div>
 
                 <div class="panel-body">
 
-                    @if(Auth::user()->role_id == 4)
+                    @if(Auth::user()->role_id >= 3)
  
                     <table class="table table-bordered">
-                    @foreach(\App\Classroom::select()->get() as $room)
+                     
+                    @foreach(\App\Classroom::select()->orderby('name')->get() as $room)
                     <tr>
-                        <td width="20%">{{$room->name}}
+                        <td width="20%"><h3>{{$room->name}}</h3>{{$room->capacity}} мест
                         <p>
                         @if($blockedBy = \App\Classroom::is_blocked($date, $room->id))
                         <i class='fa fa-lock'></i> {{\App\User::find($blockedBy)->name   }}
@@ -42,9 +43,9 @@
                                 </td>
                             @php($start = $rasp->start_at)
                             @php($finish = $rasp->finish_at)    
-                                
-                        <td width='40%'>   {{$rasp->timetable->lesson_type->name  }}:  {{$rasp->timetable->block->name}}</td>
-                         <td width='15%'>{{$rasp->timetable->group->name}}</td>
+                             
+                        <td width='40%'>   {{$rasp->timetable->lesson_type->name or 'n/a' }}:  {{$rasp->timetable->block->name or 'n/a'}}</td>
+                         <td width='15%'>{{$rasp->timetable->group->name or ''}}</td>
                             <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
                             {{$teacher->name}}
                             @endforeach</td>

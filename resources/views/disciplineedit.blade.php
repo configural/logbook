@@ -14,6 +14,20 @@
                           <p><input type="hidden" value="{{ $discipline->id }}" class="form-control" name="id"></p>
                           <p><label>Название дисциплины</label><input type="text" value="{{ $discipline->name }}" class="form-control" name="name"></p>
                           <p><label>Часы. </label> Здесь нужно ввести количество часов, предусмотренное УТП.<input type="text" value="{{ $discipline->hours }}" class="form-control" name="hours"></p>
+                         
+                          <p><label>Аттестация по дисциплине</label>
+                              <select name="attestation_id" class="form-control">
+                                  @foreach(\App\Attestation::select()->get() as $attestation)
+                                  @if($discipline->attestation_id == $attestation->id)
+                                  <option value="{{$attestation->id or ''}}" selected>{{$attestation->name}}</option>
+                                  @else
+                                  <option value="{{$attestation->id or ''}}">{{$attestation->name}}</option>
+                                  @endif
+                                  @endforeach
+                              </select>
+                          </p>
+                          <p><label>Аттестация, часы</label><input type="integer" value="{{$discipline->attestation_hours}}" class="form-control" name="attestation_hours" required></p>
+                          
                           <p><label>Кафедра</label>
                               <select name="department_id" class="form-control">
                                   @foreach(\App\Department::select()->get() as $department)

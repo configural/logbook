@@ -75,6 +75,7 @@ Route::get('/group/add/{id}', function($id){return view('groupadd', ['id' => $id
 Route::get('/group/{id}/edit', 'GroupController@edit')->middleware('auth');
 Route::post('/group/add', 'GroupController@add')->middleware('auth');
 Route::get('/group/{id}/addstudents', function($id){return view('groupaddstudents', ['id' => $id]);})->middleware('auth');
+Route::post('/group/addemptystudents', 'GroupController@add_empty_students')->middleware('auth');
 Route::post('/group/addstudents', 'GroupController@add_students')->middleware('auth');
 Route::post('/group/{id}/store', 'GroupController@store')->middleware('auth');
 Route::get('/student/{id}/edit', 'StudentController@edit')->middleware('auth');
@@ -99,7 +100,9 @@ Route::post('/journal/item/update', 'JournalController@update')->middleware('aut
 
 // Нагрузка
 Route::get('/workload', function() {return view('workload');})->middleware('auth');
+Route::get('/workload/add', function() {return view('workloadaddmanual');})->middleware('auth');
 Route::get('/workload/get/{id}', 'WorkloadController@take_workload')->middleware('auth');
+Route::get('/workload/delete/{id}', 'WorkloadController@delete_workload')->middleware('auth');
 Route::get('/workload/edit/{id}', function($id) {return view('workloadedit', ['id' => $id]);})->middleware('auth');
 Route::post('/workload/edit/{id}', 'WorkloadController@update_workload')->middleware('auth');
 Route::post('/workload/get/{id}', 'WorkloadController@store_workload')->middleware('auth');
