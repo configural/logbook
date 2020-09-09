@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Редактирование дисциплины</div>
+                <div class="panel-heading ">Редактирование студента</div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
@@ -56,6 +56,12 @@
                               <input type="text" value="{{ $student->status }}" class="form-control" name="status"></p>
                           
                           <p><button class="btn btn-success">Обновить</button>
+                              
+                          
+                          <hr>
+                          <p>
+                          <a href="{{url('/')}}/student/{{ $student->id}}/delete" onclick="return confirm('Действительно удалить?')" class="btn btn-danger"><i class="fa fa-times-circle white"></i> Удалить студента</a>
+                          <p>
                     {{ csrf_field() }}
                       </form>
                     @else

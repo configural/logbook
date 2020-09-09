@@ -48,6 +48,8 @@
                             <th>ФИО</th>
                             <th>Подгруппа</th>
                             <th>Код СОНО</th>
+                            <th>Действия</th>
+                           
                             
                         </tr>
                         </thead>
@@ -58,6 +60,7 @@
                         <td><a href="{{url('/')}}/student/{{ $student->id}}/edit">{{ $student->secname }} {{ $student->name }} {{ $student->fathername }}</a></td>
                         <td>{{ $student->subgroup }}</td>
                         <td>{{ $student->sono }}</td>
+                        <td><a href="{{url('/')}}/student/{{ $student->id}}/delete" onclick="return confirm('Действительно удалить?')"><i class="fa fa-times-circle fa-2x red"></i></a></td>
                     </tr>
                     @endforeach
                         </tbody>

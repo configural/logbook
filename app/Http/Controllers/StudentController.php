@@ -20,4 +20,10 @@ class StudentController extends Controller
         $student->save();
         return redirect('group/'.$student->group_id.'/edit');
     }
+    
+    public function delete($id) {
+        $student = Student::find($id);
+        $group_id = $student->group_id;
+        $student->delete();
+        return redirect('group/'.$group_id.'/edit');    }    
 }

@@ -79,6 +79,7 @@ Route::post('/group/addemptystudents', 'GroupController@add_empty_students')->mi
 Route::post('/group/addstudents', 'GroupController@add_students')->middleware('auth');
 Route::post('/group/{id}/store', 'GroupController@store')->middleware('auth');
 Route::get('/student/{id}/edit', 'StudentController@edit')->middleware('auth');
+Route::get('/student/{id}/delete', 'StudentController@delete')->middleware('auth');
 Route::post('/student/{id}/store', 'StudentController@store')->middleware('auth');
 
 
