@@ -41,6 +41,30 @@
                           <p><label>Код СОНО</label>
                               <input type="text" value="{{ $student->sono }}" class="form-control" name="sono"></p>
                           
+                          <p><label>Регион</label>
+                          <select id="taxoffice_id" name="taxoffice_id" class='form-control-static'>
+                          @foreach(\App\Taxoffice::orderby('name')->get() as $taxoffice)
+                          @if ($student->division_id && $taxoffice->id === $student->division->taxoffice->id)  
+                          <option value="{{$taxoffice->id or '0'}}" selected>{{ $taxoffice->name or '' }}</option>
+                          @else
+                          <option value="{{$taxoffice->id or '0'}}">{{ $taxoffice->name or '' }}</option>
+                          @endif
+                          @endforeach
+                          </select>
+                          
+                          <p><label>Инспекция</label>
+                          <select id="division_id" name="division_id" class='form-control-static'>
+                                <option value="0" data-taxoffice="0"></option>
+                              
+                          @foreach(\App\Division::orderby('name')->get() as $division)
+                            @if($student->division_id == $division->id)
+                                <option value="{{$division->id}}" data-taxoffice="{{$division->taxoffice_id}}" selected>{{ $division->name }}</option>
+                            @else
+                                <option value="{{$division->id}}" data-taxoffice="{{$division->taxoffice_id}}">{{ $division->name }}</option>
+                            @endif
+                          @endforeach
+                          </select>
+                          
                           <p><label>Квалификация</label>
                               <input type="text" value="{{ $student->qualification }}" class="form-control" name="qualification"></p>
                           <p>
@@ -73,4 +97,23 @@
         </div>
     </div>
 </div>
+
+<script>
+$("#taxoffice_id").change(function(){
+    var taxoffice_id = $("#taxoffice_id option:selected").val();
+   
+
+$("#division_id option").hide();
+$("#division_id option").each(function(){
+        var taxoffice = $(this).data("taxoffice");
+        if(taxoffice == taxoffice_id){
+          $(this).show();
+        }
+    });
+//$("#division_id option").hide();
+$("#division_id :first").prop('selected', 'true');
+
+
+});
+</script>
 @endsection
