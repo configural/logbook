@@ -3066,6 +3066,7 @@ return array(
     'Rasp1' => $baseDir . '/database/migrations/2020_06_23_081158_rasp1.php',
     'Rasp2' => $baseDir . '/database/migrations/2020_06_23_101237_rasp2.php',
     'RaspTime' => $baseDir . '/database/migrations/2020_07_14_073848_rasp-time.php',
+    'Regions' => $baseDir . '/database/migrations/2020_09_09_070711_regions.php',
     'RoleTable' => $baseDir . '/database/migrations/2019_11_22_063900_role_table.php',
     'SebastianBergmann\\CodeCoverage\\CodeCoverage' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage.php',
     'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => $vendorDir . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',

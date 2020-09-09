@@ -3495,6 +3495,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'Rasp1' => __DIR__ . '/../..' . '/database/migrations/2020_06_23_081158_rasp1.php',
         'Rasp2' => __DIR__ . '/../..' . '/database/migrations/2020_06_23_101237_rasp2.php',
         'RaspTime' => __DIR__ . '/../..' . '/database/migrations/2020_07_14_073848_rasp-time.php',
+        'Regions' => __DIR__ . '/../..' . '/database/migrations/2020_09_09_070711_regions.php',
         'RoleTable' => __DIR__ . '/../..' . '/database/migrations/2019_11_22_063900_role_table.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
