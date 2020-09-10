@@ -27,7 +27,7 @@
                                 
                                 <td>{{$key}}</td>
                                 <td>
-                                    {{ \App\Student::find($key)->FIO() }}
+                                    {{ \App\Student::find($key)->secname or ''}} {{ \App\Student::find($key)->name or ''}} {{ \App\Student::find($key)->fathername or ''}}
                                 </td>
                                 <td>{{$value}}</td>
 
