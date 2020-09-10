@@ -29,7 +29,7 @@ class Classroom extends Model
     
     public static function unblock_classroom($date, $room_id) {
         $user_id = \Illuminate\Support\Facades\Auth::user()->id;
-        DB::table('block_rooms')->where(["date" => $date, "room_id" => $room_id, "user_id" => $user_id])->delete();
+        DB::table('block_rooms')->where(["date" => $date, "room_id" => $room_id])->delete();
         
     }
 }

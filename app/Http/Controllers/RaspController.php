@@ -21,7 +21,6 @@ class RaspController extends Controller
     
     function add($date, $room)
     {
-        // добавить блокировку
         \App\Classroom::block_classroom($date, $room);
         return view('raspadd', ['date' => $date, 'room' => $room]);
 
@@ -88,9 +87,13 @@ class RaspController extends Controller
     
     function delete($id) {
         DB::table('timetable')->where('rasp_id', $id)->update(['rasp_id' => NULL]);
+        
         $rasp = Rasp::find($id);
+        
+        \App\Classroom::unblock_classroom($rasp->date, $rasp->room_id);
+        
         $rasp->delete();
-        // снять блокировку
+        
         return redirect(url('rasp')."?date=".$rasp->date);
        
     }

@@ -78,6 +78,8 @@
                         </p>
                         {{csrf_field()}}
                         <button class="btn btn-success" id="saveButton">Сохранить</button>
+                        
+                        <a href="{{url('room_unlock')}}/{{$date}}/{{$room}}" class="btn btn-info">Выйти без сохранения</a>
                     </form>
                    
                     
