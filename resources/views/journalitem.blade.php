@@ -21,7 +21,8 @@
                     <form name='attendance' action='update' method='post'>
                         <input type='hidden' name='id' value='{{$id}}'>
                         
-                        <p><button class='btn btn-success'>Сохранить запись журнала</button></p>
+                        <p><button class='btn btn-large btn-success'>Сохранить запись журнала</button></p>
+                        <marquee style="width: 210px;">Обязательно нажмите эту кнопку после заполнения журнала!</marquee>
                         
                     <table class='table table-bordered'>
                         <thead>
@@ -55,7 +56,9 @@
                 </tbody>
                     </table>
             {{ csrf_field() }}
-                        <button class='btn btn-success'>Сохранить запись журнала</button>
+            <p><marquee style="width: 210px;">Обязательно нажмите эту кнопку после заполнения журнала!</marquee></p>
+            <p><button class='btn btn-success'>Сохранить запись журнала</button></p>
+            
                     </form>
                 </div>
             </div>

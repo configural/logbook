@@ -24,7 +24,7 @@
                             <tr>
                                 <td>{{$user->id}}</td>
                                 <td><a href='{{url('reports')}}/journal/{{$user->id}}'>{{$user->name}}</a></td>
-                                <td>{{$user->journal->count()}}</td>
+                                <td>{{$user->journal->count() }}</td>
                             </tr>
                             @endforeach
                         </tbody>

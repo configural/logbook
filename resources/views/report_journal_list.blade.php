@@ -34,7 +34,7 @@
                                     <br/>Подгруппа {{$journal->rasp->timetable->subgroup or 'n/a'}}
                                     @endif
                                 </td>
-                                <td>{{$journal->percent() }}</td>
+                                <td>{{$journal->percent() * 100}} %</td>
 
                             </tr>
                             @endforeach
