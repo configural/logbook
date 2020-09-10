@@ -26,10 +26,11 @@
                         
                     <table class='table table-bordered'>
                         <thead>
-                        <th>id</th>
-                        <th>ФИО</th>
+                        <th width="10%">id</th>
+                        <th width="70%">ФИО</th>
                         
-                        <th>Посещаемость/Оценка</th>
+                        <th width="10%"><a href="#" id="check_all" class="btn btn-success">Все на месте</a></th>
+                        <th width="10%"><a href="#" id="check_none" class="btn btn-danger">Нет никого</a></th>
                         </thead>
                         <tbody>
                     
@@ -39,17 +40,17 @@
                     <tr>
                         <td>{{$student->id}}</td>
                         
-                        <td width="50%">{{$student->secname or ''}} {{$student->name or ''}} {{$student->fathername or ''}}</td>
+                        <td class="largetext" width="50%">{{$student->secname or ''}} {{$student->name or ''}} {{$student->fathername or ''}}</td>
                         <!--<td>{{ $student->subgroup }}</td>-->
-                        <td>
+                        
                             @if(!array_key_exists("$student->id", $attendance) or $attendance[$student->id]==0)
-                            <input type='radio' name='attendance[{{$student->id}}]' value='1'> присутствует&nbsp;&nbsp;&nbsp;
-                            <input type='radio' name='attendance[{{$student->id}}]' value='0' checked > отсутствует  
+                            <td class="largetext"><input type='radio' name='attendance[{{$student->id}}]' value='1' id="present[{{$student->id}}]"> <label for="present[{{$student->id}}]" class="green">есть</label></td>
+                            <td class="largetext"><input type='radio' name='attendance[{{$student->id}}]' value='0' id="absent[{{$student->id}}]" checked >  <label for="absent[{{$student->id}}]"  class="red">нет</label></td>  
                             @else
-                            <input type='radio' name='attendance[{{$student->id}}]' value='1' checked> присутствует&nbsp;&nbsp;&nbsp;
-                            <input type='radio' name='attendance[{{$student->id}}]' value='0'> отсутствует
+                            <td class="largetext"><input type='radio' name='attendance[{{$student->id}}]' value='1' id="present[{{$student->id}}]" checked> <label for="present[{{$student->id}}]" class="green" >есть</label>&nbsp;&nbsp;&nbsp;</td>
+                            <td class="largetext"><input type='radio' name='attendance[{{$student->id}}]' value='0' id="absent[{{$student->id}}]"> <label for="absent[{{$student->id}}]"  class="red">нет</label></td>
                             @endif
-                        </td>
+                        
                     </tr>
                     @endif
                 @endforeach
@@ -66,5 +67,15 @@
     </div>
 </div>
 
+
+<script>
+ $("#check_all").click(function(){
+     $('input[type="radio"][value="1"]').prop('checked', true);
+    });
+    
+$("#check_none").click(function(){
+     $('input[type="radio"][value="0"]').prop('checked', true);
+    });    
+</script>
 @endsection
 

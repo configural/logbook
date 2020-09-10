@@ -27,29 +27,27 @@
                         <th>Время</th>
                         <th>Группа</th>
                         <th>Тема занятия</th>
-                        <th>Часы</th>
                         <th>Тип занятия</th>
                         <th>Операции</th>
-                        <th>Состояние</th>
+                        <th>Состояние журнала</th>
                     </tr>
                 @foreach(\App\Rasp::select()->where('date', $date)->get() as $rasp)
                 @foreach($rasp->timetable->teachers as $teacher)
                     @if($teacher->id == $me)
                     <tr>
-                        <td>{{$rasp->start_at}}</td>
-                        <td><nobr>{{$rasp->timetable->group->name or ''}}</nobr>
+                        <td  class="largetext">{{ substr($rasp->start_at, 0, 5)}}</td>
+                        <td  class="largetext"><nobr>{{$rasp->timetable->group->name or ''}}</nobr>
                         @if ($rasp->timetable->subgroup or '')
                         <br/><nobr>{{$rasp->timetable->subgroup or ''}}</nobr>
                         @endif
                     </td>
                     
-                    <td>{{$rasp->timetable->block->name or ''}}</td>
-                    <td>{{$rasp->timetable->hours or ''}}</td>
-                    <td>{{$rasp->timetable->lesson_type->name or ''}}</td>
-                    <td><a href='journal/item/{{$rasp->id}}'>Открыть журнал</a></td>
-                    <td>
+                    <td class="largetext" width="50%">{{$rasp->timetable->block->name or ''}}</td>
+                    <td class="largetext">{{$rasp->timetable->hours or ''}} ч., {{$rasp->timetable->lesson_type->name or ''}}</td>
+                    <td class="largetext"><a href='journal/item/{{$rasp->id}}' class="btn btn-primary">Открыть журнал</a></td>
+                    <td class="largetext">
                         @if (\App\Journal::state($rasp->id))
-                        <i class='fa fa-check-circle green fa-2x'></i>
+                        <i class='fa fa-check-circle green fa'></i>
                         @endif
                         
                     </td>
