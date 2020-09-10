@@ -23,3 +23,7 @@
  tr:hover {background: #ddeeff;}
  .largetext {font-size: 1.5em;}
  label {cursor: pointer; user-select: none;  }
+ 
+ table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}
+ table.dataTable thead .sorting_asc:after {content: "▲" !important; color: darkorange;}
+ table.dataTable thead .sorting:after {opacity: 0.2; content: "▲▼" !important;}

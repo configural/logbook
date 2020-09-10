@@ -35,9 +35,7 @@ class ReportController extends Controller
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($template_file);
 
         $sheet = $spreadsheet->getActiveSheet();
-        
         $group = \App\Group::find($group_id);
-       // dump($group);
         $sheet->setCellValue('A1', 'Расписание занятий: ' . $group->name);
         $sheet->setCellValue('A3', $group->stream->programs->first()->name);
         
