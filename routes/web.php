@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/profile', function(){return view('userprofile');})->name('profile');
+Route::post('/profile', 'UserController@update_profile');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users', 'UserController@showUsers')->middleware('auth');

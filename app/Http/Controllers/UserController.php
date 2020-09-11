@@ -11,6 +11,24 @@ use Auth;
 class userController extends Controller
 {
     //
+    
+    public function update_profile(Request $request) {
+        $errors = Array();
+        $user = User::find(Auth::user()->id);
+        $user->name = $request->name;
+        
+        if ($request->password == $request->confirm_password) {
+            $user->password = bcrypt($request->password);
+        } else {$errors[] = "Введенные пароли не совпадают"; }
+        if (count($errors)) {
+            return view('info', ['html' => implode("<br/>", $errors)]);
+        } else {
+            $user->save();
+            return redirect(route('home'));
+        }
+    }
+
+
     public function showUsers() {
         // возвращает список пользователей
         return view('users');

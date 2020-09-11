@@ -5,10 +5,16 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading">Регистрация</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                    
+                    <p>Для регистрации пользователя обратитесь в отдел ДПО и ОУ.</p>
+                    <p><a href="{{ route('home')}}">В начало</a></p>
+                    
+                    
+                    
+                    {{--<form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -68,7 +74,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form>--}}
                 </div>
             </div>
         </div>

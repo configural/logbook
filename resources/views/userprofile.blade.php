@@ -12,19 +12,22 @@
 
                 <div class="panel-body">
 
-                    <form action=''>
-                        <p><label>Отображаемое имя пользователя</label>
-                            <input name="name" type="text" value=""></p>
+                    <form method="post">
+                        <p><label>Отображаемое имя пользователя</label><br/>
+                            <input name="name" type="text" value="{{ Auth::user()->name}}" class="form-control-static"></p>
                         
-                        <p><label>Логин (email)</label>
-                            <input name="email" type="email" value=""></p>
+                        <p><label>Логин (email)</label><br/>
+                            <input name="email" type="email" value="{{ Auth::user()->email}}" class="form-control-static" disabled></p>
                         
-                        <p><label>Новый пароль</label>
-                            <input name="password" type="password" value="">
-                            <input name="confirm_password" type="password" value=""></p>
+                        <p><label>Новый пароль и подтверждение</label><br/>
+                            <input name="password" type="password" value="" class="form-control-static">
+                            <input name="confirm_password" type="password" value="" class="form-control-static"></p>
                         </p>
-                        
-                        
+                        <p>
+                            Ваша текущая роль - {{ Auth::user()->role->name }}. Чтобы ее поменять обратитесь к администратору.
+                            
+                        </p>
+                        <button class="btn btn-success">Сохранить</button>
                         
                    
                     {{ csrf_field() }}
