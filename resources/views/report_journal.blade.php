@@ -20,7 +20,7 @@
                             </tr>
                         </thead>    
                         <tbody>
-                            @foreach(\App\User::orderBy('name')->get() as $user)
+                            @foreach(\App\User::orderBy('name')->whereIn('role_id', [2, 5])->get() as $user)
                             <tr>
                                 <td>{{$user->id}}</td>
                                 <td><a href='{{url('reports')}}/journal/{{$user->id}}'>{{$user->name}}</a></td>
