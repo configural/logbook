@@ -21,7 +21,11 @@
                             <tr class="">
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
-                                <td>{{ $user->role->name }}</td>
+                                <td>{{ $user->role->name }}
+                                @if($user->freelance)
+                                (внештатный)
+                                @endif
+                                </td>
                                 <td>{{ $user->department->name or 'не указано' }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->created_at }}</td>

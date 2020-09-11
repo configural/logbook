@@ -23,6 +23,7 @@ class userController extends Controller
         $user->password = bcrypt($request->password);
         $user->role_id = $request->role_id;
         $user->department_id = $request->department_id;
+        $user->freelance = $request->freelance;
         $user->save();
         return view('users');
         
@@ -41,7 +42,7 @@ class userController extends Controller
         $user->email = $request->email;
         $user->role_id = $request->role_id;
         $user->department_id = $request->department_id;
-
+        $user->freelance = $request->freelance;
         $user->save();
         return redirect('users');
     }

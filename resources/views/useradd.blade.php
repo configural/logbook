@@ -32,6 +32,10 @@
                               </select>
                           </p>
                           
+                          <p><label>Внештатный?</label><input type="number" value="0" class="form-control" name="freelance" required>
+                              <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
+
+                          
                           <p><button class="btn btn-success">Создать пользователя</button>
                     {{ csrf_field() }}
                       </form>

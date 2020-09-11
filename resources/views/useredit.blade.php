@@ -33,6 +33,10 @@
                               @endforeach
                               </select>
                           </p>
+                          <p><label>Внештатный?</label><input type="number" value="{{$user->freelance}}" class="form-control" name="freelance" required>
+                              <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
+
+                          
                           <p><button class="btn btn-success">Обновить</button>
                     {{ csrf_field() }}
                       </form>
