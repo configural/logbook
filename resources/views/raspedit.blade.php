@@ -8,8 +8,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                                     <form >
-                        Редактирование строки расписания
-                    </form>
+Перенос занятия                    </form>
                 </div>
 
                 <div class="panel-body">
@@ -17,28 +16,23 @@
                     @if(Auth::user()->role_id == 4)
                     <form action="" method="post">
                         <input name="id" type="hidden" value="{{$rasp->id}}">
-                        <p>
-                        Дата:<br/> <input name="date" type="date" value="{{$rasp->date}}" class="form-control-static">
+                        <p>Тема занятия: {{ $rasp->timetable->block->name}}</p>
+                        <p>Группа: {{ $rasp->timetable->group->name}}</p>
+                        <p>Преподаватель(и):<br>
+                            @foreach($rasp->timetable->teachers as $teacher)
+                            {{$teacher->name}}<br/>
+                            @endforeach
                         </p>
                         <p>
-                           Аудитория занята:
-                           @php ($i = 0)
-                           @foreach(\App\Rasp::select()->where('date', $rasp->date)->where('room_id', $rasp->room_id)->orderby('start_at')->get() as $rasp)
-                           <br/>
-                           <span class="red">{{$rasp->start_at}} – {{$rasp->finish_at}}</span>
-                           @php ($i++)
-                           @endforeach
-                           @if ($i == 0) 
-                           свободна весь день!
-                           @endif
-                           
-                       </p>
+                        Дата:<br/> <input name="date" id="date" type="date" value="{{$rasp->date}}" class="form-control-static">
+                        </p>
                         <p>Время:<br/>
-                            <input type="time" name="start_at" value="{{$rasp->start_at}}" class="form-control-static" required>
-                            <input type="time" name="finish_at" value="{{$rasp->finish_at}}" class="form-control-static" required>
+                            <input type="time" id="startAt" name="start_at" value="{{$rasp->start_at}}" class="form-control-static" required>
+                            <input type="time" id="finishAt" name="finish_at" value="{{$rasp->finish_at}}" class="form-control-static" required>
                         </p>
+                        
                         <p>Аудитория:
-                            <select name="room_id" class="form-control">
+                            <select id="classroom" name="room_id" class="form-control">
                             @foreach(\App\Classroom::select()->get() as $room)
                             @if($room->id == $rasp->room_id) 
                             <option value="{{$room->id}}" selected>{{$room->name}} :: {{$room->address}}</option>
@@ -47,23 +41,29 @@
                             @endif
                             @endforeach
                             </select>
-                            
-                        <p>Занятие (из распределенной нагрузки):
-                            
-                            <select name="timetable_id" class="form-control">
-                                
-                            @foreach(\App\Timetable::select()->whereNull('rasp_id')->orWhere('id', $rasp->timetable_id)->get() as $timetable)
-                            @foreach($timetable->teachers as $teacher)
-                            <option value="{{$timetable->id}}">л{{$timetable->block->l_hours}}/п{{$timetable->block->p_hours}} {{$timetable->group->name}} :: {{$timetable->block->name}}
-                            </option>
-                            @endforeach
-                            @endforeach
-                            </select>
-                        </p>
+                            <input type="hidden" name="timetable_id" value="{{$rasp->timetable_id}}">
+                       </p>                        
+                        
+                        <p>
+                           Аудитория занята:
+                           <span id="classroomBusy" class="red"></span>
+                          
+                           
+                       </p>
+
+                        
+                        
+                       <div class="row-fluid">
+                           
+                           <div class="col-lg-6"><span id="teacherBusy"></span></div>
+                           <div class="col-lg-6"><span id="groupBusy"></span></div>
+                       </div>
+                        
                         {{csrf_field()}}
                         <button class="btn btn-success">Сохранить</button>
                     </form>
-                    <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}">Удалить это занятие из расписания</a></p>
+                    <p>
+                        
                     
                     
                     @else
@@ -74,4 +74,60 @@
         </div>
     </div>
 </div>
+
+<script>
+$('document').ready(function(){
+    
+    check_classroom(); check_teacher(); check_group();
+    
+$('#classroom').change(function() { check_classroom(); check_teacher(); check_group();});
+$('#date').change(function() { check_classroom(); check_teacher(); check_group();});
+$('#startAt').change(function() { check_classroom(); check_teacher(); check_group();});
+$('#finishAt').change(function() { check_classroom(); check_teacher(); check_group();});
+
+function check_classroom() {
+    var room_id = $("#classroom option:selected").val();
+    var date = $('#date').val();
+        console.log("{{url('/')}}/ajax/classroom_busy/" + room_id + ";" + date);
+        $.ajax({
+        url: "{{url('/')}}/ajax/classroom_busy/" + room_id + ";" + date, 
+        success: function(param) { $('#classroomBusy').html(param);  }
+        });
+    }
+
+
+function check_teacher() {
+    var start_at = "00:00";//$('#startAt').val();
+    var finish_at = "23:59";// $('#finishAt').val();
+    var teacher = {{$rasp->timetable->teachers->first()->id}};
+
+    var date = $('#date').val();
+        if (start_at && finish_at) {
+        //console.log(date + ";" + start_at + ";" + finish_at);
+    $.ajax({
+        url: "{{url('/')}}/ajax/teacher_busy/" + teacher + ";" + date + ";" + start_at + ";" + finish_at, 
+        success: function(param) { $('#teacherBusy').html(param);  }
+        
+    });
+    }
+    check_group();
+}
+
+function check_group() {
+    var start_at = "00:00";
+    var finish_at = "23:59";
+    var group_id = {{ $rasp->timetable->group_id }};
+    var date = $('#date').val();
+
+    if (start_at && finish_at) {
+        //console.log("{{url('/')}}/ajax/group_busy/" + group_id + ";" + date + ";" + start_at + ";" + finish_at);
+        
+        $.ajax({
+        url: "{{url('/')}}/ajax/group_busy/" + group_id + ";" + date + ";" + start_at + ";" + finish_at, 
+        success: function(param) { $('#groupBusy').html(param);  }
+        });
+    }
+}
+});
+</script>
 @endsection

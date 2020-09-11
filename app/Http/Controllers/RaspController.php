@@ -81,7 +81,7 @@ class RaspController extends Controller
         }
         else {
          
-            echo "Аудитория в это время занята. Объединение занятий невозможно. <a href=javascript:history.back(1)>вернуться</a>";}
+            return view('info', ["html" => "Аудитория в это время занята. Объединение занятий невозможно."]);}
         
     }
     

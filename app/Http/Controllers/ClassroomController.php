@@ -28,4 +28,20 @@ class ClassroomController extends Controller
         
     }
     
+    public function classroom_busy($room_id, $date) {
+        $busy = \App\Rasp::where('room_id', $room_id)->where('date', $date)->get();
+        $count = 0;
+        foreach ($busy as $b) {
+            echo "<br/>";
+            echo $b->start_at;
+            echo " - ";
+            echo $b->finish_at;
+            $count ++;
+        }
+        if ($count == 0){
+            echo "Аудитория свободна весь день!";
+        }
+        
+    }
+    
 }

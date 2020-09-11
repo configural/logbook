@@ -132,3 +132,4 @@ Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workloa
 Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->middleware('auth');
 Route::get('/ajax/teacher_busy/{user_id};{date};{start_at};{finish_at}', 'UserController@teacher_busy')->middleware('auth');
 Route::get('/ajax/group_busy/{group_id};{date};{start_at};{finish_at}', 'GroupController@group_busy')->middleware('auth');
+Route::get('/ajax/classroom_busy/{room_id};{date}', 'ClassroomController@classroom_busy')->middleware('auth');

@@ -49,8 +49,9 @@
                             <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
                             {{$teacher->name}}
                             @endforeach</td>
-                            <td width='10%'><!--<a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a>&nbsp;-->
-                                <a href="{{url('rasp')}}/delete/{{$rasp->id}}" >Отменить</a></td>
+                            <td width='10%'>
+                                <p><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Перенести</a></p>
+                                <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}" >Отменить</a></p></td>
                             @endforeach</tr>
                     </table>
                             <!--/ вывод строк расписания-->
