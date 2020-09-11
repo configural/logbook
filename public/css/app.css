@@ -21,7 +21,7 @@
  marquee {color: red; font-weight: bold;}
  tr {transition: 0.3s}
  tr:hover {background: #ddeeff;}
- .largetext {font-size: 1.5em;}
+ .largetext {font-size: 1.25em;}
  label {cursor: pointer; user-select: none;  }
  
  table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}

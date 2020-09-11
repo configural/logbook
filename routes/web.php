@@ -96,13 +96,13 @@ Route::get('/room_unlock/{date}/{room}', function($date, $room_id){\App\Classroo
 
 // Журнал
 
-Route::get('/journal', 'JournalController@index')->middleware('auth');
+Route::get('/journal', 'JournalController@index')->name('journal')->middleware('auth');
 Route::get('/journal/{date}', 'JournalController@index')->middleware('auth');
 Route::get('/journal/item/{id}', 'JournalController@show')->middleware('auth');
 Route::post('/journal/item/update', 'JournalController@update')->middleware('auth');
 
 // Нагрузка
-Route::get('/workload', function() {return view('workload');})->middleware('auth');
+Route::get('/workload', function() {return view('workload');})->name('workload')->middleware('auth');
 Route::get('/workload/add', function() {return view('workloadaddmanual');})->middleware('auth');
 Route::get('/workload/get/{id}', 'WorkloadController@take_workload')->middleware('auth');
 Route::get('/workload/delete/{id}', 'WorkloadController@delete_workload')->middleware('auth');
@@ -120,7 +120,7 @@ Route::get('/classroom/edit/{id}', 'ClassroomController@edit')->middleware('auth
 Route::post('/classroom/edit/{id}', 'ClassroomController@store')->middleware('auth');
 
 // Отчеты
-Route::get('/reports/journal', function() {return view('report_journal');})->middleware('auth');
+Route::get('/reports/journal', function() {return view('report_journal');})->middleware('auth')->name('report_journal');
 Route::get('/reports/journal/{user_id}', 'ReportController@user_journal_list')->middleware('auth');
 Route::get('/reports/journal/view/{id}', 'ReportController@view_journal')->middleware('auth');
 Route::get('/reports/rasp', function() {return view('report_rasp');})->middleware('auth');

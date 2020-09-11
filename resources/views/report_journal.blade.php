@@ -4,11 +4,15 @@
 @section('content')
 <div class="container">
     <div class="row">
+        
+        
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading ">Журналы преподавателей</div>
 
                 <div class="panel-body">
+                    <p><a href="{{ route('home')}}">В начало</a></p>
+                    
                     @if(Auth::user()->role_id >= 3)  
                     
                     <table class="table table-bordered" id="sortTable">
@@ -16,14 +20,20 @@
                             <tr>
                                 <th>id</th>
                                 <th>ФИО</th>
+                                <th>Кафедра</th>
                                 <th>Записей в журнале</th>
                             </tr>
                         </thead>    
                         <tbody>
                             @foreach(\App\User::orderBy('name')->whereIn('role_id', [2, 5])->get() as $user)
                             <tr>
-                                <td>{{$user->id}}</td>
+                                <td>{{$user->id}}
+                                @if ($user->freelance)
+                                 (внештатный)
+                                @endif
+                                </td>
                                 <td><a href='{{url('reports')}}/journal/{{$user->id}}'>{{$user->name}}</a></td>
+                                <td>{{$user->department->name}}</td>
                                 <td>{{$user->journal->count() }}</td>
                             </tr>
                             @endforeach

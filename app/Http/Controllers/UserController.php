@@ -17,9 +17,10 @@ class userController extends Controller
         $user = User::find(Auth::user()->id);
         $user->name = $request->name;
         
+        if ($request->password) {
         if ($request->password == $request->confirm_password) {
             $user->password = bcrypt($request->password);
-        } else {$errors[] = "Введенные пароли не совпадают"; }
+        } else {$errors[] = "Введенные пароли не совпадают"; }}
         if (count($errors)) {
             return view('info', ['html' => implode("<br/>", $errors)]);
         } else {

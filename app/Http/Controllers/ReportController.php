@@ -13,16 +13,18 @@ class ReportController extends Controller
 {
     //
     public function user_journal_list($user_id) {
+        $user = \App\User::find($user_id);
         $journals = \App\Journal::where('teacher_id', $user_id)->orderBy('created_at', 'desc')->get();
-        return view('report_journal_list', ['journals' => $journals]);
+        return view('report_journal_list', ['journals' => $journals, "user" => $user]);
         
     }
     
     public function view_journal($id) {
         $journal = \App\Journal::find($id);
+        $user = \App\User::find($journal->teacher_id);
         $attendance = unserialize($journal->attendance);
        // dump($attendance);
-        return view('report_journal_view', ['attendance' => $attendance]);
+        return view('report_journal_view', ['attendance' => $attendance, "journal" => $journal, "user" => $user]);
         
     }
     
@@ -86,8 +88,8 @@ class ReportController extends Controller
                 $teachers = "";
                 
                 foreach($r->timetable->teachers as $teacher) 
-                    { $teachers .= current(explode(" ", $teacher->name)) . chr(10);
-                    
+                    { $teachers .= $teacher->fio() . chr(10);
+                    //$teachers .= current(explode(" ", $teacher->name)) . chr(10);
                     }
                 
                 $sheet->setCellValue('e'.$i, $teachers);
@@ -112,7 +114,7 @@ class ReportController extends Controller
         $i+=2;
         $sheet->setCellValue('A'.$i, "Специалист отдела ДПО и ОУ");
         $sheet->setCellValue('D'.$i, "______________");
-        //$sheet->setCellValue('E'.$i, Auth::user()->secname());
+        $sheet->setCellValue('E'.$i, Auth::user()->fio());
         
         $writer = new Xlsx($spreadsheet);
         $filename =  $date1 . "-" . $date1 . "-rasp-" . $group->name . '.xlsx';

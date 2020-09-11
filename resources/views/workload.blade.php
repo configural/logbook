@@ -19,7 +19,10 @@
                 <div class="panel-heading ">Нагрузка</div>
 
                     <div class="panel-body">
-                        
+                        <p>
+                            <a href="{{route('home')}}">В начало</a>
+                            
+                        </p>
 
                         <div id="allWorkload"></div>
                         <table class="table table-bordered display" id="sortTable">

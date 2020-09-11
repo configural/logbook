@@ -20,12 +20,14 @@
                         </select>
                         <p>
                             <label>Период: </label><br/>
-                            <input type="date" name="date1" class="form-control-static">
-                            <input type="date" name="date2" class="form-control-static">
+                            <input type="date" name="date1" class="form-control-static" required>
+                            <input type="date" name="date2" class="form-control-static" required>
 
                         </p>
                         
                         <button class="btn btn-success">Сформировать</button>
+                        
+                        <a href="{{ route('home')}}" class="btn btn-info">Отмена</a>
                         {{ csrf_field() }}
                     </form>
  

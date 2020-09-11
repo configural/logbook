@@ -5,18 +5,22 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-md-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
+                    
+                      
                                 
                 Журнал преподавателя
                 <form action='' method='get'>
                     
-                    <input name='date' type='date' value='{{$date}}' onchange="javascript:form.submit()">
+                    <input name='date' type='date' value='{{$date}}' onchange="javascript:form.submit()" class="form-control-static" style="color: black;">
                     
                 </form>
                 </div>
 
                 <div class="panel-body">
+                    <p><a href="{{ route('home')}}">В начало</a></p>
+                    
                 <?php 
 
                 $me = Auth::user()->id;

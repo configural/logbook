@@ -41,15 +41,21 @@ class User extends Authenticatable
     
     public function secname() {
         $tmp = explode(" ", $this->name);
-        $secname = $tmp[0];/* . " ";
-        $n = "";
-        $f = "";
-        if (isset($tmp[1])) $n = substr($tmp[1], 0, 1) . ". ";
-        if (isset($tmp[2])) $f = substr($tmp[2], 0, 1) . " . ";
-        */
+        $secname = $tmp[0];
         return $secname;
-        
-        
+    }
+    
+    public function fio() {
+        $string = $this->name;
+        $tmp = explode(" ", $string);
+        $fam = $tmp[0];
+        $name = "";
+        $otch = "";
+        if (isset($tmp[1])) {$name = mb_substr($tmp[1], 0, 1) . ".";}
+        if (isset($tmp[2])) {$otch = mb_substr($tmp[2], 0, 1) . ".";}
+        $fio = $fam . " " . $name . $otch;
+        //dump($fio);
+        return $fio;
     }
 
 }

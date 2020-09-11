@@ -21,7 +21,8 @@
                     @foreach(\App\Classroom::select()->orderby('name')->get() as $room)
                     <tr>
                         <td width="20%"><h3>{{$room->name}}</h3>{{$room->capacity}} мест
-                        <p>
+                        @if(Auth::user()->role_id == 3)
+                            <p>
                         @if($blockedBy = \App\Classroom::is_blocked($date, $room->id))
                         <i class='fa fa-lock'></i> {{\App\User::find($blockedBy)->name }} 
                         <br><a href="{{url('room_unlock')}}/{{$date}}/{{$room->id}}">Снять блокировку</a></br>
@@ -29,6 +30,7 @@
                         <a href="{{url('raspadd')}}/{{ $date }}/{{$room->id}}">Назначить занятие</a>
                         @endif
                         </p>
+                        @endif
                         </td>
                         <td><!--вывод строк расписания-->
                             <table class='table table-borderless'>
@@ -50,8 +52,10 @@
                             {{$teacher->name}}
                             @endforeach</td>
                             <td width='10%'>
+                                @if(Auth::user()->role_id == 3)
                                 <p><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Перенести</a></p>
                                 <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}" >Отменить</a></p></td>
+                                @endif
                             @endforeach</tr>
                     </table>
                             <!--/ вывод строк расписания-->

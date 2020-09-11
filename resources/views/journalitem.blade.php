@@ -14,15 +14,18 @@
                 
                 
                 <div class="panel-body">
-                    <p>Тема занятия:  <u>{{$block or 'не определена'}}</u></p>
+                    <div class="lead"><p>Тема занятия:  <u>{{$block or 'не определена'}}</u></p>
                     <p>Подгруппа: <u>{{ $subgroup or 'не определена' }}</u></p>
                     <p>Вид занятия:  <u>{{$lessontype or 'не определен'}}</u></p>
                     <p>Количество часов:  <u>{{$hours or 'не определено'}}</u></p>
+                    </div>
                     <form name='attendance' action='update' method='post'>
                         <input type='hidden' name='id' value='{{$id}}'>
                         
-                        <p><button class='btn btn-large btn-success'>Сохранить запись журнала</button></p>
-                        <marquee style="width: 210px;">Обязательно нажмите эту кнопку после заполнения журнала!</marquee>
+                        <p><button class='btn btn-lg btn-success'>Сохранить запись журнала</button>
+                            <a href="{{route('journal')}}" class="btn btn-info">Выйти без сохранения</a>
+                        </p>
+                        <marquee style="width: 260px;">Обязательно нажмите эту кнопку после заполнения журнала!</marquee>
                         
                     <table class='table table-bordered'>
                         <thead>
@@ -57,8 +60,8 @@
                 </tbody>
                     </table>
             {{ csrf_field() }}
-            <p><marquee style="width: 210px;">Обязательно нажмите эту кнопку после заполнения журнала!</marquee></p>
-            <p><button class='btn btn-success'>Сохранить запись журнала</button></p>
+            <p><marquee style="width: 260px;">Обязательно нажмите эту кнопку после заполнения журнала!</marquee></p>
+            <p><button class='btn btn-success btn-lg'>Сохранить запись журнала</button></p>
             
                     </form>
                 </div>

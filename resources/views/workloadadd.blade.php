@@ -7,12 +7,20 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
+                    
+
                                     <form >
                         Взять нагрузку
                     </form>
                 </div>
 
                 <div class="panel-body">
+
+                    <p><a href="{{route('home')}}">В начало</a> –
+                    <a href="{{route('workload')}}">Нагрузка</a>
+                    </p>
+                                            
+                                            
                     <p><h3>{{ $timetable->block->name or ''}}</h3></p>
                 <p>Часов - {{ $timetable->hours }}</p>
                 <p>Тип занятия - {{ $timetable->lessontype }}</p>

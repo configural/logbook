@@ -11,6 +11,12 @@
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
                     
+                    <p><a href="{{ route('home')}}">В начало</a> —
+                    <a href="{{ route('report_journal')}}">Журналы преподавателей</a> –
+                    <a href="{{url('reports/journal')}}/{{$user->id}}">{{$user->name}}</a>
+                    </p>
+                    <h3>{{$journal->rasp->timetable->block->name}}</h3>
+                    <h4>{{$journal->rasp->timetable->group->name}}, {{$journal->rasp->date}}</h4>
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                             <tr>

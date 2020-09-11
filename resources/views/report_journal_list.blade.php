@@ -9,7 +9,14 @@
                 <div class="panel-heading ">Журнал преподавателя</div>
 
                 <div class="panel-body">
+                    
+                    <p><a href="{{ route('home')}}">В начало</a> —
+                    <a href="{{ route('report_journal')}}">Журналы преподавателей</a>
+                    </p>
+                    
                     @if(Auth::user()->role_id >= 3)  
+                    <h2>{{$user->name}}</h2>
+                    <h3>{{$user->department->name or ''}}</h3>
                     
                     <table class="table table-bordered" id="sortTable">
                         <thead>
@@ -25,8 +32,8 @@
                         <tbody>
                             @foreach($journals as $journal)
                             <tr>
-                                <td><a href="view/{{$journal->id}}">{{$journal->updated_at or 'n/a'}}</a></td>
-                                <td>{{$journal->rasp->timetable->block->name or 'n/a'}}</td>
+                                <td>{{$journal->updated_at or 'n/a'}}</td>
+                                <td><a href="view/{{$journal->id}}">{{$journal->rasp->timetable->block->name or 'n/a'}}</a></td>
                                 <td>{{$journal->rasp->timetable->hours or 'n/a'}}</td>
                                 <td>{{$journal->rasp->timetable->lesson_type->name or 'n/a'}}</td>
                                 <td>{{$journal->rasp->timetable->group->name or 'n/a'}}
