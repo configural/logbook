@@ -51,8 +51,9 @@
                         <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>                    
                         <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
                          <div class="icon"><a href="{{url('/')}}/rasp"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
-                <h3>Отчеты и документы</h3>
-                <hr>
+                
+                         <h3>Отчеты и документы</h3>
+                        <hr>
                         <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
                         <div class="icon"><a href="{{url('/')}}/reports/rasp"><i class="fa fa-calendar fa-3x orange"></i><br/>Печать расписания</a></div>
                         
@@ -60,8 +61,9 @@
                     @elseif (Auth::user()->role_id == 2 )
                     <strong>Преподаватель</strong>
                     <p>
-
+                        @if (Auth::user()->freelance == 0)
                         <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
+                        @endif
                         
                         <div class="icon"><a href="{{url('/')}}/journal"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
                         
@@ -71,10 +73,19 @@
                     
                     @elseif (Auth::user()->role_id == 1)
                     <strong>Приветствую тебя, Слушатель!</strong>
-                    @endif
-
                     
+                    @elseif (Auth::user()->role_id == 5)
+                    <strong>Здравствуйте, {{Auth::user()->name}}!</strong>
+                    <h3>Преподавательская деятельность</h3>
+                    <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>    
+                    <div class="icon"><a href="{{url('/')}}/journal"><i class="fa fa-list fa-3x brown"></i><br/>Мой журнал</a></div>
                     
+                    <h3>Контроль и мониторинг</h3>
+                    <hr>
+                    <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
+                    <div class="icon"><a href="{{url('/')}}/reports/rasp"><i class="fa fa-calendar fa-3x orange"></i><br/>Расписание</a></div>
+                
+                @endif
                 </div>
             </div>
         </div>

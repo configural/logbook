@@ -9,7 +9,7 @@
                 <div class="panel-heading ">Журналы преподавателей</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)  
+                    @if(Auth::user()->role_id >= 3)  
                     
                     <table class="table table-bordered" id="sortTable">
                         <thead>
@@ -29,7 +29,13 @@
                                 <td>
                                     {{ \App\Student::find($key)->secname }} {{ \App\Student::find($key)->name }} {{ \App\Student::find($key)->fathername }}
                                 </td>
-                                <td>{{$value}}</td>
+                                <td>
+                                @if ($value) 
+                                <i class="fa fa-check-circle fa-2x green"></i>
+                                @else
+                                <i class="fa fa-times-circle fa-2x red"></i>
+                                @endif
+                                </td>
 
                             </tr>
                             @endforeach
