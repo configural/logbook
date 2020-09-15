@@ -13,7 +13,7 @@
 
                 <div class="panel-body">
 
-                    @if(Auth::user()->role_id == 4)
+                    @if(Auth::user()->role_id >= 3)
                     <form action="" method="post">
                         <input name="id" type="hidden" value="{{$rasp->id}}">
                         <p>Тема занятия: {{ $rasp->timetable->block->name}}</p>

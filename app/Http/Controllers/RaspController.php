@@ -42,8 +42,8 @@ class RaspController extends Controller
        // $rasp->pair_id = $request->pair_id;
         $rasp->timetable_id = $request->timetable_id;
         $rasp->room_id = $request->room_id;
-        $rasp->start_at = $request->start_at;
-        $rasp->finish_at = $request->finish_at;
+        $rasp->start_at = mb_substr($request->start_at, 0, 5);
+        $rasp->finish_at = mb_substr($request->finish_at, 0, 5);
         
         $errors = Array();
         // свободна ли аудитория? правильно ли указана длительность?
@@ -51,11 +51,17 @@ class RaspController extends Controller
         $union_available = false;
         $check_rasp = Rasp::select()->where('id', '!=', $request->id)->where('room_id', $request->room_id)->where('date', $request->date)->get();
         foreach($check_rasp as $check) {
-            if (($rasp->start_at >= $check->start_at)&& ($rasp->start_at <= $check->finish_at)) {$aud_free = false;}
-            if (($rasp->finish_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = false;}
-            if (($rasp->start_at >= $check->start_at) && ($rasp->finish_at <= $check->finish_at)) {$aud_free = false;}
-            if (($rasp->start_at <= $check->start_at) && ($rasp->finish_at >= $check->finish_at)) {$aud_free = false;}
-        }
+            $check->start_at = mb_substr($check->start_at, 0, 5);
+            $check->finish_at = mb_substr($check->finish_at, 0, 5);
+            $e=0;            
+            //dump([$rasp->start_at, $check->start_at, $rasp->start_at, $check->finish_at]);
+            if (($rasp->start_at > $check->start_at) && ($rasp->start_at < $check->finish_at)) {$aud_free = false; $e=1;}
+            if (($rasp->finish_at > $check->start_at) && ($rasp->finish_at < $check->finish_at)) {$aud_free = false; $e=2;}
+            if (($rasp->start_at > $check->start_at) && ($rasp->finish_at < $check->finish_at)) {$aud_free = false;  $e=3;}
+            if (($rasp->start_at < $check->start_at) && ($rasp->finish_at > $check->finish_at)) {$aud_free = false; $e=4;}
+        
+            //dump($e);
+            }
         
         // можно ли присоединить нагрузку (тот же препод и та же тема)?
         $check_rasp = Rasp::select()->where('room_id', $request->room_id)->where('date', $request->date)
