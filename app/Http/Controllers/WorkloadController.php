@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Timetable;
+use App\Rasp;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -35,8 +36,12 @@ class WorkloadController extends Controller
             }
             $timetable->save();
         //return redirect('workload#'.$request->id);
-            
-            return redirect('workload');
+       $rasp = Rasp::where('timetable_id', $request->id)->first();
+       
+       isset($rasp->date) ? $rasp_date = $rasp->date : $rasp_date = "";
+       if ($rasp_date) {return redirect("rasp/?date" . $rasp_date);
+       } else {
+       return redirect('workload');}
     }
     
     public function delete_workload($id) {
