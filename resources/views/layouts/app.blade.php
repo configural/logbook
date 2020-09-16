@@ -79,6 +79,13 @@
             </div>
         </nav>
 <div class="container">
+    
+    
+    @if (mb_strstr($_SERVER["REQUEST_URI"], "logbook-dev"))
+    <div class="alert alert-danger">Контур разработки!</div>
+    @endif
+    
+    
         @yield('content')
 </div>
     </div>
