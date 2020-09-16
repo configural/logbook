@@ -21,18 +21,18 @@
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                             <tr>
-                                <th>Дата, время</th>
-                                <th>Тема занятия</th>
-                                <th>Часов</th>
-                                <th>Вид занятия</th>
-                                <th>Группа</th>
-                                <th>Посещаемость</th>
+                                <th widh="10%">Дата, время</th>
+                                <th width="50%">Тема занятия</th>
+                                <th widh="10%">Часов</th>
+                                <th widh="10%">Вид занятия</th>
+                                <th widh="10%">Группа</th>
+                                <th widh="10%">Посещаемость</th>
                             </tr>
                         </thead>    
                         <tbody>
                             @foreach($journals as $journal)
                             <tr>
-                                <td>{{$journal->updated_at or 'n/a'}}</td>
+                                <td>{{$journal->rasp->date or 'n/a'}}</td>
                                 <td><a href="view/{{$journal->id}}">{{$journal->rasp->timetable->block->name or 'n/a'}}</a></td>
                                 <td>{{$journal->rasp->timetable->hours or 'n/a'}}</td>
                                 <td>{{$journal->rasp->timetable->lesson_type->name or 'n/a'}}</td>
