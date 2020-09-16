@@ -20,12 +20,15 @@
                 <p>Период обучения: {{$timetable->group->stream->date_start}} — {{$timetable->group->stream->date_finish}}</p>
                     <hr>
                     <form action='' method='post'>
+                    
+                    @if (isset($timetable->rasp->date))
                     Занятие назначено на 
                     <input type="date" id="dateField" value="{{$timetable->rasp->date}}" disabled> 
                      c {{ $timetable->rasp->start_at }} до {{ $timetable->rasp->finish_at }}
                      <br>
                     <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">Перейти в расписание</a>.
                     <hr>
+                    @endif
                         <div class="row">
                             <div class="col-lg-6">
                         <input type="hidden" name="id" value="{{$timetable->id}}">
@@ -98,9 +101,11 @@
 
 $(document).ready(function() {
     
-        checkTeachers();
+    if ($('#dateField').val()) checkTeachers();
     
-    $("#teacherSelect").click(function() {checkTeachers();});
+    $("#teacherSelect").click(function() {
+        if ($('#dateField').val()) checkTeachers();
+    });
     
 
 
