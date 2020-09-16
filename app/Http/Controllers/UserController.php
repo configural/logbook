@@ -76,9 +76,18 @@ class userController extends Controller
         echo "<tr><th>Начало</th><th>Конец</th><th>Группа [подгруппа]</th><th>Аудитория</th></tr>";
                 foreach($rasp as $r) {
            foreach($r->timetable->teachers as $teacher) {
-               if ($teacher->id == $user_id) { 
-               echo "<tr>";
+               $cross = false;
+               if (     ($start_at>=$r->start_at && $finish_at<=$r->finish_at) or
+                        ($start_at<=$r->start_at && $finish_at>=$r->finish_at) or
+                        ($finish_at>=$r->start_at && $finish_at<=$r->finish_at) or
+                        ($start_at>=$r->start_at && $start_at<=$r->finish_at)
+                       )
+               {$cross = true;}
                
+               if ($teacher->id == $user_id) { 
+               echo "<tr";
+               if ($cross == true) echo " class='cross' ";
+                   echo">";
                 echo "<td>" . $r->start_at . "</td>";
                 echo "<td>" . $r->finish_at . "</td>";
                 echo "<td>" . $r->timetable->group->name . " [" .$r->timetable->subgroup . "]</td>";

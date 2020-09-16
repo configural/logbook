@@ -27,3 +27,4 @@
  table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}
  table.dataTable thead .sorting_asc:after {content: "▲" !important; color: darkorange;}
  table.dataTable thead .sorting:after {opacity: 0.2; content: "▲▼" !important;}
+ .cross {background: red; color: white;}

@@ -24,7 +24,8 @@
                     @if (isset($timetable->rasp->date))
                     Занятие назначено на 
                     <input type="date" id="dateField" value="{{$timetable->rasp->date}}" disabled> 
-                     c {{ $timetable->rasp->start_at }} до {{ $timetable->rasp->finish_at }}
+                    c <input type="time" id="startAt" value="{{ $timetable->rasp->start_at }}" disabled> до 
+                    <input type="time" id="finishAt" value="{{ $timetable->rasp->finish_at }}" disabled>
                      <br>
                     <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">Перейти в расписание</a>.
                     <hr>
@@ -111,8 +112,8 @@ $(document).ready(function() {
 
 function checkTeachers() {
     $('#teacherBusy').html("");
-    var start_at = "00:00";//$('#startAt').val();
-    var finish_at = "23:59";// $('#finishAt').val();
+    var start_at = $('#startAt').val();
+    var finish_at = $('#finishAt').val();
     var date = $('#dateField').val();      
     var selectedTeachers = $('#teacherSelect :selected').toArray().map(item => item.value);  
     
@@ -125,13 +126,13 @@ function checkTeachers() {
     $.ajax({
         url: url, 
         success: function(param) { $('#teacherBusy').append(param);  }
-        
     });
         
     });
     }
 
 });
+
 
 </script>
     

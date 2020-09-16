@@ -115,8 +115,8 @@ $('#startAt').change(function() {check_teacher(); check_group();});
 $('#finishAt').change(function() {check_teacher(); check_group();});
 
 function check_teacher() {
-    var start_at = "00:00";//$('#startAt').val();
-    var finish_at = "23:59";// $('#finishAt').val();
+    var start_at = $('#startAt').val();
+    var finish_at = $('#finishAt').val();
     var teacher = $('#timetableId option:selected').data('teacher');
 
     var date = $('#date').val();
