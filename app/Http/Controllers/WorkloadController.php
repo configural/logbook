@@ -35,6 +35,7 @@ class WorkloadController extends Controller
             }
             $timetable->save();
         //return redirect('workload#'.$request->id);
+            
             return redirect('workload');
     }
     
@@ -45,7 +46,7 @@ class WorkloadController extends Controller
     
     public function cancel_workload($id) {
        DB::table('teachers2timetable')->where(['teacher_id' => Auth::user()->id, 'timetable_id' => $id])->delete();
-        return redirect('workload');#'.$id);
+        return redirect('workload');//#'.$id);
     }    
     
     public function split_workload($id) {

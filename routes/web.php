@@ -20,7 +20,7 @@ Route::get('/profile', function(){return view('userprofile');})->name('profile')
 Route::post('/profile', 'UserController@update_profile');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/users', 'UserController@showUsers')->middleware('auth');
+Route::get('/users', 'UserController@showUsers')->name('users')->middleware('auth');
 Route::get('/user/add', function() {return view('useradd');})->middleware('auth');
 Route::post('/user/add', 'UserController@add')->middleware('auth');
 Route::get('/user/{id}/edit', 'UserController@edit')->middleware('auth');
@@ -64,8 +64,8 @@ Route::post('/program/discipline_bind', 'DisciplineController@bind_discipline')-
 //
 
 // Управление потоками
-Route::get('/streams', function(){return view('streams');});
-Route::get('/stream/add', function(){return view('streamadd');});
+Route::get('/streams', function(){return view('streams');})->name('streams')->middleware('auth');
+Route::get('/stream/add', function(){return view('streamadd');})->middleware('auth');;
 Route::get('/stream/{id}/edit', 'StreamController@edit')->middleware('auth');
 Route::post('/stream/add', 'StreamController@add')->middleware('auth');
 Route::post('/stream/{id}/store', 'StreamController@store')->middleware('auth');
@@ -87,7 +87,7 @@ Route::post('/student/{id}/store', 'StudentController@store')->middleware('auth'
 
 // Расписание
 Route::get('/timetable', function(){return view('timetable');})->middleware('auth');
-Route::get('/rasp', 'RaspController@view')->middleware('auth');
+Route::get('/rasp', 'RaspController@view')->name('rasp')->middleware('auth');
 Route::get('/rasp/delete/{id}', 'RaspController@delete')->middleware('auth');
 Route::get('/rasp/edit/{id}', 'RaspController@edit')->middleware('auth');
 Route::post('/rasp/edit/{id}', 'RaspController@store')->middleware('auth');
@@ -123,7 +123,7 @@ Route::post('/classroom/edit/{id}', 'ClassroomController@store')->middleware('au
 Route::get('/reports/journal', function() {return view('report_journal');})->middleware('auth')->name('report_journal');
 Route::get('/reports/journal/{user_id}', 'ReportController@user_journal_list')->middleware('auth');
 Route::get('/reports/journal/view/{id}', 'ReportController@view_journal')->middleware('auth');
-Route::get('/reports/rasp', function() {return view('report_rasp');})->middleware('auth');
+Route::get('/reports/rasp', function() {return view('report_rasp');})->name('print_rasp')->middleware('auth');
 Route::post('/reports/rasp', 'ReportController@rasp_group')->middleware('auth');
 
 

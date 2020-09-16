@@ -20,10 +20,18 @@
                 <p>Период обучения: {{$timetable->group->stream->date_start}} — {{$timetable->group->stream->date_finish}}</p>
                     <hr>
                     <form action='' method='post'>
+                    Занятие назначено на 
+                    <input type="date" id="dateField" value="{{$timetable->rasp->date}}" disabled> 
+                     c {{ $timetable->rasp->start_at }} до {{ $timetable->rasp->finish_at }}
+                     <br>
+                    <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">Перейти в расписание</a>.
+                    <hr>
+                        <div class="row">
+                            <div class="col-lg-6">
                         <input type="hidden" name="id" value="{{$timetable->id}}">
                         <p>Преподавател(и)</p>
 
-                        <select name="teachers[]" multiple class="form-control" style="height: 600px;">
+                        <select id="teacherSelect" name="teachers[]" multiple class="form-control" style="height: 600px;">
                             @foreach(\App\User::select()->where('role_id', 2)->orderBy('name')->get() as $user)
                             @php($in_list = 0)
     
@@ -41,7 +49,9 @@
                             
                             @endforeach
                         </select>
-                        <hr>
+                            </div>
+                            <div class="col-lg-6">
+                        
                         <p>Месяц: 
                         <select name="month" class="form-control-static">
                             
@@ -52,13 +62,20 @@
                                 @endif
                             @endfor
                         </select>
-                    <hr>
+                    
                     <p>
-                     @if (!$timetable->rasp_id)
+                        <span id="teacherBusy"><span>
+                        
+                        
+                    </p>
+                    </div>
+                    </div>
+                                            <hr>
+
+                    <p>
+
                     <button class="btn btn-success">Сохранить нагрузку</button>
-                    @else
-                    Как изменить? Сначала уберите из расписания. Занятие назначено на <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">{{$timetable->rasp->date}}</a>
-                    @endif
+
                     </p>
                     <p>
                     @if (!$timetable->teachers->count() && !$timetable->rasp_id)
@@ -76,4 +93,42 @@
         </div>
     </div>
 </div>
+
+<script>
+
+$(document).ready(function() {
+    
+        checkTeachers();
+    
+    $("#teacherSelect").click(function() {checkTeachers();});
+    
+
+
+function checkTeachers() {
+    $('#teacherBusy').html("");
+    var start_at = "00:00";//$('#startAt').val();
+    var finish_at = "23:59";// $('#finishAt').val();
+    var date = $('#dateField').val();      
+    var selectedTeachers = $('#teacherSelect :selected').toArray().map(item => item.value);  
+    
+    
+    
+    selectedTeachers.forEach(function(item) {
+    
+    var url = "{{url('/')}}/ajax/teacher_busy/" + item + ";" + date + ";" + start_at + ";" + finish_at;
+    console.log(url);
+    $.ajax({
+        url: url, 
+        success: function(param) { $('#teacherBusy').append(param);  }
+        
+    });
+        
+    });
+    }
+
+});
+
+</script>
+    
+    
 @endsection

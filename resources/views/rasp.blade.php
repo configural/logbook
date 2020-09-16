@@ -9,6 +9,7 @@
                 <div class="panel-heading">
                     <form action='rasp' method='get'>
                         Составление расписания <input type="date" name="date" value="{{$date}}" onchange="javascript:form.submit()" >
+                        <a href="{{route('print_rasp')}}">Печать расписания</a>
                     </form>
                 </div>
 
@@ -52,8 +53,8 @@
                             {{$teacher->name}}
                             @endforeach</td>
                             <td width='10%'>
-                                @if(Auth::user()->role_id == 3)
-                                <p><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Перенести</a></p>
+                                @if(in_array(Auth::user()->role_id, [3, 4] ))
+                                <p><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a></p>
                                 <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}" >Отменить</a></p></td>
                                 @endif
                             @endforeach</tr>

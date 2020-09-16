@@ -70,8 +70,8 @@ class userController extends Controller
     public function teacher_busy($user_id, $date, $start_at, $finish_at) {
         $busy = false;
               
-        $rasp = \App\Rasp::where('date', $date)->get();
-        echo "<p><strong>Преподаватель в этот день ведет следующие занятия:</strong></p>";
+        $rasp = \App\Rasp::where('date', $date)->orderBy('start_at')->get();
+        echo "<p><strong><span class='red'> " . User::find($user_id)->name . "</span> в этот день ведет следующие занятия:</strong></p>";
         echo "<table class='table table-bordered'>";
         echo "<tr><th>Начало</th><th>Конец</th><th>Группа [подгруппа]</th><th>Аудитория</th></tr>";
                 foreach($rasp as $r) {

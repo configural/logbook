@@ -16,13 +16,15 @@
                     @if(Auth::user()->role_id >= 3)
                     <form action="" method="post">
                         <input name="id" type="hidden" value="{{$rasp->id}}">
-                        <p>Тема занятия: {{ $rasp->timetable->block->name}}</p>
-                        <p>Группа: {{ $rasp->timetable->group->name}}</p>
-                        <p>Преподаватель(и):<br>
+                        <p><strong>Тема занятия:</strong> {{ $rasp->timetable->block->name}}</p>
+                        <p><strong>Группа:</strong> {{ $rasp->timetable->group->name}}</p>
+                        <p><strong>Преподаватель(и):</strong><br>
                             @foreach($rasp->timetable->teachers as $teacher)
                             {{$teacher->name}}<br/>
                             @endforeach
+                            <a href="{{ url('workload')}}/edit/{{ $rasp->timetable->id }}" class="btn btn-primary btn-sm">Переназначить преподавателей</a>
                         </p>
+                        <hr>
                         <p>
                         Дата:<br/> <input name="date" id="date" type="date" value="{{$rasp->date}}" class="form-control-static">
                         </p>

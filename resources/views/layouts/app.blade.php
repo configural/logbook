@@ -36,9 +36,16 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/home') }}">
-                        Журнал
+                        <i class="fa fa-home"></i> Журнал
                     </a>
                 </div>
+               <ul class="nav navbar-nav">
+                   @if(Route::currentRouteName() != 'home')
+                                @include('layouts.menu')
+                @endif  
+      
+
+            </ul>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
@@ -84,7 +91,7 @@
     @if (mb_strstr($_SERVER["REQUEST_URI"], "logbook-dev"))
     <div class="alert alert-danger">Контур разработки!</div>
     @endif
-    
+
     
         @yield('content')
 </div>
