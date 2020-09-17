@@ -40,8 +40,9 @@ class StreamController extends Controller
         $stream->date_start = $request->date_start;
         $stream->date_finish = $request->date_finish;
         $stream->year = $request->year;
+        $stream->metodist_id = $request->metodist_id;
         $stream->save();
-        return view('streams');
+        return redirect(route('streams'));
     
 }
     public function bind_program(Request $request) {

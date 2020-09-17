@@ -14,7 +14,12 @@
                     
                     <table class="table table-bordered" id="sortTable">
                         <thead class="">
-                            <tr><td>id</td><td>Название потока</td><td>Учебный год</td></tr>
+                            <tr>
+                                <td>id</td>
+                                <td>Название потока</td>
+                                <td>Учебный год</td>
+                                <td>Методист</td>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach(\App\Stream::select()->get() as $stream)
@@ -22,7 +27,7 @@
                                 <td>{{ $stream->id }}</td>
                                 <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>
                                 <td>{{ $stream->year }}</td>
-                                
+                                <td>{{ $stream->metodist->name or ''}}</td>
                             </tr>
                             @endforeach
                         <tbody>

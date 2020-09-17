@@ -17,6 +17,18 @@
                           <p><label>Начало обучения</label><input type="date" value="{{ $stream->date_start}}" class="form-control" name="date_start"></p>
                           <p><label>Окончание обучения</label><input type="date" value="{{ $stream->date_finish}}" class="form-control" name="date_finish"></p>
                           <p><label>Год</label><input type="text" value="{{ $stream->year }}" class="form-control" name="year"></p>
+                          <p><label>Методист</label><br/>
+                              <select name="metodist_id" class="form-control-static">
+                                  
+                                  @foreach(\App\User::where('role_id', 3)->get() as $user)
+                                  @if ($stream->metodist_id == $user->id)
+                                  <option value='{{$user->id}}' selected>{{$user->name}}</option>
+                                  @else
+                                  <option value='{{$user->id}}'>{{$user->name}}</option>
+                                  @endif
+                                  @endforeach
+                                  
+                              </select>
                            
                           <p><button class="btn btn-success">Обновить</button>
                     {{ csrf_field() }}
