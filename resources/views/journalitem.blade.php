@@ -29,19 +29,25 @@
                         
                     <table class='table table-bordered'>
                         <thead>
-                        <th width="10%">id</th>
+                        <th width="10%">№</th>
                         <th width="70%">ФИО</th>
                         
                         <th width="10%"><a href="#" id="check_all" class="btn btn-success">Все на месте</a></th>
                         <th width="10%"><a href="#" id="check_none" class="btn btn-danger">Нет никого</a></th>
                         </thead>
                         <tbody>
+                    @php
+                    $i = 0
+                    @endphp
                     
                     @foreach(\App\Student::select()->where('group_id', $group_id)->orderBy('secname')->get() as $student)
                     
                     @if ($subgroup == 0 || $subgroup == $student->subgroup)
                     <tr>
-                        <td>{{$student->id}}</td>
+                        @php
+                        $i ++;
+                        @endphp
+                        <td>{{$i}}</td>
                         
                         <td class="largetext" width="50%">{{$student->secname or ''}} {{$student->name or ''}} {{$student->fathername or ''}}</td>
                         <!--<td>{{ $student->subgroup }}</td>-->

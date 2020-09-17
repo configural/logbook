@@ -37,7 +37,7 @@
         </div>
          <div class="col-md-9">
             <div class="panel panel-primary">
-                <div class="panel-heading panel-success ">Слушатели</div>
+                <div class="panel-heading panel-success ">Слушатели ({{ $group->students->count()}} чел.)</div>
 
                 <div class="panel-body">                   
                     
@@ -55,9 +55,17 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @php
+                        $i = 0;
+                        @endphp
+                            
+                            
                     @foreach($group->students as $student)
                     <tr>
-                        <td>{{ $student->id }} </td>
+                        @php
+                        $i++;
+                        @endphp
+                        <td>{{ $i or ''}} </td>
                         <td><a href="{{url('/')}}/student/{{ $student->id}}/edit">{{ $student->secname }} {{ $student->name }} {{ $student->fathername }}</a></td>
                         <td>{{ $student->subgroup }}</td>
                         <td>{{ $student->division->taxoffice->name or '' }}</td>

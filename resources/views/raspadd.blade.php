@@ -21,7 +21,7 @@
                         Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static">
                        Группа: <select id="filterGroup" class='form-control-static'>
                            @foreach(\App\Group::select()->where('active',1)->orderby('name')->get() as $group)
-                           <option value='{{$group->name}}'>{{$group->name}}</option>
+                           <option value='{{$group->name}}'>{{$group->name}} ({{$group->students->count()}} чел.)</option>
                            @endforeach
                        </select>                        
                         
@@ -51,7 +51,7 @@
                             </select>
                            
                        </p>
-                                                  <strong>{{\App\Classroom::find($room)->name}} занята:</strong>
+                                                  <strong>{{\App\Classroom::find($room)->name}} ({{\App\Classroom::find($room)->capacity}} мест) занята:</strong>
 
                        <div class="container-fluid">
                        <p>

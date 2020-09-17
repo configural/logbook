@@ -20,18 +20,22 @@
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>№</th>
                                 <th>ФИО</th>
                                 <th>Присутствие</th>
 
                             </tr>
                         </thead>    
                         <tbody>
-
+                            @php
+                            $i = 0;
+                            @endphp
                             @foreach($attendance as $key => $value)
                             <tr>
-                                
-                                <td>{{$key}}</td>
+                            @php
+                            $i ++;
+                            @endphp    
+                                <td>{{$i}}</td>
                                 <td>
                                     {{ \App\Student::find($key)->secname }} {{ \App\Student::find($key)->name }} {{ \App\Student::find($key)->fathername }}
                                 </td>
