@@ -37,15 +37,10 @@
                 <hr>
                         <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
                         <div class="icon"><a href="{{url('/')}}/reports/rasp"><i class="fa fa-calendar fa-3x orange"></i><br/>Печать расписания</a></div>
-                <h3>
-               {{--     Справочники</h3>
-                <hr>
-                        <div class="icon"><a href="{{url('/')}}/districts"><i class="fa fa-list fa-3x orange"></i><br/>Округа</a></div>
-                        <div class="icon"><a href="{{url('/')}}/taxoffices"><i class="fa fa-list fa-3x orange"></i><br/>Области</a></div>
-                        <div class="icon"><a href="{{url('/')}}/divisions"><i class="fa fa-list fa-3x orange"></i><br/>Инспекции</a></div>
-                        <div class="icon"><a href="{{url('/')}}/positions"><i class="fa fa-list fa-3x orange"></i><br/>Должности</a></div>
---}}
-                    @elseif (Auth::user()->role_id == 3)
+                        <div class="icon"><a href="{{route('print_rasp_kafedra')}}"><i class="fa fa-calendar fa-3x orange"></i><br/>Расписание преподавателей кафедры</a></div>
+                                
+                        
+                  @elseif (Auth::user()->role_id == 3)
                     <strong>Приветствую тебя, Методист!</strong>
                     <h3>Администрирование</h3>
                         <div class="icon"><a href="{{url('/')}}/users"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>

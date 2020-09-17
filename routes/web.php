@@ -125,6 +125,8 @@ Route::get('/reports/journal/{user_id}', 'ReportController@user_journal_list')->
 Route::get('/reports/journal/view/{id}', 'ReportController@view_journal')->middleware('auth');
 Route::get('/reports/rasp', function() {return view('report_rasp');})->name('print_rasp')->middleware('auth');
 Route::post('/reports/rasp', 'ReportController@rasp_group')->middleware('auth');
+Route::get('/reports/rasp_kafedra', function() {return view('report_rasp_kafedra');})->name('print_rasp_kafedra')->middleware('auth');
+Route::post('/reports/rasp_kafedra', 'ReportController@rasp_kafedra')->middleware('auth');
 
 
 // ajax маршруты

@@ -48,7 +48,7 @@ class User extends Authenticatable
     public function fio() {
         $string = $this->name;
         $tmp = explode(" ", $string);
-        $fam = $tmp[0];
+         $fam = $tmp[0];
         $name = "";
         $otch = "";
         if (isset($tmp[1])) {$name = mb_substr($tmp[1], 0, 1) . ".";}
@@ -56,6 +56,10 @@ class User extends Authenticatable
         $fio = $fam . " " . $name . $otch;
         //dump($fio);
         return $fio;
+    }
+    
+    public function timetable() {
+        return $this->belongsToMany('\App\Timetable', 'teachers2timetable', 'teacher_id', 'timetable_id');
     }
 
 }

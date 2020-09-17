@@ -39,6 +39,7 @@ class ReportController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $group = \App\Group::find($group_id);
         $sheet->setCellValue('A1', 'Расписание занятий: ' . $group->name);
+        $sheet->setCellValue('C3', date('d.m.Y', strtotime($date1)) . " — " . date('d.m.Y', strtotime($date2)));
         $sheet->setCellValue('A3', $group->stream->programs->first()->name);
         
         $style1 = [
@@ -123,5 +124,23 @@ class ReportController extends Controller
         $html =  "Расписание сформировано. <p><a href='".$filename."' class='btn btn-success'>Скачать в формате Excel</a></p>";
         
         return view('info', ['html' => $html]);
+    }
+
+    
+    
+    
+    
+    function rasp_kafedra(Request $request) {
+        $users = \App\User::where('department_id', $request->department_id)->orderBy('name')->get();
+        /*
+        foreach($users as $user) {
+                echo $user->name;
+                $timetable = $user->timetable()->get();
+                //dump($timetable);
+                foreach ($timetable as $t){
+                    if ($t->block) dump($t->block->name);
+                }*/
+        return view('report_rasp_kafedra', ['users' => $users, 'request' => $request]);
+        
     }
 }
