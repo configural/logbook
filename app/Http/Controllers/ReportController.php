@@ -109,12 +109,12 @@ class ReportController extends Controller
         
         $i+=2;
         $sheet->setCellValue('A'.$i, "Начальник отдела ДПО и ОУ");
-        $sheet->setCellValue('D'.$i, "______________");
+        $sheet->setCellValue('D'.$i, "__________");
         $sheet->setCellValue('E'.$i, "Левенец Л.В.");
   
         $i+=2;
         $sheet->setCellValue('A'.$i, "Специалист отдела ДПО и ОУ");
-        $sheet->setCellValue('D'.$i, "______________");
+        $sheet->setCellValue('D'.$i, "__________");
         $sheet->setCellValue('E'.$i, Auth::user()->fio());
         
         $writer = new Xlsx($spreadsheet);
