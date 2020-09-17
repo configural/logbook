@@ -70,11 +70,11 @@ class GroupController extends Controller
         $subgroup = 1;
         foreach ($strings as $string) {
             $item = explode(' ', $string);
-            $sono = trim($item[0]);
+            $sono = (int)trim($item[0]);
             $secname = trim($item[1]);
             $name = trim($item[2]);
             $fathername = trim($item[3]);
-            if ((int)$sono and ($sono >= 100 and $sono<=9999) and (count($item) == 4)) {
+            if (($sono >= 0 and $sono<=9999) and (count($item) == 4)) {
                     $student_exist = Student::select()
                             ->where('sono', $sono)
                             ->where('secname', $secname)
@@ -95,11 +95,12 @@ class GroupController extends Controller
                         
                     }
             } else {
-                $problems[] = $item;                    
+                $problems[] = $item;   
+                dump($problems);
             }
         }   
        if (count($problems)) {
-                    $message = "Успешно добавлено $count записей. Возникли проблемы - код СОНО должен быть цифровым и 4-значным";
+                    $message = "Успешно добавлено $count записей. Возникли проблемы - код СОНО должен быть цифровым";
                 }  else  {
                     $message = "Успешно добавлено $count записей";
                 }
