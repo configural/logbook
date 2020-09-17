@@ -39,23 +39,25 @@
                     <p></p>
                     
                     @if(isset($users))
-                    <table class='table table-bordered'>
+                    
                     @foreach($users as $user)
-                    <tr>
-                        <th colspan='7' class='alert-success'>{{ $user->name}}</th>
-                    </tr>
+                    <h3>{{ $user->name}}</h3>
+                    <table class='table table-bordered'>
 
-                        <tr>
+                        <thead>
+                        <tr class='alert-info'>
                             
-                            <th>Дата</th>
-                            <th>Время</th>
-                            <th>Группа</th>
-                            <th>Аудитория</th>
-                            <th>Методист</th>
-                            <th>Тема в расписании</th>
+                            <th width='10%'>Дата</th>
+                            <th width='10%'>Время</th>
+                            <th width='10%'>Группа</th>
+                            <th width='10%'>Аудитория</th>
+                            <th width='10%'>Методист</th>
+                            <th width='50%'>Тема в расписании</th>
                             
                             
-                        </tr>                    
+                        </tr>  
+                        </thead>
+                        <tbody>
                     @foreach($user->timetable()->get() as $timetable)
 
                         <tr>
@@ -74,10 +76,11 @@
                             
                         </tr>
                         @endforeach
-                    
+                    </tbody>
+                </table>
                     @endforeach
                     @endif
-                    </table>
+                
 
                     @else
                     К сожалению, у вас нет доступа к этой функции

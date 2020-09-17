@@ -32,15 +32,15 @@ class ReportController extends Controller
         $group_id = $request->group_id;
         $date1 = $request->date1;
         $date2 = $request->date2;
-        $template_file = "templates/temp_rasp.xlsx";
+        $template_file = "templates/temp_raspOK.xlsx";
         //$spreadsheet = new Spreadsheet();
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($template_file);
 
         $sheet = $spreadsheet->getActiveSheet();
         $group = \App\Group::find($group_id);
-        $sheet->setCellValue('A1', 'Расписание занятий: ' . $group->name);
-        $sheet->setCellValue('C3', date('d.m.Y', strtotime($date1)) . " — " . date('d.m.Y', strtotime($date2)));
-        $sheet->setCellValue('A3', $group->stream->programs->first()->name);
+        $sheet->setCellValue('C6', 'Расписание занятий: ' . $group->name);
+        $sheet->setCellValue('C7', date('d.m.Y', strtotime($date1)) . " — " . date('d.m.Y', strtotime($date2)));
+        $sheet->setCellValue('A8', $group->stream->programs->first()->name);
         
         $style1 = [
         'borders' => [
@@ -61,7 +61,7 @@ class ReportController extends Controller
         ];
 
         
-        $i = 5;
+        $i = 10;
         $date = "";
         $pair = 0;
         $rasp = Rasp::select()->whereBetween('date', [$date1, $date2])->orderBy('date')->orderby('start_at')->get();
@@ -70,7 +70,7 @@ class ReportController extends Controller
             $pair++;
             if ($r->timetable->group_id == $group_id) {
                 $i++;
-                $sheet->getRowDimension($i)->setRowHeight(75);
+                $sheet->getRowDimension($i)->setRowHeight(55);
 
                 if ($date != $r->date) {
                     $sheet->setCellValue('A'.$i, date('d.m.Y', strtotime($r->date)));
