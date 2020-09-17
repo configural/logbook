@@ -16,7 +16,7 @@
                             <select name="department_id" class="form-control-static">
                             
                             @foreach(\App\Department::where('active', 1)->get() as $dep)
-                            @if ($dep->id == $request->department_id)
+                            @if (isset($request) && $dep->id == $request->department_id)
                             <option value="{{ $dep->id }}" selected>{{ $dep->name }}</option>
                             @else
                             <option value="{{ $dep->id }}">{{ $dep->name }}</option>
