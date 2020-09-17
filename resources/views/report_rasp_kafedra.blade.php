@@ -58,8 +58,8 @@
                         </tr>  
                         </thead>
                         <tbody>
-                    @foreach($user->timetable()->get() as $timetable)
-
+                    @foreach($user->timetable()->join('rasp', 'rasp.id', '=', 'rasp_id')->orderby('rasp.date')->get() as $timetable)
+                        
                         <tr>
                             <td><nobr>{{ $timetable->rasp->date or ''}}</nobr></td>
                             <td>{{ $timetable->rasp->start_at or ''}}<br>
