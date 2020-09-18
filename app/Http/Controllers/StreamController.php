@@ -94,7 +94,7 @@ class StreamController extends Controller
             foreach($programs as $program) {
                foreach($program->disciplines as $discipline) {
                     foreach($discipline->blocks as $block) {
-                    //   dump($block->name);
+                       if ($block->active) {
                        if ($block->l_hours) {$hours = $block->l_hours; // если лекция
                        $workload = ["group_id" => $group_id, "block_id" => $block->id, "hours" => $hours, "lessontype" => 1];
                        DB::table('timetable')->insert($workload);
@@ -102,7 +102,7 @@ class StreamController extends Controller
                        if ($block->p_hours) {$hours = $block->p_hours; // если практика
                        $workload = ["group_id" => $group_id, "block_id" => $block->id, "hours" => $hours, "lessontype" => 2];
                        DB::table('timetable')->insert($workload);
-                       }
+                       }}
                     }
                     if ($discipline->attestation_id) {
                     $attestation_discipline = ["group_id" => $group_id, "discipline_id" => $discipline->id, "hours" => $discipline->attestation_hours, "lessontype" => 3];
