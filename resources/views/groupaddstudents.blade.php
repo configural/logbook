@@ -21,6 +21,19 @@
                         <button class="btn btn-success">Заполнить группу пустыми записями</button>
                     </form>
                     <hr>
+                    
+                    <h3>
+                        Загрузка данных из АСУС
+                    </h3>
+                        <form action="import_asus" method="post" enctype="multipart/form-data">
+                            <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="asus_file" class="form-control-static">
+                            <button class="btn btn-success">Загрузить</button>
+                            {{ csrf_field() }}
+                        </form>
+                        
+                    
+                    
+                    <hr/>
                     <h3>Копирование из буфера обмена</h3>
                     <form action="{{url('/')}}/group/addstudents" method="post">
                         
