@@ -22,7 +22,7 @@
                     @foreach(\App\Classroom::select()->orderby('name')->get() as $room)
                     <tr>
                         <td width="20%"><h3>{{$room->name}}</h3>{{$room->capacity}} мест
-                        @if(Auth::user()->role_id == 3)
+                        @if(in_array( Auth::user()->role_id, [4, 3]))
                             <p>
                         @if($blockedBy = \App\Classroom::is_blocked($date, $room->id))
                         <i class='fa fa-lock'></i> {{\App\User::find($blockedBy)->name }} 
@@ -50,7 +50,7 @@
                         <td width='40%'>   {{$rasp->timetable->lesson_type->name or 'n/a' }}:  {{$rasp->timetable->block->name or 'n/a'}}</td>
                          <td width='15%'>{{$rasp->timetable->group->name or ''}}</td>
                             <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
-                            {{$teacher->name}}
+                            {{$teacher->fio() }}
                             @endforeach</td>
                             <td width='10%'>
                                 @if(in_array(Auth::user()->role_id, [3, 4] ))

@@ -20,16 +20,15 @@
                     <h3>Администрирование</h3>
                     <hr>
                     
-                        <div class="icon"><a href="{{url('/')}}/users"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>
-                        <div class="icon"><a href="{{url('/')}}/departments"><i class="fa fa-graduation-cap fa-3x blue"></i><br/>Кафедры</a></div>
-                        <div class="icon"><a href="{{url('/')}}/programs"><i class="fa fa-graduation-cap fa-3x orange"></i><br/>Образовательные программы</a></div>
-
-                        <div class="icon"><a href="{{url('/')}}/disciplines"><i class="fa fa-book fa-3x green"></i><br/>Дисциплины</a></div>
-                        <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
-                        <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
-                        <div class="icon"><a href="{{url('/')}}/rasp"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
-                        <div class="icon"><a href="{{url('/')}}/journal"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
-                        <div class="icon"><a href="{{url('/')}}/classrooms"><i class="fa fa-building fa-3x blue"></i><br/>Аудитории</a></div>
+                        <div class="icon"><a href="{{route('users')}}"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>
+                        <div class="icon"><a href="{{route('departments')}}"><i class="fa fa-graduation-cap fa-3x blue"></i><br/>Кафедры</a></div>
+                        <div class="icon"><a href="{{route('programs')}}"><i class="fa fa-graduation-cap fa-3x orange"></i><br/>Образовательные программы</a></div>
+                        <div class="icon"><a href="{{route('disciplines')}}"><i class="fa fa-book fa-3x green"></i><br/>Дисциплины</a></div>
+                        <div class="icon"><a href="{{route('streams')}}"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
+                        <div class="icon"><a href="{{route('workload')}}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
+                        <div class="icon"><a href="{{route('rasp')}}"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
+                        <div class="icon"><a href="{{route('journal')}}"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
+                        <div class="icon"><a href="{{route('classrooms')}}"><i class="fa fa-building fa-3x blue"></i><br/>Аудитории</a></div>
                         
 
                 </p>
@@ -43,10 +42,10 @@
                   @elseif (Auth::user()->role_id == 3)
                     <strong>Приветствую тебя, Методист!</strong>
                     <h3>Администрирование</h3>
-                        <div class="icon"><a href="{{url('/')}}/users"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>
-                        <div class="icon"><a href="{{url('/')}}/streams"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>                    
-                        <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
-                         <div class="icon"><a href="{{url('/')}}/rasp"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
+                        <div class="icon"><a href="{{route('users')}}"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>
+                        <div class="icon"><a href="{{ route('stream') }}"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>                    
+                        <div class="icon"><a href="{{ route('workload') }}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
+                        <div class="icon"><a href="{{ route('rasp') }}"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
                 
                          <h3>Отчеты и документы</h3>
                         <hr>

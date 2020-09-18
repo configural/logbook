@@ -27,10 +27,10 @@ Route::get('/user/{id}/edit', 'UserController@edit')->middleware('auth');
 Route::post('/user/{id}/store', 'UserController@store')->middleware('auth');
 
 // Управление списком кафедр
-Route::get('/departments', function() {return view('departments');})->middleware('auth');
+Route::get('/departments', function() {return view('departments');})->name('departments')->middleware('auth');
 
 // Управление списком дисциплин
-Route::get('/disciplines', function() {return view('disciplines');})->middleware('auth');
+Route::get('/disciplines', function() {return view('disciplines');})->name('disciplines')->middleware('auth');
 Route::get('/discipline/{id}', 'DisciplineController@view')->middleware('auth');
 Route::get('/disciplines/add', function() {return view('disciplineadd');})->middleware('auth');
 Route::get('/disciplines/{id}/edit', 'DisciplineController@edit')->middleware('auth');
@@ -47,7 +47,7 @@ Route::post('/block/{id}/store', 'BlockController@store')->middleware('auth');
 //Route::post('/block/{id}/delete', 'BlockController@delete')->middleware('auth');
 
 // Управление списком дополнительных образовательных программ 
-Route::get('/programs', function(){ return view('programs');})->middleware('auth');
+Route::get('/programs', function(){ return view('programs');})->name('programs')->middleware('auth');
 Route::get('/program/add', function(){ return view('programadd');})->middleware('auth');
 Route::post('/program/add', 'ProgramController@add')->middleware('auth');
 Route::get('/program/{id}', function($id){ return view('program', ['id' => $id]);})->middleware('auth');
@@ -113,7 +113,7 @@ Route::get('/workload/split/{id}', 'WorkloadController@split_workload')->middlew
 Route::get('/workload/cancel/{id}', 'WorkloadController@cancel_workload')->middleware('auth');
 
 // Аудитории
-Route::get('/classrooms', function() {return view('classrooms');})->middleware('auth');
+Route::get('/classrooms', function() {return view('classrooms');})->name('classrooms')->middleware('auth');
 Route::get('/classroom/add', function() {return view('classroomadd');})->middleware('auth');
 Route::post('/classroom/add', 'ClassroomController@store')->middleware('auth');
 Route::get('/classroom/edit/{id}', 'ClassroomController@edit')->middleware('auth');

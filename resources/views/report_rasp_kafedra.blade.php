@@ -58,7 +58,10 @@
                         </tr>  
                         </thead>
                         <tbody>
-                    @foreach($user->timetable()->join('rasp', 'rasp.id', '=', 'rasp_id')->orderby('rasp.date')->get() as $timetable)
+                    @foreach($user->timetable()
+                    ->join('rasp', 'rasp.id', '=', 'rasp_id')
+                    ->whereBetween('rasp.date', [$request->date1, $request->date2])
+                    ->orderby('rasp.date')->get() as $timetable)
                         
                         <tr>
                             <td><nobr>{{ $timetable->rasp->date or ''}}</nobr></td>
@@ -72,7 +75,7 @@
                                 @endif
                             </td>
                                 
-                            <td>{{ $timetable->block->name or ''}} {{$timetable->lesson_type->name}}</td>
+                            <td><strong>{{$timetable->lesson_type->name}}</strong>: {{ $timetable->block->name or ''}} </td>
                             
                         </tr>
                         @endforeach

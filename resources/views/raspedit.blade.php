@@ -18,10 +18,13 @@
                         <input name="id" type="hidden" value="{{$rasp->id}}">
                         <p><strong>Тема занятия:</strong> {{ $rasp->timetable->block->name}}</p>
                         <p><strong>Группа:</strong> {{ $rasp->timetable->group->name}}</p>
+                       
                         <p><strong>Преподаватель(и):</strong><br>
+                            <select id='teacherSelect' disabled  multiple="1">
                             @foreach($rasp->timetable->teachers as $teacher)
-                            {{$teacher->name}}<br/>
+                            <option value='{{$teacher->id}}'>{{$teacher->name}}</option>
                             @endforeach
+                            </select><br/>
                             <a href="{{ url('workload')}}/edit/{{ $rasp->timetable->id }}" class="btn btn-primary btn-sm">Переназначить преподавателей</a>
                         </p>
                         <hr>
@@ -55,11 +58,15 @@
 
                         
                         
-                       <div class="row-fluid">
+                       <div class="container-fluid">
+                           <div class="row-fluid">
                            
                            <div class="col-lg-6"><span id="teacherBusy"></span></div>
                            <div class="col-lg-6"><span id="groupBusy"></span></div>
+                           </div>
                        </div>
+                       
+                
                         
                         {{csrf_field()}}
                         <button class="btn btn-success">Сохранить</button>
@@ -90,7 +97,7 @@ $('#finishAt').change(function() { check_classroom(); check_teacher(); check_gro
 function check_classroom() {
     var room_id = $("#classroom option:selected").val();
     var date = $('#date').val();
-        console.log("{{url('/')}}/ajax/classroom_busy/" + room_id + ";" + date);
+    //    console.log("{{url('/')}}/ajax/classroom_busy/" + room_id + ";" + date);
         $.ajax({
         url: "{{url('/')}}/ajax/classroom_busy/" + room_id + ";" + date, 
         success: function(param) { $('#classroomBusy').html(param);  }
@@ -99,10 +106,26 @@ function check_classroom() {
 
 
 function check_teacher() {
-    var start_at = "00:00";//$('#startAt').val();
-    var finish_at = "23:59";// $('#finishAt').val();
-    var teacher = {{$rasp->timetable->teachers->first()->id}};
+    $('#teacherBusy').html("");
+    var start_at = $('#startAt').val();
+    var finish_at = $('#finishAt').val();
+    var date = $('#date').val();
 
+    var selectedTeachers = $('#teacherSelect option').toArray().map(item => item.value);  
+    console.log(selectedTeachers);
+        selectedTeachers.forEach(function(item) {
+    
+    var url = "{{url('/')}}/ajax/teacher_busy/" + item + ";" + date + ";" + start_at + ";" + finish_at;
+    console.log(url);
+    $.ajax({
+        url: url, 
+        success: function(param) { $('#teacherBusy').append(param);  }
+    });
+        
+    });
+
+/*
+    var teacher = {{$rasp->timetable->teachers->first()->id}};
     var date = $('#date').val();
         if (start_at && finish_at) {
         //console.log(date + ";" + start_at + ";" + finish_at);
@@ -111,7 +134,7 @@ function check_teacher() {
         success: function(param) { $('#teacherBusy').html(param);  }
         
     });
-    }
+    }*/
     check_group();
 }
 

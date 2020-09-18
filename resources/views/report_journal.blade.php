@@ -25,14 +25,23 @@
                             </tr>
                         </thead>    
                         <tbody>
+                            @php
+                            $i = 0
+                            @endphp
                             @foreach(\App\User::orderBy('name')->whereIn('role_id', [2, 5])->get() as $user)
+                                @php 
+                                $i++;
+                                @endphp
                             <tr>
-                                <td>{{$user->id}}
-                                @if ($user->freelance)
+                                <td>{{$i}}
+
+                                </td>
+                                <td><a href='{{url('reports')}}/journal/{{$user->id}}'>{{$user->name}}</a>
+                                
+                                                                @if ($user->freelance)
                                  (внештатный)
                                 @endif
                                 </td>
-                                <td><a href='{{url('reports')}}/journal/{{$user->id}}'>{{$user->name}}</a></td>
                                 <td>{{$user->department->name}}</td>
                                 <td>{{$user->journal->count() }}</td>
                             </tr>
