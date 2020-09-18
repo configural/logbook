@@ -68,7 +68,13 @@
                                 {{$timetable->group->stream->date_finish}}<br>
                             </td>
                             
-                            <td><strong>{{ $timetable->block->name or '' }}</strong><br/>
+                            <td><strong></strong>
+                                @if( isset($timetable->block->name) && $timetable->block->active )
+                                <i class='fa fa-check-circle green'></i>
+                                @endif
+                                &nbsp;
+                                {{ $timetable->block->name or '' }}
+                                <br/>
                                 <small>{{ $timetable->block->discipline->name or '' }}</small>
                                 @if($timetable->discipline_id) <span class='green'><strong>Аттестация</strong>
                                         {{ \App\Discipline::find($timetable->discipline_id)->name}}</span>
@@ -102,12 +108,12 @@
                                 <a href="{{url('rasp')}}?date={{$timetable->rasp->date or ''}}">{{$timetable->rasp->date or ''}}</a>
                                 @else
                                 @if($i == 0)
-                                <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Мое!</a>
+                                <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Взять нагрузку</a>
                                 
                             
                                 @else
                                 
-                                <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-danger">Не мое!</a>
+                                <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-danger">Отказаться</a>
 
                         @endif  
                         @endif
