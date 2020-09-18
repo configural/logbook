@@ -13,7 +13,8 @@
                     
                     <form action="add" method="post">
                           
-                          <p><label>Название</label><input type="text" value="" class="form-control" name="name" required></p>
+                          <p><label>Название</label>
+                          <textarea value="" class="form-control" name="name" required></textarea>
                           <p><label>Планируемое количество часов</label><input type="number" value="" class="form-control" name="hours"></p>
                           <p><label>Форма обучения</label>
                               <select name="form_id" class="form-control">
@@ -29,14 +30,15 @@
                                   @endforeach
                               </select>
                               
-                          <p><label>Часов на аттестацию</label><input type="number" value="" class="form-control" name="attestation_hours"></p>
+                          <p><label>Часов на аттестацию</label><input type="number" value="0" class="form-control" name="attestation_hours" required=""></p>
                           
-                          <p><label>Часов на защиту ВКР (Проставляется только для программ длительностью от 72 часов. В противном случае - оставляем "0").</label><input type="number" value="" class="form-control" name="vkr_hours"></p>
+                          <p><label>Часов на защиту ВКР (Проставляется только для программ длительностью от 72 часов. В противном случае - оставляем "0").</label>
+                              <input type="number" value="0" class="form-control" name="vkr_hours" required></p>
                           
                           </p>
                           <p><label>Краткое описание</label><input type="text" value="" class="form-control" name="description"></p>
                           <p><label>Опубликована (1/0)?</label>
-                              <input type="text" value="" class="form-control" name="active" required>
+                              <input type="text" value="1" class="form-control" name="active" required>
                           </p>
                           
                           <p><button class="btn btn-success">Создать образовательную программу</button>

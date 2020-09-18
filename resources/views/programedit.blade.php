@@ -14,8 +14,10 @@
                     
                     <form action="store" method="post">
                           
-                          <p><label>Название</label><input type="text" value="{{ \App\Program::find($id)->name }}" class="form-control" name="name" required></p>
-                          <p><label>Планируемое количество часов</label><input type="number" value="{{ \App\Program::find($id)->hours }}" class="form-control" name="hours"></p>
+                          <p><label>Название</label>
+                              <textarea class="form-control" name="name" required>{{ \App\Program::find($id)->name }}</textarea></p>
+                          <p><label>Планируемое количество часов</label>
+                              <input type="number" value="{{ \App\Program::find($id)->hours }}" class="form-control" name="hours" required></p>
                           <p><label>Форма обучения</label>
                               <select name="form_id" class="form-control">
                                   @foreach(\App\Form::select()->get() as $form)
