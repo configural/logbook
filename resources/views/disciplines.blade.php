@@ -19,8 +19,9 @@
                         <thead>
                             <tr><th width="5%">id</th>
                                 <th width="40%">Название дисциплины</th>
+                                <th>Задействована в программах</th>
                                 <th width="10%">Кафедра</th>
-                                <th>Активна?</th>
+                                
                                 <th>Темы</th>
                                 <th>Операции</th></tr>
                         </thead>
@@ -36,8 +37,13 @@
                                     
                                     <br/>
                                 {{$discipline->description or ''}}</td>
+                                <td>
+                                @foreach($discipline->programs as $program)
+                                <small><li>{{ str_limit($program->name, 70)}}</li></small>
+                                @endforeach
+                                </td>
                                 <td>{{$discipline->department->name or 'нет'}}</td>
-                                <td>{{ $discipline->active }}</td>
+                                
                                 <td><a href="{{url('/')}}/discipline/{{$discipline->id}}" class="btn btn-primary">Темы ({{ $discipline->blocks->count()}})</a></td>
                                 
                                 <td><a href="{{url('/')}}/disciplines/{{$discipline->id}}/edit" class="btn btn-success">Ред.</a>
