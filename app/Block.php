@@ -18,5 +18,10 @@ class Block extends Model
     public function type() {
         return $this->hasOne('\App\BlockType', 'id', 'type_id');
     }
+    
+    public function in_timetable() {
+        return $this->hasMany('\App\Timetable', 'block_id', 'id');
+    
+    }
  
 }

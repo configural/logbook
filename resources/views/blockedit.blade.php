@@ -24,15 +24,32 @@
                       </form>
                     
                     <hr/>
-                     {{--     
-                          <form action="delete" method="post">
-                              <label>Удалить блок &laquo;{{ $block->name }} &raquo;</label>
-                              <p><input type="checkbox" required> Я действительно хочу удалить этот блок</p>
-                              <button class="btn btn-danger">Удалить блок</button>
-                    {{ csrf_field() }}
-
-                          </form>
-                    --}}
+                    
+                    <h3>Эта тема в нагрузке</h3>
+                    <table class='table table-bordered'>
+                        <tr>
+                            <th>id</th>
+                            <th>Дата</th>
+                            <th>Группа</th>
+                        </tr>
+                    @foreach($block->in_timetable()->get() as $timetable)
+                    <tr>
+                        <td><a href="{{ route('workload')}}/edit/{{ $timetable->id }}">{{ $timetable->id }}</a></td>
+                        <td>{{ $timetable->rasp->date or ''}}</td>
+                        <td>{{ $timetable->group->name}}</td>
+                    </tr>
+                    @endforeach
+                    </table>
+                    
+                    <p>
+                        @if($block->in_timetable()->count())
+                    <div class="warning">Поскольку тема присутствует в нагрузке, ее удалить нельзя.</div>
+                        @else
+                        
+                        <a href='delete' class='btn btn-danger' onclick="return confirm('Действительно удалить?')" class="btn btn-danger"><i class="fa fa-times-circle white"></i> Удалить эту тему</a>
+                        @endif
+                    </p>
+                    
                     @else
                     У вас нед доступа к этой функции
                     @endif

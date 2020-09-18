@@ -46,4 +46,10 @@ class BlockController extends Controller
         $block->save();
         return redirect('discipline/'.$block->discipline_id);
     }
+    
+    public function delete($id) {
+        $block = Block::find($id);
+        $discipline_id = $block->discipline_id;
+        $block->delete();
+        return redirect('discipline/'.$discipline_id);    }  
 }
