@@ -54,9 +54,9 @@
                         </p>
                         
                         <p>   
-                            <label>Список студентов (по одному в строке)</label>
+                            <label>Список студентов (по одному в строке)</label> <a id="fixText" class="onpage" title="Заменить табуляции на пробелы">«Причесать текст»</a>
                         
-<textarea name="import" class="form-control" placeholder="5210;Иванов;Иван;Иванович"  style="height: 400px;" required>
+<textarea name="import" id="importText" class="form-control" placeholder="5210 Иванов Иван Иванович"  style="height: 400px;" required>
 @if (isset($problems))
 @foreach($problems as $p)
 {{ $p[0] }} {{ $p[1] }} {{ $p[2] }} {{ $p[3] }}
@@ -76,4 +76,13 @@
         </div>
     </div>
 
+
+<script>
+ 
+    $("#fixText").click(function() {
+        var text = $("#importText").val();
+        $("#importText").val(text.split("\t").join(" "));
+    });
+    
+</script>
 @endsection
