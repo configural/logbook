@@ -37,16 +37,16 @@ class WorkloadController extends Controller
             }
             $timetable->save();
        //return redirect('workload#'.$request->id);
-       // $rasp = Rasp::where('timetable_id', $request->id)->first();
-       //
-       //isset($rasp->date) ? $rasp_date = $rasp->date : $rasp_date = "";
+        $rasp = Rasp::where('timetable_id', $request->id)->first();
+        isset($rasp->date) ? $rasp_date = $rasp->date : $rasp_date = "";
+        
        //if ($rasp_date) {return redirect("rasp/?date" . $rasp_date);
        //} else {
        //return redirect('workload');}
        session_start();
             switch($_SESSION["work_with"]) {
                 case "workload": { return redirect('workload/?stream_id=' . $_SESSION["stream_id"]);}
-                case "rasp": { return redirect("rasp/?date" . $rasp_date);}
+                case "rasp": { return redirect("rasp/?date" . $rasp->date);}
                 default: {return redirect(route('workload'));}
             }
             

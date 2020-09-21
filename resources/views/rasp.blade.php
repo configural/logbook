@@ -1,4 +1,5 @@
 @php
+session_start();
 $_SESSION["work_with"] = "rasp";
 @endphp
 
