@@ -98,11 +98,12 @@ class GroupController extends Controller
                     }
             } else {
                 $problems[] = $item;   
-                dump($problems);
+               // dump($problems);
             }
         }   
        if (count($problems)) {
-                    $message = "Успешно добавлено $count записей. Возникли проблемы - код СОНО должен быть цифровым";
+                    $message = "<span style='font-weight: bold; color: red'>Выявлены ошибки форматирования текста, загрузка не удалась. Текст автоматически исправлен. Попробуйте нажать кнопку ЗАГРУЗИТЬ СПИСОК еще раз.</span>";
+                    
                 }  else  {
                     $message = "Успешно добавлено $count записей";
                 }
