@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Group;
 use App\Student;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class GroupController extends Controller
 {
@@ -128,25 +129,13 @@ class GroupController extends Controller
             }
 
         public function import_asus(Request $request) {
-            
-           // $path = $request->file('asus_file')->store('asus_files');
-            $path = Storage::put('asus', $request->file('asus_file'), 'public');
-            
-            echo asset($path);
-
-            
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(asset($path));
-
+/*           
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
             $sheet = $spreadsheet->getActiveSheet();
-            
             dump($sheet);
-                
+               */ 
             return view('info', ['html' => 'Пока в разработке']);
             
             }
             
-            
-            
-
-            
-                       }
+}

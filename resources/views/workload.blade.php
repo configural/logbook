@@ -1,7 +1,24 @@
-
 @extends('layouts.app')
 
 @section('content')
+
+@php
+    session_start();
+    if (isset($_GET["stream_id"])) {
+        $stream_id = $_GET["stream_id"]; 
+        $_SESSION["stream_id"] = $stream_id;
+        } 
+    elseif (isset($_SESSION["stream_id"])) {
+        $stream_id = $_SESSION["stream_id"];}
+    else
+        { $stream_id = 0; }
+
+    $_SESSION["work_with"] = "workload";
+    $_SESSION["stream_id"] = $stream_id;
+
+    //dump($stream_id);
+    
+@endphp   
 <div class="container-fluid">
 
 
@@ -16,15 +33,38 @@
     
             <div class="panel panel-primary">
 
-                <div class="panel-heading ">Нагрузка</div>
+                <div class="panel-heading ">
+                
+                
+                    Нагрузка
 
+                
+                </div>
                     <div class="panel-body">
                         <p>
                             <a href="{{route('home')}}">В начало</a>
                             
                         </p>
 
+                        <h3>Выберите поток</h3>
+                        <form method="get">
+                        <p><select name='stream_id' class='form-control-static blue' onchange="form.submit()">
+                                <option value=''>Выберите поток</option>
+                        @foreach(\App\Stream::orderBy('date_start', 'desc')->get() as $stream)
+                        @if ($stream->id == $stream_id)
+                        <option value='{{ $stream->id }}' selected>({{ $stream->date_start}} — {{ $stream->date_finish}}) {{ $stream->name }}</option>
+                        @else
+                        <option value='{{ $stream->id }}'>({{ $stream->date_start}} — {{ $stream->date_finish}}) {{ $stream->name }}</option>
+                        @endif
+                        @endforeach
+                        </select>
+                            </form>
+                        </p>
+                        
                         <div id="allWorkload"></div>
+                        
+                        @if ($stream_id)
+                        
                         <table class="table table-bordered display" id="sortTable">
                             <thead><tr><th>id</th>
                                 <th>Поток/группа</th>
@@ -49,7 +89,14 @@
                                 <th>Взять нагрузку</th>
                                 </tr></tfoot>
                             <tbody>
-                        @foreach(\App\Timetable::select()->get() as $timetable)
+  
+                           
+                           
+                        @foreach(\App\Timetable::select(['timetable.*'])
+                        ->join('groups', 'groups.id' , '=', 'timetable.group_id')
+                        ->where('groups.stream_id', '=', $stream_id)
+                        ->get() as $timetable)
+                        
                         <tr><td><a href="workload/edit/{{$timetable->id}}" name="{{$timetable->id}}">{{$timetable->id}}</a></td>
                             <td><nobr>{{$timetable->group->stream->name}}</nobr><br> 
                             <nobr>{{$timetable->group->name}}</nobr>
@@ -128,7 +175,7 @@
                         <p>
                         <a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a>
                         </p>
-                    
+                        @endif
                     </div>
 
     
@@ -141,6 +188,7 @@
     </div>
 
 </div>
+
 
 
 @endsection

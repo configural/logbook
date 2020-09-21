@@ -135,6 +135,13 @@
                     
     );} );
 </script>
+
+<script>
+// Автоскроллинг на место откуда страницу покинули
+
+$.cookie('scroll_to', 'scroll_to', { expires: 7, path: '{{ url()->current() }}' });
+
+</script>
     <!---->
     
 </body>

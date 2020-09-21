@@ -1,3 +1,6 @@
+@php
+$_SESSION["work_with"] = "rasp";
+@endphp
 
 @extends('layouts.app')
 
