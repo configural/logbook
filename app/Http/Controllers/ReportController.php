@@ -41,6 +41,7 @@ class ReportController extends Controller
         $sheet->setCellValue('C6', 'Расписание занятий: ' . $group->name);
         $sheet->setCellValue('C7', date('d.m.Y', strtotime($date1)) . " — " . date('d.m.Y', strtotime($date2)));
         $sheet->setCellValue('A8', $group->stream->programs->first()->name);
+        $sheet->setCellValue('A8', $group->stream->programs->first()->name);
         
         $style1 = [
         'borders' => [
@@ -63,17 +64,19 @@ class ReportController extends Controller
         
         $i = 10;
         $date = "";
-        $pair = 0;
+        
         $rasp = Rasp::select()->whereBetween('date', [$date1, $date2])->orderBy('date')->orderby('start_at')->get();
         
         foreach ($rasp as $r) {
-            $pair++;
+            $pair = 0;    
             if ($r->timetable->group_id == $group_id) {
                 $i++;
-                $sheet->getRowDimension($i)->setRowHeight(55);
+                $sheet->getRowDimension($i)->setRowHeight(35);
 
                 if ($date != $r->date) {
-                    $sheet->setCellValue('A'.$i, date('d.m.Y', strtotime($r->date)));
+                    //dump($r->date);
+                    $pair ++;
+                    $sheet->setCellValue('A'.$i, date('d.m.Y', strtotime($r->date)) . chr(10) . Rasp::weekday($r->date));
                     $date = $r->date;
                     $sheet->getStyle('A'.$i.":E".$i)->applyFromArray($style1);
                 } else {
@@ -81,30 +84,36 @@ class ReportController extends Controller
                     
                 }
                 $sheet->setCellValue('b'.$i, substr($r->start_at, 0, 5) . chr(10) . substr($r->finish_at, 0, 5));
+                
+                if (strlen($r->timetable->block->name) >= 90) {
+                    $r->timetable->block->name = str_limit($r->timetable->block->name, 90, '[...]');
+                }
+                
                 if (isset($r->timetable->block->name)) $sheet->setCellValue('c'.$i, $r->timetable->block->name);
-                $sheet->setCellValue('d'.$i, $r->classroom->name 
-                        . chr(10) . $r->timetable->lesson_type->name
+                $sheet->setCellValue('d'.$i, $r->timetable->lesson_type->name
                         . chr(10) . $r->timetable->hours ." ч");
                 
                 $teachers = "";
                 
-                foreach($r->timetable->teachers as $teacher) 
-                    { $teachers .= $teacher->fio() . chr(10);
-                    //$teachers .= current(explode(" ", $teacher->name)) . chr(10);
+                foreach($r->timetable->teachers as $teacher) {
+                    $teachers .= $teacher->fio() . chr(10);                   
                     }
                 
-                $sheet->setCellValue('e'.$i, $teachers);
+                $sheet->setCellValue('e'.$i, $r->classroom->name . chr(10) . $teachers);
                 
                 $sheet->getStyle('A'.$i.':E'.$i)->getAlignment()->setWrapText(true);
-                /*$i++;
+                
                 if ($pair == 1) {
-                $sheet->setCellValue('C'.$i, "Обед с 11:50 до 12:50");
+                    $i++;
+                    //dump($pair);
+                    $sheet->setCellValue('C'.$i, "Перерыв на обед: " . $request->obed);
+                    $sheet->getStyle('B'.$i.":E".$i)->applyFromArray($style2);
                 
-                }*/
+                }
                 
-
+                
             } 
-            $pair = 0;
+            
         }
         
         $i+=2;

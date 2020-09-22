@@ -24,6 +24,19 @@
                             <input type="date" name="date2" class="form-control-static" required>
 
                         </p>
+                        <p>
+                            <label>Перерыв на обед:</label><br/>
+                            <select name="obed" class="form-control-static">
+                                <option value="11.00 – 12.00">11.00 – 12.00</option>
+                                <option value="11.10 – 12.10">11.10 – 12.10</option>
+                                <option value="11.20 – 12.20">11.20 – 12.20</option>
+                                <option value="11.50 – 12.50">11.50 – 12.50</option>
+                                <option value="11.50 – 13.20">11.50 – 13.20</option>
+                                <option value="12.00 – 13.00">12.00 – 13.00</option>
+                                <option value="12.20 – 13.20">12.20 – 13.20</option>
+                                <option value="12.50 – 13.50">12.50 – 13.50</option>
+                            </select>
+                        </p>
                         
                         <button class="btn btn-success">Сформировать</button>
                         

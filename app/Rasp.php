@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Rasp extends Model
 {
@@ -23,4 +24,11 @@ class Rasp extends Model
         return "teachers";
     }
     
+    
+    public static function weekday($date) {
+        
+        $index = (int) Carbon::parse($date)->format('w');
+        $day = array("воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота");
+        return $day[$index];
+    }
 }
