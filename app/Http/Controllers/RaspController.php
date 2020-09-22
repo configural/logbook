@@ -39,6 +39,8 @@ class RaspController extends Controller
             $rasp = new Rasp;
         }
         $rasp->date = $request->date;
+        $rasp_date1 = $request->date_copy;
+        dump($rasp_date1);
        // $rasp->pair_id = $request->pair_id;
         $rasp->timetable_id = $request->timetable_id;
         $rasp->room_id = $request->room_id;
@@ -81,9 +83,9 @@ class RaspController extends Controller
         DB::table('timetable')->where('id', $rasp->timetable_id)->update(['rasp_id' => $rasp->id]);
         
         // снять блокировку
-        \App\Classroom::unblock_classroom($rasp->date, $rasp->room_id);
+        \App\Classroom::unblock_classroom($rasp_date1, $rasp->room_id);
 
-        return redirect(url('rasp')."?date=".$rasp->date);
+        return redirect(url('rasp')."?date=".$rasp_date1);
         }
         else {
          

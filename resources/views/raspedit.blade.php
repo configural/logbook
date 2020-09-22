@@ -7,8 +7,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                                    <form >
-Перенос занятия                    </form>
+Перенос занятия                    
                 </div>
 
                 <div class="panel-body">
@@ -30,6 +29,7 @@
                         <hr>
                         <p>
                         Дата:<br/> <input name="date" id="date" type="date" value="{{$rasp->date}}" class="form-control-static">
+                        <input name="date_copy" type="hidden" value="{{$rasp->date}}">
                         </p>
                         <p>Время:<br/>
                             <input type="time" id="startAt" name="start_at" value="{{$rasp->start_at}}" class="form-control-static" required>

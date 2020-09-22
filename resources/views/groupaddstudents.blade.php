@@ -61,7 +61,8 @@
 @foreach($problems as $p)
 {{ $p[0] }} {{ $p[1] }} {{ $p[2] }} {{ $p[3] }}
 @endforeach
-@endif</textarea>
+@endif
+</textarea>
                         </p>  
                           <p><button class="btn btn-success">Загрузить список</button>
                     {{ csrf_field() }}
