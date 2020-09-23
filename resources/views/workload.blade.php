@@ -138,6 +138,12 @@
                                 <span class="blue"><strong>Защита ВКР</strong>
                                         {{ \App\Program::find($timetable->program_id)->name}}</span>
                                 @endif
+                                
+                                @if($timetable->program_id and $timetable->lessontype == 5 ) 
+                                <span class="green"><strong>Защита ИР</strong>
+                                        {{ \App\Program::find($timetable->program_id)->name}}</span>
+                                @endif
+                                
                                                    
                             </td>
                             <td>{{ $timetable->hours }} ч<br/>

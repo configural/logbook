@@ -71,9 +71,13 @@
     
     
     $("#lessonTypeSelect").change(function() {
-        if ($("#lessonTypeSelect option:selected").val() <=2 ) {
+        
+        var lessontype = Number($("#lessonTypeSelect option:selected").val());
+        
+        
+        if ($.inArray(lessontype, [1, 2] ) != -1) {
         var url = "{{url('/')}}/ajax/group_blocks/" + $("#groupSelect option:selected").val();
-        console.log('url');
+            
             $.ajax({
             url: url, 
             success: function(param) { $('#blocks').html(param);  }
@@ -83,23 +87,17 @@
         }
         
         
-        if ($("#lessonTypeSelect option:selected").val() == 3 ) {
+  
+        if ($.inArray(lessontype, [3, 4, 5] ) != -1) {
         var url = "{{url('/')}}/ajax/group_programs/" + $("#groupSelect option:selected").val();
-        console.log('url');
+            
             $.ajax({
             url: url, 
             success: function(param) { $('#blocks').html(param);  }
             });
         }
         
-        if ($("#lessonTypeSelect option:selected").val() == 4 ) {
-        var url = "{{url('/')}}/ajax/group_programs/" + $("#groupSelect option:selected").val();
-        console.log('url');
-            $.ajax({
-            url: url, 
-            success: function(param) { $('#blocks').html(param);  }
-            });
-        }
+
 
 
     });
