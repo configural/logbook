@@ -145,7 +145,7 @@ class ReportController extends Controller
         $request->date2 ? $date2 = $request->date2 : $date2 = Carbon::now()->addMonth()->format("Y-m-d");
 
         $users = \App\User::where('department_id', $request->department_id)->orderBy('name')->get();
-        return view('report_rasp_kafedra', ['users' => $users, 'date1' => $date1, 'date2' => $date2]);
+        return view('report_rasp_kafedra', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'department_id' => $request->department_id]);
        
     }
 }
