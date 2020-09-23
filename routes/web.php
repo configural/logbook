@@ -106,6 +106,7 @@ Route::post('/journal/item/update', 'JournalController@update')->middleware('aut
 // Нагрузка
 Route::get('/workload', function() {return view('workload');})->name('workload')->middleware('auth');
 Route::get('/workload/add', function() {return view('workloadaddmanual');})->middleware('auth');
+Route::post('/workload/add', 'WorkloadController@workload_add_manual')->middleware('auth');
 Route::get('/workload/get/{id}', 'WorkloadController@take_workload')->middleware('auth');
 Route::get('/workload/delete/{id}', 'WorkloadController@delete_workload')->middleware('auth');
 Route::get('/workload/edit/{id}', function($id) {return view('workloadedit', ['id' => $id]);})->middleware('auth');
@@ -137,3 +138,6 @@ Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->midd
 Route::get('/ajax/teacher_busy/{user_id};{date};{start_at};{finish_at}', 'UserController@teacher_busy')->middleware('auth');
 Route::get('/ajax/group_busy/{group_id};{date};{start_at};{finish_at}', 'GroupController@group_busy')->middleware('auth');
 Route::get('/ajax/classroom_busy/{room_id};{date}', 'ClassroomController@classroom_busy')->middleware('auth');
+Route::get('/ajax/group_blocks/{group_id}', 'WorkloadController@get_group_blocks')->middleware('auth');
+Route::get('/ajax/group_disciplines/{group_id}', 'WorkloadController@get_group_disciplines')->middleware('auth');
+Route::get('/ajax/group_programs/{group_id}', 'WorkloadController@get_group_programs')->middleware('auth');

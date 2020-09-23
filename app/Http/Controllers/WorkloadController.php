@@ -11,7 +11,18 @@ use Illuminate\Support\Facades\Session;
 
 class WorkloadController extends Controller
 {
-    //
+    
+    public function workload_add_manual(Request $request) {
+        $timetable = new Timetable();
+        $timetable->fill($request->all());
+        //dump($timetable);
+        $timetable->save();
+        return redirect(route('workload'));
+        
+        
+        
+    }
+    
     public function take_workload($id) {
        $timetable = Timetable::find($id);
        return view('workloadadd', ['timetable' => $timetable]);
@@ -134,6 +145,48 @@ class WorkloadController extends Controller
             echo "</td>";
         }
         echo "</table>";
-            
     }
+    
+    public function get_group_blocks($group_id) {
+        $group = \App\Group::find($group_id);
+        $programs = $group->stream->programs;
+        echo "<label>Дисциплина из программы:</label><select name='block_id' class='form-control-static' required>";
+        foreach($programs as $p) {
+            $discipline = $p->disciplines;    
+            foreach($discipline as $d) {
+                $blocks = $d->active_blocks;
+                echo "<option value='' disabled>" . $d->name . "</option>";
+                
+                foreach ($blocks as $b ) {
+                    echo "<option value=" . $b->id . " data-discipline=" . $d->id. " data-program=" . $p->id . ">- " . str_limit($b->name, 200) . "</option>";
+                }
+            }
+        }
+        echo "</select>";
+    }
+
+
+    public function get_group_disciplines($group_id) {
+        $group = \App\Group::find($group_id);
+        $programs = $group->stream->programs;
+        echo "<label>Дисциплина:</label><select name='discipline_id' class='form-control-static' required>";
+        foreach($programs as $p) {
+            $discipline = $p->disciplines;    
+            foreach($discipline as $d) {
+                echo "<option value='" . $d->id . "' >" . $d->name . "</option>";
+            }
+        }
+        echo "</select>";
+    }
+    
+    public function get_group_programs($group_id) {
+        $group = \App\Group::find($group_id);
+        $programs = $group->stream->programs;
+        echo "<label>Программа:</label><select name='program_id' class='form-control-static' required>";
+        foreach($programs as $p) {
+            
+            echo "<option value='" . $p->id . "' >" . $p->name . "</option>";
+        }
+        echo "</select>";
+    }    
 }

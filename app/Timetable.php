@@ -9,7 +9,7 @@ class Timetable extends Model
 {
     // распределение времени и нагрузки
     protected $table = 'timetable';
-    protected $fillable = ['group_id', 'teacher_id', 'change_teacher_id', 'block_id', 'start_at', 'hours'];
+    protected $fillable = ['group_id', 'teacher_id', 'change_teacher_id', 'block_id', 'start_at', 'hours', 'program_id','lessontype'];
     
     function teacher() {
         return $this->hasOne('App\User', 'id', 'teacher_id');

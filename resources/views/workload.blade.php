@@ -61,7 +61,9 @@
                             </form>
                         </p>
                         
-                        <div id="allWorkload"></div>
+                        <p><a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a></p>
+                        
+
                         
                         @if ($stream_id)
                         
@@ -127,10 +129,16 @@
                                         {{ \App\Discipline::find($timetable->discipline_id)->name}}</span>
                                 @endif
 
-                                @if($timetable->program_id) 
+                                @if($timetable->program_id and $timetable->lessontype == 3 ) 
                                 <span class='red'><strong>Итоговая аттестация</strong>
                                         {{ \App\Program::find($timetable->program_id)->name}}</span>
                                 @endif
+                                
+                                @if($timetable->program_id and $timetable->lessontype == 4 ) 
+                                <span class="blue"><strong>Защита ВКР</strong>
+                                        {{ \App\Program::find($timetable->program_id)->name}}</span>
+                                @endif
+                                                   
                             </td>
                             <td>{{ $timetable->hours }} ч<br/>
                             {{ $timetable->lesson_type->name or 'не определено'}}

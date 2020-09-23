@@ -21,7 +21,7 @@ class Program extends Model
     }
     
     public function disciplines() {
-        return $this->belongsToMany('\App\Discipline', 'discipline2program', 'program_id', 'discipline_id');
+        return $this->belongsToMany('\App\Discipline', 'discipline2program', 'program_id', 'discipline_id')->orderBy('name');
     }
     
     public function hours() {

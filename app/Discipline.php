@@ -22,7 +22,7 @@ class Discipline extends Model
     }
     
     public function active_blocks() {
-        return $this->hasMany('\App\Block', 'discipline_id', 'id')->where('active', 1);
+        return $this->hasMany('\App\Block', 'discipline_id', 'id')->where('active', 1)->orderBy('name');
     }
     
     public function programs() {
