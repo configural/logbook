@@ -19,6 +19,9 @@
                         <input name="id" type="hidden" value="">
                         
                         Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static">
+                        
+                        <input name="date_copy" type="date" value="{{$date}}" class="form-control-static">
+                        
                        Группа: <select id="filterGroup" class='form-control-static'>
                            @foreach(\App\Group::select()->where('active',1)->orderby('name')->get() as $group)
                            <option value='{{$group->name}}'>{{$group->name}} ({{$group->students->count()}} чел.)</option>
