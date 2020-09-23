@@ -41,7 +41,7 @@ class RaspController extends Controller
         }
         $rasp->date = $request->date;
         $rasp_date1 = $request->date_copy;
-        dump($rasp_date1);
+        //dump($rasp_date1);
        // $rasp->pair_id = $request->pair_id;
         $rasp->timetable_id = $request->timetable_id;
         $rasp->room_id = $request->room_id;
@@ -100,7 +100,12 @@ class RaspController extends Controller
         $rasp = Rasp::find($id);
         
         \App\Classroom::unblock_classroom($rasp->date, $rasp->room_id);
+
         
+
+        // удаление журнала
+        $journal = \App\Journal::where('rasp_id', $rasp->id)->first();
+        $journal->delete();
         $rasp->delete();
         
         return redirect(url('rasp')."?date=".$rasp->date);
@@ -117,7 +122,7 @@ class RaspController extends Controller
             
             $rasp = $t->rasp_id;
             
-        dump($rasp);    
+        //dump($rasp);    
         }
         
         

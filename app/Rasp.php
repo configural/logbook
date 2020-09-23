@@ -24,6 +24,10 @@ class Rasp extends Model
         return "teachers";
     }
     
+    function journal(){
+        return $this->hasOne('\App\Journal', 'rasp_id', 'id');
+    }
+    
     
     public static function weekday($date) {
         
