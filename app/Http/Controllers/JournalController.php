@@ -29,7 +29,13 @@ class JournalController extends Controller
             $rasp_id = $request->id;
             $rasp = \App\Rasp::find($rasp_id);
             
+            if ($rasp->date > date("Y-m-d")) {
+                return view('info', ['html' => 'Этот день еще не наступил!']);
+            }
+            
+            
             $journal = Journal::select()->where('rasp_id', $rasp->id)->first();
+            
             
             if ($journal){
             // переходим во вью   l
