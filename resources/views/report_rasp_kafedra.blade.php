@@ -10,7 +10,7 @@
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
-                    <form method="post">
+                    <form method="get">
                         <p><label>Кафедра (подразделение)</label> <br/>
                         
                             <select name="department_id" class="form-control-static">
@@ -25,7 +25,7 @@
                             
                         </select>
                          
-                            @include('include.daterange', ['date1' => $request->date1, 'date2' => $request->date2])
+                            @include('include.daterange', ['date1' => $date1, 'date2' => $date2])
                         
                         <button class="btn btn-success">Сформировать</button>
                         
@@ -56,7 +56,7 @@
                         <tbody>
                     @foreach($user->timetable()
                     ->join('rasp', 'rasp.id', '=', 'rasp_id')
-                    ->whereBetween('rasp.date', [$request->date1, $request->date2])
+                    ->whereBetween('rasp.date', [$date1, $date2])
                     ->orderby('rasp.date')->get() as $timetable)
                         
                         <tr>
