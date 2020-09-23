@@ -9,6 +9,9 @@
                 <div class="panel-heading ">Мое расписание</div>
 
                 <div class="panel-body">
+                        <p>
+                            <a href="{{route('home')}}">В начало</a>
+                        </p>
                     <form method="get">
                     @include('include.daterange', ['date1' => $date1 , 'date2' => $date2])
                     <button class="btn btn-success">Обновить</button>
