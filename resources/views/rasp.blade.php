@@ -59,7 +59,7 @@ $_SESSION["work_with"] = "rasp";
                             <td width='10%'>
                                 @if(in_array(Auth::user()->role_id, [3, 4] ))
                                 <p><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a></p>
-                                <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}" >Удалить</a></p>
+                                <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}"  onClick="return window.confirm('Действительно удалить?');" >Удалить</a></p>
                                 @if (isset($rasp->journal->id))
                                 <i class="fa fa-list red" title="Журнал создан!"></i>
                                 @endif
