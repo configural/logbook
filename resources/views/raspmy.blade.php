@@ -6,39 +6,16 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Расписание преподавателей кафедры за период</div>
+                <div class="panel-heading ">Мое расписание</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id >= 3)  
-                    <form method="post">
-                        <p><label>Кафедра (подразделение)</label> <br/>
-                        
-                            <select name="department_id" class="form-control-static">
-                            
-                            @foreach(\App\Department::where('active', 1)->get() as $dep)
-                            @if (isset($request) && $dep->id == $request->department_id)
-                            <option value="{{ $dep->id }}" selected>{{ $dep->name }}</option>
-                            @else
-                            <option value="{{ $dep->id }}">{{ $dep->name }}</option>
-                            @endif
-                            @endforeach
-                            
-                        </select>
-                         
-                            @include('include.daterange', ['date1' => $request->date1, 'date2' => $request->date2])
-                        
-                        <button class="btn btn-success">Сформировать</button>
-                        
-                        <a href="{{ route('home')}}" class="btn btn-info">Отмена</a>
-                        {{ csrf_field() }}
+                    <form method="get">
+                    @include('include.daterange', ['date1' => $date1 , 'date2' => $date2])
+                    <button class="btn btn-success">Обновить</button>
                     </form>
-                    <p></p>
-                    
-                    @if(isset($users))
-                    
-                    @foreach($users as $user)
-                    <h3>{{ $user->name}}</h3>
-                    <table class='table table-bordered'>
+                    <hr>
+                    <h3>{{ Auth::user()->name}}</h3>
+                    <table class='table table-bordered' id="sortTable">
 
                         <thead>
                         <tr class='alert-info'>
@@ -54,9 +31,9 @@
                         </tr>  
                         </thead>
                         <tbody>
-                    @foreach($user->timetable()
+                    @foreach(Auth::user()->timetable()
                     ->join('rasp', 'rasp.id', '=', 'rasp_id')
-                    ->whereBetween('rasp.date', [$request->date1, $request->date2])
+                    ->whereBetween('rasp.date', [$date1, $date2])
                     ->orderby('rasp.date')->get() as $timetable)
                         
                         <tr>
@@ -77,13 +54,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                    @endforeach
-                    @endif
-                
-
-                    @else
-                    К сожалению, у вас нет доступа к этой функции
-                    @endif
+                    
                     
                     
                 </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Rasp;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Carbon\Carbon;
 
 class RaspController extends Controller
 {
@@ -104,6 +105,24 @@ class RaspController extends Controller
         
         return redirect(url('rasp')."?date=".$rasp->date);
        
+    }
+    
+    function my_rasp(Request $request) {
+        
+        $request->date1 ? $date1 = $request->date1 : $date1 = date("Y-m-d");
+        $request->date2 ? $date2 = $request->date2 : $date2 = Carbon::now()->addMonth()->format("Y-m-d");
+        //dump([$date1, $date2]);
+        
+        foreach(Auth::user()->timetable() as $t) {
+            
+            $rasp = $t->rasp_id;
+            
+        dump($rasp);    
+        }
+        
+        
+        
+        return view('raspmy', ['date1' => $date1, 'date2' => $date2]);
     }
     
 }

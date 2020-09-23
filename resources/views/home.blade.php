@@ -27,6 +27,7 @@
                         <div class="icon"><a href="{{route('streams')}}"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
                         <div class="icon"><a href="{{route('workload')}}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>
                         <div class="icon"><a href="{{route('rasp')}}"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
+                        <div class="icon"><a href="{{route('myrasp')}}"><i class="fa fa-calendar fa-3x green"></i><br/>Мое расписание</a></div>
                         <div class="icon"><a href="{{route('journal')}}"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
                         <div class="icon"><a href="{{route('classrooms')}}"><i class="fa fa-building fa-3x blue"></i><br/>Аудитории</a></div>
                         
@@ -62,6 +63,7 @@
                         @endif
                         
                         <div class="icon"><a href="{{url('/')}}/journal"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>
+                        <div class="icon"><a href="{{route('myrasp')}}"><i class="fa fa-calendar fa-3x green"></i><br/>Мое расписание</a></div>
                         
                         
 
@@ -75,6 +77,7 @@
                     <h3>Преподавательская деятельность</h3>
                     <div class="icon"><a href="{{url('/')}}/workload"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Распределение нагрузки</a></div>    
                     <div class="icon"><a href="{{url('/')}}/journal"><i class="fa fa-list fa-3x brown"></i><br/>Мой журнал</a></div>
+                    <div class="icon"><a href="{{route('myrasp')}}"><i class="fa fa-calendar fa-3x green"></i><br/>Мое расписание</a></div>
                     
                     <h3>Контроль и мониторинг</h3>
                     <hr>

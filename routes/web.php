@@ -88,6 +88,7 @@ Route::post('/student/{id}/store', 'StudentController@store')->middleware('auth'
 
 // Расписание
 Route::get('/timetable', function(){return view('timetable');})->middleware('auth');
+Route::get('/my_rasp', 'RaspController@my_rasp')->name('myrasp')->middleware('auth');
 Route::get('/rasp', 'RaspController@view')->name('rasp')->middleware('auth');
 Route::get('/rasp/delete/{id}', 'RaspController@delete')->middleware('auth');
 Route::get('/rasp/edit/{id}', 'RaspController@edit')->middleware('auth');
