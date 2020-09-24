@@ -38,7 +38,7 @@
                         <td><a href="media/{{$media->id}}/edit">{{ $media->name or ''}}</a></td>
                         <td>
                             @foreach($media->users as $user)
-                            {{$user->fio()}}<br/>
+                            {{$user->fio()}} ({{$user->department->name}})<br/>
                             @endforeach
                             
                         </td>
