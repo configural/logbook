@@ -15,7 +15,7 @@
                     @if(Auth::user()->role_id >= 3)
                     <form action="" method="post">
                         <input name="id" type="hidden" value="{{$rasp->id}}">
-                        <p><strong>Тема занятия:</strong> {{ $rasp->timetable->block->name}}</p>
+                        <p><strong>Тема занятия:</strong> {{ $rasp->timetable->block->name or ''}}</p>
                         <p><strong>Группа:</strong> {{ $rasp->timetable->group->name}}</p>
                        
                         <p><strong>Преподаватель(и):</strong><br>

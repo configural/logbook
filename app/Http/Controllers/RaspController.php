@@ -105,7 +105,7 @@ class RaspController extends Controller
 
         // удаление журнала
         $journal = \App\Journal::where('rasp_id', $rasp->id)->first();
-        $journal->delete();
+        if (isset($journal)) {$journal->delete();}
         $rasp->delete();
         
         return redirect(url('rasp')."?date=".$rasp->date);
