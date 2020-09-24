@@ -132,7 +132,15 @@ Route::get('/reports/rasp_kafedra', 'ReportController@rasp_kafedra')->name('prin
 Route::get('/reports/no_journal', 'ReportController@no_journal')->name('no_journal')->middleware('auth');
 
 
+// Медиаконтент
+Route::get('/media', function() {return view('media');})->name('media')->middleware('auth');
+Route::get('/mediaadd', function() {return view('mediaadd');})->name('mediaadd')->middleware('auth');
+Route::get('/media/{id}/edit', 'MediaController@edit')->middleware('auth');
+Route::get('/media/{id}/delete', 'MediaController@delete')->middleware('auth');
+Route::post('/mediaadd', 'MediaController@store')->middleware('auth');
+Route::post('/media/{id}/edit', 'MediaController@store')->middleware('auth');
 
+// 
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
 Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->middleware('auth');

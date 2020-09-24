@@ -29,10 +29,18 @@ class DatabaseSeeder extends Seeder
       DB::table('forms')->insert(['name' => 'заочная']);
       DB::table('forms')->insert(['name' => 'дистанционная']);
       */
+        /*
       DB::table('attestation')->insert(['name' => 'зачет']);
       DB::table('attestation')->insert(['name' => 'экзамен']);
       DB::table('attestation')->insert(['name' => 'экзамен в форме тестирования']);
       DB::table('attestation')->insert(['name' => 'выпускная квалификационная работа']);
-      
+      */
+        
+        DB::table('mediatypes')->insert(['name' => 'Видеоурок']);
+        DB::table('mediatypes')->insert(['name' => '"Коротко о главном"']);
+        DB::table('mediatypes')->insert(['name' => 'Интерактивный учебник']);
+        DB::table('mediatypes')->insert(['name' => 'Тренажер']);
+        
+        
     }
 }
