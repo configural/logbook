@@ -14,8 +14,10 @@
                  
                     <table class="table table-bordered" id="sortTable">
                         <thead>
+
+                        <th width="5%">id журнала</th>
                         <th width="10%">Дата</th>
-                        <th width="30%">Преподаватель</th>
+                        <th width="25%">Преподаватель</th>
                         <th width="10%">Группа</th>
                         <th width="50%">Занятие</th>
                         
@@ -25,8 +27,9 @@
                         @foreach($journal as $j)
                             
                         <tr>
+                            <td>{{ $j->id }}</td>
                             <td>{{ $j->date }}</td>
-                            <td>{{ \App\User::find($j->id)->name }}</td>
+                            <td>{{ \App\User::find($j->teacher_id)->name }}</td>
                             <td>{{ \App\Group::find($j->group_id)->name }}</td>
                             <td>{{ @str_limit( \App\Block::find($j->block_id)->name , 60) }}</td>
                             
