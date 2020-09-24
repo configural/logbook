@@ -129,6 +129,7 @@ Route::get('/reports/journal/view/{id}', 'ReportController@view_journal')->middl
 Route::get('/reports/rasp', function() {return view('report_rasp');})->name('print_rasp')->middleware('auth');
 Route::post('/reports/rasp', 'ReportController@rasp_group')->middleware('auth');
 Route::get('/reports/rasp_kafedra', 'ReportController@rasp_kafedra')->name('print_rasp_kafedra')->middleware('auth');
+Route::get('/reports/no_journal', 'ReportController@no_journal')->name('no_journal')->middleware('auth');
 
 
 

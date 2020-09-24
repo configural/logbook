@@ -12,7 +12,8 @@
  .green {color: #26AA56}
  .cyan {color: #31b0d5}
  .blue {color: #1B559E}
- .violet {color: #blueviolet}
+ .violet {color: blueviolet}
+ .black {color: black}
  
  .rasp {display: block; padding: 5px; background: #ddffcc; margin-bottom: 5px;}
  

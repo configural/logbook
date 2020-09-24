@@ -148,4 +148,16 @@ class ReportController extends Controller
         return view('report_rasp_kafedra', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'department_id' => $request->department_id]);
        
     }
+    
+    function no_journal(Request $request) {
+        $journal = \App\Rasp::select()->where('date', '<', date('Y-m-d'))
+                ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('journal', 'journal.rasp_id', '=', 'rasp.id')
+                ->where('journal.attendance', '=', 'a:0:{}')
+                ->orWhereNull('journal.attendance')
+                ->get();
+           //dump($journal);     
+        return view('no_journal', ['journal' => $journal]);
+    }
+    
 }
