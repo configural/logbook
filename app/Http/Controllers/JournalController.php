@@ -34,7 +34,7 @@ class JournalController extends Controller
             }
             
             
-            $journal = Journal::select()->where('rasp_id', $rasp->id)->first();
+            $journal = Journal::select()->where('rasp_id', $rasp->id)->where('teacher_id', Auth::user()->id)->first();
             
             
             if ($journal){
