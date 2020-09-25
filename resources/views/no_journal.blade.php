@@ -24,17 +24,21 @@
                         </thead>
                         <tbody>
                         
-                        @foreach($journal as $j)
-                            
+                        @foreach($rasp as $r)
+                        @if ($r->journal == NULL)  
                         <tr>
-                            <td>{{ $j->id }}</td>
-                            <td>{{ $j->date }}</td>
-                            <td>{{ \App\User::find($j->teacher_id)->name }}</td>
-                            <td>{{ \App\Group::find($j->group_id)->name }}</td>
-                            <td>{{ @str_limit( \App\Block::find($j->block_id)->name , 60) }}</td>
+                            <td>{{ $r->id }}</td>
+                            <td>{{ $r->date }}</td>
+                            <td>@foreach($r->timetable->teachers as $teacher)
+                                {{$teacher->name}}<br/>
+                                @endforeach
+                            </td>
+                            <td>{{ $r->timetable->group->name }}</td>
+                            <td>{{ $r->timetable->block->name or '' }}</td>
                             
                             
                         </tr>
+                        @endif
                         @endforeach
                     
                         </tbody>
@@ -46,3 +50,4 @@
     </div>
 </div>
 @endsection
+

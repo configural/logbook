@@ -89,9 +89,11 @@ class ReportController extends Controller
                 if (strlen($r->timetable->block->name) >= 90) {
                     $r->timetable->block->name = str_limit($r->timetable->block->name, 90, '[...]');
                 }
+                } else {
+                    
                 }
                 
-                if (isset($r->timetable->block->name)) $sheet->setCellValue('c'.$i, $r->timetable->block->name);
+                if (isset($r->timetable->block->name)) {$sheet->setCellValue('c'.$i, $r->timetable->block->name);}
                 $sheet->setCellValue('d'.$i, $r->timetable->lesson_type->name
                         . chr(10) . $r->timetable->hours ." ч");
                 
@@ -151,14 +153,17 @@ class ReportController extends Controller
     }
     
     function no_journal(Request $request) {
-        $journal = \App\Rasp::select()->where('date', '<', date('Y-m-d'))
+      /*  $journal = \App\Rasp::select()->where('date', '<', date('Y-m-d'))
                 ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('journal', 'journal.rasp_id', '=', 'rasp.id')
                 ->where('journal.attendance', '=', 'a:0:{}')
                 ->orWhereNull('journal.attendance')
                 ->get();
            //dump($journal);     
-        return view('no_journal', ['journal' => $journal]);
+        return view('no_journal', ['journal' => $journal]);*/
+        
+        $rasp =  \App\Rasp::select()->where('date', '<', date('Y-m-d'))->get();
+        return view('no_journal', ['rasp' => $rasp]);
     }
     
 }
