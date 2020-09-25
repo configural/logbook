@@ -85,9 +85,10 @@ class ReportController extends Controller
                     
                 }
                 $sheet->setCellValue('b'.$i, substr($r->start_at, 0, 5) . chr(10) . substr($r->finish_at, 0, 5));
-                
+                if (isset($r->timetable->block->name)) {
                 if (strlen($r->timetable->block->name) >= 90) {
                     $r->timetable->block->name = str_limit($r->timetable->block->name, 90, '[...]');
+                }
                 }
                 
                 if (isset($r->timetable->block->name)) $sheet->setCellValue('c'.$i, $r->timetable->block->name);
