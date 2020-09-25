@@ -18,22 +18,24 @@
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                         <tr class="info">
-                        <th>id</th>
+                        <th>№</th>
                         <th>Тип</th>
                         <th>Название</th>
                         <th>Преподаватель</th>
-                        <th>Дата начала</th>
-                        <th>Дата завершения</th>
+                        <th>Продюссер</th>
+                        <th>Дата начала/завершения</th>
+                        
                         <th>Статус</th>
                         
                         </thead> 
                         <tbody>
                     
-
+                            @php $i = 0; @endphp
                     @foreach(\App\Mediacontent::select()->get() as $media)
                     
                     <tr>
-                        <td>{{ $media->id }}</td>
+                        @php $i++; @endphp
+                        <td>{{ $i }}</td>
                         <td>{{ $media->mediatype->name or ''}}</td>
                         <td><a href="media/{{$media->id}}/edit">{{ $media->name or ''}}</a></td>
                         <td>
@@ -42,12 +44,21 @@
                             @endforeach
                             
                         </td>
+                        <td>
+                            @if ($media->master_id)
+                            {{ \App\User::find($media->master_id)->fio() }}
+                            @endif
+                        </td>
                         
-                        <td>{{ $media->date_start}}</td>
-                        <td>{{ $media->date_finish}}</td>
+                        <td>{{ $media->date_start}}<br>
+                        {{ $media->date_finish}}</td>
                         <td>
                             @if ($media->status)
                             <i class="fa fa-check-circle green fa-2x"></i>
+                                @if ($media->result_path)
+                                <span class='small'>{{$media->result_path}}</span>
+                                @endif
+                                
                             @else
                             @endif
                         </td>

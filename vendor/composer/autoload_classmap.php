@@ -1786,6 +1786,7 @@ return array(
     'Matrix\\Operators\\Operator' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Operator.php',
     'Matrix\\Operators\\Subtraction' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Subtraction.php',
     'Mediacontent' => $baseDir . '/database/migrations/2020_09_24_131949_mediacontent.php',
+    'Mediacontent2' => $baseDir . '/database/migrations/2020_09_25_091458_mediacontent2.php',
     'Mediatypes' => $baseDir . '/database/migrations/2020_09_24_134412_mediatypes.php',
     'Metodist2stream' => $baseDir . '/database/migrations/2020_09_17_104254_metodist2stream.php',
     'Mockery' => $vendorDir . '/mockery/mockery/library/Mockery.php',

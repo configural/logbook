@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Новая медиаконтент</div>
+                <div class="panel-heading ">Редактирование описания медиаконтента</div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id == 4)  
@@ -51,13 +51,28 @@
                             
                             @endforeach
                         </select>
-                        </p>
-                        
-                        <p><label>Дата начала:</label>
-                            <input type="date" value="{{ $media->date_start }}" name="date_start" class="form-control-static"></p>
+                        <p>
+                            <label>Исполнитель</label>
+                            <select name="master_id" class='form-control-static'>
+                                <option value=''></option>
 
-                        <p><label>Дата завершения:</label>
+                                @foreach(\App\User::select()->where('role_id', 4)->orderBy('name')->get() as $user)
+                                @if($media->master_id == $user->id)
+                                <option value='{{ $user->id }}' selected>{{$user->name}}</option>
+                                @else
+                                <option value='{{ $user->id }}'>{{$user->name}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </p>
+                        <p><label>Даты начала и завершения:</label>
+                            <input type="date" value="{{ $media->date_start }}" name="date_start" class="form-control-static"> 
                             <input type="date" value="{{ $media->date_finish }}" name="date_finish" class="form-control-static"></p>
+                        <p>
+                        <label>Сетевой путь к результату:</label>
+                        <textarea name='result_path' class='form-control'>{{ $media->result_path }}</textarea>
+                        </p>
+
                         
                         <p><label>Состояние проекта (0/1):</label>
                             <input type="integer" value="{{ $media->status }}" name="status" class="form-control-static" required=""></p>
