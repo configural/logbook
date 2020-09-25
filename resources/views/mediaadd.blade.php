@@ -35,11 +35,27 @@
                         </select>
                         </p>
                         
-                        <p><label>Дата начала:</label>
-                            <input type="date" value="" name="date_start" class="form-control-static"></p>
+                        <p>
+                            <label>Исполнитель</label>
+                            <select name="master_id" class='form-control-static'>
+                                <option value=''></option>
 
-                        <p><label>Дата завершения:</label>
+                                @foreach(\App\User::select()->where('role_id', 4)->orderBy('name')->get() as $user)
+                               
+                                <option value='{{ $user->id }}'>{{$user->name}}</option>
+                               
+                                @endforeach
+                            </select>
+                        </p>                        
+                        
+                        <p><label>Дата начала и завершения:</label><br/>
+                            <input type="date" value="" name="date_start" class="form-control-static"> 
                             <input type="date" value="" name="date_finish" class="form-control-static"></p>
+ 
+                        <p>
+                        <label>Сетевой путь к результату:</label>
+                        <textarea name='result_path' class='form-control'></textarea>
+                        </p>
                         
                         <p><label>Состояние проекта (0/1):</label>
                             <input type="integer" value="0" name="status" class="form-control-static" required=""></p>

@@ -26,6 +26,7 @@
                         <th>Дата начала/завершения</th>
                         
                         <th>Статус</th>
+                        <th>Где посмотреть?</th>
                         
                         </thead> 
                         <tbody>
@@ -55,12 +56,13 @@
                         <td>
                             @if ($media->status)
                             <i class="fa fa-check-circle green fa-2x"></i>
+                            @else
+                            @endif
+                        </td>
+                        <td>
                                 @if ($media->result_path)
                                 <span class='small'>{{$media->result_path}}</span>
                                 @endif
-                                
-                            @else
-                            @endif
                         </td>
                         
                     </tr>
