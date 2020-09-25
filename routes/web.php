@@ -134,6 +134,7 @@ Route::get('/reports/no_journal', 'ReportController@no_journal')->name('no_journ
 
 // Медиаконтент
 Route::get('/media', function() {return view('media');})->name('media')->middleware('auth');
+Route::get('/my_media', function() {return view('media_my');})->name('my_media')->middleware('auth');
 Route::get('/mediaadd', function() {return view('mediaadd');})->name('mediaadd')->middleware('auth');
 Route::get('/media/{id}/edit', 'MediaController@edit')->middleware('auth');
 Route::get('/media/{id}/delete', 'MediaController@delete')->middleware('auth');
