@@ -2214,6 +2214,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'Matrix\\Operators\\Multiplication' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Multiplication.php',
         'Matrix\\Operators\\Operator' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Operator.php',
         'Matrix\\Operators\\Subtraction' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Subtraction.php',
+        'MediaKvartal' => __DIR__ . '/../..' . '/database/migrations/2020_09_28_134341_media_kvartal.php',
         'Mediacontent' => __DIR__ . '/../..' . '/database/migrations/2020_09_24_131949_mediacontent.php',
         'Mediacontent2' => __DIR__ . '/../..' . '/database/migrations/2020_09_25_091458_mediacontent2.php',
         'Mediatypes' => __DIR__ . '/../..' . '/database/migrations/2020_09_24_134412_mediatypes.php',

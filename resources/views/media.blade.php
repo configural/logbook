@@ -23,7 +23,7 @@
                         <th>Название</th>
                         <th>Преподаватель</th>
                         <th>Продюссер</th>
-                        <th>Дата начала/завершения</th>
+                        <th>Квартал/Дата начала/завершения</th>
                         
                         <th>Статус</th>
                         <th>Где посмотреть?</th>
@@ -51,7 +51,11 @@
                             @endif
                         </td>
                         
-                        <td>{{ $media->date_start}}<br>
+                        <td>
+                            @if ($media->quarter)
+                            {{ $media->quarter }}&nbsp;квартал<br/>
+                            @endif
+                            {{ $media->date_start}}<br>
                         {{ $media->date_finish}}</td>
                         <td>
                             @if ($media->status)

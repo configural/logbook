@@ -47,6 +47,10 @@
                                 @endforeach
                             </select>
                         </p>                        
+
+                         <p><label>На какой квартал запланировано?:</label>
+                            <input type="number" value="0" name="quarter" class="form-control-static" required=""></p>
+
                         
                         <p><label>Дата начала и завершения:</label><br/>
                             <input type="date" value="" name="date_start" class="form-control-static"> 
@@ -58,7 +62,7 @@
                         </p>
                         
                         <p><label>Состояние проекта (0/1):</label>
-                            <input type="integer" value="0" name="status" class="form-control-static" required=""></p>
+                            <input type="number" value="0" name="status" class="form-control-static" required=""></p>
                         
                         {{ csrf_field() }}
                         

@@ -9,7 +9,7 @@ class Mediacontent extends Model
     //
     protected $table = "mediacontent";
     
-    protected $fillable = ['type', 'name', 'description', 'date_start', 'date_finish', 'status', 'master_id', 'result_path'];
+    protected $fillable = ['type', 'name', 'description', 'date_start', 'date_finish', 'status', 'master_id', 'result_path', 'quarter'];
     
     public function mediatype() {
         return $this->hasOne('\App\Mediatype', 'id', 'type');

@@ -150,14 +150,21 @@ class ReportController extends Controller
         return view('report_rasp_kafedra', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'department_id' => $request->department_id]);
     }
 
+//табель штатных преподавателей    
     function tabel(Request $request) {
         $request->date1 ? $date1 = $request->date1 :  $date1 = Carbon::now()->subMonth()->format("Y-m-d");
         $request->date2 ? $date2 = $request->date2 :  $date2 = date("Y-m-d");
-
         $users = \App\User::where('department_id', $request->department_id)->where('freelance', 0)->orderBy('name')->get();
         return view('report_tabel', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'department_id' => $request->department_id]);
        
     }
+
+// табель внештатных пеподавателей
+    function tabel_freelance(Request $request) {
+       return view('info', ['html' => "Пока в разработке"]);
+       
+    }
+
 
     
     function no_journal(Request $request) {

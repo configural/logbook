@@ -1785,6 +1785,7 @@ return array(
     'Matrix\\Operators\\Multiplication' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Multiplication.php',
     'Matrix\\Operators\\Operator' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Operator.php',
     'Matrix\\Operators\\Subtraction' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Subtraction.php',
+    'MediaKvartal' => $baseDir . '/database/migrations/2020_09_28_134341_media_kvartal.php',
     'Mediacontent' => $baseDir . '/database/migrations/2020_09_24_131949_mediacontent.php',
     'Mediacontent2' => $baseDir . '/database/migrations/2020_09_25_091458_mediacontent2.php',
     'Mediatypes' => $baseDir . '/database/migrations/2020_09_24_134412_mediatypes.php',

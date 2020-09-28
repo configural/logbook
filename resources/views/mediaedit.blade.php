@@ -65,6 +65,10 @@
                                 @endforeach
                             </select>
                         </p>
+                        
+                        <p><label>На какой квартал запланировано?:</label>
+                            <input type="number" value="{{$media->quarter}}" name="quarter" class="form-control-static" required=""></p>
+                        
                         <p><label>Даты начала и завершения:</label>
                             <input type="date" value="{{ $media->date_start }}" name="date_start" class="form-control-static"> 
                             <input type="date" value="{{ $media->date_finish }}" name="date_finish" class="form-control-static"></p>
@@ -75,7 +79,7 @@
 
                         
                         <p><label>Состояние проекта (0/1):</label>
-                            <input type="integer" value="{{ $media->status }}" name="status" class="form-control-static" required=""></p>
+                            <input type="number" value="{{ $media->status }}" name="status" class="form-control-static" required=""></p>
                         
                         {{ csrf_field() }}
                         
