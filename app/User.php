@@ -63,4 +63,13 @@ class User extends Authenticatable
         return $this->belongsToMany('\App\Timetable', 'teachers2timetable', 'teacher_id', 'timetable_id');
     }
 
+    public static function user_hours($user_id, $date1, $date2, $lessontype) {
+        //dump([$user_id, $date1, $date2, $lessontype]);
+        $journal = \App\Journal::select('journal.*')->where('teacher_id', $user_id)
+                ->join('rasp', 'journal.rasp_id', '=', 'rasp.id')
+                ->join('timetable', 'rasp.timetable_id', '=', 'timetable.id')
+                ->where('timetable.lessontype', $lessontype)->sum('timetable.hours');
+        
+        return $journal;
+    }
 }
