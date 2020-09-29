@@ -62,14 +62,33 @@ class User extends Authenticatable
     public function timetable() {
         return $this->belongsToMany('\App\Timetable', 'teachers2timetable', 'teacher_id', 'timetable_id');
     }
+    
+    public function contracts() {
+        return $this->hasMany('\App\Contract', 'user_id', 'id');
+    }
 
     public static function user_hours($user_id, $date1, $date2, $lessontype) {
         //dump([$user_id, $date1, $date2, $lessontype]);
-        $journal = \App\Journal::select('journal.*')->where('teacher_id', $user_id)
+        $journal = \App\Journal::select(['journal.teacher_id', 'timetable.hours', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id'])
+                ->distinct()
                 ->join('rasp', 'journal.rasp_id', '=', 'rasp.id')
                 ->join('timetable', 'rasp.timetable_id', '=', 'timetable.id')
-                ->where('timetable.lessontype', $lessontype)->sum('timetable.hours');
+                
+                ->where('teacher_id', $user_id)
+                ->whereBetween('rasp.date', [$date1, $date2])    
+                ->where('timetable.lessontype', $lessontype)
+                
+                ->get();
+                //->sum('timetable.hours');
         
-        return $journal;
+        $hours = 0;
+        foreach($journal as $j) {
+            $hours += $j->hours;
+        }
+        
+        //$hours = $journal;
+        return $hours;
     }
+    
+    
 }
