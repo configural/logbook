@@ -28,9 +28,10 @@
                         <th>Название</th>
                         
                         <th>Специалист</th>
-                        <th>Дата начала/завершения</th>
+                        <th>план начало завершение</th>
                         <th>Статус</th>
                         <th>Где посмотреть?</th>
+                        <th>Действия</th>
                         
                         </thead> 
                         <tbody>
@@ -53,7 +54,11 @@
                             @endif
                         </td>
                         
-                        <td>{{ $media->date_start}}<br>
+                        <td>
+                                                        @if ($media->quarter)
+                                                        {{ $media->quarter }} квартал<br>
+                            @endif
+                            {{ $media->date_start}}<br>
                         {{ $media->date_finish}}</td>
                         <td>
                             @if ($media->status)
@@ -67,6 +72,10 @@
                                 @endif
                         </td>
                         
+                        <td>
+                            <a href="my_media/{{$media->id}}/edit" class="btn btn-success">Редактировать</a>
+                            
+                        </td>
                     </tr>
                     @endif
                     @endforeach
