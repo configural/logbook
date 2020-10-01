@@ -25,6 +25,7 @@ Route::get('/user/add', function() {return view('useradd');})->middleware('auth'
 Route::post('/user/add', 'UserController@add')->middleware('auth');
 Route::get('/user/{id}/edit', 'UserController@edit')->middleware('auth');
 Route::post('/user/{id}/store', 'UserController@store')->middleware('auth');
+Route::get('/user/{id}/addcontract', function($id){ return view('usercontractadd', ['id' => $id]);})->middleware('auth');
 
 // Управление списком кафедр
 Route::get('/departments', function() {return view('departments');})->name('departments')->middleware('auth');

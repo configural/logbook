@@ -17,6 +17,7 @@
                             <tr>
                                 <td>id</td>
                                 <td>Название потока</td>
+                                <td>Группы</td>
                                 <td>Учебный год</td>
                                 <td>Методист</td>
                             </tr>
@@ -26,6 +27,13 @@
                             <tr class="">
                                 <td>{{ $stream->id }}</td>
                                 <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>
+                                <td>
+                                    @foreach($stream->groups as $group)
+                                    <small class='badge '>{{ $group->name }}</small>
+                                    @endforeach
+                                    
+                                </td>
+                                
                                 <td>{{ $stream->year }}</td>
                                 <td>{{ $stream->metodist->name or ''}}</td>
                             </tr>

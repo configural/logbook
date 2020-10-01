@@ -88,7 +88,7 @@
         
         
   
-        if ($.inArray(lessontype, [3, 4, 5] ) != -1) {
+        if ($.inArray(lessontype, [3, 4, 5, 6] ) != -1) {
         var url = "{{url('/')}}/ajax/group_programs/" + $("#groupSelect option:selected").val();
             
             $.ajax({

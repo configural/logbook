@@ -68,25 +68,20 @@ class User extends Authenticatable
     }
 
     public static function user_hours($user_id, $date1, $date2, $lessontype) {
-        //dump([$user_id, $date1, $date2, $lessontype]);
         $journal = \App\Journal::select(['journal.teacher_id', 'timetable.hours', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id'])
                 ->distinct()
                 ->join('rasp', 'journal.rasp_id', '=', 'rasp.id')
                 ->join('timetable', 'rasp.timetable_id', '=', 'timetable.id')
-                
                 ->where('teacher_id', $user_id)
                 ->whereBetween('rasp.date', [$date1, $date2])    
                 ->where('timetable.lessontype', $lessontype)
-                
                 ->get();
-                //->sum('timetable.hours');
-        
+       
         $hours = 0;
         foreach($journal as $j) {
             $hours += $j->hours;
         }
-        
-        //$hours = $journal;
+
         return $hours;
     }
     

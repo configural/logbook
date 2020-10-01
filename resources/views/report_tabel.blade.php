@@ -88,7 +88,7 @@
                             }
                             
                             @endphp
-                            {{ \App\User::user_hours($user->id, $date1, $date2, $lessontype->id)}}
+                            {{ \App\User::user_hours($user->id, $date1, $date2, $lessontype->id) }}
                             <br>
                         </td>
                         @endforeach

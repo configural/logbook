@@ -6,42 +6,47 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Создание пользователя</div>
+                <div class="panel-heading ">Добавление договора</div>
                 <div class="panel-body">
-                @if(Auth::user()->role_id == 4)    
-                <form action="add" method="post">
+            @if($id)
+                @if(in_array(Auth::user()->role_id, [3, 4]) and \App\User::find($id)->freelance)    
+                <form action="addcontract" method="post">
+                    <input type="hidden" name="user_id" value="{{ $id }}">
+                    <h3>
+                        Преподаватель: {{ \App\User::find($id)->fio()}}
+                    </h3>
+                    
+                    <hr>
+                    <p>
+                        <label>Номер (название) договора</label><br>
+                        <input type="text" name="name" class="form-control-static" required>
+                    </p>
+                    <p>
+                        <label>Стоимость часа, руб</label><br>
+                        <input type="number" name="price" class="form-control-static" required>
+                    </p>
+                    
+                    <p>
+                        <label>Срок действия:</label><br>
+                        <input type="date" name="start_at" class="form-control-static" required>  
+                        <input type="date" name="finish_at" class="form-control-static" required>
+                    </p>
+                    <p>
+                        <label>Дополнительно</label><br>
+                        <textarea name="description" class="form-control"></textarea>
+                    </p>
+                    <p>
+                        <label>Действует? (1/0)</label><br>
+                        <input type="number" name="active" value="1" class="form-control-static" required>
+                    </p>
                           
-                          <p><label>ФИО</label><input type="text" value="" class="form-control" name="name" required></p>
-                          <p><label>Логин (email)</label><input type="email" value="" class="form-control" name="email" required></p>
-                          <p><label>Пароль</label><input type="text" value="" class="form-control" name="password" required></p>
-                          <p><label>Подразделение</label>
-                              <select name="department_id" class="form-control">
-                              @foreach(\App\Department::select()->get() as $department)
-                             <option value="{{$department->id}}">{{$department->name}}</option>
-                              
-                              @endforeach
-                              </select>
-                          </p>
-                          
-                          <p><label>Роль пользователя</label>
-                              <select name="role_id" class="form-control">
-                              @foreach(\App\Role::select()->get() as $role)
-                              <option value="{{$role->id}}">{{$role->name}}</option>
-                              
-                              @endforeach
-                              </select>
-                          </p>
-                          
-                          <p><label>Внештатный?</label><input type="number" value="0" class="form-control" name="freelance" required>
-                              <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
-
-                          
-                          <p><button class="btn btn-success">Создать пользователя</button>
+                          <p><button class="btn btn-success">Создать договор</button>
                     {{ csrf_field() }}
                       </form>
                     @else
-                    К сожалению, у вас нет доступа к этой функции.                   
+                    Договор можно добавить только внештатному преподавателю                  
                     @endif
+            @endif
             </div>    
                 </div>
             </div>

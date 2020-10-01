@@ -35,7 +35,38 @@
                           </p>
                           <p><label>Внештатный?</label><input type="number" value="{{$user->freelance}}" class="form-control" name="freelance" required>
                               <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
-
+                          
+                          @if ($user->freelance)
+                          <div id="dogovor" style="display: block;">
+                              @else
+                          <div id="dogovor" style="display: none;">    
+                              @endif
+                          <h4>Договоры (только для внештатных)</h4>
+                          <table class="table table-bordered" id="sortTable">
+                              <thead>
+                              <th></th>
+                              <th>Номер договора</th>
+                              <th>Дата начала</th>
+                              <th>Дата окончания</th>
+                              <th>Стоимость часа</th>
+                              <th>Действует?</th>
+                              </thead>    
+                              <tbody>
+                          @foreach(\App\User::find($user->id)->contracts as $contract)
+                          <tr>
+                              <td></td>
+                              <td><a href="">{{ $contract->name }}</a></td>
+                              <td>{{ $contract->start_at }}</td>
+                              <td>{{ $contract->finish_at }}</td>
+                              <td>{{ $contract->price }}</td>
+                              <td>{{ $contract->active }}</td>
+                          </tr>
+                          @endforeach
+                              </tbody>
+                          </table>
+                          <a href="addcontract" class="btn btn-primary">Добавить договор</a>
+                          <hr/>
+                          </div>
                           
                           <p><button class="btn btn-success">Обновить</button>
                     {{ csrf_field() }}
@@ -47,4 +78,13 @@
         </div>
     </div>
 </div>
+
+<script>
+   $('input[name="freelance"]').on('input', function(){
+       if ($(this).val() == 1) {$("#dogovor").show('fast');}
+       else {$("#dogovor").hide('fast');}
+   });
+
+    </script>
+    
 @endsection
