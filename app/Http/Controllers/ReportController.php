@@ -69,6 +69,7 @@ class ReportController extends Controller
         $rasp = Rasp::select()->whereBetween('date', [$date1, $date2])->orderBy('date')->orderby('start_at')->get();
         
         foreach ($rasp as $r) {
+        
             $pair = 0;    
             if ($r->timetable->group_id == $group_id) {
                 $i++;
@@ -89,10 +90,6 @@ class ReportController extends Controller
                 if (strlen($r->timetable->block->name) >= 90) {
                     $r->timetable->block->name = str_limit($r->timetable->block->name, 90, '[...]');
                 }
-                } else {
-                    
-                }
-                
                 if (isset($r->timetable->block->name)) {$sheet->setCellValue('c'.$i, $r->timetable->block->name);}
                 $sheet->setCellValue('d'.$i, $r->timetable->lesson_type->name
                         . chr(10) . $r->timetable->hours ." ч");
@@ -104,20 +101,30 @@ class ReportController extends Controller
                     }
                 
                 $sheet->setCellValue('e'.$i, $r->classroom->name . chr(10) . $teachers);
+               
                 
-                $sheet->getStyle('A'.$i.':E'.$i)->getAlignment()->setWrapText(true);
+
                 
-                if ($pair == 1) {
+                
+                } else {
+                     $sheet->setCellValue('c'.$i, $r->timetable->lesson_type->name);
+                     $sheet->setCellValue('d'.$i, "");
+                     $sheet->setCellValue('e'.$i, $r->classroom->name);
+                    
+                }
+                 $sheet->getStyle('A'.$i.':E'.$i)->getAlignment()->setWrapText(true);
+                    if ($pair == 1) {
                     $i++;
                     //dump($pair);
                     $sheet->setCellValue('C'.$i, "Перерыв на обед: " . $request->obed);
                     $sheet->getStyle('B'.$i.":E".$i)->applyFromArray($style2);
                 
                 }
+
                 
                 
             } 
-            
+        
         }
         
         $i+=2;
