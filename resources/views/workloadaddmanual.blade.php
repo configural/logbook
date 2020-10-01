@@ -84,13 +84,8 @@
             });
             $('#blocks').show();
             $('#hours').show();
-        }
-        
-        
-  
-        if ($.inArray(lessontype, [3, 4, 5, 6] ) != -1) {
+        } else {
         var url = "{{url('/')}}/ajax/group_programs/" + $("#groupSelect option:selected").val();
-            
             $.ajax({
             url: url, 
             success: function(param) { $('#blocks').html(param);  }
