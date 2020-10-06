@@ -29,7 +29,7 @@
                                 <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>
                                 <td>
                                     @foreach($stream->groups as $group)
-                                    <small class='badge '>{{ $group->name }}</small>
+                                    <a href='{{url('/')}}/group/{{$group->id}}/edit'><small class='badge'>{{ $group->name }}</small></a>
                                     @endforeach
                                     
                                 </td>
