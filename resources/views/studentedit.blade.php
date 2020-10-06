@@ -23,7 +23,7 @@
                           
                           <p><label>Группа</label>
                               <select name="group_id" class="form-control">
-                                  @foreach(\App\Group::select()->get() as $group)
+                                  @foreach(\App\Group::where('active', 1)->get() as $group)
                                   @if ($student->group_id == $group->id)
                                   <option value='{{$group->id}}' selected>{{$group->name}} ({{$group->stream->name}} {{$group->stream->year}})</option> 
                                   @else
@@ -43,6 +43,7 @@
                           
                           <p><label>Регион</label>
                           <select id="taxoffice_id" name="taxoffice_id" class='form-control-static'>
+                              <option value='0'></option>
                           @foreach(\App\Taxoffice::orderby('name')->get() as $taxoffice)
                           @if ($student->division_id && $taxoffice->id === $student->division->taxoffice->id)  
                           <option value="{{$taxoffice->id or '0'}}" selected>{{ $taxoffice->name or '' }}</option>
