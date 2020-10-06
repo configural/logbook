@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Contract;
 use Auth;
 
 
@@ -55,6 +56,8 @@ class userController extends Controller
         
     }
     
+    
+    
     public function store(Request $request) {
         $user = User::find($request->id);
         $user->name = $request->name;
@@ -66,6 +69,27 @@ class userController extends Controller
         return redirect('users');
     }
     
+    public function editcontract(Request $request) {
+        $id = $request->id;
+        $contract = Contract::find($id);
+        return view('usercontractedit', ['contract' => $contract]);
+        
+    }
+    
+    public function storecontract(Request $request) {
+        if ($request->id) {
+            $contract = Contract::find($request->id);}
+        $contract->fill($request->all());
+        $contract->save();
+        return redirect(url('/user/')."/".$contract->user_id."/edit" );
+    }
+    
+    public function deletecontract(Request $request) {
+        $id = $request->id;
+        $contract = Contract::find($id);
+        return view('usercontractedit', ['contract' => $contract]);
+        
+    }
         
     public function teacher_busy($user_id, $date, $start_at, $finish_at) {
         $busy = false;

@@ -55,7 +55,7 @@
                           @foreach(\App\User::find($user->id)->contracts as $contract)
                           <tr>
                               <td></td>
-                              <td><a href="">{{ $contract->name }}</a></td>
+                              <td><a href="editcontract">{{ $contract->name or 'без имени'}}</a></td>
                               <td>{{ $contract->start_at }}</td>
                               <td>{{ $contract->finish_at }}</td>
                               <td>{{ $contract->price }}</td>

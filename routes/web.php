@@ -16,6 +16,7 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Auth::routes();
+
 Route::get('/profile', function(){return view('userprofile');})->name('profile');
 Route::post('/profile', 'UserController@update_profile');
 
@@ -26,6 +27,9 @@ Route::post('/user/add', 'UserController@add')->middleware('auth');
 Route::get('/user/{id}/edit', 'UserController@edit')->middleware('auth');
 Route::post('/user/{id}/store', 'UserController@store')->middleware('auth');
 Route::get('/user/{id}/addcontract', function($id){ return view('usercontractadd', ['id' => $id]);})->middleware('auth');
+Route::post('/user/{id}/editcontract', 'UserController@storecontract')->middleware('auth');
+Route::get('/user/{id}/editcontract', 'UserController@editcontract')->middleware('auth');
+Route::post('/user/{id}/editcontract', 'UserController@storecontract')->middleware('auth');
 
 // Управление списком кафедр
 Route::get('/departments', function() {return view('departments');})->name('departments')->middleware('auth');

@@ -24,7 +24,6 @@ class ReportController extends Controller
         $journal = \App\Journal::find($id);
         $user = \App\User::find($journal->teacher_id);
         $attendance = unserialize($journal->attendance);
-       // dump($attendance);
         return view('report_journal_view', ['attendance' => $attendance, "journal" => $journal, "user" => $user]);
         
     }
@@ -102,10 +101,6 @@ class ReportController extends Controller
                 
                 $sheet->setCellValue('e'.$i, $r->classroom->name . chr(10) . $teachers);
                
-                
-
-                
-                
                 } else {
                      $sheet->setCellValue('c'.$i, $r->timetable->lesson_type->name);
                      $sheet->setCellValue('d'.$i, "");
