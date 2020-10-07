@@ -34,7 +34,10 @@
                         
                         <th width="10%"><a href="#" id="check_all" class="btn btn-success">Все на месте</a></th>
                         <th width="10%"><a href="#" id="check_none" class="btn btn-danger">Нет никого</a></th>
-                        <th>промежуточная аттестация</th>
+                        <th>текущий контроль
+                            <a href='#' id='attestation_all'>все</a> | 
+                            <a href='#' id='attestation_none'>нет</a>
+                        </th>
                         </thead>
                         <tbody>
                     @php
@@ -64,9 +67,9 @@
                             
                             @if ($attestation_enable)
                                 @if(!array_key_exists("$student->id", $attestation) or $attestation[$student->id]==0)
-                                <td class="largetext"><input type='checkbox' name='attestation[{{$student->id}}]' value='1' > </td>
+                                <td class="largetext"><input type='checkbox'  name='attestation[{{$student->id}}]' value='1' > </td>
                                 @else
-                                <td class="largetext"><input type='checkbox' name='attestation[{{$student->id}}]' value='1' checked> </td>
+                                <td class="largetext"><input type='checkbox'  name='attestation[{{$student->id}}]' value='1' checked> </td>
                                 @endif           
                             @else
                             <td>не&nbsp;предусмотрена</td>
@@ -96,7 +99,19 @@
     
 $("#check_none").click(function(){
      $('input[type="radio"][value="0"]').prop('checked', true);
+     
     });    
+
+$("#attestation_all").click(function() {
+     $('input[type="checkbox"]').prop('checked', true);
+});
+
+$("#attestation_none").click(function() {
+     $('input[type="checkbox"]').prop('checked', false  );
+});
+
+
+
 </script>
 @endsection
 

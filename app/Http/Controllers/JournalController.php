@@ -90,21 +90,35 @@ class JournalController extends Controller
       
     
     public function update(Request $request) {
-        // сериализация массива "Посещаемость"
-        //dump($request);
+        
+        $attendance = $request->attendance;
+        $attestation = $request->attestation;
+        
         $journal = Journal::find($request->id);
-        //dump($journal);
-        if (is_array($request->attendance)) {
-            $journal->attendance = serialize($request->attendance);
+        
+        // обнуляем аттестацию, если студент не присутствует
+        if (is_array($attendance)) {
+            foreach($attendance as $key => $value) {
+                if ($value == 0) {
+                   $attestation["$key"] = 0;
+                }
+            }
+        }
+        
+        //
+        if (is_array($attendance)) {
+            $journal->attendance = serialize($attendance);
             } else {
                 $journal->attendance = serialize([]);
             }
             
-        if (is_array($request->attestation)) {
-            $journal->attestation = serialize($request->attestation);
+        if (is_array($attestation)) {
+            $journal->attestation = serialize($attestation);
             } else {
                 $journal->attestation = serialize([]);
             }
+            
+        //dump([$attendance, $attestation]);
         $journal->save();
         return redirect(url('journal')."?date=" . $journal->rasp->date);
     }
