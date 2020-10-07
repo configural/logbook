@@ -2148,6 +2148,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/Highlighter.php',
+        'JournalAttestation' => __DIR__ . '/../..' . '/database/migrations/2020_10_07_084728_journal_attestation.php',
         'JournalTable' => __DIR__ . '/../..' . '/database/migrations/2020_01_21_121828_journal_table.php',
         'JournalTableAttendance' => __DIR__ . '/../..' . '/database/migrations/2020_01_24_063044_journal-table-attendance.php',
         'Journalrasp' => __DIR__ . '/../..' . '/database/migrations/2020_07_15_070141_journalrasp.php',

@@ -9,7 +9,7 @@ class Journal extends Model
     //
     protected $table = "journal";
     
-    protected $fillable = ['timetable_id', 'teacher_id', 'l_hours', 'p_hours', 'attendance'];
+    protected $fillable = ['timetable_id', 'teacher_id', 'l_hours', 'p_hours', 'attendance', 'attestation'];
     
     public function timetable() {
         return $this->hasOne('\App\Timetable', 'id', 'timetable_id');

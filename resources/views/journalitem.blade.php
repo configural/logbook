@@ -34,6 +34,7 @@
                         
                         <th width="10%"><a href="#" id="check_all" class="btn btn-success">Все на месте</a></th>
                         <th width="10%"><a href="#" id="check_none" class="btn btn-danger">Нет никого</a></th>
+                        <th>промежуточная аттестация</th>
                         </thead>
                         <tbody>
                     @php
@@ -59,7 +60,18 @@
                             <td class="largetext"><input type='radio' name='attendance[{{$student->id}}]' value='1' id="present[{{$student->id}}]" checked> <label for="present[{{$student->id}}]" class="green" >есть</label>&nbsp;&nbsp;&nbsp;</td>
                             <td class="largetext"><input type='radio' name='attendance[{{$student->id}}]' value='0' id="absent[{{$student->id}}]"> <label for="absent[{{$student->id}}]"  class="red">нет</label></td>
                             @endif
-                        
+                            
+                            
+                            @if ($attestation_enable)
+                                @if(!array_key_exists("$student->id", $attestation) or $attestation[$student->id]==0)
+                                <td class="largetext"><input type='checkbox' name='attestation[{{$student->id}}]' value='1' > </td>
+                                @else
+                                <td class="largetext"><input type='checkbox' name='attestation[{{$student->id}}]' value='1' checked> </td>
+                                @endif           
+                            @else
+                            <td>не&nbsp;предусмотрена</td>
+                            @endif
+                            
                     </tr>
                     @endif
                 @endforeach

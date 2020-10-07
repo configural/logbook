@@ -47,6 +47,7 @@ class JournalController extends Controller
                 $journal->rasp_id = $rasp_id;
                 
                 $journal->attendance = serialize([]);
+                $journal->attestation = serialize([]);
                 $journal->save();
             }
             
@@ -58,9 +59,19 @@ class JournalController extends Controller
                 } else {$block_name = "";}
             $hours = $rasp->timetable->hours;
             $lessontype = $rasp->timetable->lesson_type->name;
-            $attendance = unserialize($journal->attendance);
+           
+            if (in_array($rasp->timetable->lessontype, [2])):
+                $attestation_enable = true;
+            else: 
+                $attestation_enable = false;
+            endif;
             
-          //  dump($attendance);
+            $attendance = unserialize($journal->attendance);
+            $attestation = unserialize($journal->attestation);
+            if (!$attestation){
+                $attestation = unserialize(serialize([]));
+            }
+    
             
             return view('journalitem', ['id' => $journal->id, 
                     'group_id' => $group_id,
@@ -68,7 +79,9 @@ class JournalController extends Controller
                     'block' => $block_name,
                     'hours' => $hours,
                     'lessontype' => $lessontype,
-                    'attendance' => $attendance]);
+                    'attendance' => $attendance,
+                    'attestation' => $attestation,
+                    'attestation_enable' => $attestation_enable]);
                 
             
             
@@ -85,6 +98,12 @@ class JournalController extends Controller
             $journal->attendance = serialize($request->attendance);
             } else {
                 $journal->attendance = serialize([]);
+            }
+            
+        if (is_array($request->attestation)) {
+            $journal->attestation = serialize($request->attestation);
+            } else {
+                $journal->attestation = serialize([]);
             }
         $journal->save();
         return redirect(url('journal')."?date=" . $journal->rasp->date);

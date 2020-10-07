@@ -1719,6 +1719,7 @@ return array(
     'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => $vendorDir . '/jakub-onderka/php-console-color/src/ConsoleColor.php',
     'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => $vendorDir . '/jakub-onderka/php-console-color/src/InvalidStyleException.php',
     'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => $vendorDir . '/jakub-onderka/php-console-highlighter/src/Highlighter.php',
+    'JournalAttestation' => $baseDir . '/database/migrations/2020_10_07_084728_journal_attestation.php',
     'JournalTable' => $baseDir . '/database/migrations/2020_01_21_121828_journal_table.php',
     'JournalTableAttendance' => $baseDir . '/database/migrations/2020_01_24_063044_journal-table-attendance.php',
     'Journalrasp' => $baseDir . '/database/migrations/2020_07_15_070141_journalrasp.php',
