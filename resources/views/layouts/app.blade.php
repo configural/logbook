@@ -89,7 +89,7 @@
     
     
     @if (mb_strstr($_SERVER["REQUEST_URI"], "logbook-dev"))
-    <div class="alert alert-danger">Контур разработки!</div>
+    <div class="alert alert-danger">Контур разработки! <a href="http://localhost/logbook/public">Перейти на рабочий контур</a></div>
     @endif
 
     

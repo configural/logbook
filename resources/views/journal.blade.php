@@ -53,7 +53,7 @@
                         @if (\App\Journal::state($rasp->id))
                         <i class='fa fa-check-circle green fa'></i>
                         @endif
-                        
+   
                     </td>
                 </tr>
                     @endif

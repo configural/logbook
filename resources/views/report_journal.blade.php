@@ -28,7 +28,7 @@
                             @php
                             $i = 0
                             @endphp
-                            @foreach(\App\User::orderBy('name')->whereIn('role_id', [2, 5])->get() as $user)
+                            @foreach(\App\User::orderBy('name')->whereIn('role_id', [2, 5])->where('department_id', '<>', 1)->get() as $user)
                                 @php 
                                 $i++;
                                 @endphp

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Journal extends Model
@@ -16,12 +18,21 @@ class Journal extends Model
     }
     
     public static function state($rasp_id) {
-        $journal = \App\Journal::where('rasp_id', $rasp_id)->first();
+        $journal = \App\Journal::where('rasp_id', $rasp_id)->where('teacher_id', Auth::user()->id)->first();
+        //dump($journal);
         $state = 0;
         $tmp = @unserialize($journal->attendance);
         if ($tmp) $state = 1;
         return $state;
     }
+    
+    public static function teacher($rasp_id) {
+        $journal = \App\Journal::where('rasp_id', $rasp_id)->first();
+        $teacher = \App\User::find($journal->teacher_id);
+        return $teacher->fio();
+    }
+    
+    
     
     public function rasp()
     {
