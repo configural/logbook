@@ -40,6 +40,9 @@
                         <input type="number" name="active" value="1" class="form-control-static" required>
                     </p>
                           
+                    <p>
+                        <input name="fill" type="checkbox" value="1"> Привязать всю непривязанную до сих пор нагрузку преподавателя к этому договору
+                    </p>
                           <p><button class="btn btn-success">Создать договор</button>
                     {{ csrf_field() }}
                       </form>

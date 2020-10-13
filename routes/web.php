@@ -26,10 +26,15 @@ Route::get('/user/add', function() {return view('useradd');})->middleware('auth'
 Route::post('/user/add', 'UserController@add')->middleware('auth');
 Route::get('/user/{id}/edit', 'UserController@edit')->middleware('auth');
 Route::post('/user/{id}/store', 'UserController@store')->middleware('auth');
-Route::get('/user/{id}/addcontract', function($id){ return view('usercontractadd', ['id' => $id]);})->middleware('auth');
-Route::post('/user/{id}/editcontract', 'UserController@storecontract')->middleware('auth');
-Route::get('/user/{id}/editcontract', 'UserController@editcontract')->middleware('auth');
-Route::post('/user/{id}/editcontract', 'UserController@storecontract')->middleware('auth');
+Route::get('/user/{user_id}/addcontract', function($id){ return view('usercontractadd', ['id' => $id]);})->middleware('auth');
+Route::post('/user/{user_id}/addcontract', 'UserController@storecontract')->middleware('auth');
+
+Route::get('/user/editcontract/{id}', 'UserController@editcontract')->middleware('auth');
+Route::post('/user/editcontract/{id}', 'UserController@storecontract')->middleware('auth');
+Route::get('/user/deletecontract/{id}', 'UserController@deletecontract')->middleware('auth');
+
+
+
 
 // Управление списком кафедр
 Route::get('/departments', function() {return view('departments');})->name('departments')->middleware('auth');
@@ -154,7 +159,7 @@ Route::post('/media/{id}/edit', 'MediaController@store')->middleware('auth');
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
 Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->middleware('auth');
-Route::get('/ajax/teacher_busy/{user_id};{date};{start_at};{finish_at}', 'UserController@teacher_busy')->middleware('auth');
+Route::get('/ajax/teacher_busy/{user_id};{date};{start_at};{finish_at};{timetable_id}', 'UserController@teacher_busy')->middleware('auth');
 Route::get('/ajax/group_busy/{group_id};{date};{start_at};{finish_at}', 'GroupController@group_busy')->middleware('auth');
 Route::get('/ajax/classroom_busy/{room_id};{date}', 'ClassroomController@classroom_busy')->middleware('auth');
 Route::get('/ajax/group_blocks/{group_id}', 'WorkloadController@get_group_blocks')->middleware('auth');

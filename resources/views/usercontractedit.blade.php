@@ -17,7 +17,10 @@
                     </h3>
                     
                     <hr>
+                    <input type="hidden" name="id" value="{{ $contract->id}}" class="form-control-static" required>
+                    <input type="hidden" name="user_id" value="{{ $contract->user_id}}" class="form-control-static" required>
                     <p>
+                        
                         <label>Номер (название) договора</label><br>
                         <input type="text" name="name" value="{{ $contract->name}}" class="form-control-static" required>
                     </p>
@@ -43,6 +46,11 @@
                           <p><button class="btn btn-success">Сохранить данные</button>
                     {{ csrf_field() }}
                       </form>
+                
+                
+                <hr>
+                
+                <a href="{{url('/')}}/user/deletecontract/{{$contract->id}}" onclick="return confirm('Действительно удалить?')" class="btn btn-danger"><i class="fa fa-times-circle white"></i> Удалить договор</a>
                     @else
                     Договор можно добавить только внештатному преподавателю                  
                     @endif

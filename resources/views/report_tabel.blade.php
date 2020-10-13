@@ -45,7 +45,7 @@
                             
                             <th style="width: 10%;">№</th>
                             <th style="width: 30%;">ФИО</th>
-                             @foreach(\App\Lessontype::get() as $lessontype)
+                             @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
                              <th  style="width: 10%;">
                             {{ $lessontype->name }}
                              </th>
@@ -75,20 +75,23 @@
                         <td>{{ $i }}</td>
                         <td>{{ $user->fio()}}</td>
                         
-                        @foreach(\App\Lessontype::get() as $lessontype)
+                        @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
                         <td>
-                            @php 
-                            $total_user += \App\User::user_hours($user->id, $date1, $date2, $lessontype->id);
+                           @php 
+                            $total_user += \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id);
                             
                             if (!isset($total[$lessontype->id])) { 
                                 $total[$lessontype->id] = 0;
-                                $total[$lessontype->id] += \App\User::user_hours($user->id, $date1, $date2, $lessontype->id);
+                                $total[$lessontype->id] += \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id);
                             } else {
-                                $total[$lessontype->id] += \App\User::user_hours($user->id, $date1, $date2, $lessontype->id);
+                                $total[$lessontype->id] += \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id);
                             }
                             
                             @endphp
-                            {{ \App\User::user_hours($user->id, $date1, $date2, $lessontype->id) }}
+                       
+                            {{ \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id) }}
+                        
+
                             <br>
                         </td>
                         @endforeach

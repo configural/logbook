@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Contract;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -71,29 +72,48 @@ class userController extends Controller
     
     public function editcontract(Request $request) {
         $id = $request->id;
+        
         $contract = Contract::find($id);
+        
+        //dd($contract);
+        
         return view('usercontractedit', ['contract' => $contract]);
         
     }
     
     public function storecontract(Request $request) {
         if ($request->id) {
-            $contract = Contract::find($request->id);}
+            $contract = Contract::find($request->id);
+        } else {
+            $contract = new Contract();
+        }
         $contract->fill($request->all());
         $contract->save();
+        
+        if ($request->fill) {
+            DB::table('teachers2timetable')
+                    ->where('teacher_id', '=', $request->user_id)
+                    ->whereNull('contract_id')
+                    ->update(['contract_id' => $contract->id]);
+        }
         return redirect(url('/user/')."/".$contract->user_id."/edit" );
     }
     
     public function deletecontract(Request $request) {
         $id = $request->id;
         $contract = Contract::find($id);
-        return view('usercontractedit', ['contract' => $contract]);
+        $user_id = $contract->user_id;
+        DB::table('teachers2timetable')
+                ->where('teacher_id', '=', $user_id)
+                ->where('contract_id', '=', $id)
+                ->update(['contract_id' => NULL]);
+        $contract->delete();
+        return redirect(url('/user/')."/".$user_id."/edit" );
         
     }
         
-    public function teacher_busy($user_id, $date, $start_at, $finish_at) {
+    public function teacher_busy($user_id, $date, $start_at='00:00:00', $finish_at='23:59:59', $timetable_id = 0) {
         $busy = false;
-              
         $rasp = \App\Rasp::where('date', $date)->orderBy('start_at')->get();
         echo "<p><strong><span class='red'> " . User::find($user_id)->name . "</span> в этот день ведет следующие занятия:</strong></p>";
         echo "<table class='table table-bordered'>";
@@ -121,7 +141,24 @@ class userController extends Controller
             
         }
         echo "</table>";
-        echo "";
+
+        
+        if (User::find($user_id)->freelance) {
+            $contracts = DB::table('teachers2timetable')->where('timetable_id', '=', $timetable_id)->first();
+            echo "Это внештатный преподаватель! Выберите договор: ";
+            echo "<select name='contract_id' class='form-control-static'>";
+            foreach(\App\Contract::where('user_id', $user_id)->where('start_at', '<', $date)->where('finish_at', '>', $date)->get() as $contract) {
+                if ($contract->id == $contracts->contract_id) :
+                    echo "<option value=".$contract->id." selected>" . $contract->name . " (" . $contract->price .  " руб/ч) </option>";
+                else :
+                    echo "<option value=".$contract->id.">" . $contract->name . " (" . $contract->price .  " руб/ч) </option>";    
+                endif;
+            }
+            echo "</select>";
+            
+        }
+        echo "<hr>";
+        
     }
     
 }

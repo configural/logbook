@@ -22,13 +22,17 @@
                     <form action='' method='post'>
                     
                     @if (isset($timetable->rasp->date))
-                    Занятие назначено на 
-                    <input type="date" id="dateField" value="{{$timetable->rasp->date}}" disabled> 
-                    c <input type="time" id="startAt" value="{{ $timetable->rasp->start_at }}" disabled> до 
-                    <input type="time" id="finishAt" value="{{ $timetable->rasp->finish_at }}" disabled>
-                     <br>
-                    <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">Перейти в расписание</a>.
-                    <hr>
+                    
+                        Занятие назначено на 
+                        <input type="date" id="dateField" value="{{$timetable->rasp->date}}" disabled> 
+                        c <input type="time" id="startAt" value="{{ $timetable->rasp->start_at }}" disabled> до 
+                        <input type="time" id="finishAt" value="{{ $timetable->rasp->finish_at }}" disabled>
+                         <br>
+                        <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">Перейти в расписание</a>.
+                        <hr>
+                    @else
+                        <input type="hidden" id="dateField" value="{{$timetable->group->stream->date_start}}" disabled> 
+                    
                     @endif
                         <div class="row">
                             <div class="col-lg-6">
@@ -105,23 +109,23 @@ $(document).ready(function() {
     if ($('#dateField').val()) checkTeachers();
     
     $("#teacherSelect").click(function() {
-        if ($('#dateField').val()) checkTeachers();
+        
+            checkTeachers();
     });
     
 
 
 function checkTeachers() {
+    
     $('#teacherBusy').html("");
     var start_at = $('#startAt').val();
     var finish_at = $('#finishAt').val();
     var date = $('#dateField').val();      
     var selectedTeachers = $('#teacherSelect :selected').toArray().map(item => item.value);  
-    
-    
-    
+
     selectedTeachers.forEach(function(item) {
     
-    var url = "{{url('/')}}/ajax/teacher_busy/" + item + ";" + date + ";" + start_at + ";" + finish_at;
+    var url = "{{url('/')}}/ajax/teacher_busy/" + item + ";" + date + ";" + start_at + ";" + finish_at + ";" + {{$id}};
     console.log(url);
     $.ajax({
         url: url, 

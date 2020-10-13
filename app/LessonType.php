@@ -8,5 +8,5 @@ class LessonType extends Model
 {
     //
     protected $table = "lesson_types";
-    protected $fillable = ["name", "active"];
+    protected $fillable = ["name", "active", "in_table"];
 }

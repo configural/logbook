@@ -33,7 +33,7 @@ class WorkloadController extends Controller
        $timetable = Timetable::find($request->id);
        $timetable->month = $request->month;
        if ($timetable->save()) {
-       DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $request->id]);}
+       DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $request->id, 'contract_id' => $request->contract_id]);}
        return redirect('workload');#'.$request->id);
     }
     
@@ -43,7 +43,7 @@ class WorkloadController extends Controller
         DB::table('teachers2timetable')->where('timetable_id', $request->id)->delete();
         if (is_array($request->teachers)){
             foreach($request->teachers as $teacher_id) {
-                $tmp = DB::table('teachers2timetable')->insert(['timetable_id' => $request->id, 'teacher_id' => $teacher_id]);
+                $tmp = DB::table('teachers2timetable')->insert(['timetable_id' => $request->id, 'teacher_id' => $teacher_id, 'contract_id' => $request->contract_id]);
                 }
             }
             $timetable->save();
@@ -65,6 +65,8 @@ class WorkloadController extends Controller
     
     public function delete_workload($id) {
         Timetable::find($id)->delete();
+        DB::table('teachers2timetable')->where('timetable_id', $id)->delete();
+
         return redirect('workload');
     }
     

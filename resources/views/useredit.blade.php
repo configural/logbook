@@ -36,11 +36,9 @@
                           <p><label>Внештатный?</label><input type="number" value="{{$user->freelance}}" class="form-control" name="freelance" required>
                               <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
                           
+                          
                           @if ($user->freelance)
-                          <div id="dogovor" style="display: block;">
-                              @else
-                          <div id="dogovor" style="display: none;">    
-                              @endif
+                          
                           <h4>Договоры (только для внештатных)</h4>
                           <table class="table table-bordered" id="sortTable">
                               <thead>
@@ -55,7 +53,7 @@
                           @foreach(\App\User::find($user->id)->contracts as $contract)
                           <tr>
                               <td></td>
-                              <td><a href="editcontract">{{ $contract->name or 'без имени'}}</a></td>
+                              <td><a href="{{url('/user/')}}/editcontract/{{$contract->id}}">{{ $contract->name or 'без имени'}}</a></td>
                               <td>{{ $contract->start_at }}</td>
                               <td>{{ $contract->finish_at }}</td>
                               <td>{{ $contract->price }}</td>
@@ -66,9 +64,11 @@
                           </table>
                           <a href="addcontract" class="btn btn-primary">Добавить договор</a>
                           <hr/>
-                          </div>
+                          
+                          @endif
                           
                           <p><button class="btn btn-success">Обновить</button>
+                              </div>
                     {{ csrf_field() }}
                       </form>
                     
@@ -79,12 +79,5 @@
     </div>
 </div>
 
-<script>
-   $('input[name="freelance"]').on('input', function(){
-       if ($(this).val() == 1) {$("#dogovor").show('fast');}
-       else {$("#dogovor").hide('fast');}
-   });
-
-    </script>
     
 @endsection

@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -40,12 +40,20 @@ class User extends Authenticatable
         
     }
     
-    public function secname() {
+
+/*
+ * Фамилия пользователя
+ */
+   public function secname() {
         $tmp = explode(" ", $this->name);
         $secname = $tmp[0];
         return $secname;
     }
+
     
+/*
+ * ФИО пользователя
+ */    
     public function fio() {
         $string = $this->name;
         $tmp = explode(" ", $string);
@@ -59,15 +67,31 @@ class User extends Authenticatable
         return $fio;
     }
     
+    
+ /*
+  * расписание преподавателя
+  */
     public function timetable() {
         return $this->belongsToMany('\App\Timetable', 'teachers2timetable', 'teacher_id', 'timetable_id');
     }
     
+ 
+/*
+ * Договоры преподавателя
+ */    
     public function contracts() {
         return $this->hasMany('\App\Contract', 'user_id', 'id');
     }
 
-    public static function user_hours($user_id, $date1, $date2, $lessontype) {
+    
+ /*
+ * Возвращает количество часов преподавателя за определенный период на основании журнала (фактически проведенных)
+ * user_id - ИД пользователя
+ * date1 - начало периода
+ * date2 - конец периода
+ * lessontype - тип занятия
+ */
+    public static function user_hours_journal($user_id, $date1, $date2, $lessontype) {
         $journal = \App\Journal::select(['journal.teacher_id', 'timetable.hours', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id'])
                 ->distinct()
                 ->join('rasp', 'journal.rasp_id', '=', 'rasp.id')
@@ -81,9 +105,41 @@ class User extends Authenticatable
         foreach($journal as $j) {
             $hours += $j->hours;
         }
-
-        return $hours;
+    return $hours;
     }
     
+
+
+/*
+ * Возвращает количество часов преподавателя за определенный период на основании расписания
+ * user_id - ИД пользователя
+ * date1 - начало периода
+ * date2 - конец периода
+ * lessontype - тип занятия
+ */
+    public static function user_hours_rasp($user_id, $date1, $date2, $lessontype) {
+        $tmp = \App\Timetable::select(['timetable.hours', 'timetable.lessontype', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id' ])
+                ->distinct()
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.teacher_id', '=', $user_id)
+                ->whereBetween('rasp.date', [$date1, $date2])    
+                ->where('timetable.lessontype', $lessontype)
+                ->get();
+        
+
+        $hours = 0;
+        foreach($tmp as $t) {
+            $hours += $t->hours;
+        }
+        return $hours;
+    }
+
+    
+    
+    public static function user_price($user_id, $date1, $date2, $lessontype) {
+
+    }
+
     
 }
