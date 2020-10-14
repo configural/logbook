@@ -48,7 +48,10 @@
                             <textarea name='description' class='form-control'></textarea>
                                 
                         <p>    
-                            
+                            {{ csrf_field() }}
+                        <p>
+                            <button class='btn btn-success'>Сохранить</button>
+                        </p>
                     </form>
                     
                 </div>

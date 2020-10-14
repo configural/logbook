@@ -160,6 +160,7 @@ Route::post('/media/{id}/edit', 'MediaController@store')->middleware('auth');
 Route::get('vneaud', function() {return view('vneaud');})->name('vneaud')->middleware('auth');
 Route::get('vneaud/add', function(){return view('vneaudadd');})->name('vneaudadd')->middleware('auth');
 Route::get('vneaud/{id}/edit', 'VneaudController@edit')->middleware('auth');
+Route::post('vneaud/add', 'VneaudController@store')->middleware('auth');
 Route::post('vneaud/{id}/edit', 'VneaudController@store')->middleware('auth');
 Route::get('vneaud/{id}/delete', 'VneaudController@delete')->middleware('auth');
 
