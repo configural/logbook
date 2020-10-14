@@ -12,8 +12,15 @@ class VneaudController extends Controller
     
     
     function edit(Request $request) {
-        dump($request);
+        $vneaud = Vneaud::find($request->id);
+        return view('vneaudedit', ['vneaud' => $vneaud]);
     }
+
+    function delete(Request $request) {
+        Vneaud::find($request->id)->delete();
+        return redirect(route('vneaud'));
+    }
+    
     
     function store(Request $request) {
         
@@ -27,8 +34,10 @@ class VneaudController extends Controller
         
         $vneaud->fill($request->all());
        
+        if ($request->count) :
         $vneaud->hours = $request->count * 0.5;
-        
+        endif;
+       
         $vneaud->save();
         return redirect(route('vneaud'));
         

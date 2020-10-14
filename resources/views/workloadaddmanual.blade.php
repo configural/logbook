@@ -90,6 +90,7 @@
             url: url, 
             success: function(param) { $('#blocks').html(param);  }
             });
+            $('#hours').show();
         }
         
 

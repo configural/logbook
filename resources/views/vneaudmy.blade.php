@@ -26,7 +26,7 @@
                         </thead>
                         
                         <tbody>
-                        @foreach(\App\Vneaud::get() as $vneaud)
+                        @foreach(\App\Vneaud::where('user_id', Auth::user()->id)->get() as $vneaud)
                         <tr>
                             <td><a href='vneaud/{{$vneaud->id}}/edit'>{{ $vneaud->user->name}}</a></td>
                             <td>{{ $vneaud->group->name}}</td>
