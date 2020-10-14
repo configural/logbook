@@ -25,7 +25,7 @@
                         <tbody>
                         
                         @foreach($rasp as $r)
-                        @if ($r->journal == NULL && !in_array($r->timetable->lessontype, [6,7]))  
+                        @if ($r->journal == NULL && !in_array($r->timetable->lessontype, [6, 7, 8]))  
                         <tr>
                             <td>{{ $r->id }}</td>
                             <td>{{ $r->date }}</td>
