@@ -115,7 +115,7 @@ class GroupController extends Controller
                 $rasp = \App\Rasp::where('date', $date)->get();
                 echo "<p><strong>У группы в этот день следующие занятия:</strong></p>";
                 echo "<table class='table table-bordered'>";
-                echo "<tr><th>Начало</th><th>Конец</th><th>тема</th><th>Аудитория</th></tr>";
+                echo "<tr><th>Начало</th><th>Конец</th><th>Аудитория</th></tr>";
                         foreach($rasp as $r) {
 
                        if ($r->timetable->group_id == $group_id) { 
