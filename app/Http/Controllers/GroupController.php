@@ -122,7 +122,7 @@ class GroupController extends Controller
                        echo "<tr>";
                         echo "<td>" . $r->start_at . "</td>";
                         echo "<td>" . $r->finish_at . "</td>";
-                        echo "<td>". $r->timetable->block->name . "</td>";
+                        //echo "<td>". $r->timetable->block->name . "</td>";
                         echo "<td>". $r->classroom->name . "</td>";
                        echo "</tr>";}
                 }

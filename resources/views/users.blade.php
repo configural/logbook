@@ -19,8 +19,10 @@
                         <tbody>
                             @foreach(\App\User::select()->get() as $user)
                             <tr class="">
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->id }}
+                                     
+                                </td>
+                                <td>{{ $user->name }} <!--<a href="login">Войти</a>--></td>
                                 <td>{{ $user->role->name }}
                                 @if($user->freelance)
                                 (внештатный)

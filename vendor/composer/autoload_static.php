@@ -4206,6 +4206,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'UpdateHelper\\UpdateHelperInterface' => __DIR__ . '/..' . '/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelperInterface.php',
         'UserVneshtat' => __DIR__ . '/../..' . '/database/migrations/2020_09_11_053442_user_vneshtat.php',
         'Users2media' => __DIR__ . '/../..' . '/database/migrations/2020_09_24_142204_users2media.php',
+        'Vneaud' => __DIR__ . '/../..' . '/database/migrations/2020_10_14_095724_vneaud.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'Webmozart\\Assert\\Mixin' => __DIR__ . '/..' . '/webmozart/assert/src/Mixin.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',

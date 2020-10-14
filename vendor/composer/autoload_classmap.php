@@ -3777,6 +3777,7 @@ return array(
     'UpdateHelper\\UpdateHelperInterface' => $vendorDir . '/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelperInterface.php',
     'UserVneshtat' => $baseDir . '/database/migrations/2020_09_11_053442_user_vneshtat.php',
     'Users2media' => $baseDir . '/database/migrations/2020_09_24_142204_users2media.php',
+    'Vneaud' => $baseDir . '/database/migrations/2020_10_14_095724_vneaud.php',
     'Webmozart\\Assert\\Assert' => $vendorDir . '/webmozart/assert/src/Assert.php',
     'Webmozart\\Assert\\Mixin' => $vendorDir . '/webmozart/assert/src/Mixin.php',
     'XdgBaseDir\\Xdg' => $vendorDir . '/dnoegel/php-xdg-base-dir/src/Xdg.php',

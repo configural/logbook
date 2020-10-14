@@ -155,6 +155,15 @@ Route::get('/media/{id}/delete', 'MediaController@delete')->middleware('auth');
 Route::post('/mediaadd', 'MediaController@store')->middleware('auth');
 Route::post('/media/{id}/edit', 'MediaController@store')->middleware('auth');
 
+
+// Внеаудиторная работа
+Route::get('vneaud', function() {return view('vneaud');})->name('vneaud')->middleware('auth');
+Route::get('vneaud/add', function(){return view('vneaudadd');})->name('vneaudadd')->middleware('auth');
+Route::get('vneaud/{id}/edit', 'VneaudController@edit')->middleware('auth');
+Route::post('vneaud/{id}/edit', 'VneaudController@store')->middleware('auth');
+Route::get('vneaud/{id}/delete', 'VneaudController@delete')->middleware('auth');
+
+
 // 
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
