@@ -158,6 +158,7 @@ Route::post('/media/{id}/edit', 'MediaController@store')->middleware('auth');
 
 // Внеаудиторная работа
 Route::get('vneaud', function() {return view('vneaud');})->name('vneaud')->middleware('auth');
+Route::get('vneaudmy', function() {return view('vneaudmy');})->name('vneaudmy')->middleware('auth');
 Route::get('vneaud/add', function(){return view('vneaudadd');})->name('vneaudadd')->middleware('auth');
 Route::get('vneaud/{id}/edit', 'VneaudController@edit')->middleware('auth');
 Route::post('vneaud/add', 'VneaudController@store')->middleware('auth');

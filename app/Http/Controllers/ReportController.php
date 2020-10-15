@@ -123,14 +123,10 @@ class ReportController extends Controller
         }
         
         $i+=2;
-        $sheet->setCellValue('A'.$i, "Начальник отдела ДПО и ОУ");
-        $sheet->setCellValue('D'.$i, "__________");
-        $sheet->setCellValue('E'.$i, "Левенец Л.В.");
+        $sheet->setCellValue('A'.$i, "Начальник отдела ДПО и ОУ ____________ Левенец Л.В.");
   
         $i+=2;
-        $sheet->setCellValue('A'.$i, "Специалист отдела ДПО и ОУ");
-        $sheet->setCellValue('D'.$i, "__________");
-        $sheet->setCellValue('E'.$i, Auth::user()->fio());
+        $sheet->setCellValue('A'.$i, "Специалист отдела ДПО и ОУ __________ " . Auth::user()->fio());
         
         $writer = new Xlsx($spreadsheet);
         $filename =  $date1 . "-" . $date1 . "-rasp-" . $group->name . '.xlsx';

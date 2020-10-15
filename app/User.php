@@ -135,7 +135,17 @@ class User extends Authenticatable
         return $hours;
     }
 
-    
+    public static function user_hours_vneaud ($user_id, $date1, $date2, $lessontype_id) {
+        
+        $vneaud = \App\Vneaud::where('user_id', $user_id)
+                ->whereBetween('date', [$date1, $date2])
+                ->where('lessontype_id', $lessontype_id)
+                ->sum('hours');
+        
+        return $vneaud;
+        
+    }
+
     
     public static function user_price($user_id, $date1, $date2, $lessontype) {
 

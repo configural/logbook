@@ -77,6 +77,8 @@
                         
                         @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
                         <td>
+                            
+                           @if(!$lessontype->vneaud)
                            @php 
                             $total_user += \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id);
                             
@@ -91,8 +93,20 @@
                        
                             {{ \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id) }}
                         
-
-                            <br>
+                            @else
+                            
+                            @php
+                            $total_user += \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id);
+                                if (!isset($total[$lessontype->id])) { 
+                                    $total[$lessontype->id] = 0;
+                                    $total[$lessontype->id] += \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id);
+                                } else {
+                                 $total[$lessontype->id] += \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id);
+                                }
+                            @endphp
+                            {{ \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id) }}
+                            
+                            @endif
                         </td>
                         @endforeach
                         <td>

@@ -2,9 +2,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
             <div class="panel panel-primary">
                 <div class="panel-heading ">Табель учета проведенных занятий (внештатные преподаватели)</div>
 
@@ -90,7 +90,7 @@
                    @endphp
                    
                    @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
-                   
+                   @if (!$lessontype->vneaud)
                    @php
                       $hours = \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $lessontype->id);
                       $price = $hours * $contract->price;
@@ -104,6 +104,22 @@
                       
                       <td>{{ $price }}</td>
                    
+                   
+                      @else 
+                   @php
+                      $hours = \App\User::user_hours_vneaud($contract->user->id, $date1, $date2, $lessontype->id);
+                      $price = $hours * $contract->price;
+                      
+                      $line_hours += $hours;
+                      $line_price += $price;
+                      
+                    @endphp
+                       
+                      <td>{{ $hours }}</td>
+                      
+                      <td>{{ $price }}</td>                      
+                      @endif
+                      
                       @endforeach
                    @php
                         $total_price += $line_price;

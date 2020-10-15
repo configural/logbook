@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Vneaud;
+use Illuminate\Support\Facades\Auth;
 
 class VneaudController extends Controller
 {
@@ -18,7 +19,13 @@ class VneaudController extends Controller
 
     function delete(Request $request) {
         Vneaud::find($request->id)->delete();
-        return redirect(route('vneaud'));
+               
+        if (in_array(Auth::user()->role_id, [4])) :
+            return redirect(route('vneaud'));
+        else :
+            return redirect(route('vneaudmy'));
+        endif;
+        
     }
     
     
@@ -39,8 +46,12 @@ class VneaudController extends Controller
         endif;
        
         $vneaud->save();
-        return redirect(route('vneaud'));
         
+        if (in_array(Auth::user()->role_id, [4])) :
+            return redirect(route('vneaud'));
+        else :
+            return redirect(route('vneaudmy'));
+        endif;
     }
     
 }
