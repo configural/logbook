@@ -52,8 +52,8 @@
                             </tr>
                             <tr>
                                 @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
-                                <th>часов</th>
-                                <th>рублей</th>
+                                <th>ч.</th>
+                                <th>руб.</th>
                                 @endforeach
                             <th>часов</th>
                             <th>рублей</th>
