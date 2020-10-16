@@ -165,6 +165,8 @@ Route::post('vneaud/add', 'VneaudController@store')->middleware('auth');
 Route::post('vneaud/{id}/edit', 'VneaudController@store')->middleware('auth');
 Route::get('vneaud/{id}/delete', 'VneaudController@delete')->middleware('auth');
 
+// Вебинары
+Route::get('webinars', function() {return view('info', ['html' => 'Пока в разработке ;)']);})->name('webinars')->middleware('auth');
 
 // 
 // ajax маршруты
