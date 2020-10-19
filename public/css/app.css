@@ -44,3 +44,4 @@
  .cross {background: red; color: white;}
  .onpage {border-bottom: 1px #6C97D4 dashed; cursor: pointer;}
  .onpage:hover {text-decoration: none;}
+ .marker {background: yellow;}

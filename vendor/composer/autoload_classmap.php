@@ -1800,6 +1800,7 @@ return array(
     'Mediacontent2' => $baseDir . '/database/migrations/2020_09_25_091458_mediacontent2.php',
     'Mediatypes' => $baseDir . '/database/migrations/2020_09_24_134412_mediatypes.php',
     'Metodist2stream' => $baseDir . '/database/migrations/2020_09_17_104254_metodist2stream.php',
+    'MetodistId' => $baseDir . '/database/migrations/2020_10_16_144918_metodist_id.php',
     'Mockery' => $vendorDir . '/mockery/mockery/library/Mockery.php',
     'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => $vendorDir . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
     'Mockery\\Adapter\\Phpunit\\MockeryTestCase' => $vendorDir . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryTestCase.php',

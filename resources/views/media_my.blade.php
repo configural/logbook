@@ -20,6 +20,9 @@
                     (скопируйте эту строку и вставьте в адресную строку "Проводника").
                     <p>
                     
+                    <P><a href="{{ route('my_media_add')}}" class="btn btn-primary btn-lg">Запланировать запись/создание</a></p>
+
+                        
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                         <tr class="info">

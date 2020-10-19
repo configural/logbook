@@ -52,4 +52,19 @@ class BlockController extends Controller
         $discipline_id = $block->discipline_id;
         $block->delete();
         return redirect('discipline/'.$discipline_id);    }  
-}
+
+        
+    public function search($text){
+        $blocks = Block::select('id', 'name')->where('name', 'like', '%' . $text . '%')->where('active', 1)->limit(5)->get();
+       
+        $i = 0;
+        foreach($blocks as $block) :
+            $str = str_ireplace($text, "<span class='marker'>" . $text . "</span>", $block->name);
+        
+            echo "<p class='onpage search_result'>" . $str . "<p>";
+            $i ++;
+        endforeach;
+       
+    }
+        
+    }

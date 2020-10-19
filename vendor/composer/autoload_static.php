@@ -2229,6 +2229,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'Mediacontent2' => __DIR__ . '/../..' . '/database/migrations/2020_09_25_091458_mediacontent2.php',
         'Mediatypes' => __DIR__ . '/../..' . '/database/migrations/2020_09_24_134412_mediatypes.php',
         'Metodist2stream' => __DIR__ . '/../..' . '/database/migrations/2020_09_17_104254_metodist2stream.php',
+        'MetodistId' => __DIR__ . '/../..' . '/database/migrations/2020_10_16_144918_metodist_id.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryTestCase' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryTestCase.php',

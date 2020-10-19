@@ -147,6 +147,8 @@ Route::get('/reports/no_journal', 'ReportController@no_journal')->name('no_journ
 // Медиаконтент
 Route::get('/media', function() {return view('media');})->name('media')->middleware('auth');
 Route::get('/my_media', function() {return view('media_my');})->name('my_media')->middleware('auth');
+Route::get('/my_media/add', function() {return view('mediaaddteacher');})->name('my_media_add')->middleware('auth');
+Route::post('/my_media/add', 'MediaController@store')->middleware('auth');
 Route::get('/my_media/{id}/edit', 'MediaController@edit_my')->middleware('auth');
 Route::post('/my_media/{id}/edit', 'MediaController@store')->middleware('auth');
 Route::get('/mediaadd', function() {return view('mediaadd');})->name('mediaadd')->middleware('auth');
@@ -166,8 +168,8 @@ Route::post('vneaud/{id}/edit', 'VneaudController@store')->middleware('auth');
 Route::get('vneaud/{id}/delete', 'VneaudController@delete')->middleware('auth');
 
 // Вебинары
-Route::get('webinars', function() {return view('info', ['html' => 'Пока в разработке ;)']);})->name('webinars')->middleware('auth');
-
+Route::get('webinars', function() {return view('webinars');})->name('webinars')->middleware('auth');
+Route::get('webinar/add', function() {return view('webinaradd');})->name('webinaradd')->middleware('auth');
 // 
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
@@ -178,3 +180,4 @@ Route::get('/ajax/classroom_busy/{room_id};{date}', 'ClassroomController@classro
 Route::get('/ajax/group_blocks/{group_id}', 'WorkloadController@get_group_blocks')->middleware('auth');
 Route::get('/ajax/group_disciplines/{group_id}', 'WorkloadController@get_group_disciplines')->middleware('auth');
 Route::get('/ajax/group_programs/{group_id}', 'WorkloadController@get_group_programs')->middleware('auth');
+Route::get('/ajax/search/block/{text}', 'BlockController@search')->middleware('auth');
