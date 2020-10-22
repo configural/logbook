@@ -31,11 +31,13 @@ class Program extends Model
                 $hours += $discipline->active_blocks->sum('l_hours');
                 $hours +=  $discipline->active_blocks->sum('p_hours');
                 $hours +=  $discipline->active_blocks->sum('s_hours');
+                $hours +=  $discipline->active_blocks->sum('w_hours');
                 $hours += $discipline->attestation_hours;
         };
         $hours += $this->attestation_hours;
         return $hours;
     }
     
+
     
 }

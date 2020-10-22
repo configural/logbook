@@ -42,8 +42,12 @@ class Discipline extends Model
         return $this->active_blocks->sum('s_hours');
     }
     
+    function w_hours_total() {
+        return $this->active_blocks->sum('w_hours');
+    }
+    
     function hours_total() {
-        return $this->active_blocks->sum('s_hours') + $this->active_blocks->sum('p_hours') + $this->active_blocks->sum('l_hours') + $this->attestation_hours;
+        return $this->active_blocks->sum('s_hours') + $this->active_blocks->sum('p_hours') + $this->active_blocks->sum('w_hours') +  $this->active_blocks->sum('l_hours') + $this->attestation_hours;
     }
     
 }

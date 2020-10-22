@@ -8,9 +8,8 @@
                         <div class="icon"><a href="{{route('programs')}}"><i class="fa fa-graduation-cap fa-3x orange"></i><br/>Образовательные программы</a></div>
                         <div class="icon"><a href="{{route('disciplines')}}"><i class="fa fa-book fa-3x green"></i><br/>Дисциплины</a></div>
                         <div class="icon"><a href="{{route('streams')}}"><i class="fa fa-users fa-3x blue"></i><br/>Потоки, группы, слушатели</a></div>
-                        <div class="icon"><a href="{{route('workload')}}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Аудиторная нагрузка</a></div>
-                        <div class="icon"><a href="{{route('vneaud')}}"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Внеаудиторная нагрузка</a></div>
-                        <div class="icon"><a href="{{route('webinars')}}"><i class="fa fa-video-camera fa-3x green"></i><br/>Вебинары</a></div>
+                        <div class="icon"><a href="{{route('workload')}}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Нагрузка + вебинары</a></div>
+                        <div class="icon"><a href="{{route('vneaud')}}"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Проверка тестов и работ</a></div>
                         <div class="icon"><a href="{{route('rasp')}}"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
                         <div class="icon"><a href="{{route('myrasp')}}"><i class="fa fa-calendar fa-3x green"></i><br/>Мое расписание</a></div>
                         <div class="icon"><a href="{{route('journal')}}"><i class="fa fa-list fa-3x brown"></i><br/>Журнал</a></div>

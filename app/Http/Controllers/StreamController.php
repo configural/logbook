@@ -102,6 +102,10 @@ class StreamController extends Controller
                        if ($block->p_hours) {$hours = $block->p_hours; // если практика
                        $workload = ["group_id" => $group_id, "block_id" => $block->id, "hours" => $hours, "lessontype" => 2];
                        DB::table('timetable')->insert($workload);
+                       }
+                       if ($block->w_hours) {$hours = $block->w_hours; // если вебинар
+                       $workload = ["group_id" => $group_id, "block_id" => $block->id, "hours" => $hours, "lessontype" => 11];
+                       DB::table('timetable')->insert($workload);
                        }}
                     }
                     if ($discipline->attestation_id) {

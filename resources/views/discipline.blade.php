@@ -38,6 +38,7 @@
                             <td>Лекции, ч</td>
                             <td>Практика, ч</td>
                             <td>Самост., ч</td>
+                            <td>Вебинары., ч</td>
                             
                         </tr>
                         </thead>
@@ -50,6 +51,7 @@
                             <td>{{$block->l_hours}}</td>
                             <td>{{$block->p_hours}}</td>
                             <td>{{$block->s_hours}}</td>
+                            <td>{{$block->w_hours}}</td>
 
                          </tr>
                          @endif
@@ -60,10 +62,11 @@
                                 <td>{{ $discipline->l_hours_total() }} </td>
                                 <td>{{ $discipline->p_hours_total() }} </td>
                                 <td>{{ $discipline->s_hours_total() }} </td>
+                                <td>{{ $discipline->w_hours_total() }} </td>
                             </tr>
                             <tr class="itogo">
                                 
-                                <td colspan="3">{{ $discipline->hours_total() }} </td>
+                                <td colspan="4">{{ $discipline->hours_total() }} </td>
                                 
                             </tr>                            
                     </table>

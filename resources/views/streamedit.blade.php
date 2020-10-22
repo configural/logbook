@@ -106,7 +106,9 @@
                     <input type="hidden" name="stream_id" value="{{$stream->id}}">
                         <select name="program_id" class="form-control">
                             @foreach(\App\Program::select()->where('active', 1)->orderby('name', 'asc')->get() as $program)
-                            <option value='{{ $program->id }}'>{{$program->name}} - {{ $program->description}}</option>
+                            <option value='{{ $program->id }}'>
+                                [{{ $program->form->name}}] 
+                                {{$program->name}} - {{ $program->description}}</option>
                             @endforeach
                         </select>
                         </p>

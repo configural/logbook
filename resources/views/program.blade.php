@@ -23,6 +23,8 @@
                             <td>Лекции, ч</th>
                             <td>Практика, ч</th>
                             <td>Самост., ч</th>
+                            <td>Вебинары., ч</th>
+                                <td>Действия</th>
                         </tr>
                         
                     @foreach(\App\Program::find($id)->disciplines as $discipline)
@@ -31,22 +33,24 @@
                     <th>{{ $discipline->active_blocks->sum('l_hours')}}</th>
                     <th>{{ $discipline->active_blocks->sum('p_hours')}}</th>
                     <th>{{ $discipline->active_blocks->sum('s_hours')}}</th>
+                    <th>{{ $discipline->active_blocks->sum('w_hours')}}</th>
                     <th><a href="{{$id}}/discipline_unbind/{{$discipline->id}}">Убрать&nbsp;<i class="fa fa-thumbs-down red " aria-hidden="true"></i></a></th></tr>
-                    {{--    
+                     
                         <ul>    
                         @foreach(\App\Block::select()->where('discipline_id', $discipline->id)->where('active', 1)->get() as $block)
-                        {{--    
+                           
                         <tr>
                             <td></td>
                         <td>{{ $block->name }}</td>
                         <td>{{ $block->l_hours }}</td>
                         <td>{{ $block->p_hours }}</td>
                         <td>{{ $block->s_hours }}</td>
-                        
+                        <td>{{ $block->w_hours }}</td>
+                        <td></td>
                         
                         </tr>
                                 @endforeach
-                    --}}    
+                        
                     @endforeach
                     
                     </table>
@@ -58,7 +62,17 @@
                         <input name="program_id" type="hidden" value="{{$id}}">
                         <select name="discipline_id" class="form-control">
                         @foreach(\App\Discipline::select()->where('active', 1)->orderby('name')->get() as $discipline)
-                        <option value="{{$discipline->id}}">{{$discipline->name}} ({{$discipline->hours}} часов)</option>
+                        @if (1)
+                        <option value="{{$discipline->id}}">
+                            {{$discipline->active}}
+                            
+                            {{ @str_limit($discipline->name, 100)}} 
+                            [{{ @str_limit($discipline->programs->first()->form->name, 5) }} ::
+                            {{$discipline->hours}} ч.]
+                            
+                            
+                        </option>
+                        @endif
                         @endforeach
                     
                         </select>    

@@ -35,25 +35,45 @@ class ProgramController extends Controller
         $program->vkr_hours = $request->vkr_hours;
         $program->active = $request->active;
         $program->save();
-        return view('programs');
+        return redirect(route('programs'));
     }
     
     public function clone_program (Request $request) {
-        $program0 = Program::find($request->id);
-        $program1 = $program0->replicate(); // клонируем программу
-        $program1->name = "[клон от " . date("d.m.Y H:i") . "] - " . $program1->name;
-        $program1->save();
+        $program = Program::find($request->id);
+        $program_clone = $program->replicate(); // клонируем программу
+        $program_clone->name = "[клон от " . date("d.m.Y H:i") . "] - " . $program_clone->name;
+        $program_clone->save();
         
-        $disciplines = $program0->disciplines; // ищем прикрепленные дисциплины и создаем привязываем их к свежесозданной программе
+        $disciplines = $program->disciplines; // ищем прикрепленные дисциплины и создаем привязываем их к свежесозданной программе
         foreach($disciplines as $d) {
-            DB::table('discipline2program')->insert(['program_id' => $program1->id, 'discipline_id' => $d->id ]);
+            $discipline = \App\Discipline::find($d->id);
+            $discipline_clone = $discipline->replicate();
+            $discipline_clone->save();
+            DB::table('discipline2program')->insert(['program_id' => $program_clone->id, 'discipline_id' => $discipline_clone->id ]);
+            
+            foreach($discipline->blocks as $block) { // клонируем темы
+                $block = \App\Block::find($block->id);
+                $block_clone = $block->replicate();
+                $block_clone->discipline_id = $discipline_clone->id;
+                $block_clone->save();
             }
+        }
         return redirect(url('/programs'));
     }
     
     public function delete(Request $request) {
         $program = Program::find($request->id);
-        $program->delete();
+        foreach($program->disciplines as $discipline) {
+            $discipline->active = 0;
+            $discipline->save();
+            foreach($discipline->blocks as $block) {
+                $block->active = 0;
+                $block->save();
+            }
+        }
+        $program->active = 0;
+        $program->save();
+        //$program->delete();
         return redirect(url('/programs'));
     }
     

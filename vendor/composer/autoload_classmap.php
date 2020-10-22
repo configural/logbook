@@ -3785,6 +3785,7 @@ return array(
     'Vneaud' => $baseDir . '/database/migrations/2020_10_14_095724_vneaud.php',
     'VneaudCount' => $baseDir . '/database/migrations/2020_10_14_133142_vneaud-count.php',
     'VneaudFloat' => $baseDir . '/database/migrations/2020_10_14_114203_vneaud-float.php',
+    'WebinarHours' => $baseDir . '/database/migrations/2020_10_19_152929_webinar_hours.php',
     'WebinarTable' => $baseDir . '/database/migrations/2020_10_16_124559_webinar-table.php',
     'Webmozart\\Assert\\Assert' => $vendorDir . '/webmozart/assert/src/Assert.php',
     'Webmozart\\Assert\\Mixin' => $vendorDir . '/webmozart/assert/src/Mixin.php',

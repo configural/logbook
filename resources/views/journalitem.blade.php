@@ -34,7 +34,7 @@
                         
                         <th width="10%"><a href="#" id="check_all" class="btn btn-success">Все на месте</a></th>
                         <th width="10%"><a href="#" id="check_none" class="btn btn-danger">Нет никого</a></th>
-                        <th>текущий контроль
+                        <th>текущий контроль<br/>
                             <a href='#' id='attestation_all'>все</a> | 
                             <a href='#' id='attestation_none'>нет</a>
                         </th>

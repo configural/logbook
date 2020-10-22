@@ -16,6 +16,7 @@
                           <p><label>Лекции (часов): </label><input type="text" value="{{ $block->l_hours }}" class="form-control" name="l_hours"></p>
                           <p><label>Практика (часов)</label><input type="text" value="{{ $block->p_hours }}" class="form-control" name="p_hours"></p>
                           <p><label>Самост. работа (часов)</label><input type="text" value="{{ $block->s_hours }}" class="form-control" name="s_hours"></p>
+                          <p><label>Вебинары (часов)</label><input type="text" value="{{ $block->w_hours }}" class="form-control" name="w_hours"></p>
                            <p><label>Опубликован (1/0)?</label><input type="text" value="{{ $block->active }}" class="form-control" name="active"></p>
     
                           <p><button class="btn btn-success">Обновить</button>
