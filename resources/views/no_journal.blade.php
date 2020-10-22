@@ -19,13 +19,14 @@
                         <th width="10%">Дата</th>
                         <th width="25%">Преподаватель</th>
                         <th width="10%">Группа</th>
+                        <th width="10%">Тип занятия</th>
                         <th width="50%">Занятие</th>
                         
                         </thead>
                         <tbody>
                         
                         @foreach($rasp as $r)
-                        @if ($r->journal == NULL && !in_array($r->timetable->lessontype, [6, 7, 8]))  
+                        @if ($r->journal == NULL && in_array($r->timetable->lessontype, [1,2,4,5,11]))  
                         <tr>
                             <td>{{ $r->id }}</td>
                             <td>{{ $r->date }}</td>
@@ -33,7 +34,8 @@
                                 {{$teacher->name}}<br/>
                                 @endforeach
                             </td>
-                            <td>{{ $r->timetable->group->name }}</td>
+                            <td>{{ $r->timetable->group->name or '' }}</td>
+                            <td>{{ $r->timetable->lesson_type->name or '' }}</td>
                             <td>{{ $r->timetable->block->name or '' }}</td>
                             
                             

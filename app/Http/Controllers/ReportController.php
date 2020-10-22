@@ -182,6 +182,7 @@ class ReportController extends Controller
         return view('no_journal', ['journal' => $journal]);*/
         
         $rasp =  \App\Rasp::select()->where('date', '<', date('Y-m-d'))->get();
+        
         return view('no_journal', ['rasp' => $rasp]);
     }
     
