@@ -115,7 +115,9 @@ class userController extends Controller
     public function teacher_busy($user_id, $date, $start_at='00:00:00', $finish_at='23:59:59', $timetable_id = 0) {
         $busy = false;
         $rasp = \App\Rasp::select()->where('date', $date)->orderBy('start_at')->get();
-        echo "<p><strong><span class='red'> " . User::find($user_id)->name . "</span> в этот день ведет следующие занятия:</strong></p>";
+        echo "<p><strong><span class='red'> " . User::find($user_id)->name . "</span></strong></p>";
+ 
+        if(trim($date)) :
         echo "<table class='table table-bordered'>";
         echo "<tr><th>Дата</th><th>Начало</th><th>Конец</th><th>Группа [подгруппа]</th><th>Аудитория</th></tr>";
                 foreach($rasp as $r) {
@@ -142,6 +144,7 @@ class userController extends Controller
             
         }
         echo "</table>";
+        endif;
 
         
         if (User::find($user_id)->freelance) {

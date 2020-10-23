@@ -31,7 +31,7 @@
                         <a href="{{url('rasp')}}?date={{$timetable->rasp->date}}">Перейти в расписание</a>.
                         <hr>
                     @else
-                        <input type="hidden" id="dateField" value="{{$timetable->group->stream->date_start}}" disabled> 
+                        <input type="hidden" id="dateField" value="{{--{{$timetable->group->stream->date_start}}--}}    " disabled> 
                     
                     @endif
                         <div class="row">
@@ -58,6 +58,9 @@
                             @endforeach
                         </select>
                             </div>
+                            
+                            
+                            
                             <div class="col-lg-6">
                         
                         <p>Месяц: 
