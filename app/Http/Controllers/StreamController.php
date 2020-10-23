@@ -36,11 +36,7 @@ class StreamController extends Controller
     
     public function store(Request $request) {
         $stream = Stream::find($request->id);
-        $stream->name = $request->name;
-        $stream->date_start = $request->date_start;
-        $stream->date_finish = $request->date_finish;
-        $stream->year = $request->year;
-        $stream->metodist_id = $request->metodist_id;
+        $stream->fill($request->all());
         $stream->save();
         return redirect(route('streams'));
     
@@ -62,16 +58,12 @@ class StreamController extends Controller
                 $block = $discipline->blocks;
                 foreach($block as $b) {
                     
+                    
+                    
                     DB::table('timetable')
                             ->where('block_id', $b->id)
-                            ->where('group_id', $group_id)
-                            ->delete();
-                    DB::table('timetable')
-                            ->where('discipline_id', $b->discipline->id)
-                            ->where('group_id', $group_id)
-                            ->delete();
-                    DB::table('timetable')
-                            ->where('program_id', $program_id)
+                            ->orWhere('discipline_id', $b->discipline->id)
+                            ->orWhere('program_id', $program_id)
                             ->where('group_id', $group_id)
                             ->delete();
                     }

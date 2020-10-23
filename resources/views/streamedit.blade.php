@@ -17,6 +17,8 @@
                           <p><label>Начало обучения</label><input type="date" value="{{ $stream->date_start}}" class="form-control" name="date_start"></p>
                           <p><label>Окончание обучения</label><input type="date" value="{{ $stream->date_finish}}" class="form-control" name="date_finish"></p>
                           <p><label>Год</label><input type="text" value="{{ $stream->year }}" class="form-control" name="year"></p>
+                          <p><label>Поток активен? (1/0)</label>
+                              <input name="active" type="number" value="{{ $stream->active }}" class="form-control-static" required>
                           <p><label>Методист</label><br/>
                               <select name="metodist_id" class="form-control-static">
                                   
@@ -89,8 +91,17 @@
                         <td><a href="{{url('/program/')}}/{{$program->id}}" target="_blank">{{ $program->name }}</td>
                         <td>{{ $program->hours }}</td>
                         <td>
+                            @if (!$program->inTimetable())
+                            
                             @if (Auth::user()->role_id == 4)
-                            <a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" onClick="return window.confirm('Вся нагрузка будет удалена. Действительно привязку?');" class="btn btn-danger"><i class="fa fa-times"></i> Удалить</a>
+                            <a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" 
+                               nClick="return window.confirm('Вся нагрузка будет удалена. Действительно привязку?');" 
+                               class="btn btn-danger"><i class="fa fa-times"></i> Удалить</a>
+                            @endif
+                            @else
+                            Удалить привязку нельзя - темы уже в расписании. 
+                            Сначала удалите всю распределенную <a href="{{route('workload')}}">нагрузку</a>.
+                            
                             @endif
                         </td>
                         

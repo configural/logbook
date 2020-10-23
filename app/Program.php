@@ -39,5 +39,27 @@ class Program extends Model
     }
     
 
-    
+    public function inTimetable() {
+        $in_timetable = false;
+        
+        foreach ($this->disciplines as $d):
+            foreach($d->blocks as $b) :
+                if($timetable = \App\Timetable::whereNotNull('rasp_id')
+                        ->where(['block_id' => $b->id])
+                        ->first()
+                        ) :
+                    //echo $b->name  $timetable->rasp->date;
+                    $in_timetable = true;
+                    //break;
+                endif;
+            endforeach;
+            if ($in_timetable === true) :
+                //break;
+            endif;
+        endforeach;
+        if ($in_timetable):
+            
+        endif;
+        return $in_timetable;
+    }
 }
