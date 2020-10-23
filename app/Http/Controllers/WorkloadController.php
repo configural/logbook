@@ -132,7 +132,7 @@ class WorkloadController extends Controller
         
     public function get_classrooms($date) {
         $date1 = $date. " 00:00:00";
-        $date2 = $date. " 23:59:59";       
+        $date2 = $date. " 23:59:59";
         $classrooms = \App\Classroom::select()->get();
         echo "<table class='table table-bordered'>";
         foreach ($classrooms as $classroom) {

@@ -114,10 +114,10 @@ class userController extends Controller
         
     public function teacher_busy($user_id, $date, $start_at='00:00:00', $finish_at='23:59:59', $timetable_id = 0) {
         $busy = false;
-        $rasp = \App\Rasp::where('date', $date)->orderBy('start_at')->get();
+        $rasp = \App\Rasp::select()->where('date', $date)->orderBy('start_at')->get();
         echo "<p><strong><span class='red'> " . User::find($user_id)->name . "</span> в этот день ведет следующие занятия:</strong></p>";
         echo "<table class='table table-bordered'>";
-        echo "<tr><th>Начало</th><th>Конец</th><th>Группа [подгруппа]</th><th>Аудитория</th></tr>";
+        echo "<tr><th>Дата</th><th>Начало</th><th>Конец</th><th>Группа [подгруппа]</th><th>Аудитория</th></tr>";
                 foreach($rasp as $r) {
            foreach($r->timetable->teachers as $teacher) {
                $cross = false;
@@ -132,6 +132,7 @@ class userController extends Controller
                echo "<tr";
                if ($cross == true) echo " class='cross' ";
                    echo">";
+                echo "<td>" . $r->date . "</td>";
                 echo "<td>" . $r->start_at . "</td>";
                 echo "<td>" . $r->finish_at . "</td>";
                 echo "<td>" . $r->timetable->group->name . " [" .$r->timetable->subgroup . "]</td>";
