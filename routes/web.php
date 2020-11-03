@@ -170,7 +170,22 @@ Route::get('vneaud/{id}/delete', 'VneaudController@delete')->middleware('auth');
 // Вебинары
 Route::get('webinars', function() {return view('webinars');})->name('webinars')->middleware('auth');
 Route::get('webinar/add', function() {return view('webinaradd');})->name('webinaradd')->middleware('auth');
+
+//
 // 
+// Тесты 
+Route::get('tests', function() {return view('tests');})->name('tests');
+Route::get('test/add', function() {return view('testadd');})->name('testadd');
+Route::post('test/add', 'TestController@store_test');
+Route::get('test/{id}/edit', 'TestController@edit_test');
+Route::post('test/{id}/edit', 'TestController@store_test');
+Route::get('test/{id}/questions', 'TestController@show_questions');
+Route::get('test/{test_id}/addquestion', function($test_id) {return view('questionadd', ['test_id' => $test_id]);});
+Route::post('test/{test_id}/addquestion', 'TestController@store_question');
+Route::get('question/{id}/edit', 'TestController@edit_question');
+Route::post('question/{id}/edit', 'TestController@store_question');
+
+
 // ajax маршруты
 Route::get('/ajax/workload/{date}/{teacher_id}', 'WorkloadController@get_workload')->middleware('auth');
 Route::get('/ajax/classrooms/{date}', 'WorkloadController@get_classrooms')->middleware('auth');
