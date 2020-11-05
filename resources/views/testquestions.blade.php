@@ -16,10 +16,11 @@
                 </p>
                 
                 @foreach($test->questions as $q)
-                <a href="#{{$q->id}}" name='{{ $q->id }}'>#{{ $q->id }}</a>
+                <a href="#{{$q->id}}" name='{{ $q->id }}'>#{{ $q->id }}</a> <a href="{{ url('/')}}/question/{{ $q->id }}/edit">Редактировать</a>
                 <h4>
-                    <a href="{{ url('/')}}/question/{{ $q->id }}/edit">Редактировать</a>
+                    
                     {{ $q->name }}</h4>
+                <i class="muted">{{ $q->questiontype->name or '' }}</i>
                 <ol>
                 @if($q->a0) <li>{{ $q->a0}}</li> @endif
                 @if($q->a1) <li>{{ $q->a1}}</li> @endif

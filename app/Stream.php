@@ -9,7 +9,7 @@ class Stream extends Model
 {
     //
     protected $table = 'streams';
-    protected $fillable = ['name', 'year', 'date_start', 'date_finish', 'metodist', 'active'];
+    protected $fillable = ['name', 'year', 'date_start', 'date_finish', 'metodist_id', 'active'];
     
 
     public function programs() {

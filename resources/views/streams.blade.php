@@ -20,6 +20,7 @@
                                 <td>Группы</td>
                                 <td>Учебный год</td>
                                 <td>Методист</td>
+                                <td>Поток активен?</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,6 +37,7 @@
                                 
                                 <td>{{ $stream->year }}</td>
                                 <td>{{ $stream->metodist->name or ''}}</td>
+                                <td>{{ $stream->active or ''}}</td>
                             </tr>
                             @endforeach
                         <tbody>

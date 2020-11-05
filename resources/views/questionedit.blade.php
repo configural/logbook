@@ -22,7 +22,11 @@
                                 <p><label>Тип вопроса:</label>
                                     <select name="questiontype_id" class="form-control-static">
                                         @foreach(\App\QuestionType::get() as $qt)
-                                        <option value='{{ $qt->id }}'>{{ $qt->name }}</option>
+                                        @if($question->questiontype_id == $qt->id)
+                                        <option value='{{ $qt->id }}' selected="">{{ $qt->name }}</option>
+                                        @else
+                                            <option value='{{ $qt->id }}'>{{ $qt->name }}</option>
+                                        @endif
                                         @endforeach
                                         
                                         
