@@ -14,7 +14,9 @@
                         <p><label>Группа</label> <br/>
                         <select name="group_id" class="form-control-static">
                             @foreach(\App\Group::where('active', 1)->get() as $group)
+                            @if($group->stream->active)
                             <option value="{{ $group->id }}">{{ $group->stream->name }} / {{ $group->name }}</option>
+                            @endif
                             @endforeach
                             
                         </select>
