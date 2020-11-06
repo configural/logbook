@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Test;
 use App\Question;
+use DOMDocument;
+use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
 {
@@ -51,6 +53,55 @@ class TestController extends Controller
 
         $question->fill($request->all());
         
+        // summernote start
+        $detail = $request->name;
+        libxml_use_internal_errors(true);
+        $dom = new \domdocument();
+        $dom->loadHtml($detail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        
+        
+        $nodeHead=$dom->createElement("head");
+        $nodeMeta=$dom->createElement('meta');
+        $dom->insertBefore($nodeHead, $dom->firstChild);
+        $nodeMeta->setAttribute ("http-equiv","Character");
+        $nodeMeta->setAttribute ("content","ISO-8859-1");
+      
+        $nodeHead->appendChild($nodeMeta);
+        $nodeMeta=$dom->createElement('meta');
+        $nodeMeta->setAttribute ("http-equiv","Content-Type");
+        $nodeMeta->setAttribute ("content","text/html; charset=ISO-8859-1");
+      
+        $nodeHead->appendChild($nodeMeta);
+        
+        $images = $dom->getElementsByTagName('img');
+        
+        
+        
+
+        foreach ($images as $count => $img) {
+            $data = $img->getAttribute('src');
+            
+            if (str_contains($data, 'base64')) {
+
+                list($type, $data) = explode(';', $data);
+                list(, $data)      = explode(',', $data);
+
+                $data = base64_decode($data);
+
+                $image_name= "images/" . $request->id . "_" . time().$count.'.png';
+                $path = public_path() . "/" . $image_name;
+
+                file_put_contents($path, $data);
+
+                $img->removeAttribute('src');
+                $img->setAttribute('src', url('/') ."/" . $image_name);
+           }
+        }
+     $detail = $dom->savehtml();
+     $detail = strip_tags($detail, "<p><a><img><br><h1><h2><h3><h4><table><tr><td><thead><tbody><span><strong><b><i><ul><ol><li>");
+        // summernote finish
+        
+        $question->name = $detail;
         $question->save();
         return redirect(url('/') . '/test/' . $request->test_id . '/questions#' . $question->id);
     }
