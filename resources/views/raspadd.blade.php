@@ -23,6 +23,7 @@
                         <input name="date_copy" type="date" value="{{$date}}" class="form-control-static">
                         
                        Группа: <select id="filterGroup" class='form-control-static'>
+                           <option value=''>Выберите</option>
                            @foreach(\App\Group::select()->where('active',1)->orderby('name')->get() as $group)
                            @if($group->stream->active)
                            <option value='{{$group->name}}'>{{$group->name}} ({{$group->students->count()}} чел.) - {{$group->stream->name}}</option>
