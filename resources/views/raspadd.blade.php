@@ -66,6 +66,7 @@
                                 @endif
                                  </td>
                                  <td>
+                                     
                                      {{$teacher->name}}
                                  </td>
                                   <td>

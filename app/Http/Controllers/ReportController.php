@@ -62,6 +62,18 @@ class ReportController extends Controller
         ];
 
         
+        $style3 = [
+        'borders' => [
+        'top' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_DOTTED,
+            'color' => ['argb' => 'FF000000'],
+                 ],
+            ],
+         'font' => [
+             'bold' => false,
+         ]
+        ];
+        
         $i = 10;
         $date = "";
         
@@ -112,7 +124,7 @@ class ReportController extends Controller
                     $i++;
                     //dump($pair);
                     $sheet->setCellValue('C'.$i, "Перерыв на обед: " . $request->obed);
-                    $sheet->getStyle('B'.$i.":E".$i)->applyFromArray($style2);
+                    $sheet->getStyle('B'.$i.":E".$i)->applyFromArray($style3);
                 
                 }
 
