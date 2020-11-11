@@ -40,22 +40,47 @@
 
                
                         <p>Занятие (из распределенной нагрузки):
+                           
+                        <table class="table table-bordered" id="sortTable">
+                            <thead>
+                            <th width="50"></th>
+                            <th>Группа</th>
+                            <th>Преподаватель</th>
+                            <th>Время и тип занятия</th>
+                            <th>Тема</th>
                             
-                            <select name="timetable_id" class="form-control" required id="timetableId">
-                                <option value="">Выберите!</option>
-                            @foreach(\App\Timetable::select()->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
-                            
-                            @foreach($timetable->teachers as $teacher)
-                            <option value="{{$timetable->id}}" data-hours="{{$timetable->hours}}" data-teacher="{{$teacher->id}}" data-group_id="{{$timetable->group_id}}">{{$timetable->group->name}} 
+                            </thead>
+                            <tbody>
+                                
+                             @foreach(\App\Timetable::select()->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
+                             @foreach($timetable->teachers as $teacher)
+                             <tr>
+                                 <td>
+                                     <input required type="radio" name="timetable_id" value="{{$timetable->id}}" data-hours="{{$timetable->hours}}" data-teacher="{{$teacher->id}}" data-group_id="{{$timetable->group_id}}">
+                                     
+                                 </td>
+                                 <td>
+                                     {{$timetable->group->name}} 
                                 @if($timetable->subgroup)
                                 (подгруппа {{$timetable->subgroup }})
                                 @endif
-                                :: {{$teacher->name}} :: {{$timetable->hours}} ч ({{$timetable->lesson_type->name}}) ::  {{ $timetable->block->name or ''}} 
-                            </option>
-                            @endforeach
-                            @endforeach
-                            </select>
-                           
+                                 </td>
+                                 <td>
+                                     {{$teacher->name}}
+                                 </td>
+                                  <td>
+                                     {{$timetable->hours}} ч ({{$timetable->lesson_type->name}})
+                                 </td>  
+                                 <td>
+                                     {{ $timetable->block->name or ''}}
+                                 </td>
+
+                                                           </tr>
+                             @endforeach
+                             @endforeach
+                            </tbody>
+                        </table>
+                            
                        </p>
                                                   <strong>{{\App\Classroom::find($room)->name}} ({{\App\Classroom::find($room)->capacity}} мест) занята:</strong>
 
@@ -101,11 +126,13 @@
 
 <script>
     
-$('#filterGroup').change(function() {
+
+    $('#filterGroup').change(function() {
     var group_name = $("#filterGroup option:selected").val();
-    
-    $('#timetableId option:contains(":")').hide();
-    $('#timetableId option:contains("' + group_name + '")').show();
+   $('#sortTable').DataTable().column( 1 ).search(
+        $('#filterGroup').val(),
+
+    ).draw();
 });    
     
 $('#timetableId').change(function(){
