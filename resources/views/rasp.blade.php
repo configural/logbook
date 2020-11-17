@@ -21,8 +21,12 @@ $_SESSION["work_with"] = "rasp";
 
                     @if(Auth::user()->role_id >= 3)
  
-                    <table class="table table-bordered">
-                     
+                    <table class="table table-bordered" id="sortTable">
+                        <thead>
+                        <th>Аудитория</th>
+                        <th>Занятия</th>
+                        </thead>
+                        <tbody>    
                     @foreach(\App\Classroom::select()->orderby('name')->get() as $room)
                     <tr>
                         <td width="20%"><h3>{{$room->name}}</h3>{{$room->capacity}} мест
@@ -66,11 +70,13 @@ $_SESSION["work_with"] = "rasp";
                             </td>
                                 @endif
                             @endforeach</tr>
-                    </table>
+                    
+                            </table>
                             <!--/ вывод строк расписания-->
                         </td>
                     </tr>
                     @endforeach
+                        </tbody>
                     </table>
                     @else
                     Доступ только для администраторов
