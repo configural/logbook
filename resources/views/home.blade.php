@@ -29,7 +29,8 @@
                     @elseif (Auth::user()->role_id == 5)
                     @include('home.director')
 
-                
+                    @elseif (Auth::user()->role_id == 6)
+                    @include('home.zavkaf')                
                 @endif
                 </div>
             </div>

@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Новая медиаконтент</div>
+                <div class="panel-heading ">Новый медиаконтент</div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id == 4)  

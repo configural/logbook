@@ -13,7 +13,9 @@
                         по созданию видеоуроков, интерактивных учебников, тренажеров, "коротко о главном" и т.п.
                     </p>
                     <p>
+                       @if(Auth::user()->role_id == 4) 
                         <a href="{{ route('mediaadd')}}" class="btn btn-success">Добавить</a>
+                        @endif
                     </p>
                     <table class="table table-bordered" id="sortTable">
                         <thead>
@@ -38,16 +40,23 @@
                         @php $i++; @endphp
                         <td>{{ $i }}</td>
                         <td>{{ $media->mediatype->name or ''}}</td>
-                        <td><a href="media/{{$media->id}}/edit">{{ $media->name or ''}}</a></td>
+                        <td>
+                            @if (Auth::user()->role_id == 4)
+                            <a href="media/{{$media->id}}/edit">{{ $media->name or ''}}</a>
+                            @else
+                            {{ $media->name or ''}}
+                            @endif
+                            
+                        </td>
                         <td>
                             @foreach($media->users as $user)
-                            {{$user->fio()}} ({{$user->department->name}})<br/>
+                            {{$user->secname()}} ({{$user->department->name}})<br/>
                             @endforeach
                             
                         </td>
                         <td>
                             @if ($media->master_id)
-                            {{ \App\User::find($media->master_id)->fio() }}
+                            {{ \App\User::find($media->master_id)->secname() }}
                             @endif
                         </td>
                         

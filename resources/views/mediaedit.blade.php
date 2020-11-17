@@ -9,7 +9,7 @@
                 <div class="panel-heading ">Редактирование описания медиаконтента</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id == 4)  
+                    @if(in_array(Auth::user()->role_id, [4]))  
                     
                     <form method="post">
                         <p><label>Тип:</label>
