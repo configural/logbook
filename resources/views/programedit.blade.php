@@ -16,6 +16,8 @@
                           
                           <p><label>Название</label>
                               <textarea class="form-control" name="name" required>{{ \App\Program::find($id)->name }}</textarea></p>
+                          
+                          <p><label>Год</label><input type="number" value="{{\App\Program::find($id)->year}}" class="form-control" name="year" required></p>
                           <p><label>Планируемое количество часов</label>
                               <input type="number" value="{{ \App\Program::find($id)->hours }}" class="form-control" name="hours" required></p>
                           <p><label>Форма обучения</label>

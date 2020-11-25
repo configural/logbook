@@ -16,6 +16,7 @@
                     <table class="table table-bordered" id="sortTable">
                         <thead class="">
                             <tr><td>id</td><td width="35%">Название программы</td>
+                                <td>Год</td>
                                 <td>Форма</td>
                                 <td width="10%">Часов по плану</td>
                                 <td width="10%">Часов по факту</td>
@@ -27,6 +28,7 @@
                             <tr class="">
                                 <td>{{ $program->id }} </td>
                                 <td><a href="{{url('/')}}/program/{{$program->id}}/edit">{{ $program->name }}</a><br><small>{{$program->description}}</small></td>
+                                <td>{{ $program->year or ''}}</td>
                                 <td>{{ $program->form->name or ''}}</td>
                                 <td>{{ $program->hours }}</td>
                                 <td>{{ $program->hours() }}</td>

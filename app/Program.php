@@ -10,7 +10,7 @@ class Program extends Model
     //
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $fillable = ['name', 'description', 'hours', 'form_id', 'active', 'attestation_id', 'attestation_hours', 'vkr_hours'];
+    protected $fillable = ['name', 'description', 'hours', 'form_id', 'active', 'attestation_id', 'attestation_hours', 'vkr_hours', 'year'];
     
     public function form() {
         return $this->hasOne('\App\Form', 'id', 'form_id');

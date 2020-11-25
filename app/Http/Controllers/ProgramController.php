@@ -19,6 +19,7 @@ class ProgramController extends Controller
         $program->attestation_hours = $request->attestation_hours;
         $program->vkr_hours = $request->vkr_hours;
         $program->active = $request->active;
+        $program->year = $request->year;
         $program->save();
         return view('programs');
         
@@ -34,6 +35,7 @@ class ProgramController extends Controller
         $program->attestation_hours = $request->attestation_hours;
         $program->vkr_hours = $request->vkr_hours;
         $program->active = $request->active;
+        $program->year = $request->year;
         $program->save();
         return redirect(route('programs'));
     }
