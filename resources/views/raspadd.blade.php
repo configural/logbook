@@ -41,7 +41,7 @@
                
                         <p>Занятие (из распределенной нагрузки):
                            
-                        <table class="table table-bordered" id="sortTable">
+                        <table class="table table-bordered" id="sortTable" data-page-length='10'>
                             <thead>
                             <th width="50"></th>
                             <th>Группа</th>
@@ -81,7 +81,15 @@
                              @endforeach
                             </tbody>
                         </table>
-                            
+                          
+                       <p>Время занятий: <strong><span id="needHours" class="red"></span></strong><br/>
+                       <input type="time" id="startAt" name="start_at" class="form-control-static" required>
+                       <input type="time" id="finishAt" name="finish_at" class="form-control-static" required>
+                       </p>                            
+                       
+                        
+                        
+                        
                        </p>
                                                   <strong>{{\App\Classroom::find($room)->name}} ({{\App\Classroom::find($room)->capacity}} мест) занята:</strong>
 
@@ -101,16 +109,8 @@
                            <div class="col-lg-6"><span id="groupBusy"></span></div>
                        </div>
                        </div>
-                       <p>Время занятий: <strong><span id="needHours" class="red"></span></strong><br/>
-                       <input type="time" id="startAt" name="start_at" class="form-control-static" required>
-                       <input type="time" id="finishAt" name="finish_at" class="form-control-static" required>
-                       </p>                            
-                       
-
-                        </p>
-                        {{csrf_field()}}
+                       {{csrf_field()}}
                         <button class="btn btn-success" id="saveButton">Сохранить</button>
-                        
                         <a href="{{url('room_unlock')}}/{{$date}}/{{$room}}" class="btn btn-info">Выйти без сохранения</a>
                     </form>
                    

@@ -18,7 +18,10 @@
 
     //dump($stream_id);
     
-@endphp   
+@endphp 
+
+
+
 <div class="container-fluid">
 
 
@@ -203,7 +206,18 @@
 
 </div>
 
+<script>
 
+var $window = $(window)
+/* Restore scroll position */
+window.scroll(0, localStorage.getItem('scrollPosition')|0)
+/* Save scroll position */
+$window.scroll(function () {
+    localStorage.setItem('scrollPosition', $window.scrollTop())
+})
+
+
+</script>
 
 @endsection
 

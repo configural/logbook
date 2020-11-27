@@ -6,6 +6,9 @@ $_SESSION["work_with"] = "rasp";
 @extends('layouts.app')
 
 @section('content')
+
+
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-md-12">
@@ -86,4 +89,18 @@ $_SESSION["work_with"] = "rasp";
         </div>
     </div>
 </div>
+                
+                
+<script>
+
+var $window = $(window)
+/* Restore scroll position */
+window.scroll(0, localStorage.getItem('scrollPosition')|0)
+/* Save scroll position */
+$window.scroll(function () {
+    localStorage.setItem('scrollPosition', $window.scrollTop())
+})
+
+
+</script>
 @endsection
