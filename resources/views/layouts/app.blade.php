@@ -139,7 +139,13 @@
 <script>
 // Автоскроллинг на место откуда страницу покинули
 
-$.cookie('scroll_to', 'scroll_to', { expires: 7, path: '{{ url()->current() }}' });
+var $window = $(window)
+/* Restore scroll position */
+window.scroll(0, localStorage.getItem('scrollPosition')|0)
+/* Save scroll position */
+$window.scroll(function () {
+    localStorage.setItem('scrollPosition', $window.scrollTop())
+})
 
 </script>
     <!---->

@@ -49,6 +49,14 @@ class BlockController extends Controller
         return redirect('discipline/'.$block->discipline_id);
     }
     
+    public function quick_update(Request $request) {
+        $block = Block::find($request->id);
+        $block->fill($request->all());
+        $block->save();
+        return redirect(route('blocks'));// . "#" . $block->id);
+
+    }
+    
     public function delete($id) {
         $block = Block::find($id);
         $discipline_id = $block->discipline_id;
