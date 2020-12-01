@@ -53,7 +53,7 @@
                         <form method="get">
                         <p><select name='stream_id' class='form-control-static blue' onchange="form.submit()">
                                 <option value=''>Выберите поток</option>
-                        @foreach(\App\Stream::orderBy('date_start', 'desc')->get() as $stream)
+                        @foreach(\App\Stream::orderBy('date_start', 'desc')->where('active', 1)->get() as $stream)
                         @if ($stream->id == $stream_id)
                         <option value='{{ $stream->id }}' selected>({{ $stream->date_start}} — {{ $stream->date_finish}}) {{ $stream->name }}</option>
                         @else
