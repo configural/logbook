@@ -1,4 +1,10 @@
+@php
+$l_sum = 0;
+$p_sum = 0;
+$s_sum = 0;
+$w_sum = 0;
 
+@endphp
 @extends('layouts.app')
 
 @section('content')
@@ -30,10 +36,10 @@
                     @foreach(\App\Program::find($id)->disciplines as $discipline)
                     <tr>
                         <th colspan="2"><a href="{{ url('/')}}/discipline/{{ $discipline->id}}" title="Кликните чтобы редактировать список блоков">{{$discipline->name}}</a></th>
-                    <th>{{ $discipline->active_blocks->sum('l_hours')}}</th>
-                    <th>{{ $discipline->active_blocks->sum('p_hours')}}</th>
-                    <th>{{ $discipline->active_blocks->sum('s_hours')}}</th>
-                    <th>{{ $discipline->active_blocks->sum('w_hours')}}</th>
+                    <th>{{ $discipline->active_blocks->sum('l_hours')}} @php $l_sum +=$discipline->active_blocks->sum('l_hours'); @endphp</th>
+                    <th>{{ $discipline->active_blocks->sum('p_hours')}} @php $p_sum +=$discipline->active_blocks->sum('p_hours'); @endphp</th>
+                    <th>{{ $discipline->active_blocks->sum('s_hours')}} @php $s_sum +=$discipline->active_blocks->sum('s_hours'); @endphp</th>
+                    <th>{{ $discipline->active_blocks->sum('w_hours')}} @php $w_sum +=$discipline->active_blocks->sum('w_hours'); @endphp</th>
                     <th><a href="{{$id}}/discipline_unbind/{{$discipline->id}}">Убрать&nbsp;<i class="fa fa-thumbs-down red " aria-hidden="true"></i></a></th></tr>
                      
                         <ul>    
@@ -52,7 +58,17 @@
                                 @endforeach
                         
                     @endforeach
-                    
+                    <tr>
+                        
+                        <td colspan="2"><h3>Итого</h3></td>
+                        <td><h3>{{$l_sum}}</h3></td>
+                        <td><h3>{{$p_sum}}</h3></td>
+                        <td><h3>{{$s_sum}}</h3></td>
+                        <td><h3>{{$w_sum}}</h3></td>
+                        <td><h3>{{$w_sum + $s_sum + $p_sum + $l_sum + \App\Program::find($id)->attestation_hours}}</h3>Вместе с аттестацией ({{\App\Program::find($id)->attestation_hours}} ч.)</td>          
+                            
+                        
+                    </tr>
                     </table>
 
                     

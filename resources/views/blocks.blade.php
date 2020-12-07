@@ -45,7 +45,7 @@
                        <td>{{$b->discipline->name}}</td>
                        <td>
                            @foreach($b->discipline->programs as $program)
-                        <li>{{$program->name}}</li>
+                        <li>[{{$program->year}}] {{$program->name}}</li>
                            @endforeach
                        
                        </td>
