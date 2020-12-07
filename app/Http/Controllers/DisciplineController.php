@@ -75,7 +75,6 @@ class DisciplineController extends Controller
             $newblock->active = $block->active;
             $newblock->l_hours = $block->l_hours;
             $newblock->p_hours = $block->p_hours;
-            $newblock->type_id = $block->type_id;
             $newblock->save();
             
         }
