@@ -38,7 +38,7 @@
                               <input type="text" value="" class="form-control" name="active">
                           </p>
                           
-                          <p><button class="btn btn-success">Создать пользователя</button>
+                          <p><button class="btn btn-success">Создать дисциплину</button>
                     {{ csrf_field() }}
                       </form>
                     @else
