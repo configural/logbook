@@ -75,7 +75,7 @@
         var lessontype = Number($("#lessonTypeSelect option:selected").val());
         
         
-        if ($.inArray(lessontype, [1, 2] ) != -1) {
+        if ($.inArray(lessontype, [1, 2, 11] ) != -1) {
         var url = "{{url('/')}}/ajax/group_blocks/" + $("#groupSelect option:selected").val();
             
             $.ajax({
