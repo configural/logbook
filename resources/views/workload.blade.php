@@ -61,11 +61,25 @@
                         @endif
                         @endforeach
                         </select>
-                            </form>
+                        </form>
+                        </p>
+                        @if(in_array(Auth::user()->role_id, [3,4,6]))
+                        <p>Вы методист и вам нужно распределить нагрузку по преподавателям. 
+                            Это делается нажатием кнопки "Распределить". После этого указываем нужных преподавателей и жмем "Сохранить нагрузку". 
+                            В расписание может быть включена только нагрузка с назначенным преподавателем(ями).
+                            Если нужной нагрузки в таблице нет, создайте ее вручную:</p>
+                        <p><a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a></p>
+                        @elseif(in_array(Auth::user()->role_id, [2]))
+                        <p>    
+                        Вы преподаватель? Ваша задача - разобрать учебную нагрузку. Для этого нажмимайте кнопку "Взять нагрузку" в таблице, после чего в этих темах появится ваша фамилия.
+                        Также вы можете отказаться от ранее взятой нагрузки, если ее не успели включить в расписание, нажав кнопку "Отказаться". 
+                        Одну строку нагрузки могут делить несколько преподавателей.
+                        
+                        Подсказка - таблицу можно сортировать, щелкая мышкой по заголовкам. Для сортировки по нескольким столбцам, щелкайте с нажатым Shift. 
+                        Также можно фильтровать данные при помощи поля "Поиск" (справа над таблицей).
                         </p>
                         
-                        <p><a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a></p>
-                        
+                        @endif
 
                         
                         @if ($stream_id)
@@ -79,8 +93,8 @@
                                 <th>Часы</th>
                                 
                                 <th>Преподавател(и)</th>
-                                <th>Мес.</th>
-                                <th>Взять нагрузку</th>
+                               
+                                <th>Действия</th>
                                 
                                 </tr></thead>
                                 
@@ -92,8 +106,8 @@
                                 <th>Часы</th>
                                 
                                 <th>Преподавател(и)</th>
-                                <th>Мес.</th>
-                                <th>Взять нагрузку</th>
+                              
+                                <th>Действия</th>
                                 </tr></tfoot>
                             <tbody>
   
@@ -104,7 +118,13 @@
                         ->where('groups.stream_id', '=', $stream_id)
                         ->get() as $timetable)
                         
-                        <tr><td><a href="workload/edit/{{$timetable->id}}" name="{{$timetable->id}}">{{$timetable->id}}</a></td>
+                        <tr><td>
+                                @if(in_array(Auth::user()->role_id, [3,4,6]))
+                                <a href="workload/edit/{{$timetable->id}}"  name="{{$timetable->id}}">{{$timetable->id}}</a>
+                                @else
+                                {{$timetable->id}}
+                                @endif
+                            </td>
                             <td><nobr>{{$timetable->group->stream->name}}</nobr><br> 
                             <nobr>{{$timetable->group->name}}</nobr>
                         
@@ -175,17 +195,21 @@
                                 
                                 
                             </td>
-                            <td>
+                            {{--<td>
                                 {{$timetable->month or ''}}
-                            </td>
+                            </td>--}}
                             <td>
                                 @if($timetable->rasp_id)
                                 Назначено на:
                                 <a href="{{url('rasp')}}?date={{$timetable->rasp->date or ''}}">{{$timetable->rasp->date or ''}}</a>
                                 @else
                                 @if($i == 0)
-                                <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Взять нагрузку</a>
                                 
+                                @if(in_array(Auth::user()->role_id, [2]))
+                                    <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Взять нагрузку</a>
+                                @else
+                                    <a href="workload/edit/{{$timetable->id}}" class="btn btn-primary" name="{{$timetable->id}}">Распределить</a>
+                                @endif
                             
                                 @else
                                 

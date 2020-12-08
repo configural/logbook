@@ -37,7 +37,8 @@
                         <div class="row">
                             <div class="col-lg-6">
                         <input type="hidden" name="id" value="{{$timetable->id}}">
-                        <p>Преподавател(и)</p>
+                        <h3>Преподаватель(ли)</h3>
+                        <p>Для выделения сразу нескольких строк используйте левый клик мыши с нажатой клавишей Ctrl. Если вы выбираете внештатного преподавателя, нужно указать договор, по которому он будет работать.</p>
 
                         <select id="teacherSelect" name="teachers[]" multiple class="form-control" style="height: 600px;">
                             @foreach(\App\User::select()->whereIn('role_id', [2, 5])->orderBy('name')->get() as $user)
@@ -66,8 +67,11 @@
                         <p>Месяц: 
                         <select name="month" class="form-control-static">
                             
-                            @php ($n = date('n'));
-                            @for ($i = 1; $i <= 12; $i++)
+                            @php $n = date('n');
+                            $start = explode("-", $timetable->group->stream->date_start)[1];
+                            $finish = explode("-", $timetable->group->stream->date_finish)[1];
+                            @endphp
+                            @for ($i = $start; $i <= $finish; $i++)
                                 @if ($i == $n ) <option value="{{ $i }}" selected>{{ $i }}</option>
                                 @else <option value="{{ $i }}">{{ $i }}</option>
                                 @endif

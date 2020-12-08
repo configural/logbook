@@ -38,7 +38,7 @@
                                 </td>
                                 <td>{{ $user->created_at }}</td>
                                 <td>
-                                    @if(Auth::user()->role_id == 4)
+                                    @if(in_array(Auth::user()->role_id, [3, 4]))
                                     <center><a href="{{url('/')}}/user/{{$user->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
                                     @else
                                     -
