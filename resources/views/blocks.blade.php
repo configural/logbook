@@ -28,7 +28,20 @@
                                 <form method="post">
                                     <textarea name="name"  class="form-control"style="width: 100%; height: 200px;">{{ $b->name }}</textarea>
                                    <input type="hidden" name="id" value="{{$b->id}}">
-                                   <br/>
+                              
+                              <p><label>Кафедра:</label>
+                              <select name="department_id" class="form-control-static">
+                                  <option value="">Наследуется от дисциплины</option>
+                                  @foreach(\App\Department::get() as $department)
+                                  @if ($department->id == $b->department_id)
+                                  <option value="{{$department->id}}" selected>{{$department->name}}</option>
+                                  @else
+                                  <option value="{{$department->id}}">{{$department->name}}</option>
+                                  @endif
+                                  @endforeach
+                              </select></P>
+                              <BR/>
+                                   
                                    <button>Сохранить</button>
                                    
                                    {{ csrf_field() }}

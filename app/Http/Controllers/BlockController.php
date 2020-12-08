@@ -23,6 +23,7 @@ class BlockController extends Controller
         $block->s_hours = $request->s_hours; // часы самост. работы
         $block->w_hours = $request->w_hours; // часы вебинар
         $block->active = $request->active; // опубликовано?
+        $block->department_id = $request->department_id; // опубликовано?
         $block->discipline_id = $request->discipline_id; // ид дисциплины, к которому привязваны
         $block->save();
         
@@ -44,6 +45,7 @@ class BlockController extends Controller
         $block->p_hours = $request->p_hours; // часы практики
         $block->s_hours = $request->s_hours; // часы самост. работы
         $block->w_hours = $request->w_hours; // часы вебинары
+        $block->department_id = $request->department_id; // опубликовано?
         $block->active = $request->active; // опубликовано?
         $block->save();
         return redirect('discipline/'.$block->discipline_id);

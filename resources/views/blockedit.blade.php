@@ -17,7 +17,20 @@
                           <p><label>Практика (часов)</label><input type="text" value="{{ $block->p_hours }}" class="form-control" name="p_hours"></p>
                           <p><label>Самост. работа (часов)</label><input type="text" value="{{ $block->s_hours }}" class="form-control" name="s_hours"></p>
                           <p><label>Вебинары (часов)</label><input type="text" value="{{ $block->w_hours }}" class="form-control" name="w_hours"></p>
-                           <p><label>Опубликован (1/0)?</label><input type="text" value="{{ $block->active }}" class="form-control" name="active"></p>
+                          
+                          <p><label>Кафедра:</label>
+                              <select name="department_id" class="form-control-static">
+                                  <option value="">Наследуется от дисциплины</option>
+                                  @foreach(\App\Department::get() as $department)
+                                  @if ($department->id == $block->department_id)
+                                  <option value="{{$department->id}}" selected>{{$department->name}}</option>
+                                  @else
+                                  <option value="{{$department->id}}">{{$department->name}}</option>
+                                  @endif
+                                  @endforeach
+                              </select>
+                          
+                          <p><label>Опубликован (1/0)?</label><input type="text" value="{{ $block->active }}" class="form-control" name="active"></p>
     
                           <p><button class="btn btn-success">Обновить</button>
                      {{ csrf_field() }}

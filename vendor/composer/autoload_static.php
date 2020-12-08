@@ -563,6 +563,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'DeepCopy\\TypeFilter\\TypeFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
         'DeepCopy\\TypeMatcher\\TypeMatcher' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
         'Discipline2program' => __DIR__ . '/../..' . '/database/migrations/2019_11_26_084705_discipline2program.php',
+        'DisciplineCafedra' => __DIR__ . '/../..' . '/database/migrations/2020_12_08_114348_discipline_cafedra.php',
         'DisciplineHours' => __DIR__ . '/../..' . '/database/migrations/2020_02_20_065344_discipline-hours.php',
         'Disciplines' => __DIR__ . '/../..' . '/database/migrations/2019_11_25_084717_disciplines.php',
         'DisciplinesDates' => __DIR__ . '/../..' . '/database/migrations/2019_11_25_090949_disciplines-dates.php',

@@ -134,6 +134,7 @@ return array(
     'DeepCopy\\TypeFilter\\TypeFilter' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
     'DeepCopy\\TypeMatcher\\TypeMatcher' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
     'Discipline2program' => $baseDir . '/database/migrations/2019_11_26_084705_discipline2program.php',
+    'DisciplineCafedra' => $baseDir . '/database/migrations/2020_12_08_114348_discipline_cafedra.php',
     'DisciplineHours' => $baseDir . '/database/migrations/2020_02_20_065344_discipline-hours.php',
     'Disciplines' => $baseDir . '/database/migrations/2019_11_25_084717_disciplines.php',
     'DisciplinesDates' => $baseDir . '/database/migrations/2019_11_25_090949_disciplines-dates.php',

@@ -75,6 +75,7 @@
                                 <th>Поток/группа</th>
                                 <th>Период обучения</th>
                                 <th>Дисциплина, тема</th>
+                                <th>Кафедра</th>
                                 <th>Часы</th>
                                 
                                 <th>Преподавател(и)</th>
@@ -87,6 +88,7 @@
                                 <th>Поток/группа</th>
                                 <th>Период обучения</th>
                                 <th>Дисциплина, тема</th>
+                                <th>Кафедра</th>
                                 <th>Часы</th>
                                 
                                 <th>Преподавател(и)</th>
@@ -125,6 +127,7 @@
                                 <i class='fa fa-check-circle green'></i>
                                 @endif
                                 &nbsp;
+                                {{ $timetable->block->id or '' }} 
                                 {{ $timetable->block->name or '' }}
                                 <br/>
                                 <small>{{ $timetable->block->discipline->name or '' }}</small>
@@ -148,6 +151,15 @@
                                 @endif
                                 
                                                    
+                            </td>
+                            
+                            <td>
+                                @if (isset($timetable->block->department_id))
+                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike><br/>
+                                {{ $timetable->block->department->name }}
+                                @else
+                                {{ $timetable->block->discipline->department->name or '' }}
+                                @endif
                             </td>
                             <td>{{ $timetable->hours }} ч<br/>
                             {{ $timetable->lesson_type->name or 'не определено'}}
