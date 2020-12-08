@@ -108,6 +108,7 @@ Route::get('/rasp/edit/{id}', 'RaspController@edit')->middleware('auth');
 Route::post('/rasp/edit/{id}', 'RaspController@store')->middleware('auth');
 Route::get('/raspadd/{date}/{room}', 'RaspController@add')->middleware('auth');
 Route::get('/room_unlock/{date}/{room}', function($date, $room_id){\App\Classroom::unblock_classroom($date, $room_id); return redirect(url('rasp')."?date=".$date);})->middleware('auth');
+Route::get('/raspview', 'RaspController@raspview')->name('raspview')->middleware('auth');
 
 // Журнал
 
@@ -173,6 +174,10 @@ Route::get('vneaud/{id}/delete', 'VneaudController@delete')->middleware('auth');
 // Вебинары
 Route::get('webinars', function() {return view('webinars');})->name('webinars')->middleware('auth');
 Route::get('webinar/add', function() {return view('webinaradd');})->name('webinaradd')->middleware('auth');
+
+
+
+
 
 //
 // 

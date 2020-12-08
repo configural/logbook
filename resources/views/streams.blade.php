@@ -30,7 +30,14 @@
                                 <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>
                                 <td>
                                     @foreach($stream->groups as $group)
-                                    <a href='{{url('/')}}/group/{{$group->id}}/edit'><small class='badge'>{{ $group->name }}</small></a>
+                                    <a href='{{url('/')}}/group/{{$group->id}}/edit'>
+                                        <small class='badge'>
+                                        @if($group->paid)
+                                        <i class="fa fa-money yellow"></i>
+                                        @endif
+                                            {{ $group->name }}
+
+                                        </small></a>
                                     @endforeach
                                     
                                 </td>

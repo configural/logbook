@@ -65,7 +65,9 @@
                             <td>{{$group->students->count()}}</td>
                             <td>
                                 @if ($group->paid)
-                        <center><i class="fa fa-money fa-2x green"></center></i>
+                                 платная
+                                @else
+                                -
                                 @endif
                             </td>
                             <td>{{$group->active}}</td>

@@ -20,6 +20,18 @@ class RaspController extends Controller
         return view('rasp', ['date' => $date]);
     }
     
+    
+    function raspview(Request $request)
+    {   if (!isset($request->date)) {
+    $date = date("Y-m-d");
+    } else {
+        $date = $request->date;
+    }
+        return view('raspview', ['date' => $date]);
+    }
+        
+    
+    
     function add($date, $room)
     {
         \App\Classroom::block_classroom($date, $room);
