@@ -23,7 +23,7 @@
                               @endforeach
                               </select>
                            <p><label>Количество подгрупп</label><input type="integer" value="{{ $group->subgroup_count }}" class="form-control" name="subgroup_count"></p>
-    
+                           <p><label>Группа платная? (0/1)</label><input type="text" value="{{ $group->paid }}" class="form-control" name="paid"></p>
                           <p><label>Группа активна?</label><input type="text" value="{{ $group->active }}" class="form-control" name="active"></p>
                           <p><label>Описание группы</label>
                               <textarea name="description" class="form-control">{{$group->description}}</textarea>

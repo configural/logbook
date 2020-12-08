@@ -53,7 +53,8 @@
                             <td>Название группы</td>
                             <td>Описание</td>
                             <td>Слушателей</td>
-                            <td>Активна</td>
+                            <td>Платная?</td>
+                            <td>Активна?</td>
                         </tr>
                         @foreach($stream->groups as $group)
                         <tr>
@@ -62,6 +63,11 @@
                             
                             <td>{{$group->description}}</td>
                             <td>{{$group->students->count()}}</td>
+                            <td>
+                                @if ($group->paid)
+                        <center><i class="fa fa-money fa-2x green"></center></i>
+                                @endif
+                            </td>
                             <td>{{$group->active}}</td>
                         </tr>
                         @endforeach

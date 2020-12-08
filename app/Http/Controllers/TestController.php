@@ -8,6 +8,8 @@ use App\Test;
 use App\Question;
 use DOMDocument;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
@@ -24,6 +26,18 @@ class TestController extends Controller
             $test = new Test();
         }
         $test->fill($request->all());
+        
+        // привязка к потокам
+        
+       // dump($request->bind);
+        DB::table('tests2streams')->where('test_id', $request->id)->delete();
+        if (is_array($request->bind)){
+            foreach($request->bind as $stream_id) {
+                $tmp = DB::table('tests2streams')->insert(['test_id' => $request->id, 'stream_id' => $stream_id, 'user_id' => Auth::user()->id]);
+                }
+            }
+        
+       
         $test->save();
         if ($request->id) {
             return redirect(route('tests'));

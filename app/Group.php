@@ -8,7 +8,7 @@ class Group extends Model
 {
     //
     protected $table = "groups";
-    protected $fillable = ['name', 'stream_id', 'description', 'active', 'subgroup_count'];
+    protected $fillable = ['name', 'stream_id', 'description', 'active', 'subgroup_count', 'paid'];
     
     public function stream() {
         return $this->hasOne('\App\Stream', 'id', 'stream_id');

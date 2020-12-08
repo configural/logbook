@@ -21,6 +21,7 @@ class GroupController extends Controller
         $group->name = $request->name; // название
         $group->description = $request->description; // описание
         $group->stream_id = $request->stream_id; // id потока
+        $group->paid = $request->paid; // платная?
         $group->active = $request->active; // опубликовано?
         $group->subgroup_count = $request->subgroup_count; // количество подгрупп
         $group->save();
@@ -43,6 +44,7 @@ class GroupController extends Controller
         $group->description = $request->description; // описание
         $group->stream_id = $request->stream_id; // id потока
         $group->active = $request->active; // опубликовано?
+        $group->paid = $request->paid; // платная?
         $group->subgroup_count = $request->subgroup_count; // количество подгрупп
         $group->save();
         return redirect('stream/'.$group->stream_id.'/edit');

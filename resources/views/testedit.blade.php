@@ -16,7 +16,35 @@
                           
                           <p><label>Тест активен? (1/0)</label><br/>
                               <input type="text" value="{{ $test->active }}" class="form-control-static" name="active" required></p>
+                          
+                          <p><label>Тест привязан к потокам:</label></p>
+                          @foreach(\App\Stream::where('active', 1)->orderBy('name')->get() as $stream) 
+                            
+                            @php $check = 0; @endphp
+                            @foreach($test->streams as $ts)
+                                @if ($stream->id == $ts->id)
+                                @php $check = 1; @endphp
+                                @endif
+                            @endforeach
+                            
+                          <div class="row-fluid">
+                          <div class="col-lg-2">
+                            @if ($check)
+                            <input name="bind[]" type="checkbox" checked="" value="{{$stream->id}}">
+                            @else 
+                            <input name="bind[]" type="checkbox" value="{{$stream->id}}">
+                            @endif
+                            
+                            {{$stream->name}}
+                          
+                          </div>
+                          
+                
+                          @endforeach 
+                          <div class="col-lg-12">          
                           <p><button class="btn btn-success">Сохранить</button>
+                          </div>
+                              </div>
                     {{ csrf_field() }}
                       </form>
                     @else
