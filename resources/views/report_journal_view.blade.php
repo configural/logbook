@@ -24,6 +24,7 @@
                                 <th>№</th>
                                 <th>ФИО</th>
                                 <th>Присутствие</th>
+                                <th>Аттестация</th>
 
                             </tr>
                         </thead>    
@@ -46,6 +47,14 @@
                                 @else
                                 <i class="fa fa-times-circle fa-2x red"></i>
                                 @endif
+                                </td>
+                                
+                                <td>
+                                   @if (array_key_exists($key, $attestation)) 
+                                   {{ $attestation[$key] }}
+                                   @else
+                                   не проводилась                                   
+                                   @endif
                                 </td>
 
                             </tr>

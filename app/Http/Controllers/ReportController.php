@@ -24,7 +24,16 @@ class ReportController extends Controller
         $journal = \App\Journal::find($id);
         $user = \App\User::find($journal->teacher_id);
         $attendance = unserialize($journal->attendance);
-        return view('report_journal_view', ['attendance' => $attendance, "journal" => $journal, "user" => $user]);
+        
+        if ($journal->attestation) {
+            $data = unserialize($journal->attestation);
+            if (is_array($data)) {
+            $attestation = $data;}
+            } else {
+            $attestation = Array();
+        }
+        //dump($attestation );
+        return view('report_journal_view', ['attendance' => $attendance, 'attestation' => $attestation, "journal" => $journal, "user" => $user]);
         
     }
     
