@@ -50,10 +50,10 @@
                                 </td>
                                 
                                 <td>
-                                   @if (array_key_exists($key, $attestation)) 
-                                   {{ $attestation[$key] }}
+                                   @if (array_key_exists($key, $attestation) and $attestation[$key] == 1) 
+                                   <i class="fa fa-check-circle fa-2x green"></i>
                                    @else
-                                   не проводилась                                   
+                                   —                               
                                    @endif
                                 </td>
 
