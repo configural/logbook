@@ -146,6 +146,8 @@ Route::get('/reports/rasp_kafedra', 'ReportController@rasp_kafedra')->name('prin
 Route::get('/reports/tabel', 'ReportController@tabel')->name('tabel')->middleware('auth');
 Route::get('/reports/tabel_freelance', 'ReportController@tabel_freelance')->name('tabel_freelance')->middleware('auth');
 Route::get('/reports/no_journal', 'ReportController@no_journal')->name('no_journal')->middleware('auth');
+Route::get('/reports/themes', 'ReportController@themes')->name('themes')->middleware('auth');
+Route::post('/reports/themes', 'ReportController@themes')->middleware('auth');
 
 
 // Медиаконтент

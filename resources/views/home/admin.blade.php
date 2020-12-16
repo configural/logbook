@@ -26,7 +26,7 @@
                         <div class="icon"><a href="{{route('tabel')}}"><i class="fa fa-clock-o fa-3x blue"></i><br/>Табель (штатники)</a></div>                                
                         <div class="icon"><a href="{{route('tabel_freelance')}}"><i class="fa fa-clock-o fa-3x green"></i><br/>Табель (внештатники)</a></div>                                
                         <div class="icon"><a href="{{route('no_journal')}}"><i class="fa fa-user-secret fa-3x black"></i><br/>Кто не заполнил журнал?</a></div>
-                        
+                        <div class="icon"><a href="{{route('themes')}}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Дисциплины по кафедрам</a></div>
                         
                         <h3>
                         Вспомогательные инструменты    

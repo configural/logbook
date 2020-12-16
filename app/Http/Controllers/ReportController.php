@@ -207,4 +207,32 @@ class ReportController extends Controller
         return view('no_journal', ['rasp' => $rasp]);
     }
     
+    
+    function themes(Request $request) {
+        if (isset($request->department_id)) {
+            $department_id = $request->department_id;
+        } else {
+            $department_id = Auth::user()->department_id;
+        }
+        
+        $date1 = $request->date1;
+        $date2 = $request->date2;
+        
+        
+        $disciplines = \App\Timetable::select('disciplines.*')
+                ->join('rasp', 'rasp.id', '=', 'timetable.id')
+                ->join('blocks', 'timetable.block_id', '=', 'blocks.id')
+                ->join('disciplines', 'disciplines.id', '=', 'blocks.discipline_id')
+                ->distinct('disciplines.id')
+                ->where('disciplines.department_id', '=', $department_id)
+                ->orWhere('blocks.department_id', '=', $department_id)
+                ->orderby('disciplines.name')
+                
+                ->get();
+        
+        
+        return view ('report_themes', ['department_id' => $department_id, 'date1' => $date1, 'date2' => $date2, 'disciplines' => $disciplines]);
+    }
+    
+    
 }
