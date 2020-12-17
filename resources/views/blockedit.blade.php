@@ -12,7 +12,7 @@
                     @if(Auth::user()->role_id == 4)  
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $block->id }}" class="form-control" name="id"></p>
-                          <p><label>Название блока</label><input type="text" value="{{ $block->name }}" class="form-control" name="name"></p>
+                          <p><label>Название блока</label><textarea class="form-control" name="name">{{ $block->name }}</textarea></p>
                           <p><label>Лекции (часов): </label><input type="text" value="{{ $block->l_hours }}" class="form-control" name="l_hours"></p>
                           <p><label>Практика (часов)</label><input type="text" value="{{ $block->p_hours }}" class="form-control" name="p_hours"></p>
                           <p><label>Самост. работа (часов)</label><input type="text" value="{{ $block->s_hours }}" class="form-control" name="s_hours"></p>

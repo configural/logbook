@@ -14,11 +14,13 @@
                         <th>id</th>
                         <th>Темы</th>
                         <th>Тип</th>
+                        <th>Кафедры</th>
                         <th>Дисциплины</th>
+                        
                         <th>Программы</th>
                         </thead>
                         <tbody>
-                   @foreach(\App\Block::get() as $b)
+                   @foreach(\App\Block::where('active', 1)->get() as $b)
                            <tr><td>
                                    <a name="{{$b->id}}">{{$b->id}}</a>
                        </td>
@@ -54,6 +56,16 @@
                        @if ($b->p_hours) Прак:{{$b->p_hours}} @endif
                        @if ($b->s_hours) СР:{{$b->s_hours}} @endif
                        @if ($b->w_hours) Веб:{{$b->w_hours}} @endif
+                       </td>
+                       <td>
+                           @if($b->department_id)
+                        <strike>{{$b->discipline->department->name or ''}}</strike>
+                           {{$b->department->name or ''}}
+                           
+                           
+                           @else
+                           {{$b->discipline->department->name or ''}}
+                           @endif
                        </td>
                        <td>{{$b->discipline->name}}</td>
                        <td>

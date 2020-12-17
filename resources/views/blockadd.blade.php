@@ -14,7 +14,7 @@
                     <form action="{{url('/')}}/block/add" method="post">
                           
                         <p><input type="hidden" name="discipline_id" value="{{$id}}"></p>
-                        <p><label>Название блока</label><input type="text" value="" class="form-control" name="name" required></p>
+                        <p><label>Название блока</label><textarea class="form-control" name="name" required></textarea></p>
                           <p><label>Лекции (часов)</label><input type="text" value="0" class="form-control" name="l_hours"></p>
                           <p><label>Практика (часов)</label><input type="text" value="0" class="form-control" name="p_hours"></p>
                           <p><label>Самост. работа (часов)</label><input type="text" value="0" class="form-control" name="s_hours"></p>

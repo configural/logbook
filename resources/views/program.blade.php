@@ -23,6 +23,35 @@ $w_sum = 0;
                     <p>Итоговая аттестация: {{ \App\Program::find($id)->attestation->name}}</p>
 
                     <h4>Учебно-тематический план</h4>
+                    
+                    <form action="discipline_bind" method="post">
+                    <h3>Добавить дисциплину</h3>
+                    <p>
+                        <input name="program_id" type="hidden" value="{{$id}}">
+                        <select name="discipline_id" class="form-control">
+                        @foreach(\App\Discipline::select()->where('active', 1)->orderby('name')->get() as $discipline)
+                        @if (1)
+                        <option value="{{$discipline->id}}">
+                            [id:{{$discipline->id}}]
+                            
+                            {{ @str_limit($discipline->name, 100)}} 
+                            [{{ @str_limit($discipline->programs->first()->form->name, 5) }} ::
+                            {{$discipline->hours}} ч.]
+                            
+                            
+                        </option>
+                        @endif
+                        @endforeach
+                    
+                        </select>    
+                    </p>
+                    {{ csrf_field() }}
+                    <button class='btn btn-success'>Добавить дисциплину в эту программу</button>
+                    </form>
+                    
+                    
+                    
+                    
                     <table class="table table-bordered">
                         <tr>   
                             <td colspan="2">Дисциплина</th>
@@ -40,7 +69,7 @@ $w_sum = 0;
                     <th>{{ $discipline->active_blocks->sum('p_hours')}} @php $p_sum +=$discipline->active_blocks->sum('p_hours'); @endphp</th>
                     <th>{{ $discipline->active_blocks->sum('s_hours')}} @php $s_sum +=$discipline->active_blocks->sum('s_hours'); @endphp</th>
                     <th>{{ $discipline->active_blocks->sum('w_hours')}} @php $w_sum +=$discipline->active_blocks->sum('w_hours'); @endphp</th>
-                    <th><a href="{{$id}}/discipline_unbind/{{$discipline->id}}">Убрать&nbsp;<i class="fa fa-thumbs-down red " aria-hidden="true"></i></a></th></tr>
+                    <th><a href="{{$id}}/discipline_unbind/{{$discipline->id}}"  onclick="return confirm('Действительно удалить привязку?')">Убрать</a></th></tr>
                      
                         <ul>    
                         @foreach(\App\Block::select()->where('discipline_id', $discipline->id)->where('active', 1)->get() as $block)
@@ -72,30 +101,7 @@ $w_sum = 0;
                     </table>
 
                     
-                    <form action="discipline_bind" method="post">
-                    <h3>Добавить дисциплину</h3>
-                    <p>
-                        <input name="program_id" type="hidden" value="{{$id}}">
-                        <select name="discipline_id" class="form-control">
-                        @foreach(\App\Discipline::select()->where('active', 1)->orderby('name')->get() as $discipline)
-                        @if (1)
-                        <option value="{{$discipline->id}}">
-                            {{$discipline->active}}
-                            
-                            {{ @str_limit($discipline->name, 100)}} 
-                            [{{ @str_limit($discipline->programs->first()->form->name, 5) }} ::
-                            {{$discipline->hours}} ч.]
-                            
-                            
-                        </option>
-                        @endif
-                        @endforeach
                     
-                        </select>    
-                    </p>
-                    {{ csrf_field() }}
-                    <button class='btn btn-success'>Добавить дисциплину в эту программу</button>
-                    </form>
                     
                 </div>
             </div>
