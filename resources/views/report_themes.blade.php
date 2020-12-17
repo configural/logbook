@@ -55,7 +55,7 @@
                     @php ($total_hours = 0)    
                     @foreach($disciplines as $d)
                     @php 
-                    $hours = \App\Discipline::hours_by_discipline_id($d->id, $date1, $date2, $department_id);
+                    $hours = \App\Discipline::hours_by_discipline_name($d->name, $date1, $date2, $department_id);
                     $total_hours += $hours;
                     @endphp
                     

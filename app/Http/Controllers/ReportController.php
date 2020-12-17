@@ -219,15 +219,14 @@ class ReportController extends Controller
         $date2 = $request->date2;
         
         
-        $disciplines = \App\Timetable::select('disciplines.*')
+        $disciplines = \App\Timetable::select('disciplines.name')
                 ->join('rasp', 'rasp.id', '=', 'timetable.id')
                 ->join('blocks', 'timetable.block_id', '=', 'blocks.id')
                 ->join('disciplines', 'disciplines.id', '=', 'blocks.discipline_id')
-                ->distinct('disciplines.id')
+                ->distinct('disciplines.name')
                 ->where('disciplines.department_id', '=', $department_id)
                 ->orWhere('blocks.department_id', '=', $department_id)
                 ->orderby('disciplines.name')
-                
                 ->get();
         
         

@@ -100,5 +100,59 @@ class Discipline extends Model
         
     }
     
+    
+    
+    static function hours_by_discipline_name($name, $date1, $date2, $department_id = 0) {
+        $discipline = Discipline::select()->where('name', $name)->get();
+        $s1  = 0;
+        $s2  = 0;
+        foreach ($discipline as $d) {
+            foreach($d->blocks as $b){
+              //  echo $b->id . "<br>";
+                $kaf_blocks = \App\Timetable::select(['disciplines.department_id as d' , 'blocks.department_id as b'])
+                        
+                        ->where('block_id', $b->id)
+                        ->join('blocks', 'blocks.id', '=', 'timetable.block_id')
+                        ->join('disciplines', 'disciplines.id', '=', 'blocks.discipline_id')
+                        ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                        ->join('streams', 'groups.stream_id', '=', 'streams.id')
+                        ->whereBetween('streams.date_start', [$date1, $date2])
+                        ->where(function($query) use ($department_id){
+                            $query->where('blocks.department_id', $department_id)
+                                   ->where('disciplines.department_id', '!=', 'blocks.department_id');
+                        });
+
+                $kaf_disciplines = \App\Timetable::select(['disciplines.department_id as d' , 'blocks.department_id as b'])
+                        
+                        ->where('block_id', $b->id)
+                        ->join('blocks', 'blocks.id', '=', 'timetable.block_id')
+                        ->join('disciplines', 'disciplines.id', '=', 'blocks.discipline_id')
+                        ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                        ->join('streams', 'groups.stream_id', '=', 'streams.id')
+                        ->whereBetween('streams.date_start', [$date1, $date2])
+                        ->where(function($query) use ($department_id){
+                            $query->where('disciplines.department_id', $department_id)
+                                   ->where('blocks.department_id', NULL)
+                                    ;
+                        });        
+                        
+                      //  dd($timetable);
+                //dump($timetable);
+                //$hours += $timetable->sum('timetable.hours');
+                        
+                        $s1 += $kaf_blocks->sum('timetable.hours');
+                        
+                        $s2 += $kaf_disciplines->sum('timetable.hours');
+                
+            }
+        }
+            
+        
+        return $s1 + $s2;
+        
+    }
+    
+    
+    
 }
 
