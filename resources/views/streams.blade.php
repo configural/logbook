@@ -17,17 +17,26 @@
                             <tr>
                                 <td>id</td>
                                 <td>Название потока</td>
+                                <td>Программа</td>
                                 <td>Группы</td>
+                                <td>Учатся с</td>
+                                <td>Учатся до</td>
                                 <td>Учебный год</td>
                                 <td>Методист</td>
                                 <td>Поток активен?</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(\App\Stream::select()->get() as $stream)
+                            @foreach(\App\Stream::select()->orderBy('active', 'desc')->orderBy('date_start', 'desc')->get() as $stream)
                             <tr class="">
                                 <td>{{ $stream->id }}</td>
                                 <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>
+                                <td>
+                                @foreach($stream->programs as $program) 
+                                {{ @str_limit($program->name, 120)}}
+                                @endforeach
+                                
+                                </td>
                                 <td>
                                     @foreach($stream->groups as $group)
                                     <a href='{{url('/')}}/group/{{$group->id}}/edit'>
@@ -42,6 +51,8 @@
                                     
                                 </td>
                                 
+                                <td>{{ $stream->date_start }}</td>
+                                <td>{{ $stream->date_finish }}</td>
                                 <td>{{ $stream->year }}</td>
                                 <td>{{ $stream->metodist->name or ''}}</td>
                                 <td>{{ $stream->active or ''}}</td>
