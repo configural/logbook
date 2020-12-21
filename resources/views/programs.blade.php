@@ -28,12 +28,12 @@
                         <tr>
                         <td></td>
                         <td class="filter"></td>
-                        <td class="filter"></td>
-                        <td class="filter"></td>
-                        <td class="filter"></td>
-                        <td class="filter"></td>
-                        <td class="filter"></td>
-                        <td class="filter"></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
                         
                         </tfoot> 
                         
