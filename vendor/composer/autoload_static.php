@@ -3354,6 +3354,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'ProgramYear' => __DIR__ . '/../..' . '/database/migrations/2020_11_25_160320_program-year.php',
         'Programs2stream' => __DIR__ . '/../..' . '/database/migrations/2019_11_27_122529_programs2stream.php',
         'ProgramsTableFix' => __DIR__ . '/../..' . '/database/migrations/2020_02_20_053736_programs-table-fix.php',
+        'ProjectHours' => __DIR__ . '/../..' . '/database/migrations/2020_12_21_124410_project-hours.php',
         'Prophecy\\Argument' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Argument.php',
         'Prophecy\\Argument\\ArgumentsWildcard' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Argument/ArgumentsWildcard.php',
         'Prophecy\\Argument\\Token\\AnyValueToken' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Argument/Token/AnyValueToken.php',

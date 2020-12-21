@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Внести данные о нагрузке</div>
+                <div class="panel-heading ">Редактировать данные о внеаудиторной нагрузке</div>
 
                 <div class="panel-body">
                     <form method="post">

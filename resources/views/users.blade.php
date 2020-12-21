@@ -16,6 +16,12 @@
                         <thead class="">
                             <tr><td>id</td><td>Имя пользователя</td><td>Роль</td><td>Подразделение</td><td>Email</td><td>Создан</td><td>Операции</td></tr>
                         </thead>
+                        <tfoot>
+                        <tr class="">
+                           <td>id</td><td class='filter'>Имя пользователя</td><td>Роль</td><td class='filter'>Подразделение</td><td>Email</td><td>Создан</td><td>Операции</td>
+                        </tr>   
+                        </tfoot>
+                        
                         <tbody>
                             @foreach(\App\User::select()->get() as $user)
                             <tr class="">
@@ -47,6 +53,9 @@
                             </tr>
                             @endforeach
                         <tbody>
+
+                      
+                            
                     </table>
                     
                     

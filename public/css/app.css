@@ -46,3 +46,12 @@
  .onpage:hover {text-decoration: none;}
  .marker {background: yellow;}
  .linkOnPage { color: #3097D1; cursor: pointer;}
+ 
+  tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+ tfoot { background: #f7ecb5}
+ 
+ 

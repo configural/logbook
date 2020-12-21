@@ -59,12 +59,14 @@
                     $total_hours += $hours;
                     @endphp
                     
+                    @if($hours)
                     <tr> 
                         <td>{{$d->name}}</td>
                         <td>{{ $hours }}</td>
                         
                         
                     </tr>
+                    @endif
                     @endforeach
                     <tr>
                         <td>ИТОГО</td>

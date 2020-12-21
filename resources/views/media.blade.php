@@ -31,6 +31,21 @@
                         <th>Где посмотреть?</th>
                         
                         </thead> 
+                        
+                        <tfoot>
+                        <tr>
+                        <td></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        
+                        </tfoot> 
+                        
+                        
                         <tbody>
                     
                             @php $i = 0; @endphp

@@ -23,6 +23,21 @@
                                 <td>Дисциплины</td>
                                 <td>Операции</td></tr>
                         </thead>
+                        
+                                                <tfoot>
+                        <tr>
+                        <td></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        <td class="filter"></td>
+                        
+                        </tfoot> 
+                        
+                        
                         <tbody>
                             @foreach(\App\Program::where('active', 1)->get() as $program)
                             <tr class="">

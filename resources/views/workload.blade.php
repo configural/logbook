@@ -13,6 +13,12 @@
     else
         { $stream_id = 0; }
 
+    if (isset($_GET["year"])) {
+        $year = $_GET["year"]; 
+        } else {
+        $year = date('Y');
+        }
+        
     $_SESSION["work_with"] = "workload";
     $_SESSION["stream_id"] = $stream_id;
 
@@ -44,15 +50,19 @@
                 
                 </div>
                     <div class="panel-body">
+                        
                         <p>
                             <a href="{{route('home')}}">В начало</a>
                             
                         </p>
 
-                        <h3>Выберите поток</h3>
+                        
                         <form method="get">
-                        <p><select name='stream_id' class='form-control-static blue' onchange="form.submit()">
-                                <option value=''>Выберите поток</option>
+                            Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static'>
+                         
+                            
+                            <select name='stream_id' class='form-control-static blue'>
+                                <option value=''>Все потоки</option>
                         @foreach(\App\Stream::orderBy('date_start', 'desc')->where('active', 1)->get() as $stream)
                         @if ($stream->id == $stream_id)
                         <option value='{{ $stream->id }}' selected>({{ $stream->date_start}} — {{ $stream->date_finish}}) {{ $stream->name }}</option>
@@ -61,6 +71,7 @@
                         @endif
                         @endforeach
                         </select>
+                            <button class='btn btn-primary'>Отфильтровать</button>
                         </form>
                         </p>
                         @if(in_array(Auth::user()->role_id, [3,4,6]))
@@ -82,7 +93,7 @@
                         @endif
 
                         
-                        @if ($stream_id)
+                        @if (1)
                         
                         <table class="table table-bordered display" id="sortTable">
                             <thead><tr><th>id</th>
@@ -98,25 +109,44 @@
                                 
                                 </tr></thead>
                                 
-                            <tfoot><tr><th>id нагрузки</th>
-                                <th>Поток/группа</th>
-                                <th>Период обучения</th>
-                                <th>Дисциплина, тема</th>
-                                <th>Кафедра</th>
-                                <th>Часы</th>
+                            <tfoot>
+                                <tr>
+                                <td>id</td>
+                                <td class="filter" ></td>
+                                <td></td>
+                                <td class="filter"></td>
+                                <td class="filter"></td>
+                                <td></td>
                                 
-                                <th>Преподавател(и)</th>
+                                <td class="filter"></td>
                               
-                                <th>Действия</th>
+                                <td></td>
                                 </tr></tfoot>
                             <tbody>
   
                            
-                           
-                        @foreach(\App\Timetable::select(['timetable.*'])
+                        
+                                @php
+                                if ($stream_id) {
+                                $timetables = \App\Timetable::select(['timetable.*'])
                         ->join('groups', 'groups.id' , '=', 'timetable.group_id')
+                        ->join('streams', 'streams.id', '=', 'groups.stream_id')
                         ->where('groups.stream_id', '=', $stream_id)
-                        ->get() as $timetable)
+                        ->where('streams.date_start', 'like', $year.'%')
+                        ->get();
+                                }
+                                else {
+                               $timetables = \App\Timetable::select(['timetable.*'])
+                        ->join('groups', 'groups.id' , '=', 'timetable.group_id')
+                        ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                        ->where('streams.active', 1)
+                        ->where('streams.date_start', 'like', $year.'%')
+                        ->get();
+                        
+                                }
+                                @endphp
+                                
+                        @foreach($timetables as $timetable)
                         
                         <tr><td>
                                 @if(in_array(Auth::user()->role_id, [3,4,6]))
@@ -174,7 +204,7 @@
                             </td>
                             
                             <td>
-                                @if (isset($timetable->block->department_id))
+                            @if (isset($timetable->block->department_id))
                             <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike><br/>
                                 {{ $timetable->block->department->name }}
                                 @else

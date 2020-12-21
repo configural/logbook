@@ -59,8 +59,8 @@
                        </td>
                        <td>
                            @if($b->department_id)
-                        <strike>{{$b->discipline->department->name or ''}}</strike>
-                           {{$b->department->name or ''}}
+                            {{$b->discipline->department->name or ''}}
+                           -> {{$b->department->name or ''}}
                            
                            
                            @else

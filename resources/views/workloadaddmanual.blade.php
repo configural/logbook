@@ -8,7 +8,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                                     <form >
-                        Создать нагрузку вручную
+                        Создать аудиторную нагрузку вручную
                     </form>
                 </div>
 
@@ -28,7 +28,7 @@
                             <label>Вид занятия</label>
                             <select id="lessonTypeSelect" name="lessontype" class="form-control-static" required>
                                 <option></option>
-                                @foreach(\App\LessonType::get() as $lt)
+                                @foreach(\App\LessonType::where('vneaud', 0)->get() as $lt)
                                 <option value='{{ $lt->id}}'>{{ $lt->name }}</option>
                                 @endforeach
                             </select>

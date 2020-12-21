@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Внеаудиторная нагрузка</div>
+                <div class="panel-heading ">Моя внеаудиторная нагрузка</div>
 
                 <div class="panel-body">
                     <p>
@@ -24,6 +24,18 @@
                                 <th>Комментарий</th>
                             </tr>
                         </thead>
+                        
+                        <tfoot>
+                            <tr>
+                                <th>Преподаватель</th>
+                                <th>Группа</th>
+                                <th>Вид работы</th>
+                                <th>Часы</th>
+                                <th>Дата</th>
+                                <th>Комментарий</th>
+                            </tr>
+                        </tfoot>
+                        
                         
                         <tbody>
                         @foreach(\App\Vneaud::where('user_id', Auth::user()->id)->get() as $vneaud)

@@ -37,6 +37,9 @@
                               <input type="number" value="0" class="form-control" name="vkr_hours" required></p>
                           
                           </p>
+
+<p><label>Часов на защиту проекта</label><input type="number" value="0" class="form-control" name="project_hours" required=""></p>
+
                           <p><label>Краткое описание</label><input type="text" value="" class="form-control" name="description"></p>
                           <p><label>Опубликована (1/0)?</label>
                               <input type="text" value="1" class="form-control" name="active" required>

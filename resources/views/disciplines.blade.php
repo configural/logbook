@@ -18,7 +18,7 @@
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                             <tr><th width="5%">id</th>
-                                <th width="40%">Название дисциплины</th>
+                                <th width="40%" class="filter">Название дисциплины</th>
                                 <th>Задействована в программах</th>
                                 <th width="10%">Кафедра</th>
                                 

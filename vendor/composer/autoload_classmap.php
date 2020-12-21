@@ -2925,6 +2925,7 @@ return array(
     'ProgramYear' => $baseDir . '/database/migrations/2020_11_25_160320_program-year.php',
     'Programs2stream' => $baseDir . '/database/migrations/2019_11_27_122529_programs2stream.php',
     'ProgramsTableFix' => $baseDir . '/database/migrations/2020_02_20_053736_programs-table-fix.php',
+    'ProjectHours' => $baseDir . '/database/migrations/2020_12_21_124410_project-hours.php',
     'Prophecy\\Argument' => $vendorDir . '/phpspec/prophecy/src/Prophecy/Argument.php',
     'Prophecy\\Argument\\ArgumentsWildcard' => $vendorDir . '/phpspec/prophecy/src/Prophecy/Argument/ArgumentsWildcard.php',
     'Prophecy\\Argument\\Token\\AnyValueToken' => $vendorDir . '/phpspec/prophecy/src/Prophecy/Argument/Token/AnyValueToken.php',
