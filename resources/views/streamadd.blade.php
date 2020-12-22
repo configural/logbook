@@ -1,6 +1,14 @@
 
 @extends('layouts.app')
 
+@php
+if (date('m') == 12) {
+$year = (int)date('Y') + 1;
+} else {
+$year = (int) date('Y');}
+
+@endphp
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -14,7 +22,7 @@
                           <p><label>Название потока</label><br/><input type="text" value="" class="form-control" name="name" required></p>
                           <p><label>Начало обучения</label><br/><input type="date" value="" class="form-control-static" name="date_start" required></p>
                           <p><label>Окончание обучения</label><br/><input type="date" value="" class="form-control-static" name="date_finish" required></p>
-                          <p><label>Учебный год</label><br/><input type="text" value="" class="form-control-static" name="year" required></p>
+                          <p><label>Учебный год</label><br/><input type="text" value="{{$year}}" class="form-control-static" name="year" required></p>
                           <p><label>Методист</label><br/>
                               <select name="metodist_id" class="form-control-static">
                                   

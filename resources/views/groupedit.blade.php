@@ -40,7 +40,14 @@
                 <div class="panel-heading panel-success ">Слушатели ({{ $group->students->count()}} чел.)</div>
 
                 <div class="panel-body">                   
+                    <p>
+                        
+                        <a href="{{url('/')}}/stream/{{$group->stream_id}}/edit">Вернуться в поток</a>
+                    </p>
                     
+                    <p>
+                    <a href="{{url('/')}}/group/{{$group->id}}/addstudents" class="btn btn-success">Добавить студентов в группу</a>
+                    </p>    
                     <table class='table table-bordered' id="sortTable">
                         <thead>
                         <tr>
@@ -76,7 +83,7 @@
                     </table>
                     @else
                     @endif
-                    <a href="{{url('/')}}/group/{{$group->id}}/addstudents" class="btn btn-success">Добавить студентов в группу</a>
+                    
                     
                 </div>
             </div>

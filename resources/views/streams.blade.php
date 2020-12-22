@@ -29,7 +29,7 @@
                         <tbody>
                             @foreach(\App\Stream::select()->orderBy('active', 'desc')->orderBy('date_start', 'desc')->get() as $stream)
                             <tr class="">
-                                <td>{{ $stream->id }}</td>
+                                <td><nobr>{{ $stream->id }}</nobr></td>
                                 <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>
                                 <td>
                                 @foreach($stream->programs as $program) 

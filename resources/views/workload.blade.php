@@ -195,6 +195,11 @@
                                         {{ \App\Program::find($timetable->program_id)->name}}</span>
                                 @endif
                                 
+                                @if($timetable->program_id and $timetable->lessontype == 19 ) 
+                                <span class="orange"><strong>Защита проекта</strong>
+                                        {{ \App\Program::find($timetable->program_id)->name}}</span>
+                                @endif
+                                
                                 @if($timetable->program_id and $timetable->lessontype == 5 ) 
                                 <span class="green"><strong>Защита ИР</strong>
                                         {{ \App\Program::find($timetable->program_id)->name}}</span>

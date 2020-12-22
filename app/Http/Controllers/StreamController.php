@@ -112,7 +112,12 @@ class StreamController extends Controller
                
                if ($program->vkr_hours) {
                 $attestation_program = ["group_id" => $group_id, "program_id" => $program->id, "hours" => $program->vkr_hours, "lessontype" => 4];
-   
+                DB::table('timetable')->insert($attestation_program);  
+               }
+
+               if ($program->project_hours) {
+                $attestation_program = ["group_id" => $group_id, "program_id" => $program->id, "hours" => $program->project_hours, "lessontype" => 19];
+                DB::table('timetable')->insert($attestation_program);  
                }
 
                }
