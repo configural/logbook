@@ -103,10 +103,10 @@
                             
                             @if (Auth::user()->role_id == 4)
                             <a href="{{ url('/')}}/stream/{{$stream->id}}/program_unbind/{{$program->id}}" 
-                               nClick="return window.confirm('Вся нагрузка будет удалена. Действительно привязку?');" 
+                               onClick="return window.confirm('Вся нагрузка будет удалена. Действительно удалить привязку?');" 
                                class="btn btn-danger"><i class="fa fa-times"></i> Удалить</a>
                             @endif
-                                                  </td>
+                            </td>
                         
                     </tr>
                     

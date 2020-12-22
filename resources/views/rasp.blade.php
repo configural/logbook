@@ -58,11 +58,16 @@ $_SESSION["work_with"] = "rasp";
                             @php($start = $rasp->start_at)
                             @php($finish = $rasp->finish_at)    
                              
-                        <td width='40%'>   {{$rasp->timetable->lesson_type->name or 'n/a' }}:  {{$rasp->timetable->block->name or 'n/a'}}</td>
+                        <td width='40%'>   {{$rasp->timetable->lesson_type->name or 'Нет данных' }}:  {{$rasp->timetable->block->name or ''}}</td>
                          <td width='15%'>{{$rasp->timetable->group->name or ''}}</td>
-                            <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
+                            <td width='15%'>
+                            @if($rasp->timetable)
+                                @foreach($rasp->timetable->teachers as $teacher)
                             {{$teacher->fio() }}
-                            @endforeach</td>
+                            
+                            @endforeach
+                            @endif
+                            </td>
                             <td width='10%'>
                                 @if(in_array(Auth::user()->role_id, [3, 4] ))
                                 <p><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a></p>
