@@ -35,6 +35,7 @@ class Program extends Model
                 $hours += $discipline->attestation_hours;
         };
         $hours += $this->attestation_hours;
+        $hours += $this->project_hours;
         return $hours;
     }
     

@@ -45,8 +45,11 @@
                                 <td><a href="{{url('/')}}/program/{{$program->id}}/edit">{{ $program->name }}</a><br><small>{{$program->description}}</small></td>
                                 <td>{{ $program->year or ''}}</td>
                                 <td>{{ $program->form->name or ''}}</td>
-                                <td>{{ $program->hours }}</td>
-                                <td>{{ $program->hours() }}</td>
+                                @if ($program->hours == $program->hours())
+                                <td>{{ $program->hours }}</td><td>{{ $program->hours() }}</td>
+                                @else
+                                <td class='danger'>{{ $program->hours }}</td><td class='danger'>{{ $program->hours() }}</td>
+                                @endif
                                 <td><a href="{{url('/')}}/program/{{$program->id}}" title="Редактировать дисциплины и блоки" class="btn btn-primary">Дисциплины</a> </td>
                                 
                                 
