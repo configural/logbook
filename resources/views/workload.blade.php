@@ -58,10 +58,10 @@
 
                         
                         <form method="get">
-                            Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static'>
+                            Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static' onChange='form.submit()'>
                          
                             
-                            <select name='stream_id' id='produce' class='form-control-static blue'>
+                            <select name='stream_id' id='produce' class='form-control-static blue' onChange='form.submit()' >
                                 <option value='' >мес: поток - программа</option>
                         @foreach(\App\Stream::orderBy('name')->where('active', 1)->where('year', $year)->orderby('name')->orderby('date_start')->get() as $stream)
                         
