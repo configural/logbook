@@ -61,16 +61,37 @@
                             Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static'>
                          
                             
-                            <select name='stream_id' class='form-control-static blue'>
-                                <option value=''>Все потоки</option>
-                        @foreach(\App\Stream::orderBy('date_start', 'desc')->where('active', 1)->get() as $stream)
+                            <select name='stream_id' id='produce' class='form-control-static blue'>
+                                <option value='' >мес: поток - программа</option>
+                        @foreach(\App\Stream::orderBy('name')->where('active', 1)->where('year', $year)->orderby('name')->orderby('date_start')->get() as $stream)
+                        
+                        @php 
+                        if ($stream->programs->count()) {
+                        $stream_program = $stream->programs->first()->name;
+                        } else {
+                        $stream_program = "---";
+                        }
+                        @endphp
+                        
                         @if ($stream->id == $stream_id)
-                        <option value='{{ $stream->id }}' selected>({{ $stream->date_start}} — {{ $stream->date_finish}}) {{ $stream->name }}</option>
+                        
+                        <option value='{{ $stream->id }}' selected>
+                            {{substr($stream->date_start, 5, 2)}}: 
+                            {{$stream->name}} - 
+                            {{ str_limit($stream_program) }}</option>
                         @else
-                        <option value='{{ $stream->id }}'>({{ $stream->date_start}} — {{ $stream->date_finish}}) {{ $stream->name }}</option>
+                        <option value='{{ $stream->id }}'>
+                            {{substr($stream->date_start, 5, 2)}}: 
+                            {{$stream->name}} - 
+                            {{ str_limit($stream_program) }}</option>
                         @endif
                         @endforeach
+                        
+                        
+                        
                         </select>
+
+                            
                             <button class='btn btn-primary'>Отфильтровать</button>
                         </form>
                         </p>
@@ -125,27 +146,19 @@
                             <tbody>
   
                            
+
                         
-                                @php
-                                if ($stream_id) {
-                                $timetables = \App\Timetable::select(['timetable.*'])
+                        @if ($stream_id) 
+                        
+                        @php
+                        $timetables = \App\Timetable::select(['timetable.*'])
                         ->join('groups', 'groups.id' , '=', 'timetable.group_id')
                         ->join('streams', 'streams.id', '=', 'groups.stream_id')
                         ->where('groups.stream_id', '=', $stream_id)
                         ->where('streams.date_start', 'like', $year.'%')
                         ->get();
-                                }
-                                else {
-                               $timetables = \App\Timetable::select(['timetable.*'])
-                        ->join('groups', 'groups.id' , '=', 'timetable.group_id')
-                        ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                        ->where('streams.active', 1)
-                        ->where('streams.date_start', 'like', $year.'%')
-                        ->get();
+                        @endphp
                         
-                                }
-                                @endphp
-                                
                         @foreach($timetables as $timetable)
                         
                         <tr><td>
@@ -257,6 +270,7 @@
                         </td>
                         </tr>
                         @endforeach
+                        @endif
                             </tbody>
                         </table>
                     
@@ -286,6 +300,7 @@ window.scroll(0, localStorage.getItem('scrollPosition')|0)
 $window.scroll(function () {
     localStorage.setItem('scrollPosition', $window.scrollTop())
 })
+
 
 
 </script>
