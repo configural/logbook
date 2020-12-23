@@ -14,14 +14,18 @@
         { $stream_id = 0; }
 
     if (isset($_GET["year"])) {
-        $year = $_GET["year"]; 
+            $year = $_GET["year"];
+            $_SESSION["year"] = $year;
+            }
+    elseif (isset($_SESSION["year"])) {
+            $year = $_SESSION["year"];      
         } else {
-        $year = date('Y');
+            $year = date('Y');
         }
-        
+  //  dump($_SESSION);    
     $_SESSION["work_with"] = "workload";
     $_SESSION["stream_id"] = $stream_id;
-
+    $_SESSION["year"] = $year;    
     //dump($stream_id);
     
 @endphp 
