@@ -52,7 +52,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     @if($user_id)
                     
                     <h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3>
-                    <table class='table table-bordered'>
+                    <table class='table table-bordered' id="sortTable">
                         <thead>
                             <tr>
                                 <th>Месяц</th>
@@ -63,6 +63,8 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                                 <th>Часы</th>
                             </tr>
                         </thead>
+                        <tbody>
+                        
                    @foreach(\App\Timetable::select()
                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
@@ -84,7 +86,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    $hours_total += $timetable->hours;
                    @endphp
                    @endforeach
-                    
+                        </tbody>
                    <tfoot>
                        <tr>
                            <td colspan="5">Итого</td>
