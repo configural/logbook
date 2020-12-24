@@ -47,7 +47,7 @@ class VneaudController extends Controller
        
         $vneaud->save();
         
-        if (in_array(Auth::user()->role_id, [4])) :
+        if (in_array(Auth::user()->role_id, [3, 4, 5, 6])) :
             return redirect(route('vneaud'));
         else :
             return redirect(route('vneaudmy'));

@@ -135,10 +135,10 @@ class User extends Authenticatable
         return $hours;
     }
 
-    public static function user_hours_vneaud ($user_id, $date1, $date2, $lessontype_id) {
-        
+    public static function user_hours_vneaud ($user_id, $month, $year, $lessontype_id) {
+        //dump([$user_id, $month, $year, $lessontype_id]);
         $vneaud = \App\Vneaud::where('user_id', $user_id)
-                ->whereBetween('date', [$date1, $date2])
+                ->where('date', 'like', $year . '-' . sprintf('%02d', $month) . '%')
                 ->where('lessontype_id', $lessontype_id)
                 ->sum('hours');
         
@@ -146,6 +146,28 @@ class User extends Authenticatable
         
     }
 
+    
+    public static function user_hours_workload($user_id, $month, $year = 2021, $lessontype) {
+        $tmp = \App\Timetable::select('timetable.hours')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('groups', 'timetable.group_id', '=', 'groups.id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->where('timetable.month', $month)
+                ->where('streams.year', $year)
+                ->where('teachers2timetable.teacher_id', '=', $user_id)
+                ->where('timetable.lessontype', $lessontype)
+                ->get();
+        
+       // dump($tmp);
+        $hours = 0;
+        foreach($tmp as $t) {
+            $hours += $t->hours;
+        }
+        return $hours;
+    }    
+    
+
+    
     
     public static function user_price($user_id, $date1, $date2, $lessontype) {
 

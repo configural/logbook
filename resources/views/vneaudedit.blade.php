@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     <form method="post">
                         
-                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        <input type="hidden" name="user_id" value="{{$vneaud->user_id}}">
                         <p>
                             <label>Вид работы</label><br/>
                             <select name="lessontype_id" class="form-control-static">
@@ -40,8 +40,8 @@
                             
                         </p>
                         <label>Количество работ <u>или</u> часов. Для неактуальной единицы измерения оставьте значение 0.</label><br/>
-                            <input type='number' required name='count' value='{{ $vneaud->count }}'class='form-control-static' placeholder="шт.">
-                            <input type='number' required step='0.5' name='hours' value='{{ $vneaud->hours }}' class='form-control-static' placeholder='ч.'>
+                            Количество работ: <input type='number' required name='count' value='{{ $vneaud->count }}'class='form-control-static' placeholder="шт.">
+                            или количество часов: <input type='number' required step='0.5' name='hours' value='{{ $vneaud->hours }}' class='form-control-static' placeholder='ч.'>
                                 
                         <p>
                         

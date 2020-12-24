@@ -11,7 +11,19 @@
                 <div class="panel-body">
                     <form method="post">
                         
+                        @if (in_array(Auth::user()->role_id, [3,4,5,6]))
+                        <select name="user_id" class="form-control-static">
+                            @foreach(\App\User::where('department_id', Auth::user()->department_id)->where('role_id', 2)->orderby('name')->get() as $user)
+                            <option value='{{$user->id}}'>{{ $user->name }}</option>
+                            
+                            @endforeach
+                        </select>
+                        </select>
+                        @else
                         <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        
+                        @endif
+                        
                         <p>
                             <label>Вид работы</label><br/>
                             <select name="lessontype_id" class="form-control-static">
@@ -25,15 +37,30 @@
                             
                             <label>Группа</label><br/>
                             <select name="group_id" class="form-control-static">
-                                @foreach(\App\Group::where('active', 1)->orderBy('name')->get() as $group)
-                                <option value='{{$group->id}}'>{{ $group->name }} - {{$group->stream->name}} - {{$group->stream->date_start}}</option>
+                                <option disabled>Месяц :: поток-группа :: программа</option>
+                                @foreach(\App\Group::select('groups.*')
+                                ->where('streams.active', 1)
+                                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                                ->orderBy('streams.name')
+                                ->get() as $group)
+                                @php
+                                if ($program = $group->stream->programs->first()) {
+                                    $prog = str_limit($program->name);
+                                }
+                                else {$prog = 'нет данных';}
+                                @endphp
+                                
+                                <option value='{{$group->id}}'>
+                                    {{ substr($group->stream->date_start, 5, 2) }} :: 
+                                    {{$group->stream->name}}-{{$group->name}} ::  
+                                    {{$prog or ''}}</option>
                                 @endforeach
                             </select>
                             
                         </p>
                         <label>Количество работ <u>или</u> часов. Для неактуальной единицы измерения оставьте значение 0.</label><br/>
-                            <input type='number' name='count' class='form-control-static' placeholder="шт.">
-                            <input type='number' name='hours' class='form-control-static' placeholder='ч.'>
+                           Работ: <input type='number' name='count' class='form-control-static' placeholder="шт." value='0'>
+                           Часов:  <input type='number' name='hours' class='form-control-static' placeholder='ч.' value='0'>
                                 
                         <p>
                         
