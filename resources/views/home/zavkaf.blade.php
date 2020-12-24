@@ -10,7 +10,9 @@
                         
                         <div class="icon"><a href="{{route('workload')}}"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Аудиторная нагрузкаи</a></div>
                         <div class="icon"><a href="{{route('vneaud')}}"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Внеаудиторная нагрузка</a></div>
-                  <div class="icon"><a href="{{route('workloadmy')}}"><i class="fa fa-pie-chart fa-3x green"></i><br/>Нагрузка преподавателей</a></div>       
+                        <div class="icon"><a href="{{route('workloadmy')}}"><i class="fa fa-pie-chart fa-3x green"></i><br/>Нагрузка преподавателей</a></div>
+                        <div class="icon"><a href="{{route('workloadmythemes')}}"><i class="fa fa-list-ol fa-3x green"></i><br/>Темы в нагрузке</a></div>       
+
                         <div class="icon"><a href="{{route('media')}}"><i class="fa fa-camera fa-3x green"></i><br/>Медиаконтент (планы)</a></div>
                         
 
