@@ -79,7 +79,19 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                        <td>{{ $timetable->lesson_type->name}}</td>
                        <td>{{ $timetable->hours}}</td>
                    </tr>
+                   
+                   @php 
+                   $hours_total += $timetable->hours;
+                   @endphp
                    @endforeach
+                    
+                   <tfoot>
+                       <tr>
+                           <td colspan="5">Итого</td>
+                           <td>{{$hours_total}}</td>
+                           
+                       </tr>
+                   </tfoot> 
                     </table>
                     
                     @endif
