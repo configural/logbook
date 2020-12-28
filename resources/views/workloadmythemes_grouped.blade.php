@@ -22,7 +22,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Темы преподавателя - {{$year}}</div>
+                <div class="panel-heading ">Темы преподавателя - {{$year}} (группировка по названию)</div>
 
                 <div class="panel-body">
 
@@ -55,7 +55,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     
                     
                     
-                    <table class='table table-bordered' id="sortTable">
+                    <table class='table table-bordered' id="">
                         <thead>
                             <tr>
                                 <th>Тема</th>
@@ -73,6 +73,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    ->groupBy('blocks.name')
                    ->where('teachers2timetable.teacher_id', $user_id)
                    ->where('streams.year', $year)
+                   ->orderby('blocks.name')
                    ->get() as $timetable
                    )
                    <tr>
