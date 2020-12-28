@@ -125,6 +125,7 @@
                                 <th>Поток/группа</th>
                                 <th>Период обучения</th>
                                 <th>Дисциплина, тема</th>
+                                <th>Месяц</th>
                                 <th>Кафедра</th>
                                 <th>Часы</th>
                                 
@@ -140,6 +141,7 @@
                                 <td class="filter" ></td>
                                 <td></td>
                                 <td class="filter"></td>
+                                <td></td>
                                 <td class="filter"></td>
                                 <td></td>
                                 
@@ -224,6 +226,8 @@
                                 
                                                    
                             </td>
+                            
+                            <td>{{$timetable->month}}</td>
                             
                             <td>
                             @if (isset($timetable->block->department_id))
