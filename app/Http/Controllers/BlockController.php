@@ -18,6 +18,7 @@ class BlockController extends Controller
     public function add(Request $request) {
         $block = new Block;
         $block->name = $request->name; // название
+        $block->largeblock_id = $request->largeblock_id; // укрупненная тема
         $block->l_hours = $request->l_hours; // лекционные часы
         $block->p_hours = $request->p_hours; // часы практики
         $block->s_hours = $request->s_hours; // часы самост. работы
@@ -41,6 +42,7 @@ class BlockController extends Controller
     public function store(Request $request) {
         $block = Block::find($request->id);
         $block->name = $request->name; // название
+         $block->largeblock_id = $request->largeblock_id; // укрупненная тема
         $block->l_hours = $request->l_hours; // лекционные часы
         $block->p_hours = $request->p_hours; // часы практики
         $block->s_hours = $request->s_hours; // часы самост. работы

@@ -43,6 +43,19 @@
                                   @endforeach
                               </select></P>
                               <BR/>
+                              
+                                <p><label>Укрупненная тема:</label>
+                              <select name="largeblock_id" class="form-control-static">
+                                  <option value=""></option>
+                                  @foreach(\App\Largeblock::where('active', 1)->orderby('name')->get() as $largeblock)
+                                  @if ($largeblock->id == $b->largeblock_id)
+                                  <option value="{{$largeblock->id}}" selected>{{$largeblock->name}}</option>
+                                  @else
+                                  <option value="{{$largeblock->id}}">{{$largeblock->name}}</option>
+                                  @endif
+                                  @endforeach
+                              </select></P>
+                              <BR/>                            
                                    
                                    <button>Сохранить</button>
                                    

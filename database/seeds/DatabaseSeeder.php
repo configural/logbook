@@ -41,12 +41,12 @@ class DatabaseSeeder extends Seeder
         DB::table('mediatypes')->insert(['name' => 'Интерактивный учебник']);
         DB::table('mediatypes')->insert(['name' => 'Тренажер']);
         */
-        
+      /*  
         DB::table('question_types')->insert(['name' => "Один правильный ответ"]);
         DB::table('question_types')->insert(['name' => "Несколько правильных ответов"]);
         DB::table('question_types')->insert(['name' => "Ввод с клавиатуры"]);
         DB::table('question_types')->insert(['name' => "Последовательность"]);
         DB::table('question_types')->insert(['name' => "Соответствие"]);
-        
+        */
     }
 }

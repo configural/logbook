@@ -9,7 +9,7 @@ class Block extends Model
     // name - название
     // discipline_id - дисциплина, к которой привязан блок
     //*_hours - часов: лекции, практика, самостоятельная работа
-    protected $fillable = ['name', 'discipline_id', 'active', 'l_hours', 'p_hours', 's_hours', 'w_hours', 'department_id'];
+    protected $fillable = ['name', 'discipline_id', 'active', 'l_hours', 'p_hours', 's_hours', 'w_hours', 'department_id', 'largeblock_id'];
     
     public function discipline() {
         return $this->hasOne('\App\Discipline', 'id', 'discipline_id');
@@ -18,6 +18,10 @@ class Block extends Model
     public function department() {
         return $this->hasOne('\App\Department', 'id', 'department_id');
     }    
+
+    public function largeblock() {
+        return $this->hasOne('\App\Largeblock', 'id', 'largeblock_id');
+    }  
     
     public function in_timetable() {
         return $this->hasMany('\App\Timetable', 'block_id', 'id');

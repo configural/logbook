@@ -29,7 +29,18 @@
                                   @endif
                                   @endforeach
                               </select>
-                          
+                           
+                          <p><label>Укрупненная тема:</label>
+                              <select name="largeblock_id" class="form-control-static">
+                                  <option value=""></option>
+                                  @foreach(\App\Largeblock::orderby('name')->get() as $largeblock)
+                                  @if ($largeblock->id == $block->largeblock_id)
+                                  <option value="{{$largeblock->id}}" selected>{{$largeblock->name}}</option>
+                                  @else
+                                  <option value="{{$largeblock->id}}">{{$largeblock->name}}</option>
+                                  @endif
+                                  @endforeach
+                              </select>                         
                           <p><label>Опубликован (1/0)?</label><input type="text" value="{{ $block->active }}" class="form-control" name="active"></p>
     
                           <p><button class="btn btn-success">Обновить</button>

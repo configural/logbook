@@ -26,7 +26,15 @@
                                   <option value="{{$department->id}}">{{$department->name}}</option>
                                   @endforeach
                               </select>
-                          
+ 
+                          <p><label>Укрупненная тема:</label>
+                              <select name="largeblock_id" class="form-control-static">
+                                  <option value=""></option>
+                                  @foreach(\App\Largeblock::orderby('name')->get() as $largeblock)
+                                  <option value="{{$largeblock->id}}">{{$largeblock->name}}</option>
+                                  @endforeach
+                              </select>                              
+                              
                           </p>
                           <p><label>Опубликован (1/0)?</label><input type="text" value="1" class="form-control" name="active"></p>
                           <p><button class="btn btn-success">Создать блок</button>
