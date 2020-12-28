@@ -58,6 +58,9 @@ Route::post('/block/add', 'BlockController@add')->middleware('auth');
 Route::post('/block/{id}/store', 'BlockController@store')->middleware('auth');
 Route::get('/block/{id}/delete', 'BlockController@delete')->middleware('auth');
 
+Route::get('/largeblocks', 'LargeblockController@show')->name('largeblocks')->middleware('auth');
+Route::post('/largeblocks', 'LargeblockController@quick_update')->middleware('auth');
+
 
 // Управление списком дополнительных образовательных программ 
 Route::get('/programs', function(){ return view('programs');})->name('programs')->middleware('auth');

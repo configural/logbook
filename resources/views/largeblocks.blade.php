@@ -6,21 +6,36 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Темы в расписании</div>
+                <div class="panel-heading ">Укрупненные темы</div>
 
                 <div class="panel-body">
+                    <p>
+                    <form method='get'>
+                    Выберите образовательную программу:
+                    <select name='program_id' class='form-control' onchange='form.submit()'>
+                        <option></option>  
+                        @foreach(\App\Program::where('active', 1)->orderby('name')->get() as $program)
+                    @if (isset($program_id) and $program_id == $program->id)
+                    <option value='{{$program->id}}' selected>{{ $program->year }} - {{ $program->name}} 
+                    @else
+                    <option value='{{$program->id}}'>{{ $program->year }} - {{ $program->name}} 
+                    @endif
+                    @endforeach
+                    </select>
+                    </form>
+                </p>
+                    @if ($blocks)
+                    
                     <table class='table table-bordered' id='sortTable'>
                         <thead>
                         <th>id</th>
                         <th>Темы</th>
                         <th>Тип</th>
-                        <th>Кафедры</th>
-                        <th>Дисциплины</th>
-                        
-                        <th>Программы</th>
+                        <th>Укрупненные темы</th>
+
                         </thead>
                         <tbody>
-                   @foreach(\App\Block::where('active', 1)->get() as $b)
+                   @foreach($blocks as $b)
                            <tr><td>
                                    <a name="{{$b->id}}">{{$b->id}}</a>
                        </td>
@@ -31,18 +46,21 @@
                                     <textarea name="name"  class="form-control"style="width: 100%; height: 200px;">{{ $b->name }}</textarea>
                                    <input type="hidden" name="id" value="{{$b->id}}">
                               
-                              <p><label>Кафедра:</label>
-                              <select name="department_id" class="form-control-static">
-                                  <option value="">Наследуется от дисциплины</option>
-                                  @foreach(\App\Department::get() as $department)
-                                  @if ($department->id == $b->department_id)
-                                  <option value="{{$department->id}}" selected>{{$department->name}}</option>
+
+                              
+                                <p><label>Укрупненная тема:</label>
+                              <select name="largeblock_id" class="form-control-static">
+                                  <option value=""></option>
+                                  @foreach(\App\Largeblock::where('active', 1)->orderby('name')->get() as $largeblock)
+                                  @if ($largeblock->id == $b->largeblock_id)
+                                  <option value="{{$largeblock->id}}" selected>{{$largeblock->name}}</option>
                                   @else
-                                  <option value="{{$department->id}}">{{$department->name}}</option>
+                                  <option value="{{$largeblock->id}}">{{$largeblock->name}}</option>
                                   @endif
                                   @endforeach
                               </select></P>
-                              <BR/>
+                              <input type='hidden' name='program_id' value='{{$program_id}}'>
+                              <BR/>                            
                                    
                                    <button>Сохранить</button>
                                    
@@ -58,27 +76,19 @@
                        @if ($b->w_hours) Веб:{{$b->w_hours}} @endif
                        </td>
                        <td>
-                           @if($b->department_id)
-                            {{$b->discipline->department->name or ''}}
-                           -> {{$b->department->name or ''}}
-                           
-                           
-                           @else
-                           {{$b->discipline->department->name or ''}}
-                           @endif
+                        @if ($b->largeblock_id)
+                        {{$b->largeblock->name}}
+                        @endif
                        </td>
-                       <td>{{$b->discipline->name}}</td>
-                       <td>
-                           @foreach($b->discipline->programs as $program)
-                        <li>[{{$program->year}}] {{$program->name}}</li>
-                           @endforeach
+
+                           
                        
                        </td>
                    </tr>
                    @endforeach
                         </tbody>
                     </table>
-                    
+                    @endif
                     
                 </div>
             </div>

@@ -14,4 +14,12 @@
                         <div class="icon"><a href="{{route('print_rasp_kafedra')}}"><i class="fa fa-calendar fa-3x orange"></i><br/>Расписание преподавателей кафедры</a></div>
                         <div class="icon"><a href="{{route('tabel')}}"><i class="fa fa-clock-o fa-3x blue"></i><br/>Табель (штатники)</a></div>                                
                         <div class="icon"><a href="{{route('no_journal')}}"><i class="fa fa-user-secret fa-3x black"></i><br/>Кто не заполнил журнал?</a></div>                        
+                 
+                        <h3>
+                        Вспомогательные инструменты    
+                        </h3>
                         
+                        <ul>
+
+                        <li><a href="{{route('largeblocks')}}">Темы в расписании по укрупненным темам</a></li>
+                </ul>                       
