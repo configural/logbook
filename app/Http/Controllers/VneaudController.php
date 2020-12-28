@@ -31,6 +31,13 @@ class VneaudController extends Controller
     
     function store(Request $request) {
         
+        if ($request->lessontype_id == 13) {
+            $hours = 10;
+        }
+        else {
+            $hours = 0.5;
+        }
+        
         if ($request->id) :
                 $vneaud = Vneaud::find($request->id);
             else:
@@ -42,7 +49,7 @@ class VneaudController extends Controller
         $vneaud->fill($request->all());
        
         if ($request->count) :
-        $vneaud->hours = $request->count * 0.5;
+        $vneaud->hours = $request->count * $hours;
         endif;
        
         $vneaud->save();
