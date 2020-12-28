@@ -58,30 +58,26 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     <table class='table table-bordered' id="sortTable">
                         <thead>
                             <tr>
-                                <th>Месяц</th>
-                                <th>Группа</th>
-                                <th>Поток</th>
                                 <th>Тема</th>
-                                <th>Тип</th>
                                 <th>Часы</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
  
-                   @foreach(\App\Timetable::select()
+                   @foreach(\App\Timetable::selectRaw('blocks.name, sum(hours) as hours')
                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                   ->join('blocks', 'blocks.id', '=', 'timetable.block_id')
                    ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                   ->groupBy('blocks.name')
                    ->where('teachers2timetable.teacher_id', $user_id)
                    ->where('streams.year', $year)
                    ->get() as $timetable
                    )
                    <tr>
-                       <td>{{sprintf("%02d.%4d", $timetable->month, $year)}}</td>
-                       <td>{{$timetable->group->name}}</td>
-                       <td>{{$timetable->group->stream->name}}</td>
-                       <td>{{ @str_limit($timetable->block->name)}}</td>
-                       <td>{{ $timetable->lesson_type->name}}</td>
+                       <td>{{ @str_limit($timetable->name)}}</td>
+
                        <td>{{ $timetable->hours}}</td>
                    </tr>
                    
@@ -93,10 +89,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    <tfoot>
                        <tr>
                            <td>Итого</td>
-                           <td></td>
-                            <td></td>
-                             <td></td>
-                              <td></td>
+
                            <td>{{$hours_total}}</td>
                            
                        </tr>

@@ -121,6 +121,7 @@ Route::post('/journal/item/update', 'JournalController@update')->middleware('aut
 Route::get('/workload', function() {return view('workload');})->name('workload')->middleware('auth');
 Route::get('/workload_my', function() {return view('workloadmy');})->name('workloadmy')->middleware('auth');
 Route::get('/workload_my_themes', function() {return view('workloadmythemes');})->name('workloadmythemes')->middleware('auth');
+Route::get('/workload_my_themes_grouped', function() {return view('workloadmythemes_grouped');})->name('workloadmythemes_grouped')->middleware('auth');
 
 Route::get('/workload/add', function() {return view('workloadaddmanual');})->middleware('auth');
 Route::post('/workload/add', 'WorkloadController@workload_add_manual')->middleware('auth');
