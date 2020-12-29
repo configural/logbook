@@ -1,5 +1,6 @@
 @php
 $total_hours = 0;
+$total_hours_distributed = 0;
 
 @endphp
 @extends('layouts.app')
@@ -9,7 +10,7 @@ $total_hours = 0;
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Дисциплины кафедры (укркпненные темы)</div>
+                <div class="panel-heading ">Дисциплины кафедры (укрупненные темы)</div>
 
                 <div class="panel-body">
                     <form method="post">
@@ -53,7 +54,9 @@ $total_hours = 0;
                         <thead>
                         <tr>
                             <th>Укрупненная тема</th>
-                            <th>Количество часов</th>
+                            <th>Всего часов</th>
+                            <th>Распределено часов</th>
+                            <th>Остаток часов</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -62,12 +65,25 @@ $total_hours = 0;
                         <td>{{ $largeblock->name}}</td>
                         <td>
                             @php
-                            $hours = \App\Largeblock::largeblock_hours($largeblock->id, $date1, $date2);
-                            $total_hours += $hours;
+                            $hours1 = \App\Largeblock::largeblock_hours($largeblock->id, $date1, $date2);
+                            $total_hours += $hours1;
                             @endphp
                             
-                            {{$hours}}
+                            {{$hours1}}
                         </td>
+                        
+                                                <td>
+                            @php
+                            $hours2 = \App\Largeblock::largeblock_hours_distributed($largeblock->id, $date1, $date2);
+                            $total_hours_distributed += $hours2;
+                            @endphp
+                            
+                            {{$hours2}}
+                        </td>
+                        @php
+                        $delta = $hours1 - $hours2;
+                        @endphp
+                        <td>{{ $delta }}</td>
                         <tr>
                         @endforeach
                         </tbody>
@@ -75,6 +91,11 @@ $total_hours = 0;
                             <tr>
                         <td>ИТОГО</td>
                         <td>{{$total_hours}}</td>
+                        <td>{{$total_hours_distributed}}</td>
+                        <td>
+                            @php ($delta = $total_hours - $total_hours_distributed)
+                            {{$delta}}
+                        </td>
                     </tr>
                         </tfoot>
                     </table>
