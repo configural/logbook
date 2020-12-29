@@ -33,6 +33,8 @@ class VneaudController extends Controller
         
         if ($request->lessontype_id == 13) {
             $hours = 10;
+        } elseif ($request->lessontype_id == 14) {
+            $hours = 1;
         }
         else {
             $hours = 0.5;
