@@ -1,4 +1,7 @@
+@php
+$total_hours = 0;
 
+@endphp
 @extends('layouts.app')
 
 @section('content')
@@ -6,7 +9,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Дисциплины кафедры (подсчет нагрузки)</div>
+                <div class="panel-heading ">Дисциплины кафедры (укркпненные темы)</div>
 
                 <div class="panel-body">
                     <form method="post">
@@ -47,31 +50,33 @@
                     <h2>Кафедра {{ $kaf }}</h2>
                     <h3>Период: {{$date1}} – {{$date2}}</h3>
                     <table class='table table-bordered'>
+                        <thead>
                         <tr>
-                            <th>Дисциплина</th>
-                            <th>Часов</th>
+                            <th>Укрупненная тема</th>
+                            <th>Количество часов</th>
                         </tr>
-                    
-                    @php ($total_hours = 0)    
-                    @foreach($disciplines as $d)
-                    @php 
-                    $hours = \App\Discipline::hours_by_discipline_name($d->name, $date1, $date2, $department_id);
-                    $total_hours += $hours;
-                    @endphp
-                    
-                    @if($hours)
-                    <tr> 
-                        <td>{{$d->name}}</td>
-                        <td>{{ $hours }}</td>
-                        
-                        
-                    </tr>
-                    @endif
-                    @endforeach
-                    <tr>
+                        </thead>
+                        <tbody>
+                        @foreach(\App\Largeblock::where('department_id', $department_id)->orderby('name')->get() as $largeblock)
+                        <tr>
+                        <td>{{ $largeblock->name}}</td>
+                        <td>
+                            @php
+                            $hours = \App\Largeblock::largeblock_hours($largeblock->id, $date1, $date2);
+                            $total_hours += $hours;
+                            @endphp
+                            
+                            {{$hours}}
+                        </td>
+                        <tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
                         <td>ИТОГО</td>
-                        <td>{{ $total_hours}}</td>
+                        <td>{{$total_hours}}</td>
                     </tr>
+                        </tfoot>
                     </table>
                     @endif
                 </div>
