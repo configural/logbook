@@ -18,13 +18,18 @@ class Largeblock extends Model
         $largeblock = Largeblock::find($id);
         $hours = 0;
         foreach($largeblock->blocks as $block) {
-            $hours += \App\Timetable::select()
+            $timetable = \App\Timetable::selectRaw('sum(hours) as hours, timetable.id, timetable.group_id')
                     ->distinct('timetable.id')
                     ->join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                     ->groupby('timetable.id')
+                    ->groupby('timetable.group_id')
                     ->whereBetween('streams.date_start', [$date1, $date2])
                     ->where('block_id', $block->id)
-                    ->sum('hours');
+                    
+                    ->get();
+            $hours += $timetable->sum('hours');
+
         };
         return $hours;
     }
@@ -33,15 +38,25 @@ class Largeblock extends Model
         $largeblock = Largeblock::find($id);
         $hours = 0;
         foreach($largeblock->blocks as $block) {
-            $hours += \App\Timetable::select()
-                    ->distinct('timetable.id')
+            $timetable = \App\Timetable::selectRaw('sum(hours) as hours, timetable.id, timetable.group_id')
+                    ->distinct('timetable.group_id')
+                    ->distinct('teachers2timetable.teacher_id')
                     ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                     ->join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                    ->groupby('timetable.id')
+                    ->groupby('timetable.group_id')
+
                     ->whereBetween('streams.date_start', [$date1, $date2])
+                    ->where('timetable.id', '!=', NULL)
                     ->where('block_id', $block->id)
                     
-                    ->sum('hours');
+                    ->where('timetable.subgroup', NULL)
+                    ->get();
+                        $hours += $timetable->sum('hours');
+
+
+
         };
         return $hours;
     }
