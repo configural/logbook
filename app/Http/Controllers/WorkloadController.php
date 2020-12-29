@@ -63,6 +63,79 @@ class WorkloadController extends Controller
             
     }
     
+    public function rebuild_workload(Request $request) {
+        $stream_id = $request->stream_id;
+        $stream = \App\Stream::find($stream_id);
+        $program = $stream->programs->first();
+        foreach($stream->groups as $group){
+            foreach($program->disciplines as $discipline) {
+                foreach($discipline->blocks as $block) {
+                    echo $group->name . " - ". $block->name . " - ";
+                    $timetable_count = Timetable::select()
+                            ->where("block_id", $block->id)
+                            ->where("group_id", $group->id)
+                            ->count();
+                    if($timetable_count == 0) {
+                        
+                        $block_id = $block->id;
+                        $group_id = $group->id;
+                        if ($block->l_hours) { $hours = $block->l_hours; $lessontype = 1;}
+                        if ($block->p_hours) { $hours = $block->p_hours; $lessontype = 2;}
+                        if ($block->s_hours) { $hours = $block->s_hours; $lessontype = 8;}
+                        if ($block->w_hours) { $hours = $block->w_hours; $lessontype = 11;}
+                        $timetable_item = ["block_id" => $block_id, "group_id" => $group_id, "hours" => $hours, "lessontype" => $lessontype];
+                        
+                        \App\Timetable::updateOrCreate($timetable_item);
+                        
+                        echo "<span style='color:green'>Создано</span>";
+                    }
+                    else {
+                        echo "<span style='color:blue'>Существует</span>";
+                    }
+                    echo "<br>";
+                }
+/////////////
+                
+                    if ($discipline->attestation_id) {
+                    $attestation_discipline = ["group_id" => $group->id, "discipline_id" => $discipline->id, "hours" => $discipline->attestation_hours, "lessontype" => 3];
+                    if ($discipline->attestation_hours) {\App\Timetable::updateOrCreate($attestation_discipline);
+                    echo "Аттестация по дисциплине - OK";
+                    }
+                    }
+            }
+                if ($program->attestation_id) {
+                $attestation_program = ["group_id" => $group->id, "program_id" => $program->id, "hours" => $program->attestation_hours, "lessontype" => 3];
+                if ($program->attestation_hours) {\App\Timetable::updateOrCreate($attestation_program);  }
+               echo "Аттестация по программе - OK";
+                
+                
+                }
+               
+               if ($program->vkr_hours) {
+                $attestation_program = ["group_id" => $group->id, "program_id" => $program->id, "hours" => $program->vkr_hours, "lessontype" => 4];
+                \App\Timetable::updateOrCreate($attestation_program);  
+               echo "Защита ВКР - OK";
+                
+               }
+
+               if ($program->project_hours) {
+                $attestation_program = ["group_id" => $group->id, "program_id" => $program->id, "hours" => $program->project_hours, "lessontype" => 19];
+                \App\Timetable::updateOrCreate($attestation_program);  
+               echo "Защита проекта - OK";
+                
+               }       
+            }      
+/////////////                    
+                 
+              echo "<p><a href='". url('workload') ."?year=" . $stream->year . "&stream_id=" . $stream->id ."'>Перейти в нагрузку</a></p>";  
+
+            }
+        
+        
+        
+    
+    
+    
     public function delete_workload($id) {
         Timetable::find($id)->delete();
         DB::table('teachers2timetable')->where('timetable_id', $id)->delete();
