@@ -70,12 +70,12 @@ class WorkloadController extends Controller
         foreach($stream->groups as $group){
             foreach($program->disciplines as $discipline) {
                 foreach($discipline->blocks as $block) {
-                    echo $group->name . " - ". $block->name . " - ";
+                    echo $group->name . " - ". $block->name . " - "  ;
                     $timetable_count = Timetable::select()
                             ->where("block_id", $block->id)
                             ->where("group_id", $group->id)
                             ->count();
-                    if($timetable_count == 0) {
+                    if(1) {
                         
                         $block_id = $block->id;
                         $group_id = $group->id;
@@ -83,11 +83,13 @@ class WorkloadController extends Controller
                         if ($block->p_hours) { $hours = $block->p_hours; $lessontype = 2;}
                         if ($block->s_hours) { $hours = $block->s_hours; $lessontype = 8;}
                         if ($block->w_hours) { $hours = $block->w_hours; $lessontype = 11;}
-                        $timetable_item = ["block_id" => $block_id, "group_id" => $group_id, "hours" => $hours, "lessontype" => $lessontype];
+                        $timetable_item = ["block_id" => $block_id, "group_id" => $group_id, "lessontype" => $lessontype];
                         
-                        \App\Timetable::updateOrCreate($timetable_item);
+                        echo " - $hours - ";
                         
-                        echo "<span style='color:green'>Создано</span>";
+                        \App\Timetable::updateOrCreate($timetable_item, ["hours" => $hours]);
+                        
+                        echo "<span style='color:green'>OK</span>";
                     }
                     else {
                         echo "<span style='color:blue'>Существует</span>";
@@ -98,14 +100,14 @@ class WorkloadController extends Controller
                 
                     if ($discipline->attestation_id) {
                     $attestation_discipline = ["group_id" => $group->id, "discipline_id" => $discipline->id, "hours" => $discipline->attestation_hours, "lessontype" => 3];
-                    if ($discipline->attestation_hours) {\App\Timetable::updateOrCreate($attestation_discipline);
+                    if ($discipline->attestation_hours) {\App\Timetable::updateOrCreate($attestation_discipline, ["hours" => $discipline->attestation_hours]);
                     echo "Аттестация по дисциплине - OK";
                     }
                     }
             }
                 if ($program->attestation_id) {
                 $attestation_program = ["group_id" => $group->id, "program_id" => $program->id, "hours" => $program->attestation_hours, "lessontype" => 3];
-                if ($program->attestation_hours) {\App\Timetable::updateOrCreate($attestation_program);  }
+                if ($program->attestation_hours) {\App\Timetable::updateOrCreate($attestation_program, ["hours" => $program->attestation_hours]);  }
                echo "Аттестация по программе - OK";
                 
                 
@@ -113,14 +115,14 @@ class WorkloadController extends Controller
                
                if ($program->vkr_hours) {
                 $attestation_program = ["group_id" => $group->id, "program_id" => $program->id, "hours" => $program->vkr_hours, "lessontype" => 4];
-                \App\Timetable::updateOrCreate($attestation_program);  
+                \App\Timetable::updateOrCreate($attestation_program, ["hours" => $program->vkr_hours]);  
                echo "Защита ВКР - OK";
                 
                }
 
                if ($program->project_hours) {
                 $attestation_program = ["group_id" => $group->id, "program_id" => $program->id, "hours" => $program->project_hours, "lessontype" => 19];
-                \App\Timetable::updateOrCreate($attestation_program);  
+                \App\Timetable::updateOrCreate($attestation_program, ["hours" => $program->project_hours]);  
                echo "Защита проекта - OK";
                 
                }       
