@@ -10,6 +10,16 @@ $year = $_GET["year"];
 } else {$year = 2021;
 }
 
+if (isset($_GET["month1"])) {
+$month1 = $_GET["month1"];
+} else {$month1 = 1;
+}
+
+if (isset($_GET["month2"])) {
+$month2 = $_GET["month2"];
+} else {$month2 = 12;
+}
+
 if (isset($_GET["user_id"])) {
 $user_id = $_GET["user_id"];
 } else {$user_id = 0;
@@ -44,7 +54,10 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         @else
                         <input type='hidden' name='user_id' value='{{Auth::user()->id}}'>
                         @endif
-                        <input type='number' name='year' value='{{$year}}' onChange="form.submit()" class="form-control-static">
+                        Месяц 1: <input type="number" name="month1" value="{{$month1}}" min="1" max="12" class="form-control-static">
+                        Месяц 2:  <input type="number" name="month2" value="{{$month2}}" min="1" max="12" class="form-control-static">
+                        Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
+                        
                         <button class="btn btn-success">Обновить</button>
                     <p>Для печати нажмите Ctrl + P</p>
                     </form>
@@ -55,7 +68,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     
                     
                     
-                    <table class='table table-bordered' id="sortTable">
+                    <table class='table table-bordered' id="">
                         <thead>
                             <tr>
                                 <th>Месяц</th>
@@ -69,11 +82,15 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <tbody>
  
                    @foreach(\App\Timetable::select()
+                   ->join('blocks', 'blocks.id', '=', 'timetable.block_id')
                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
                    ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                    ->where('teachers2timetable.teacher_id', $user_id)
                    ->where('streams.year', $year)
+                   ->whereBetween('timetable.month', [$month1, $month2])
+                   ->orderby('timetable.month')
+                   ->orderby('blocks.name')
                    ->get() as $timetable
                    )
                    <tr>

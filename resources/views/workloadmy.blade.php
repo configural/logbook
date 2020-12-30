@@ -10,6 +10,17 @@ $year = $_GET["year"];
 } else {$year = 2021;
 }
 
+if (isset($_GET["month1"])) {
+$month1 = $_GET["month1"];
+} else {$month1 = 1;
+}
+
+if (isset($_GET["month2"])) {
+$month2 = $_GET["month2"];
+} else {$month2 = 12;
+}
+
+
 if (isset($_GET["user_id"])) {
 $user_id = $_GET["user_id"];
 } else {$user_id = 0;
@@ -44,7 +55,11 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         @else
                         <input type='hidden' name='user_id' value='{{Auth::user()->id}}'>
                         @endif
-                        <input type='number' name='year' value='{{$year}}' class="form-control-static">
+                        
+                        Месяц 1: <input type="number" name="month1" value="{{$month1}}" min="1" max="12" class="form-control-static">
+                        Месяц 2:  <input type="number" name="month2" value="{{$month2}}" min="1" max="12" class="form-control-static">
+                        Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
+                        
                         <button class="btn btn-success">Обновить</button>
                     <p>Для печати нажмите Ctrl + P</p>
                     </form>
@@ -59,7 +74,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <tr class='alert-info'>
                             
                             <td>Занятия / месяцы</td>
-                            @for ($month = 1; $month<=12; $month++)
+                            @for ($month = $month1; $month<=$month2; $month++)
                             <td>{{ $month }}</td>
                             @endfor        
                             <td>Итого</td>
@@ -74,7 +89,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         @endphp
                         <tr>
                             <td>{{ $lessontype->name }}</td>
-                            @for ($month = 1; $month<=12; $month++)
+                            @for ($month = $month1; $month<=$month2; $month++)
                             <td>
                                 @php
                                 $hours = \App\User::user_hours_workload($user_id, $month, $year, $lessontype->id);
@@ -94,7 +109,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         @php ($hours_total = 0)
                         <tr>
                             <td>{{ $lessontype->name }}</td>
-                            @for ($month = 1; $month<=12; $month++)
+                            @for ($month = $month1; $month<=$month2; $month++)
                             <td>
                                 @php
                                 $hours = \App\User::user_hours_vneaud($user_id, $month, $year, $lessontype->id);
@@ -114,9 +129,9 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             <tr>
                         <td>ИТОГО</td>
                         @php ($total = 0)
-                        @for ($i = 1; $i<=12; $i++) 
-                        <td>{{$hours_total_month[$i]}}
-                        @php ($total += $hours_total_month[$i])
+                        @for ($month = $month1; $month<=$month2; $month++) 
+                        <td>{{$hours_total_month[$month]}}
+                        @php ($total += $hours_total_month[$month])
                         </td>
                         @endfor
                         <td>{{$total}}</td>
