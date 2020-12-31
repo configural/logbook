@@ -66,7 +66,7 @@
                          
                             
                             <select name='stream_id' id='produce' class='form-control-static blue' onChange='form.submit()' >
-                                <option value='' >мес: поток - программа</option>
+                                <option value='0' >Показать всю нераспределенную нагрузку (первые 200 записей)</option>
                         @foreach(\App\Stream::orderBy('name')->where('active', 1)->where('year', $year)->orderby('name')->orderby('date_start')->get() as $stream)
                         
                         @php 
@@ -120,7 +120,7 @@
                         @endif
 
                         
-                        @if (1)
+                        @if ($stream_id)
                         
                         <table class="table table-bordered display" id="sortTable">
                             <thead><tr><th>id</th>
@@ -302,6 +302,168 @@
                         <p>
                         <a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a>
                         </p>
+                        
+                        @else
+                        <h3>Нераспределенная нагрузка</h3>
+                        
+
+                        <table class='table table-bordered' id='sortTable'>
+                             <thead><tr><th>id</th>
+                                <th>Поток/группа</th>
+                                <th>Период обучения</th>
+                                <th>Укрупненная тема</th>
+                                <th>Дисциплина, тема</th>
+                                <th>Месяц</th>
+                                <th>Кафедра</th>
+                                <th>Часы</th>
+                                
+                                <th>Преподавател(и)</th>
+                               
+                                <th>Действия</th>
+                                
+                                </tr></thead>                           
+                             <tbody>  
+ <!--///////////////////////////////////////////////////////////////////////////
+ ###########################################################################-->
+ 
+                        @foreach(\App\Timetable::selectRaw('streams.*, groups.*, timetable.*')
+                                                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                                                    ->leftjoin('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                                                    ->where('teachers2timetable.id', NULL)
+                                                    ->limit(200)
+                                                    ->where('streams.year', $year)
+                                                    
+                                                    ->get() as $timetable) 
+
+                        <tr>
+                            <td>
+
+                                {{$timetable->id}}
+                            </td>
+
+                                                   <td><nobr>{{$timetable->group->stream->name}}</nobr><br> 
+                            <nobr>{{$timetable->group->name}}</nobr>
+                        
+                        
+                         @if(in_array($timetable->lessontype, [2, 11]))
+                                @if($timetable->subgroup)
+                                Подгруппа {{$timetable->subgroup}}
+                                @else
+                                <a href="workload/split/{{$timetable->id}}">разделить на подгруппы</a>
+                                @endif
+                                @endif
+                        
+                        </td>
+                        <td><div style="display: none !important">{{$timetable->group->stream->date_start}}
+                                </div>
+                            
+                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_start))}}
+                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_finish))}}
+                            <br>
+                            </td>
+                            
+                            
+                            <td>
+                            <p><small class="blue">{{ $timetable->block->largeblock->name or '-' }}</small></p>
+                            </td>
+                            <td><strong></strong>
+                                @if( isset($timetable->block->name) && $timetable->block->active )
+                                <i class='fa fa-check-circle green'></i>
+                                @endif
+                                &nbsp;
+                                {{ $timetable->block->id or '' }} 
+                                {{ $timetable->block->name or '' }}
+                                <br/>
+                                <small>{{ $timetable->block->discipline->name or '' }}</small>
+                                @if($timetable->discipline_id) <span class='green'><strong>Аттестация</strong>
+                                        {{ \App\Discipline::find($timetable->discipline_id)->name}}</span>
+                                @endif
+                                
+                                
+                                
+                                
+                                @if($timetable->program_id and $timetable->lessontype == 3 ) 
+                                <span class='red'><strong>Итоговая аттестация</strong>
+                                        {{ \App\Program::find($timetable->program_id)->name}}</span>
+                                @endif
+                                
+                                @if($timetable->program_id and $timetable->lessontype == 4 ) 
+                                <span class="blue"><strong>Защита ВКР</strong>
+                                        {{ \App\Program::find($timetable->program_id)->name}}</span>
+                                @endif
+                                
+                                @if($timetable->program_id and $timetable->lessontype == 19 ) 
+                                <span class="orange"><strong>Защита проекта</strong>
+                                        {{ \App\Program::find($timetable->program_id)->name}}</span>
+                                @endif
+                                
+                                @if($timetable->program_id and $timetable->lessontype == 5 ) 
+                                <span class="green"><strong>Защита ИР</strong>
+                                        {{ \App\Program::find($timetable->program_id)->name}}</span>
+                                @endif
+                                
+                                                   
+                            </td>
+                            
+                            <td>{{$timetable->month}}</td>
+                            
+                            <td>
+                            @if (isset($timetable->block->department_id))
+                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike><br/>
+                                {{ $timetable->block->department->name }}
+                                @else
+                                {{ $timetable->block->discipline->department->name or '' }}
+                                @endif
+                            </td>
+                            <td>{{ $timetable->hours }} ч<br/>
+                            {{ $timetable->lesson_type->name or 'не определено'}}
+                            </td>
+  
+                            <td>@php ($i = 0)
+                                @if($timetable->teachers->count())
+                                
+                                @foreach($timetable->teachers as $teacher)
+                                    <span class="green"><strong>{{$teacher->secname()}}</strong><br/></span>
+                                        @if($teacher->id == Auth::user()->id)
+                                        @php ($i++)
+                                    @endif
+                                @endforeach
+                                                                
+                                @else 
+                                <span class="badge white">!не распределено</span>
+                                @endif
+                                
+                            </td>
+                            {{--<td>
+                                {{$timetable->month or ''}}
+                            </td>--}}
+                            <td>
+                                @if($timetable->rasp_id)
+                                Назначено на:
+                                <a href="{{url('rasp')}}?date={{$timetable->rasp->date or ''}}">{{$timetable->rasp->date or ''}}</a>
+                                @else
+                                @if($i == 0)
+                                
+                                @if(in_array(Auth::user()->role_id, [2]))
+                                    <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Взять нагрузку</a>
+                                @else
+                                    <a href="workload/edit/{{$timetable->id}}" class="btn btn-primary" name="{{$timetable->id}}">Распределить</a>
+                                @endif
+                            
+                                @else
+                                
+                                <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-danger">Отказаться</a>
+
+                        @endif  
+                        @endif
+
+   
+                        </td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                        </table>
                         @endif
                     </div>
 
