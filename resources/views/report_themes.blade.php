@@ -99,6 +99,7 @@ $total_hours_distributed = 0;
                     </tr>
                         </tfoot>
                     </table>
+                    
                     @endif
                 </div>
             </div>
