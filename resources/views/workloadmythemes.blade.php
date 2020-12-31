@@ -71,7 +71,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     <table class='table table-bordered' id="">
                         <thead>
                             <tr>
-                                <th>Месяц</th>
+                                <th>Период обучения</th>
                                 <th>Группа</th>
                                 <th>Поток</th>
                                 <th>Тема</th>
@@ -94,7 +94,9 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    ->get() as $timetable
                    )
                    <tr>
-                       <td>{{sprintf("%02d.%4d", $timetable->month, $year)}}</td>
+                       <td>{{date('d.m.Y', strtotime($timetable->group->stream->date_start))}}<br>{{date('d.m.Y', strtotime($timetable->group->stream->date_finish))}}
+                       
+                       </td>
                        <td>{{$timetable->group->name}}</td>
                        <td>{{$timetable->group->stream->name}}</td>
                        <td>{{ @str_limit($timetable->block->name)}}</td>
