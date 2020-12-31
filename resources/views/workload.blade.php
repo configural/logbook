@@ -126,6 +126,7 @@
                             <thead><tr><th>id</th>
                                 <th>Поток/группа</th>
                                 <th>Период обучения</th>
+                                <th>Укрупненная тема</th>
                                 <th>Дисциплина, тема</th>
                                 <th>Месяц</th>
                                 <th>Кафедра</th>
@@ -180,7 +181,7 @@
                             <nobr>{{$timetable->group->name}}</nobr>
                         
                         
-                         @if($timetable->lessontype == 2)
+                         @if(in_array($timetable->lessontype, [2, 11]))
                                 @if($timetable->subgroup)
                                 Подгруппа {{$timetable->subgroup}}
                                 @else
@@ -189,10 +190,16 @@
                                 @endif
                         
                         </td>
-                            <td>{{$timetable->group->stream->date_start}}<br/>
-                                {{$timetable->group->stream->date_finish}}<br>
-                            </td>
+                        <td><div style="display: none !important">{{$timetable->group->stream->date_start}}
+                                </div>
                             
+                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_start))}}
+                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_finish))}}
+                            <br>
+                            </td>
+                            <td>
+                            <p><small class="blue">{{ $timetable->block->largeblock->name or '-' }}</small></p>
+                            </td>
                             <td><strong></strong>
                                 @if( isset($timetable->block->name) && $timetable->block->active )
                                 <i class='fa fa-check-circle green'></i>
@@ -205,7 +212,10 @@
                                 @if($timetable->discipline_id) <span class='green'><strong>Аттестация</strong>
                                         {{ \App\Discipline::find($timetable->discipline_id)->name}}</span>
                                 @endif
-
+                                
+                                
+                                
+                                
                                 @if($timetable->program_id and $timetable->lessontype == 3 ) 
                                 <span class='red'><strong>Итоговая аттестация</strong>
                                         {{ \App\Program::find($timetable->program_id)->name}}</span>
@@ -244,13 +254,18 @@
                             </td>
   
                             <td>@php ($i = 0)
-                                @foreach($timetable->teachers as $teacher)
-                                <span class="green"><strong>{{$teacher->secname()}}</strong><br/></span>
-                                @if($teacher->id == Auth::user()->id)
-                                @php ($i++)
-                                @endif
-                                @endforeach
+                                @if($timetable->teachers->count())
                                 
+                                @foreach($timetable->teachers as $teacher)
+                                    <span class="green"><strong>{{$teacher->secname()}}</strong><br/></span>
+                                        @if($teacher->id == Auth::user()->id)
+                                        @php ($i++)
+                                    @endif
+                                @endforeach
+                                                                
+                                @else 
+                                <span class="badge white">!не распределено</span>
+                                @endif
                                 
                             </td>
                             {{--<td>
