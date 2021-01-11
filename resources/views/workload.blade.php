@@ -334,6 +334,11 @@
                                 </tr></thead>                           
                              <tbody>  
  <!--///////////////////////////////////////////////////////////////////////////
+ 
+ Если поток не выбран (stream_id == 0), то отображается нераспределенная нагрузка. 
+ Поскольку объем данных, полученных по запросу может быть большой, его объем ограничен
+ 200 записями.
+ 
  ###########################################################################-->
  
                         @foreach(\App\Timetable::selectRaw('streams.*, groups.*, timetable.*')
@@ -341,9 +346,8 @@
                                                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
                                                     ->leftjoin('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                                                     ->where('teachers2timetable.id', NULL)
-                                                    ->limit(200)
                                                     ->where('streams.year', $year)
-                                                    
+                                                    ->limit(10000)
                                                     ->get() as $timetable) 
 
                         <tr>

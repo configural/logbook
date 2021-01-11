@@ -1,3 +1,6 @@
+@php
+$month = (int) substr($date, 5, 2);
+@endphp
 
 @extends('layouts.app')
 
@@ -20,12 +23,12 @@
                         
                         Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static">
                         
-                        <input name="date_copy" type="date" value="{{$date}}" class="form-control-static">
+                        <input name="date_copy" type="hidden" value="{{$date}}" class="form-control-static">
                         
                        Группа: <select id="filterGroup" class='form-control-static'>
                            <option value=''>Выберите</option>
                            @foreach(\App\Group::select()->where('active',1)->orderby('name')->get() as $group)
-                           @if($group->stream->active)
+                           @if($group->stream->active && $group->stream->date_start <= $date && $group->stream->date_finish >= $date  )
                            <option value='{{$group->name}}'>{{$group->name}} ({{$group->students->count()}} чел.) - {{$group->stream->name}}</option>
                            @endif
                            @endforeach
@@ -51,8 +54,8 @@
                             
                             </thead>
                             <tbody>
-                                
-                             @foreach(\App\Timetable::select()->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
+                             
+                             @foreach(\App\Timetable::select()->where('month', $month)->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
                              @foreach($timetable->teachers as $teacher)
                              <tr>
                                  <td>
