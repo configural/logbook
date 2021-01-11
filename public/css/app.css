@@ -8,9 +8,11 @@
  @media print {
      /* {display: none;}*/
      .panel-primary {border: 0px}
-     form {display: none;}
+     form, select, input, label {display: none !important;}
      .table-bordered, .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th 
      {border: 1px solid #000 !important;}
+     table {width: 100%;}
+
 
      
  }
@@ -38,7 +40,7 @@
  label {cursor: pointer; user-select: none;  }
  textarea {min-height: 100px;}
  
- table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}
+table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}
  table.dataTable thead .sorting_asc:after {content: "▲" !important; color: darkorange;}
  table.dataTable thead .sorting:after {opacity: 0.2; content: "▲▼" !important;}
  .cross {background: red; color: white;}

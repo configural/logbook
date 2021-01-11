@@ -174,11 +174,18 @@
                         @foreach($timetables as $timetable)
                         
                         <tr><td>
-                                @if(in_array(Auth::user()->role_id, [3,4,6]))
-                                <a href="workload/edit/{{$timetable->id}}"  name="{{$timetable->id}}">{{$timetable->id}}</a>
+                                @if(in_array(Auth::user()->role_id, [3,6]))
+                                    <a href="workload/edit/{{$timetable->id}}"  name="{{$timetable->id}}">{{$timetable->id}}</a>
+                                
+                                @elseif (in_array(Auth::user()->role_id, [4]))
+                                    <a href="workload/edit/{{$timetable->id}}"  name="{{$timetable->id}}">{{$timetable->id}}</a>
+                                    @if (!$timetable->teachers->count() && !$timetable->rasp_id)
+                                    <a class="" href="{{url('workload')}}/delete/{{$timetable->id}}"  onClick="return window.confirm('Нагрузка будет удалена. Продолжить?');" ><i class="fa fa-times-circle red fa-2x"></i></a>
+                                    @endif
                                 @else
                                 {{$timetable->id}}
                                 @endif
+        
                             </td>
                             <td><nobr>{{$timetable->group->stream->name}}</nobr><br> 
                             <nobr>{{$timetable->group->name}}</nobr>
@@ -341,8 +348,19 @@
 
                         <tr>
                             <td>
-
+                                @if(in_array(Auth::user()->role_id, [3,6]))
+                                    <a href="workload/edit/{{$timetable->id}}"  name="{{$timetable->id}}">{{$timetable->id}}</a>
+                                
+                                @elseif (in_array(Auth::user()->role_id, [4]))
+                                    <a href="workload/edit/{{$timetable->id}}"  name="{{$timetable->id}}">{{$timetable->id}}</a>
+                                    @if (!$timetable->teachers->count() && !$timetable->rasp_id)
+                                    <a class="" href="{{url('workload')}}/delete/{{$timetable->id}}"  onClick="return window.confirm('Нагрузка будет удалена. Продолжить?');" ><i class="fa fa-times-circle red fa-2x"></i></a>
+                                    @endif
+                                @else
                                 {{$timetable->id}}
+                                @endif
+        
+
                             </td>
 
                                                    <td><nobr>{{$timetable->group->stream->name}}</nobr><br> 

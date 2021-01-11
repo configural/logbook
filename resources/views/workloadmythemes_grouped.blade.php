@@ -69,7 +69,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     
                     
                     
-                    <table class='table table-bordered' id="">
+                    <table class='table table-bordered' id="sortTable">
                         <thead>
                             <tr>
                                 <th>Тема</th>
