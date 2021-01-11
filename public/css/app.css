@@ -54,4 +54,8 @@
 }
  tfoot { background: #f7ecb5}
  
- 
+ summary::-webkit-details-marker {
+    display: none
+}
+
+summary {color: blue; font-weight: bold; cursor: pointer; }

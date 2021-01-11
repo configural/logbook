@@ -147,6 +147,23 @@ class User extends Authenticatable
     }
 
     
+     public static function user_workload_groups_vneaud($user_id, $month, $year = 2021, $lessontype) {
+
+        $groups_array = \App\Timetable::select('timetable.*')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('groups', 'timetable.group_id', '=', 'groups.id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->where('timetable.month', $month)
+                ->where('streams.year', $year)
+                ->where('teachers2timetable.teacher_id', '=', $user_id)
+                ->where('timetable.lessontype', $lessontype)
+                ->get();
+        
+        return $groups_array;
+        
+    }   
+    
+    
     public static function user_hours_workload($user_id, $month, $year = 2021, $lessontype) {
         $tmp = \App\Timetable::select('timetable.hours')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
@@ -167,7 +184,25 @@ class User extends Authenticatable
     }    
     
 
-    
+    public static function user_workload_groups($user_id, $month, $year = 2021, $lessontype) {
+
+        $groups_array = \App\Timetable::select('timetable.*')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('groups', 'timetable.group_id', '=', 'groups.id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->where('timetable.month', $month)
+                ->where('streams.year', $year)
+                ->where('teachers2timetable.teacher_id', '=', $user_id)
+                ->where('timetable.lessontype', $lessontype)
+                ->get();
+        
+        return $groups_array;
+        
+    }
+
+
+
+
     
     public static function user_price($user_id, $date1, $date2, $lessontype) {
 

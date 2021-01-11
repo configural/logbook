@@ -96,7 +96,13 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                                 $hours_total += $hours;
                                 $hours_total_month[$month] += $hours;
                                 @endphp
-                                {{ $hours }}
+                        <details>
+                            <summary>{{ $hours }}</summary>
+                            @foreach(\App\User::user_workload_groups($user_id, $month, $year, $lessontype->id) as $tmp)
+                            <li><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">Группа {{$tmp->group->name}} ::  {{$tmp->hours}}ч.</a></li>
+                            @endforeach
+                        </details>
+                        
                                 
                             </td>
                             @endfor
@@ -114,9 +120,13 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                                 @php
                                 $hours = \App\User::user_hours_vneaud($user_id, $month, $year, $lessontype->id);
                                 $hours_total += $hours;
-                               $hours_total_month[$month] += $hours;
+                                $hours_total_month[$month] += $hours;
                                 @endphp
                                 {{ $hours }}
+                                
+
+                                
+                                
                                 
                             </td>
                             @endfor
