@@ -105,7 +105,10 @@
                             В расписание может быть включена только нагрузка с назначенным преподавателем(ями).
                             Если нужной нагрузки в таблице нет, создайте ее вручную. Если нагрузка сформирована не полностью, или учебный план поменялся нажмите кнопку "Синхронизировать с учебным планом"</p>
                         <p><a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a> 
-                         <a href='workload/rebuild?stream_id={{$stream_id}}' class='btn btn-danger'>Синхронизировать с учебным планом</a></p>
+                        
+                        @if ($stream_id) 
+                        <a href='workload/rebuild?stream_id={{$stream_id}}' class='btn btn-danger'>Синхронизировать с учебным планом</a></p>
+                        @endif
                         
                         @elseif(in_array(Auth::user()->role_id, [2]))
                         <p>    
