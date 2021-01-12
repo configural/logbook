@@ -55,11 +55,11 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <input type='hidden' name='user_id' value='{{Auth::user()->id}}'>
                         @endif
                         
-                        Месяц 1: <input type="number" name="month1" value="{{$month1}}" min="1" max="12" class="form-control-static">
-                        Месяц 2:  <input type="number" name="month2" value="{{$month2}}" min="1" max="12" class="form-control-static">
+                        с месяца: <input type="number" name="month1" value="{{$month1}}" min="1" max="12" class="form-control-static">
+                        по месяц:  <input type="number" name="month2" value="{{$month2}}" min="1" max="12" class="form-control-static">
                         Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         
-                        <button class="btn btn-success">Обновить</button>
+                        <button class="btn btn-success">Сформировать</button>
                     
                     
                         @if ($user_id)
@@ -74,7 +74,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     
                     
                     
-                    <table class='table table-bordered' id="sortTable">
+                    <table class='table table-bordered' id="sortTable" width='100%'>
                         <thead>
                             <tr>
                                 <th>Тема</th>

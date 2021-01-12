@@ -54,11 +54,11 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         @else
                         <input type='hidden' name='user_id' value='{{Auth::user()->id}}'>
                         @endif
-                        Месяц 1: <input type="number" name="month1" value="{{$month1}}" min="1" max="12" class="form-control-static">
-                        Месяц 2:  <input type="number" name="month2" value="{{$month2}}" min="1" max="12" class="form-control-static">
+                        с месяца: <input type="number" name="month1" value="{{$month1}}" min="1" max="12" class="form-control-static">
+                        по месяц:  <input type="number" name="month2" value="{{$month2}}" min="1" max="12" class="form-control-static">
                         Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         
-                        <button class="btn btn-success">Обновить</button>
+                        <button class="btn btn-success">Сформировать</button>
                     
                         @if ($user_id)
                         @include('include.excel_button')
@@ -72,17 +72,16 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     
                     
                     
-                    <table class='table table-bordered' id="sortTable">
+                    <table class='table table-bordered' id="sortTable" width='100%'>
                         <caption><h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3></caption>
                         <thead>
-                            <tr><td>Месяц</td>
+                            <tr>
+                                <th>Месяц</th>
                                 <th>Тема</th>
-                                <th>Тип</th>
-                                <th>Часы</th>
                                 <th>Группа</th>
-                                <th>Поток</th>
                                 <th>Период обучения</th>
-                                
+                                <th>тип занятия</th>
+                                <th>часы</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -101,15 +100,13 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    )
                    <tr>
                        <td>{{$timetable->month}}</td>
-                                              <td>{{ @str_limit($timetable->block->name)}}</td>
-                       <td>{{ $timetable->lesson_type->name}}</td>
-                       <td>{{ $timetable->hours}}</td>
-                       
-                       <td>{{$timetable->group->name}}</td>
-                       <td>{{$timetable->group->stream->name}}</td>
+                       <td>{{ @str_limit($timetable->block->name, 200)}}</td>
+                       <td><nobr>{{$timetable->group->name}}</nobr></td>
                        <td>
                         <nobr>{{date('d.m', strtotime($timetable->group->stream->date_start))}}<nobr> - <nobr>{{date('d.m', strtotime($timetable->group->stream->date_finish))}}</nobr>
                        </td>
+                       <td>{{ $timetable->lesson_type->name}}</td>
+                       <td>{{ $timetable->hours}}</td>
 
                    </tr>
                    
@@ -122,10 +119,12 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                        <tr>
                            <td>Итого</td>
                            <td></td>
-                            <td></td>
+
                              <td></td>
                               <td></td>
-                           <td>{{$hours_total}}</td>
+                              <td></td>
+                            <td>{{$hours_total}}</td>
+                           
                            
                        </tr>
                    </tfoot> 
