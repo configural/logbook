@@ -16,7 +16,9 @@
                     @include('include.daterange', ['date1' => $date1 , 'date2' => $date2])
                     <button class="btn btn-success">Обновить</button>
                     </form>
-                    <hr>
+                    @include ('include.excel_button')
+                        
+                        <hr>
                     <h3>{{ Auth::user()->name}}</h3>
                     <table class='table table-bordered' id="sortTable">
 
