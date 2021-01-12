@@ -16,7 +16,7 @@ $_SESSION["work_with"] = "rasp";
                 <div class="panel-heading">
                     <form action='rasp' method='get'>
                         Составление расписания <input type="date" name="date" value="{{$date}}" onchange="javascript:form.submit()" >
-                        <a href="{{route('print_rasp')}}">Печать расписания</a>
+                        <a href="{{route('print_rasp')}}/{{$date}}">Печать расписания</a>
                     </form>
                 </div>
 

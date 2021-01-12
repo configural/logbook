@@ -2,6 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -13,7 +14,12 @@
                     <form method="post">
                         <p><label>Группа</label> <br/>
                         <select name="group_id" class="form-control-static">
-                            @foreach(\App\Group::where('active', 1)->get() as $group)
+                            @foreach(\App\Group::select('groups.*')
+                            ->join('streams', 'groups.stream_id','=', 'streams.id')
+                            ->where('streams.active', 1)
+                            ->where('streams.date_start', '<=', $date)
+                            ->where('streams.date_finish', '>=', $date)
+                            ->get() as $group)
                             @if($group->stream->active)
                             <option value="{{ $group->id }}">{{ $group->stream->name }} / {{ $group->name }}</option>
                             @endif
