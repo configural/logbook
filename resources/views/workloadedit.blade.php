@@ -17,10 +17,12 @@
                 <p><h3>{{ $timetable->block->name or ''}}</h3></p>
                 <h4>{{ $timetable->lesson_type->name }}, {{ $timetable->hours }} ч.</h4>
                 <p>Группа: <strong>{{$timetable->group->name}}</strong>, поток: <strong>{{$timetable->group->stream->name}}</strong></p>
+                
                 <p>Период обучения: {{$timetable->group->stream->date_start}} — {{$timetable->group->stream->date_finish}}</p>
                     <hr>
                     <form action='' method='post'>
-                    
+                        <label>Подгруппа (если деление на подгруппы не предусмотрено, введите 0): </label>
+                        <input type='number' name='subgroup' value='{{$timetable->subgroup}}' class='form-control-static'>
                     @if (isset($timetable->rasp->date))
                     
                         Занятие назначено на 

@@ -66,7 +66,7 @@
                          
                             
                             <select name='stream_id' id='produce' class='form-control-static blue' onChange='form.submit()' >
-                                <option value='0' >Показать всю нераспределенную нагрузку (первые 200 записей)</option>
+                                <option value='0' >Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
                         @foreach(\App\Stream::orderBy('name')->where('active', 1)->where('year', $year)->orderby('name')->orderby('date_start')->get() as $stream)
                         
                         @php 
@@ -80,14 +80,19 @@
                         @if ($stream->id == $stream_id)
                         
                         <option value='{{ $stream->id }}' selected>
-                            {{substr($stream->date_start, 5, 2)}}: 
-                            {{$stream->name}} - 
-                            {{ str_limit($stream_program) }}</option>
+                            {{substr($stream->date_start, 5, 2)}} :: 
+                             
+                            {{ str_limit($stream_program, 50) }}
+                        
+                         :: {{$stream->name}}
+                        </option>
                         @else
                         <option value='{{ $stream->id }}'>
-                            {{substr($stream->date_start, 5, 2)}}: 
-                            {{$stream->name}} - 
-                            {{ str_limit($stream_program) }}</option>
+                            {{substr($stream->date_start, 5, 2)}} :: 
+                             
+                            {{ str_limit($stream_program, 50) }} ::
+                            {{$stream->name}}
+                        </option>
                         @endif
                         @endforeach
                         
@@ -122,12 +127,17 @@
                         
                         @endif
 
-                        
+                         @include('include.excel_button')
+                         
                         @if ($stream_id)
+                        
+
                         
                         <table class="table table-bordered display" id="sortTable">
                             <thead><tr><th>id</th>
-                                <th>Поток/группа</th>
+                                <th>Поток</th>
+                                <th>Группа</th>
+                                <th>Подгруппа</th>
                                 <th>Период обучения</th>
                                 <th>Укрупненная тема</th>
                                 <th>Дисциплина, тема</th>
@@ -145,7 +155,10 @@
                                 <tr>
                                 <td>id</td>
                                 <td class="filter" ></td>
+                                <td class="filter" ></td>
                                 <td></td>
+                                <td></td>
+                                <td class="filter"></td>
                                 <td class="filter"></td>
                                 <td></td>
                                 <td class="filter"></td>
@@ -187,13 +200,14 @@
                                 @endif
         
                             </td>
-                            <td><nobr>{{$timetable->group->stream->name}}</nobr><br> 
-                            <nobr>{{$timetable->group->name}}</nobr>
+                            <td>{{$timetable->group->stream->name}}</td>
+                            
+                            <td>{{$timetable->group->name}}</td>
                         
-                        
+                            <td>
                          @if(in_array($timetable->lessontype, [2, 11]))
                                 @if($timetable->subgroup)
-                                Подгруппа {{$timetable->subgroup}}
+                                {{$timetable->subgroup}}
                                 @else
                                 <a href="workload/split/{{$timetable->id}}">разделить на подгруппы</a>
                                 @endif
@@ -203,22 +217,18 @@
                         <td><div style="display: none !important">{{$timetable->group->stream->date_start}}
                                 </div>
                             
-                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_start))}}
-                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_finish))}}
-                            <br>
+                                {{ date('d.m', strtotime($timetable->group->stream->date_start))}} - 
+                                {{ date('d.m', strtotime($timetable->group->stream->date_finish))}}
+                            
                             </td>
                             <td>
                             <p><small class="blue">{{ $timetable->block->largeblock->name or '-' }}</small></p>
                             </td>
                             <td><strong></strong>
-                                @if( isset($timetable->block->name) && $timetable->block->active )
-                                <i class='fa fa-check-circle green'></i>
-                                @endif
-                                &nbsp;
                                 {{ $timetable->block->id or '' }} 
                                 {{ $timetable->block->name or '' }}
-                                <br/>
-                                <small>{{ $timetable->block->discipline->name or '' }}</small>
+                                
+                               {{-- <small>{{ $timetable->block->discipline->name or '' }}</small> --}}
                                 @if($timetable->discipline_id) <span class='green'><strong>Аттестация</strong>
                                         {{ \App\Discipline::find($timetable->discipline_id)->name}}</span>
                                 @endif
@@ -253,13 +263,13 @@
                             
                             <td>
                             @if (isset($timetable->block->department_id))
-                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike><br/>
+                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike>
                                 {{ $timetable->block->department->name }}
                                 @else
                                 {{ $timetable->block->discipline->department->name or '' }}
                                 @endif
                             </td>
-                            <td>{{ $timetable->hours }} ч<br/>
+                            <td>{{ $timetable->hours }} ч - 
                             {{ $timetable->lesson_type->name or 'не определено'}}
                             </td>
   
@@ -267,7 +277,7 @@
                                 @if($timetable->teachers->count())
                                 
                                 @foreach($timetable->teachers as $teacher)
-                                    <span class="green"><strong>{{$teacher->secname()}}</strong><br/></span>
+                                    <span class="green"><strong>{{$teacher->secname()}}</strong> </span>
                                         @if($teacher->id == Auth::user()->id)
                                         @php ($i++)
                                     @endif
@@ -319,7 +329,10 @@
 
                         <table class='table table-bordered' id='sortTable'>
                              <thead><tr><th>id</th>
-                                <th>Поток/группа</th>
+                                         <th>Поток</th>
+                                             
+                                <th>Группа</th>
+                                <th>Подгруппа</th>
                                 <th>Период обучения</th>
                                 <th>Укрупненная тема</th>
                                 <th>Дисциплина, тема</th>
@@ -347,7 +360,7 @@
                                                     ->leftjoin('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                                                     ->where('teachers2timetable.id', NULL)
                                                     ->where('streams.year', $year)
-                                                    ->limit(10000)
+                                                    ->limit(2000)
                                                     ->get() as $timetable) 
 
                         <tr>
@@ -367,40 +380,35 @@
 
                             </td>
 
-                                                   <td><nobr>{{$timetable->group->stream->name}}</nobr><br> 
-                            <nobr>{{$timetable->group->name}}</nobr>
-                        
+                            <td>{{$timetable->group->stream->name}}</td>
+                            <td>{{$timetable->group->name}}</td>
+                            <td>
                         
                          @if(in_array($timetable->lessontype, [2, 11]))
                                 @if($timetable->subgroup)
-                                Подгруппа {{$timetable->subgroup}}
+                                {{$timetable->subgroup}}
                                 @else
-                                <a href="workload/split/{{$timetable->id}}">разделить на подгруппы</a>
+                                <a href="workload/split/{{$timetable->id}}">разделить</a>
                                 @endif
                                 @endif
                         
                         </td>
-                        <td><div style="display: none !important">{{$timetable->group->stream->date_start}}
-                                </div>
+                        <td>{{ date('d.m', strtotime($timetable->group->stream->date_start))}} - 
+                            {{ date('d.m', strtotime($timetable->group->stream->date_finish))}}
                             
-                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_start))}}
-                                {{ date('d.m.Y', strtotime($timetable->group->stream->date_finish))}}
-                            <br>
                             </td>
                             
                             
                             <td>
                             <p><small class="blue">{{ $timetable->block->largeblock->name or '-' }}</small></p>
                             </td>
-                            <td><strong></strong>
-                                @if( isset($timetable->block->name) && $timetable->block->active )
-                                <i class='fa fa-check-circle green'></i>
-                                @endif
+                            <td>
+
                                 &nbsp;
                                 {{ $timetable->block->id or '' }} 
                                 {{ $timetable->block->name or '' }}
-                                <br/>
-                                <small>{{ $timetable->block->discipline->name or '' }}</small>
+                                
+                              {{--  <small>{{ $timetable->block->discipline->name or '' }}</small> --}}
                                 @if($timetable->discipline_id) <span class='green'><strong>Аттестация</strong>
                                         {{ \App\Discipline::find($timetable->discipline_id)->name}}</span>
                                 @endif
@@ -435,53 +443,32 @@
                             
                             <td>
                             @if (isset($timetable->block->department_id))
-                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike><br/>
+                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike> 
                                 {{ $timetable->block->department->name }}
                                 @else
                                 {{ $timetable->block->discipline->department->name or '' }}
                                 @endif
                             </td>
-                            <td>{{ $timetable->hours }} ч<br/>
+                            <td>{{ $timetable->hours }} ч 
                             {{ $timetable->lesson_type->name or 'не определено'}}
                             </td>
   
-                            <td>@php ($i = 0)
-                                @if($timetable->teachers->count())
-                                
-                                @foreach($timetable->teachers as $teacher)
-                                    <span class="green"><strong>{{$teacher->secname()}}</strong><br/></span>
-                                        @if($teacher->id == Auth::user()->id)
-                                        @php ($i++)
-                                    @endif
-                                @endforeach
+                            <td>
                                                                 
-                                @else 
+                                
                                 <span class="badge white">!не распределено</span>
-                                @endif
+                                
                                 
                             </td>
-                            {{--<td>
-                                {{$timetable->month or ''}}
-                            </td>--}}
+
                             <td>
-                                @if($timetable->rasp_id)
-                                Назначено на:
-                                <a href="{{url('rasp')}}?date={{$timetable->rasp->date or ''}}">{{$timetable->rasp->date or ''}}</a>
-                                @else
-                                @if($i == 0)
-                                
+
                                 @if(in_array(Auth::user()->role_id, [2]))
                                     <a href="{{url('workload/get')}}/{{$timetable->id}}" class="btn btn-success">Взять нагрузку</a>
                                 @else
                                     <a href="workload/edit/{{$timetable->id}}" class="btn btn-primary" name="{{$timetable->id}}">Распределить</a>
-                                @endif
-                            
-                                @else
-                                
-                                <a href="{{url('workload/cancel')}}/{{$timetable->id}}" class="btn btn-danger">Отказаться</a>
-
-                        @endif  
-                        @endif
+                                @endif  
+                        
 
    
                         </td>

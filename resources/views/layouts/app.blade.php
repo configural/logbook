@@ -14,6 +14,8 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css">
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>    
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>  
+        
+        <script src="http://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
        
         @yield('head_links')
         
@@ -95,7 +97,7 @@
                 @yield('content')
             </div>
         </div>
-
+    </body>
         <!-- Scripts -->
 
         <script>
@@ -103,6 +105,7 @@
                 $('#sortTable').DataTable(
                         {
                             "stateSave": true,
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
                             "pageLength": 25,
                             "scrollX": true,
 
@@ -135,8 +138,14 @@
 
 
         </script>
-<script src="{{url('/')}}/js/filter.js"></script>
-
+        <script src="{{url('/')}}/js/filter.js"></script>
+<script>
+$("#toExcel").click(function(){
+$("#sortTable").table2excel({
+filename: "result.xls"
+});
+});
+</script>
         <!---->
         @yield('footer_code')
     </body>

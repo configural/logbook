@@ -60,7 +60,12 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         
                         <button class="btn btn-success">Обновить</button>
-                    <p>Для печати нажмите Ctrl + P</p>
+                    
+                    
+                        @if ($user_id)
+                        @include('include.excel_button')
+                        @endif
+                    
                     </form>
                     
                     @if($user_id)
@@ -120,4 +125,6 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
         </div>
     </div>
 </div>
+
+
 @endsection

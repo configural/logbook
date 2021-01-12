@@ -59,16 +59,21 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         
                         <button class="btn btn-success">Обновить</button>
-                    <p>Для печати нажмите Ctrl + P</p>
+                    
+                        @if ($user_id)
+                        @include('include.excel_button')
+                        @endif
+                        
                     </form>
                     
                     @if($user_id)
                     
-                    <h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3>
+                    
                     
                     
                     
                     <table class='table table-bordered' id="sortTable">
+                        <caption><h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3></caption>
                         <thead>
                             <tr>
                                 <th>Период обучения</th>
@@ -94,8 +99,8 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    ->get() as $timetable
                    )
                    <tr>
-                       <td>{{date('d.m.Y', strtotime($timetable->group->stream->date_start))}}<br>{{date('d.m.Y', strtotime($timetable->group->stream->date_finish))}}
-                       
+                       <td>
+                        <nobr>{{date('d.m', strtotime($timetable->group->stream->date_start))}}<nobr> - <nobr>{{date('d.m', strtotime($timetable->group->stream->date_finish))}}</nobr>
                        </td>
                        <td>{{$timetable->group->name}}</td>
                        <td>{{$timetable->group->stream->name}}</td>
