@@ -21,7 +21,7 @@
                             ->where('streams.date_finish', '>=', $date)
                             ->get() as $group)
                             @if($group->stream->active)
-                            <option value="{{ $group->id }}">{{ $group->stream->name }} / {{ $group->name }}</option>
+                            <option value="{{ $group->id }}">{{ $group->name }} :: {{ $group->stream->name }}</option>
                             @endif
                             @endforeach
                             

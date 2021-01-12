@@ -28,6 +28,7 @@
                     <h3>Занятия на {{$date}}</h3>
                 <table class='table table-bordered'>
                     <tr>
+                        <th>id</th>
                         <th>Время</th>
                         <th>Группа</th>
                         <th>Тема занятия</th>
@@ -39,6 +40,7 @@
                 @foreach($rasp->timetable->teachers as $teacher)
                     @if($teacher->id == $me)
                     <tr>
+                        <td>{{ $rasp->id }}</td>
                         <td  class="largetext">{{ substr($rasp->start_at, 0, 5)}}</td>
                         <td  class="largetext"><nobr>{{$rasp->timetable->group->name or ''}}</nobr>
                         @if ($rasp->timetable->subgroup or '')

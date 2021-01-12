@@ -75,13 +75,14 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     <table class='table table-bordered' id="sortTable">
                         <caption><h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3></caption>
                         <thead>
-                            <tr>
-                                <th>Период обучения</th>
-                                <th>Группа</th>
-                                <th>Поток</th>
+                            <tr><td>Месяц</td>
                                 <th>Тема</th>
                                 <th>Тип</th>
                                 <th>Часы</th>
+                                <th>Группа</th>
+                                <th>Поток</th>
+                                <th>Период обучения</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -99,14 +100,17 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    ->get() as $timetable
                    )
                    <tr>
+                       <td>{{$timetable->month}}</td>
+                                              <td>{{ @str_limit($timetable->block->name)}}</td>
+                       <td>{{ $timetable->lesson_type->name}}</td>
+                       <td>{{ $timetable->hours}}</td>
+                       
+                       <td>{{$timetable->group->name}}</td>
+                       <td>{{$timetable->group->stream->name}}</td>
                        <td>
                         <nobr>{{date('d.m', strtotime($timetable->group->stream->date_start))}}<nobr> - <nobr>{{date('d.m', strtotime($timetable->group->stream->date_finish))}}</nobr>
                        </td>
-                       <td>{{$timetable->group->name}}</td>
-                       <td>{{$timetable->group->stream->name}}</td>
-                       <td>{{ @str_limit($timetable->block->name)}}</td>
-                       <td>{{ $timetable->lesson_type->name}}</td>
-                       <td>{{ $timetable->hours}}</td>
+
                    </tr>
                    
                    @php 
