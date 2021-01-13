@@ -13,6 +13,10 @@ class Largeblock extends Model
         return $this->hasMany('\App\Block', 'largeblock_id', 'id');
     }
 
+    public function department() {
+        return $this->hasOne('\App\Department', 'id', 'department_id');
+    }
+    
     
     public static function largeblock_hours($id, $date1, $date2) {
         $largeblock = Largeblock::find($id);

@@ -62,46 +62,59 @@
 
                         
                         <form method="get">
+                            <p>
                             Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static' onChange='form.submit()'>
-                         
-                            
+
                             <select name='stream_id' id='produce' class='form-control-static blue' onChange='form.submit()' >
                                 <option value='0' >Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
-                        @foreach(\App\Stream::orderBy('name')->where('active', 1)->where('year', $year)->orderby('name')->orderby('date_start')->get() as $stream)
-                        
-                        @php 
-                        if ($stream->programs->count()) {
-                        $stream_program = $stream->programs->first()->name;
-                        } else {
-                        $stream_program = "---";
-                        }
-                        @endphp
-                        
-                        @if ($stream->id == $stream_id)
-                        
-                        <option value='{{ $stream->id }}' selected>
-                            {{substr($stream->date_start, 5, 2)}} :: 
-                             
-                            {{ str_limit($stream_program, 50) }}
-                        
-                         :: {{$stream->name}}
-                        </option>
-                        @else
-                        <option value='{{ $stream->id }}'>
-                            {{substr($stream->date_start, 5, 2)}} :: 
-                             
-                            {{ str_limit($stream_program, 50) }} ::
-                            {{$stream->name}}
-                        </option>
-                        @endif
-                        @endforeach
-                        
-                        
-                        
-                        </select>
+                                @foreach(\App\Stream::orderBy('name')->where('active', 1)->where('year', $year)->orderby('name')->orderby('date_start')->get() as $stream)
+
+                                    @php 
+                                        if ($stream->programs->count()) {
+                                        $stream_program = $stream->programs->first()->name;
+                                        } else {
+                                        $stream_program = "---";
+                                        }
+                                    @endphp
+
+                                    @if ($stream->id == $stream_id)
+
+                                        <option value='{{ $stream->id }}' selected>
+                                        {{substr($stream->date_start, 5, 2)}} :: 
+                                        {{ str_limit($stream_program, 50) }}
+                                        :: {{$stream->name}}
+                                        </option>
+                                    @else
+                                        <option value='{{ $stream->id }}'>
+                                        {{substr($stream->date_start, 5, 2)}} :: 
+                                        {{ str_limit($stream_program, 50) }} ::
+                                        {{$stream->name}}
+                                        </option>
+                                    @endif
+                                @endforeach
+                         </select>
 
                             
                             <button class='btn btn-primary'>Отфильтровать</button>
+                        </p>
+                        <p>
+                            {{--
+                            @if ($stream_id)
+                            Выберите группу: 
+                            <select name="filterGroup" id="filterGroup" class="form-control-static">
+                                
+                                @foreach(\App\Stream::find($stream_id)->groups as $gr)
+                                <option value="{{$gr->name}}">{{$gr->name}}</option>
+                                @endforeach
+                                
+                            </select>
+                            
+                            @endif
+                            --}}
+                            
+                        </p>
+                        
+                        
                         </form>
                         </p>
                         @if(in_array(Auth::user()->role_id, [3,4,6]))
@@ -154,17 +167,17 @@
                             <tfoot>
                                 <tr>
                                 <td>id</td>
-                                <td class="filter" ></td>
-                                <td class="filter" ></td>
                                 <td></td>
                                 <td></td>
-                                <td class="filter"></td>
-                                <td class="filter"></td>
                                 <td></td>
-                                <td class="filter"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 
-                                <td class="filter"></td>
+                                <td></td>
                               
                                 <td></td>
                                 </tr></tfoot>
@@ -262,12 +275,7 @@
                             <td>{{$timetable->month}}</td>
                             
                             <td>
-                            @if (isset($timetable->block->department_id))
-                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike>
-                                {{ $timetable->block->department->name }}
-                                @else
-                                {{ $timetable->block->discipline->department->name or '' }}
-                                @endif
+                                {{ $timetable->block->largeblock->department->name or '' }}
                             </td>
                             <td>{{ $timetable->hours }} ч - 
                             {{ $timetable->lesson_type->name or 'не определено'}}
@@ -400,7 +408,7 @@
                             
                             
                             <td>
-                            <p><small class="blue">{{ $timetable->block->largeblock->name or '-' }}</small></p>
+                            <p><small class="blue">{{ $timetable->block->largeblock->name or '!нет привязки' }}</small></p>
                             </td>
                             <td>
 
@@ -441,14 +449,7 @@
                             
                             <td>{{$timetable->month}}</td>
                             
-                            <td>
-                            @if (isset($timetable->block->department_id))
-                            <strike title="Эта тема в УТП прикреплена к {{ $timetable->block->department->name }}">{{ $timetable->block->discipline->department->name or '' }}</strike> 
-                                {{ $timetable->block->department->name }}
-                                @else
-                                {{ $timetable->block->discipline->department->name or '' }}
-                                @endif
-                            </td>
+                            <td>{{ $timetable->block->largeblock->department->name or '' }}</td>
                             <td>{{ $timetable->hours }} ч 
                             {{ $timetable->lesson_type->name or 'не определено'}}
                             </td>
@@ -492,17 +493,42 @@
 
 <script>
 
-var $window = $(window)
+var $window = $(window);
 /* Restore scroll position */
-window.scroll(0, localStorage.getItem('scrollPosition')|0)
+window.scroll(0, localStorage.getItem('scrollPosition')|0);
 /* Save scroll position */
 $window.scroll(function () {
     localStorage.setItem('scrollPosition', $window.scrollTop())
-})
+});
 
-
+ 
 
 </script>
+
+<script>
+/*
+$('#filterGroup').on("click change", function() {
+   var group_name = $("#filterGroup option:selected").val();
+    $('#sortTable').DataTable().destroy();
+    $('#sortTable').DataTable().column(2).search(
+        $('#filterGroup').val(),
+    ).draw();
+localStorage.group_name = group_name;
+}); 
+
+
+    
+$(document).ready(function() {
+  $('#filterGroup option').each(function () {
+        if (this.value === localStorage.group_name) {
+        $('#filterGroup option[value=' + localStorage.group_name+ ']').prop('selected', true);
+        }
+    $('#filterGroup').click();
+    });
+    });
+*/
+        </script>
+
 
 @endsection
 

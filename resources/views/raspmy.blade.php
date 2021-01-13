@@ -27,10 +27,11 @@
                             
                             <th width='10%'>Дата</th>
                             <th width='10%'>Время</th>
-                            <th width='10%'>Группа</th>
                             <th width='10%'>Аудитория</th>
+                            <th width='10%'>Группа</th>
+                            <th width='10%'>Поток</th>
+                            <th width='40%'>Тема в расписании</th>
                             <th width='10%'>Методист</th>
-                            <th width='50%'>Тема в расписании</th>
                             
                             
                         </tr>  
@@ -43,18 +44,18 @@
                         
                         <tr>
                             <td><nobr>{{ $timetable->rasp->date or ''}}</nobr></td>
-                            <td>{{ $timetable->rasp->start_at or ''}}<br>
-                                {{ $timetable->rasp->finish_at or ''}}</td>
-                            <td>{{ $timetable->group->name or ''}}</td>
+                    <td>{{ str_limit($timetable->rasp->start_at,5, '') }} - {{ str_limit($timetable->rasp->finish_at, 5, '')}}</td>
+                            
                             <td>{{ $timetable->rasp->classroom->name or ''}}</td>
-                            <td>
-                                @if ($timetable->group->stream->metodist_id)
-                                {{ $timetable->group->stream->metodist->fio()}}
-                                @endif
-                            </td>
+                            <td>Группа {{ $timetable->group->name or ''}}</td>
+                            <td>{{ $timetable->group->stream->name or ''}}</td>
                                 
                             <td><strong>{{$timetable->lesson_type->name}}</strong>: {{ $timetable->block->name or ''}} </td>
-                            
+                                 <td>
+                                @if ($timetable->group->stream->metodist_id)
+                                 <nobr>{{ $timetable->group->stream->metodist->fio()}}</nobr>
+                                @endif
+                            </td>                       
                         </tr>
                         @endforeach
                     </tbody>
