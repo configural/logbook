@@ -9,7 +9,7 @@
                 <div class="panel-heading ">Добавление договора</div>
                 <div class="panel-body">
             
-                @if(in_array(Auth::user()->role_id, [3, 4]) and \App\User::find($contract->user_id)->freelance)    
+                @if(in_array(Auth::user()->role_id, [3, 4, 6]) and \App\User::find($contract->user_id)->freelance)    
                 <form  method="post">
                     <input type="hidden" name="user_id" value="{{ $contract->id }}">
                     <h3>

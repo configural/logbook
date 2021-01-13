@@ -6,7 +6,7 @@
                         
                         
                         
-                        
+                        <div class="icon"><a href="{{route('users')}}"><i class="fa fa-user fa-3x red"></i><br/>Пользователи системы</a></div>
                         
                         <div class="icon"><a href="{{route('workload')}}"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Аудиторная нагрузкаи</a></div>
                         <div class="icon"><a href="{{route('vneaud')}}"><i class="fa fa-pie-chart fa-3x blue"></i><br/>Внеаудиторная нагрузка</a></div>

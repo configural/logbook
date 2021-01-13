@@ -47,7 +47,7 @@ class ReportController extends Controller
 
         $sheet = $spreadsheet->getActiveSheet();
         $group = \App\Group::find($group_id);
-        $sheet->setCellValue('C6', 'Расписание занятий: ' . $group->name);
+        $sheet->setCellValue('C6', 'Расписание занятий: Группа ' . $group->name);
         $sheet->setCellValue('C7', date('d.m.Y', strtotime($date1)) . " — " . date('d.m.Y', strtotime($date2)));
         $sheet->setCellValue('A8', $group->stream->programs->first()->name);
         $sheet->setCellValue('A8', $group->stream->programs->first()->name);
