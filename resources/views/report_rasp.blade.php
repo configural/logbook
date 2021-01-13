@@ -11,7 +11,7 @@
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
-                    <form method="post">
+                    <form method="post" action="{{route('rasp_xls')}}">
                         <p><label>Группа</label> <br/>
                         <select name="group_id" class="form-control-static">
                             @foreach(\App\Group::select('groups.*')
