@@ -54,9 +54,9 @@ $total_hours_distributed = 0;
                         <thead>
                         <tr>
                             <th>Укрупненная тема</th>
-                            <th>Всего часов</th>
+                            <th>Не распределено часов</th>
                             <th>Распределено часов</th>
-                            <th>Остаток часов</th>
+                            <th>Всего часов</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -65,7 +65,7 @@ $total_hours_distributed = 0;
                         <td>{{ $largeblock->name}}</td>
                         <td>
                             @php
-                            $hours1 = \App\Largeblock::largeblock_hours($largeblock->id, $date1, $date2);
+                            $hours1 = \App\Largeblock::largeblock_hours_undistributed($largeblock->id, $date1, $date2);
                             $total_hours += $hours1;
                             @endphp
                             
@@ -81,7 +81,7 @@ $total_hours_distributed = 0;
                             {{$hours2}}
                         </td>
                         @php
-                        $delta = $hours1 - $hours2;
+                        $delta = $hours1 + $hours2;
                         @endphp
                         <td>{{ $delta }}</td>
                         <tr>
@@ -93,7 +93,7 @@ $total_hours_distributed = 0;
                         <td>{{$total_hours}}</td>
                         <td>{{$total_hours_distributed}}</td>
                         <td>
-                            @php ($delta = $total_hours - $total_hours_distributed)
+                            @php ($delta = $total_hours + $total_hours_distributed)
                             {{$delta}}
                         </td>
                     </tr>

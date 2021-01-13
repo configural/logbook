@@ -59,11 +59,11 @@ $_SESSION["work_with"] = "rasp";
                             @php($finish = $rasp->finish_at)    
                              
                         <td width='40%'>   {{$rasp->timetable->lesson_type->name or 'Нет данных' }}:  {{$rasp->timetable->block->name or ''}}</td>
-                         <td width='15%'>{{$rasp->timetable->group->name or ''}}</td>
+                         <td width='15%'>Группа: {{$rasp->timetable->group->name or ''}}</td>
                             <td width='15%'>
                             @if($rasp->timetable)
                                 @foreach($rasp->timetable->teachers as $teacher)
-                            {{$teacher->fio() }}
+                            <nobr>{{$teacher->fio() }}</nobr><br>
                             
                             @endforeach
                             @endif

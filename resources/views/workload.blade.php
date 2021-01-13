@@ -347,12 +347,16 @@
                                 <th>Месяц</th>
                                 <th>Кафедра</th>
                                 <th>Часы</th>
-                                
+                                <th>Вид</th>
                                 <th>Преподавател(и)</th>
                                
                                 <th>Действия</th>
                                 
                                 </tr></thead>                           
+                             
+
+                             
+                             
                              <tbody>  
  <!--///////////////////////////////////////////////////////////////////////////
  
@@ -361,6 +365,10 @@
  200 записями.
  
  ###########################################################################-->
+ 
+    @php
+    $total_hours = 0;
+    @endphp
  
                         @foreach(\App\Timetable::selectRaw('streams.*, groups.*, timetable.*')
                                                     ->join('groups', 'groups.id', '=', 'timetable.group_id')
@@ -450,7 +458,10 @@
                             <td>{{$timetable->month}}</td>
                             
                             <td>{{ $timetable->block->largeblock->department->name or '' }}</td>
-                            <td>{{ $timetable->hours }} ч 
+                            <td>{{ $timetable->hours }}
+                            @php ($total_hours += $timetable->hours)
+                            </td>
+                            <td>
                             {{ $timetable->lesson_type->name or 'не определено'}}
                             </td>
   
@@ -476,6 +487,25 @@
                         </tr>
                         @endforeach
                         </tbody>
+                        
+                        <tfoot>
+                                <tr>
+                                <td>id</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $total_hours}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              
+                                <td></td>
+                        </tr></tfoot>
+                        
                         </table>
                         @endif
                     </div>
