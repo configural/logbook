@@ -13,10 +13,15 @@ use Carbon\Carbon;
 class ReportController extends Controller
 {
     //
-    public function user_journal_list($user_id) {
+    public function user_journal_list($user_id, $year = 0) {
+        if (!$year) {
+            $year = date('Y');
+        }
         $user = \App\User::find($user_id);
-        $journals = \App\Journal::where('teacher_id', $user_id)->orderBy('created_at', 'desc')->get();
-        return view('report_journal_list', ['journals' => $journals, "user" => $user]);
+        $journals = \App\Journal::join('rasp', 'rasp.id', '=', 'journal.rasp_id')
+                ->where('rasp.date', 'like', $year . '%')
+                ->where('teacher_id', $user_id)->orderBy('journal.created_at', 'desc')->get();
+        return view('report_journal_list', ['journals' => $journals, "year" => $year,  "user" => $user]);
         
     }
     

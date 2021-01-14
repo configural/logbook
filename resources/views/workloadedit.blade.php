@@ -21,7 +21,7 @@
                 <p>Период обучения: {{$timetable->group->stream->date_start}} — {{$timetable->group->stream->date_finish}}</p>
                     <hr>
                     <form action='' method='post'>
-                        <label>Подгруппа (если деление на подгруппы не предусмотрено, введите 0): </label>
+                        <label>Подгруппа (если деление на подгруппы не предусмотрено, оставьте поле ПУСТЫМ): </label>
                         <input type='number' name='subgroup' value='{{$timetable->subgroup}}' class='form-control-static'>
                     @if (isset($timetable->rasp->date))
                     

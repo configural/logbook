@@ -8,7 +8,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading ">Создание пользователя</div>
                 <div class="panel-body">
-                @if(in_array(Auth::user()->role_id, [3, 4]))    
+                @if(in_array(Auth::user()->role_id, [3, 4, 6]))    
                 <form action="add" method="post">
                           
                           <p><label>ФИО</label><input type="text" value="" class="form-control" name="name" required></p>

@@ -220,7 +220,7 @@
                             <td>
                          @if(in_array($timetable->lessontype, [2, 11]))
                                 @if($timetable->subgroup)
-                                {{$timetable->subgroup}}
+                                подгр. {{$timetable->subgroup}}
                                 @else
                                 <a href="workload/split/{{$timetable->id}}">разделить на подгруппы</a>
                                 @endif
@@ -402,7 +402,7 @@
                         
                          @if(in_array($timetable->lessontype, [2, 11]))
                                 @if($timetable->subgroup)
-                                {{$timetable->subgroup}}
+                                подгр. {{$timetable->subgroup}}
                                 @else
                                 <a href="workload/split/{{$timetable->id}}">разделить</a>
                                 @endif
@@ -420,8 +420,7 @@
                             </td>
                             <td>
 
-                                &nbsp;
-                                {{ $timetable->block->id or '' }} 
+                                {{ $timetable->block->id or '' }} ::
                                 {{ $timetable->block->name or '' }}
                                 
                               {{--  <small>{{ $timetable->block->discipline->name or '' }}</small> --}}

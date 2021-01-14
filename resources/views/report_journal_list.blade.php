@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -6,9 +5,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Журнал преподавателя</div>
+                <div class="panel-heading ">Журнал преподавателя - {{ $year }} год</div>
 
                 <div class="panel-body">
+                    
                     
                     <p><a href="{{ route('home')}}">В начало</a> —
                     <a href="{{ route('report_journal')}}">Журналы преподавателей</a>

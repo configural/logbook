@@ -177,7 +177,8 @@ class WorkloadController extends Controller
             return redirect('workload');
         } else {
             echo "что-то пошло не так!";
-             dump($w1);
+            dump($error); 
+            dump($w1);
         }
        
         

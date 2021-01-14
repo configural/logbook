@@ -1,6 +1,24 @@
 
 @extends('layouts.app')
 
+
+@php
+    session_start();
+
+    if (isset($_GET["year"])) {
+            $year = $_GET["year"];
+            $_SESSION["year"] = $year;
+            }
+    elseif (isset($_SESSION["year"])) {
+            $year = $_SESSION["year"];      
+        } else {
+            $year = date('Y');
+        }
+ 
+    $_SESSION["year"] = $year;    
+
+@endphp 
+
 @section('content')
 
     <div class="row-fluid">
@@ -9,6 +27,17 @@
                 <div class="panel-heading">Потоки</div>
 
                 <div class="panel-body">
+                    
+                    
+                                            <form method="get">
+                            <p>
+                            Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static' onChange='form.submit()'>
+
+                            <button class='btn btn-primary'>Отфильтровать</button>
+                        </p>
+                    
+                    
+                    
                     @if(Auth::user()->role_id >= 3)
                     <p><a href="{{url('stream/add')}}" class="btn btn-success">Создать поток</a></p>
                     
@@ -27,7 +56,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(\App\Stream::select()->orderBy('active', 'desc')->orderBy('date_start', 'desc')->get() as $stream)
+                            @foreach(\App\Stream::select()->where('year', $year)->orderBy('active', 'desc')->orderBy('date_start', 'desc')->get() as $stream)
                             <tr class="">
                                 <td><nobr>{{ $stream->id }}</nobr></td>
                                 <td><a href="{{url('/')}}/stream/{{$stream->id}}/edit">{{ $stream->name }}</a></td>

@@ -52,7 +52,9 @@ class GroupController extends Controller
     
     public function add_empty_students(Request $request) {
         for ($i = 0; $i < $request->count; $i++) {
-            $student = new Student;            
+            $student = new Student;  
+            if ($i%2) {$student->subgroup = 2;}
+            else {$student->subgroup = 1;}
             $student->group_id = $request->group_id;
             $student->name = "student";
             $student->save();

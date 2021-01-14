@@ -16,7 +16,8 @@
                     <form action="{{url('/')}}/group/addemptystudents" method="post">
                         <h3>Добавление «пустых» записей</h3>
                         <p><input type="hidden" name="group_id" value="{{$id}}"></p>
-                        <label>Количество создаваемых записей (от 1 до 100): </label> <input name="count" value="20" type="number" class="form-control-static" min="1" max="100" required>
+                        <label>Количество создаваемых записей (от 1 до 100): </label> 
+                        <input name="count" value="2" type="number" class="form-control-static" min="2" max="100" required>
                         {{ csrf_field() }}
                         <button class="btn btn-success">Заполнить группу пустыми записями</button>
                     </form>

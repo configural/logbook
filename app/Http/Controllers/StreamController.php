@@ -57,14 +57,12 @@ class StreamController extends Controller
             foreach ($program->disciplines as $discipline) {
                 $block = $discipline->blocks;
                 foreach($block as $b) {
-                    
-                    
-                    
+
                     DB::table('timetable')
+                            ->where('group_id', $group_id)
                             ->where('block_id', $b->id)
                             ->orWhere('discipline_id', $b->discipline->id)
                             ->orWhere('program_id', $program_id)
-                            ->where('group_id', $group_id)
                             ->delete();
                     }
             }
