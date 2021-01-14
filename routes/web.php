@@ -148,7 +148,7 @@ Route::post('/classroom/edit/{id}', 'ClassroomController@store')->middleware('au
 Route::get('/reports/journal', function() {return view('report_journal');})->middleware('auth')->name('report_journal');
 Route::get('/reports/journal/{user_id}/', 'ReportController@user_journal_list')->middleware('auth');
 //Route::get('/reports/journal/{user_id}/{year}', 'ReportController@user_journal_list')->middleware('auth');
-Route::get('/reports/journal/view/{id}', 'ReportController@view_journal')->middleware('auth');
+    Route::get('/reports/journal/view/{id}', 'ReportController@view_journal')->middleware('auth');
 Route::get('/reports/rasp', function() {return view('report_rasp', ['date' => date('Y-m-d')]);})->name('print_rasp')->middleware('auth');
 Route::get('/reports/rasp/{date}', function($date) {return view('report_rasp', ['date' => $date]);})->middleware('auth');
 Route::post('/reports/rasp', 'ReportController@rasp_group')->name('rasp_xls')->middleware('auth');

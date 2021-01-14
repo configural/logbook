@@ -42,10 +42,12 @@
  .largetext {font-size: 1.25em;}
  label {cursor: pointer; user-select: none;  }
  textarea {min-height: 100px;}
- 
-table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}
+
+ table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}
  table.dataTable thead .sorting_asc:after {content: "▲" !important; color: darkorange;}
  table.dataTable thead .sorting:after {opacity: 0.2; content: "▲▼" !important;}
+ table {width: 100% !important;   }
+ 
  .cross {background: red; color: white;}
  .onpage {border-bottom: 1px #6C97D4 dashed; cursor: pointer;}
  .onpage:hover {text-decoration: none;}
@@ -64,3 +66,4 @@ table.dataTable thead .sorting_desc:after {content: "▼" !important; color: dar
 }
 
 summary {color: blue; font-weight: bold; cursor: pointer; }
+select option[disabled] { color: #000;  background: #eee; }

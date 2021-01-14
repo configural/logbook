@@ -28,6 +28,8 @@
     $_SESSION["year"] = $year;    
     //dump($stream_id);
     
+    $prev_program_name = "";
+    
 @endphp 
 
 
@@ -67,7 +69,11 @@
 
                             <select name='stream_id' id='produce' class='form-control-static blue' onChange='form.submit()' >
                                 <option value='0' >Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
-                                @foreach(\App\Stream::orderBy('name')->where('active', 1)->where('year', $year)->orderby('name')->orderby('date_start')->get() as $stream)
+                                @foreach(\App\Stream::selectRaw('streams.*, programs.name as program_name')
+                                ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                                ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
+                                ->orderby('programs.name')
+                                ->where('streams.active', 1)->where('streams.year', $year)->orderby('streams.date_start')->get() as $stream)
 
                                     @php 
                                         if ($stream->programs->count()) {
@@ -75,22 +81,31 @@
                                         } else {
                                         $stream_program = "---";
                                         }
+                                        
+                                        
                                     @endphp
 
+                                    @if ($prev_program_name != str_limit($stream->program_name, 1))
+                                    <option disabled="">{{ str_limit($stream->program_name, 1, '') }}</option>
+                                    @endif
+                                    
                                     @if ($stream->id == $stream_id)
 
                                         <option value='{{ $stream->id }}' selected>
                                         {{substr($stream->date_start, 5, 2)}} :: 
-                                        {{ str_limit($stream_program, 50) }}
+                                        {{ str_limit($stream_program, 70) }}
                                         :: {{$stream->name}}
                                         </option>
                                     @else
                                         <option value='{{ $stream->id }}'>
                                         {{substr($stream->date_start, 5, 2)}} :: 
-                                        {{ str_limit($stream_program, 50) }} ::
+                                        
+                                        {{ str_limit($stream_program, 70) }} ::
                                         {{$stream->name}}
                                         </option>
                                     @endif
+                                    
+                                    @php ($prev_program_name = str_limit($stream->program_name, 1))
                                 @endforeach
                          </select>
 
