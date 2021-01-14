@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Журнал преподавателя - {{ $year }} год</div>
+                <div class="panel-heading ">Журнал преподавателя</div>
 
                 <div class="panel-body">
                     
@@ -14,10 +14,8 @@
                     <a href="{{ route('report_journal')}}">Журналы преподавателей</a>
                     </p>
                     
-                    @if(Auth::user()->role_id >= 3)  
-                    <h2>{{$user->name}}</h2>
-                    <h3>{{$user->department->name or ''}}</h3>
-                    
+                   
+                   
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                             <tr>
@@ -48,9 +46,7 @@
                         </tbody>
                     </table>
 
-                    @else
-                    К сожалению, у вас нет доступа к этой функции
-                    @endif
+
                     
                     
                 </div>
