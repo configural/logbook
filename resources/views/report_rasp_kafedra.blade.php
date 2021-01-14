@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Расписание преподавателей кафедры за период</div>
+                <div class="panel-heading ">Расписание преподавателей кафедры за период {{ date('d.m.Y', strtotime($date1)) }} — {{ date('d.m.Y', strtotime($date2)) }}</div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
@@ -33,50 +33,56 @@
                         {{ csrf_field() }}
                     </form>
                     <p></p>
+                    @if (isset($department_id))
+                    <h2>Кафедра {{\App\Department::find($department_id)->name}}</h2>
+                    @endif
                     
                     @if(isset($users))
                     
                     @foreach($users as $user)
-                    <h3>{{ $user->name}}</h3>
-                    <table class='table table-bordered'>
+                    
+                    @if (\App\User::rasp($user->id, $date1, $date2))
+                            <h4>{{ $user->name}}</h4>
+                            <table class='table table-bordered'>
 
-                        <thead>
-                        <tr class='alert-info'>
-                            
-                            <th width='10%'>Дата</th>
-                            <th width='10%'>Время</th>
-                            <th width='10%'>Группа</th>
-                            <th width='10%'>Аудитория</th>
-                            <th width='10%'>Методист</th>
-                            <th width='50%'>Тема в расписании</th>
-                            
-                            
-                        </tr>  
-                        </thead>
-                        <tbody>
-                    @foreach($user->timetable()
-                    ->join('rasp', 'rasp.id', '=', 'rasp_id')
-                    ->whereBetween('rasp.date', [$date1, $date2])
-                    ->orderby('rasp.date')->get() as $timetable)
-                        
-                        <tr>
-                            <td><nobr>{{ $timetable->rasp->date or ''}}</nobr></td>
-                            <td>{{ $timetable->rasp->start_at or ''}}<br>
-                                {{ $timetable->rasp->finish_at or ''}}</td>
-                            <td>{{ $timetable->group->name or ''}}</td>
-                            <td>{{ $timetable->rasp->classroom->name or ''}}</td>
-                            <td>
-                                @if ($timetable->group->stream->metodist_id)
-                                {{ $timetable->group->stream->metodist->fio()}}
-                                @endif
-                            </td>
-                                
-                            <td><strong>{{$timetable->lesson_type->name}}</strong>: {{ $timetable->block->name or ''}} </td>
-                            
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                <thead>
+                                <tr class='alert-info'>
+
+                                    <th width='10%'>Дата</th>
+                                    <th width='15%'>Время</th>
+                                    <th width='10%'>Группа</th>
+                                    <th width='10%'>Аудитория</th>
+                                    <th width='15%'>Методист</th>
+                                    <th width='40%'>Тема в расписании</th>
+
+
+                                </tr>  
+                                </thead>
+                                <tbody>
+                            @foreach($user->timetable()
+                            ->join('rasp', 'rasp.id', '=', 'rasp_id')
+                            ->whereBetween('rasp.date', [$date1, $date2])
+                            ->orderby('rasp.date')->get() as $timetable)
+
+                                <tr>
+                                    <td><nobr>{{ date('d.m.Y', strtotime($timetable->rasp->date))}}</nobr></td>
+                                    <td>{{ @str_limit($timetable->rasp->start_at, 5, '')}} —
+                                        {{ @str_limit($timetable->rasp->finish_at, 5,'')}}</td>
+                                    <td>{{ $timetable->group->name or ''}}</td>
+                                    <td>{{ $timetable->rasp->classroom->name or ''}}</td>
+                                    <td>
+                                        @if ($timetable->group->stream->metodist_id)
+                                        {{ $timetable->group->stream->metodist->fio()}}
+                                        @endif
+                                    </td>
+
+                                    <td><strong>{{$timetable->lesson_type->name}}</strong>: {{ $timetable->block->name or ''}} </td>
+
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endif
                     @endforeach
                     @endif
                 

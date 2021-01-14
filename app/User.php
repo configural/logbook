@@ -126,8 +126,6 @@ class User extends Authenticatable
                 ->whereBetween('rasp.date', [$date1, $date2])    
                 ->where('timetable.lessontype', $lessontype)
                 ->get();
-        
-
         $hours = 0;
         foreach($tmp as $t) {
             $hours += $t->hours;
@@ -200,8 +198,26 @@ class User extends Authenticatable
         
     }
 
-
-
+/*
+ * Возвращает количество часов преподавателя за определенный период на основании расписания буз учета типа занятия
+ * user_id - ИД пользователя
+ * date1 - начало периода
+ * date2 - конец периода
+ */
+public static function rasp($user_id, $date1, $date2) {
+        $tmp = \App\Timetable::select(['timetable.hours', 'timetable.lessontype', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id' ])
+                ->distinct()
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.teacher_id', '=', $user_id)
+                ->whereBetween('rasp.date', [$date1, $date2])    
+                ->get();
+        $hours = 0;
+        foreach($tmp as $t) {
+            $hours += $t->hours;
+        }
+        return $hours;
+    }
 
     
     public static function user_price($user_id, $date1, $date2, $lessontype) {
