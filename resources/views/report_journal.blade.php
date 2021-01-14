@@ -27,7 +27,7 @@
                             @php
                             $i = 0
                             @endphp
-                            @foreach(\App\User::orderBy('name')->where('created_at', 'like', date('Y').'%')->whereIn('role_id', [2])->where('department_id', '<>', 1)->get() as $user)
+                            @foreach(\App\User::orderBy('name')->whereIn('role_id', [2])->where('department_id', '<>', 1)->get() as $user)
                                 @php 
                                 $i++;
                                 @endphp
