@@ -53,9 +53,9 @@
                                   <option value=""></option>
                                   @foreach(\App\Largeblock::where('active', 1)->orderby('name')->get() as $largeblock)
                                   @if ($largeblock->id == $b->largeblock_id)
-                                  <option value="{{$largeblock->id}}" selected>{{$largeblock->name}}</option>
+                                  <option value="{{$largeblock->id}}" selected>{{$largeblock->name}} :: {{$largeblock->department->name}}</option>
                                   @else
-                                  <option value="{{$largeblock->id}}">{{$largeblock->name}}</option>
+                                  <option value="{{$largeblock->id}}">{{$largeblock->name}} :: {{$largeblock->department->name}}</option>
                                   @endif
                                   @endforeach
                               </select></P>
