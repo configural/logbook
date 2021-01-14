@@ -16,7 +16,10 @@ class ReportController extends Controller
     public function user_journal_list($user_id) {
 
         $user = \App\User::find($user_id);
-        $journals = \App\Journal::where('teacher_id', $user_id)->orderBy('journal.created_at', 'desc')->get();
+        $journals = \App\Journal::select('journal.*')
+                ->join('rasp', 'rasp.id', '=', 'journal.rasp_id')
+                ->where('teacher_id', $user_id)
+                ->orderBy('journal.created_at', 'desc')->get();
         return view('report_journal_list', ['journals' => $journals,  "user" => $user]);
         
     }
