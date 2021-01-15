@@ -223,7 +223,7 @@ class ReportController extends Controller
         
         $date1 = $request->date1;
         $date2 = $request->date2;
-        
+        $year = $request->year;
         
         $disciplines = \App\Timetable::select('disciplines.name')
                 ->join('rasp', 'rasp.id', '=', 'timetable.id')
@@ -236,7 +236,7 @@ class ReportController extends Controller
                 ->get();
         
         
-        return view ('report_themes', ['department_id' => $department_id, 'date1' => $date1, 'date2' => $date2, 'disciplines' => $disciplines]);
+        return view ('report_themes', ['department_id' => $department_id, 'date1' => $date1, 'date2' => $date2, 'year'=> $year, 'disciplines' => $disciplines]);
     }
     
     

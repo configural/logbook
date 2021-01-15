@@ -36,7 +36,7 @@ class Largeblock extends Model
         return $hours;
     }
     
-        public static function largeblock_hours_distributed($id, $date1, $date2) {
+        public static function largeblock_hours_distributed($id, $month1, $month2, $year = 2021) {
         $largeblock = Largeblock::find($id);
         $hours = 0;
         
@@ -45,9 +45,10 @@ class Largeblock extends Model
                     ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                     ->join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                    ->whereBetween('timetable.month', [$date1, $date2])
+                    ->whereBetween('timetable.month', [$month1, $month2])
                     ->where('teachers2timetable.timetable_id', '!=', NULL)
                     ->where('timetable.block_id', $block->id)
+                    ->where('streams.year', $year)
                     ->get();
                         $hours += $timetable->sum('hours');
 
@@ -57,27 +58,22 @@ class Largeblock extends Model
         return $hours;
     }
     
-        public static function largeblock_hours_undistributed($id, $date1, $date2) {
+        public static function largeblock_hours_undistributed($id, $month1, $month2, $year = 2021) {
         $largeblock = Largeblock::find($id);
         $hours = 0;
-  /*
-   *                         @foreach(\App\Timetable::selectRaw('streams.*, groups.*, timetable.*')
-                                                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
-                                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                                                    ->leftjoin('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
-                                                    ->where('teachers2timetable.id', NULL)
-                                                    ->where('streams.year', $year)
-                                                    ->limit(2000)
-                                                    ->get() as $timetable) 
-   */
+        $first_day = $year . '-' . $month1 . '-01';
+        $last_day = $year . '-' . $month2 . '-' . cal_days_in_month ( CAL_GREGORIAN , $month2 , $year );
+        
         foreach($largeblock->blocks as $block) {
             $timetable = \App\Timetable::selectRaw('streams.*, groups.*, timetable.*')
                     ->join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
                     ->leftjoin('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
-                    ->whereBetween('timetable.month', [$date1, $date2])
                     ->where('teachers2timetable.id', NULL)
+                    ->where('streams.date_start', '>=', $first_day)
+                    ->where('streams.date_finish', '<=', $last_day)
                     ->where('timetable.block_id', $block->id)
+                    ->where('streams.year', $year)
                     ->sum('hours');
                     
             $hours += $timetable;
