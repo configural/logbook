@@ -41,16 +41,16 @@ class Largeblock extends Model
         $hours = 0;
         
         foreach($largeblock->blocks as $block) {
-            $timetable = \App\Timetable::select()
-                    ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+            $timetable = \App\Timetable::join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                     ->join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
                     ->whereBetween('timetable.month', [$month1, $month2])
                     ->where('teachers2timetable.timetable_id', '!=', NULL)
                     ->where('timetable.block_id', $block->id)
                     ->where('streams.year', $year)
-                    ->get();
-                        $hours += $timetable->sum('hours');
+                    ->sum('hours');
+                     
+                $hours += $timetable;
 
 
 
@@ -63,19 +63,25 @@ class Largeblock extends Model
         $hours = 0;
         $first_day = $year . '-' . $month1 . '-01';
         $last_day = $year . '-' . $month2 . '-' . cal_days_in_month ( CAL_GREGORIAN , $month2 , $year );
-        
+       // dump([$first_day,$last_day]);
         foreach($largeblock->blocks as $block) {
-            $timetable = \App\Timetable::selectRaw('streams.*, groups.*, timetable.*')
-                    ->join('groups', 'timetable.group_id', '=', 'groups.id')
+            
+        
+//$timetable = \App\Timetable::selectRaw('streams.*, groups.*, timetable.*')
+            $timetable = \App\Timetable::join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
                     ->leftjoin('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                     ->where('teachers2timetable.id', NULL)
-                    ->where('streams.date_start', '>=', $first_day)
-                    ->where('streams.date_finish', '<=', $last_day)
-                    ->where('timetable.block_id', $block->id)
-                    ->where('streams.year', $year)
-                    ->sum('hours');
+                    ->where(function($query) use ($first_day, $last_day){
+                        $query->whereBetween('streams.date_start', [$first_day, $last_day])
+                                ->orWhereBetween('streams.date_finish', [$first_day, $last_day]);
+                    })
                     
+                    ->where('timetable.block_id', $block->id)
+                    //->where('streams.year', $year)
+                    ->sum('hours');
+                   // ->toSql();
+            // dump($timetable)   ;    
             $hours += $timetable;
 
 

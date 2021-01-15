@@ -32,22 +32,22 @@ $total_hours_distributed = 0;
                         <p>
                         <label>С месяца: </label>
                         @if ($date1)
-                        <input class='form-control-static' type='integer' name='date1' value='{{$date1}}' min='1' max='12'>
+                        <input class='form-control-static' type='number' name='date1' value='{{$date1}}' min='1' max='12'>
                         @else
-                        <input class='form-control-static' type='integer' name='date1' value='1' min='1' max='12'>
+                        <input class='form-control-static' type='number' name='date1' value='1' min='1' max='12'>
                         @endif
                         <label>по месяц: </label> 
                         @if ($date2)
-                        <input class='form-control-static' type='integer' name='date2' value='{{$date2}}' min='1' max='12'>
+                        <input class='form-control-static' type='number' name='date2' value='{{$date2}}' min='1' max='12'>
                         @else
-                        <input class='form-control-static' type='integer' name='date2' value='12' min='1' max='12'>
+                        <input class='form-control-static' type='number' name='date2' value='12' min='1' max='12'>
                         @endif   
                         
                         <label>Год: </label> 
                         @if ($date2)
-                        <input class='form-control-static' type='integer' name='year' value='{{$year}}' min='1' max='12'>
+                        <input class='form-control-static' type='number' name='year' value='{{$year}}'  min='2020' max='2099'>
                         @else
-                        <input class='form-control-static' type='integer' name='year' value='{{ date('Y') }}' min='1' max='12'>
+                        <input class='form-control-static' type='number' name='year' value='{{ date('Y') }}' min='2020' max='2099'>
                         @endif 
                         
                         @php
@@ -63,66 +63,63 @@ $total_hours_distributed = 0;
                         {{ csrf_field() }}
                         <button class='btn btn-success'>Сформировать</button>
 
+                    
+                    
                     </form>
+                    
+                    
+                    
                     @if($date1 && $date2)
+                    
+                    
+                    
                     <h2>Кафедра {{ $kaf }}</h2>
-                    <h3>Месяцы: {{$date1}} — {{$date2}}</h3>
-                    <table class='table table-bordered'>
-                        <thead>
+                    
+                    @if ($date1 != $date2)
+                        <h3>Месяцы: {{ sprintf('%02d — %02d', $date1, $date2) }}</h3>
+                    @else
+                        <h3>Месяц: {{ sprintf('%02d', $date1) }}</h3>
+                    @endif
+                    
+                    <table class='table table-bordered' id="">
+                    <thead>
                         <tr>
                             <th>Укрупненная тема</th>
-                            
-                            <th>Не распределено часов (за год)</th>
-                            
-                            
+                            <th>Не распределено часов</th>
                             <th>Распределено часов</th>
-                            
-                            
                             <th>Всего часов</th>
-                            
                         </tr>
-                        </thead>
-                        <tbody>
+                    </thead>
+                    <tbody>
                         @foreach(\App\Largeblock::where('department_id', $department_id)->orderby('name')->get() as $largeblock)
                         <tr>
                         <td>{{ $largeblock->name}}</td>
                         
-                            <td>
-                           
+                        <td>
                             @php
                             $hours1 = \App\Largeblock::largeblock_hours_undistributed($largeblock->id, $date1, $date2, $year);
                             $total_hours += $hours1;
                             @endphp
-                            
                             {{$hours1}}
-                        
-                            </td>
-                            <td>
+                        </td>
+                        <td>
                             @php
                             $hours2 = \App\Largeblock::largeblock_hours_distributed($largeblock->id, $date1, $date2, $year);
                             $total_hours_distributed += $hours2;
                             @endphp
-                            
                             {{$hours2}}
                         </td>
-                        
                         @php
                         $delta = $hours1 + $hours2;
                         @endphp
                         <td>{{ $delta }}</td>
-                        
-                        <tr>
+                        </tr>
                         @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
                         <td>ИТОГО</td>
-                        
-                        <td>
-                            {{$total_hours}}
-
-                        </td>
-                        
+                        <td>{{$total_hours}}</td>
                         <td>{{$total_hours_distributed}}</td>
                         <td>
                             @php ($delta = $total_hours + $total_hours_distributed)
