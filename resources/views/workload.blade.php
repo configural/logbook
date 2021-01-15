@@ -349,7 +349,7 @@
                                 <th>Период обучения</th>
                                 <th>Укрупненная тема</th>
                                 <th>Дисциплина, тема</th>
-                                <th>Месяц</th>
+                                
                                 <th>Кафедра</th>
                                 <th>Часы</th>
                                 <th>Вид</th>
@@ -459,7 +459,7 @@
                                                    
                             </td>
                             
-                            <td>{{$timetable->month}}</td>
+                            
                             
                             <td>{{ $timetable->block->largeblock->department->name or '' }}</td>
                             <td>{{ $timetable->hours }}
@@ -502,7 +502,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{{ $total_hours}}</td>
+                                
                                 <td></td>
                                 <td></td>
                                 <td></td>

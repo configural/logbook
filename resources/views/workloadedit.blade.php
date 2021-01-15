@@ -68,14 +68,16 @@
                         
                         <p>Месяц: 
                         <select name="month" class="form-control-static">
-                            
-                            @php $n = date('n');
+                            <option value=''>Не выбран</option>
+                            @php
                             $start = explode("-", $timetable->group->stream->date_start)[1];
                             $finish = explode("-", $timetable->group->stream->date_finish)[1];
                             @endphp
                             @for ($i = $start; $i <= $finish; $i++)
-                                @if ($i == $n ) <option value="{{ $i }}" selected>{{ $i }}</option>
-                                @else <option value="{{ $i }}">{{ $i }}</option>
+                                @if ($i == $timetable->month ) 
+                                    <option value="{{ $i }}" selected>{{ sprintf('%02d', $i) }}</option>
+                                @else 
+                                    <option value="{{ $i }}">{{ sprintf('%02d', $i) }}</option>
                                 @endif
                             @endfor
                         </select>
