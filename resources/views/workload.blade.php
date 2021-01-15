@@ -75,16 +75,6 @@
                                 ->orderby('programs.name')
                                 ->where('streams.active', 1)->where('streams.year', $year)->orderby('streams.date_start')->get() as $stream)
 
-                                    @php 
-                                        if ($stream->programs->count()) {
-                                        $stream_program = $stream->programs->first()->name;
-                                        } else {
-                                        $stream_program = "---";
-                                        }
-                                        
-                                        
-                                    @endphp
-
                                     @if ($prev_program_name != str_limit($stream->program_name, 1))
                                     <option disabled="">{{ str_limit($stream->program_name, 1, '') }}</option>
                                     @endif
@@ -93,14 +83,14 @@
 
                                         <option value='{{ $stream->id }}' selected>
                                         {{substr($stream->date_start, 5, 2)}} :: 
-                                        {{ str_limit($stream_program, 70) }}
+                                        {{ str_limit($stream->program_name, 70) }}
                                         :: {{$stream->name}}
                                         </option>
                                     @else
                                         <option value='{{ $stream->id }}'>
                                         {{substr($stream->date_start, 5, 2)}} :: 
                                         
-                                        {{ str_limit($stream_program, 70) }} ::
+                                        {{ str_limit($stream->program_name, 70) }} ::
                                         {{$stream->name}}
                                         </option>
                                     @endif
@@ -431,7 +421,7 @@
                             
                             
                             <td>
-                            <p><small class="blue">{{ $timetable->block->largeblock->name or '!нет привязки' }}</small></p>
+                            <p><small class="blue">{{ $timetable->block->largeblock->name or '---' }}</small></p>
                             </td>
                             <td>
 

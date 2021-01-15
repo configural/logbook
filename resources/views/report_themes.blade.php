@@ -30,17 +30,17 @@ $total_hours_distributed = 0;
                         </select>
                         </p>
                         <p>
-                        <label>Дата 1</label>
+                        <label>С месяца: </label>
                         @if ($date1)
-                        <input class='form-control-static' type='date' name='date1' value='{{$date1}}'>
+                        <input class='form-control-static' type='integer' name='date1' value='{{$date1}}' min='1' max='12'>
                         @else
-                        <input class='form-control-static' type='date' name='date1' value=@php echo date('Y'); @endphp-01-01>
+                        <input class='form-control-static' type='integer' name='date1' value='1' min='1' max='12'>
                         @endif
-
+                        <label>по месяц: </label> 
                         @if ($date2)
-                        <input class='form-control-static' type='date' name='date2' value='{{$date2}}'>
+                        <input class='form-control-static' type='integer' name='date2' value='{{$date2}}' min='1' max='12'>
                         @else
-                        <input class='form-control-static' type='date' name='date2' value=@php echo date('Y'); @endphp-12-31>
+                        <input class='form-control-static' type='integer' name='date2' value='12' min='1' max='12'>
                         @endif                        
                         </p>
                         {{ csrf_field() }}
@@ -49,7 +49,7 @@ $total_hours_distributed = 0;
                     </form>
                     @if($date1 && $date2)
                     <h2>Кафедра {{ $kaf }}</h2>
-                    <h3>Период: {{$date1}} – {{$date2}}</h3>
+                    <h3>Месяцы: {{$date1}} — {{$date2}}</h3>
                     <table class='table table-bordered'>
                         <thead>
                         <tr>

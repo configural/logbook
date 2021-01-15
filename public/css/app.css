@@ -67,3 +67,4 @@
 
 summary {color: blue; font-weight: bold; cursor: pointer; }
 select option[disabled] { color: #000;  background: #eee; }
+option {font-size: 12pt;}
