@@ -76,7 +76,7 @@ class Largeblock extends Model
                     ->where('teachers2timetable.id', NULL)
                     ->where(function($query) use ($first_day, $last_day){
                         $query->whereBetween('streams.date_start', [$first_day, $last_day])
-                              ->orWhereBetween('streams.date_finish', [$first_day, $last_day])
+                        //      ->orWhereBetween('streams.date_finish', [$first_day, $last_day])
                         ;
                     })
                     ->where('timetable.block_id', $block->id)
