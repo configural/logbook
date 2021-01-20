@@ -158,7 +158,7 @@ Route::get('/reports/tabel_freelance', 'ReportController@tabel_freelance')->name
 Route::get('/reports/no_journal', 'ReportController@no_journal')->name('no_journal')->middleware('auth');
 Route::get('/reports/themes', 'ReportController@themes')->name('themes')->middleware('auth');
 Route::post('/reports/themes', 'ReportController@themes')->middleware('auth');
-
+Route::get('/reports/akt', 'ReportController@akt')->middleware('auth');
 
 // Медиаконтент
 Route::get('/media', function() {return view('media');})->name('media')->middleware('auth');

@@ -31,7 +31,9 @@
                               @endforeach
                               </select>
                           </p>
-                          
+                          <p><label>Табельный номер (только для штатных)</label>
+                              <input name="table_number" type="number" value="" class="form-control-static">
+                          </p>
                           <p><label>Внештатный?</label><input type="number" value="0" class="form-control" name="freelance" required>
                               <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
 

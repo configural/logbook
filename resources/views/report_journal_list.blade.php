@@ -15,7 +15,8 @@
                     </p>
                     
                    
-                   
+                    <h1>{{ $user->name }}</h1>
+                    <h3>Кафедра {{ $user->department->name}}</h3>
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                             <tr>

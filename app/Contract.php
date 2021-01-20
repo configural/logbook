@@ -8,7 +8,7 @@ class Contract extends Model
 {
     //
     protected $table = "contracts";
-    protected $fillable = ["user_id", "name", "description", "price", "start_at", "finish_at", "active"];
+    protected $fillable = ["user_id", "name", "date","description", "price", "start_at", "finish_at", "active"];
  
     
     public function user() {

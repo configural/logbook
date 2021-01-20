@@ -25,6 +25,13 @@
                         <input type="text" name="name" value="{{ $contract->name}}" class="form-control-static" required>
                     </p>
                     <p>
+                        
+                        <label>Дата заключения договора</label><br>
+                        <input type="date" name="date" value="{{ $contract->date}}" class="form-control-static" required>
+                    </p>
+
+
+                    <p>
                         <label>Стоимость часа, руб</label><br>
                         <input type="number" name="price" value="{{ $contract->price}}" class="form-control-static" required>
                     </p>

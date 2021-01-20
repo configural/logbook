@@ -33,6 +33,10 @@
                               @endforeach
                               </select>
                           </p>
+                          <p><label>Табельный номер (только для штатных)</label>
+                              <input name="table_number" type="number" value="{{$user->table_number}}" class="form-control-static">
+                          </p>
+                          
                           <p><label>Внештатный?</label><input type="number" value="{{$user->freelance}}" class="form-control" name="freelance" required>
                               <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
                           
@@ -42,22 +46,24 @@
                           <h4>Договоры (только для внештатных)</h4>
                           <table class="table table-bordered" id="sortTable">
                               <thead>
-                              <th></th>
+                              <th>id</th>
                               <th>Номер договора</th>
+                              <th>Дата заключения</th>
                               <th>Дата начала</th>
                               <th>Дата окончания</th>
                               <th>Стоимость часа</th>
-                              <th>Действует?</th>
+                              
                               </thead>    
                               <tbody>
                           @foreach(\App\User::find($user->id)->contracts as $contract)
                           <tr>
-                              <td></td>
+                              <td>id</td>
                               <td><a href="{{url('/user/')}}/editcontract/{{$contract->id}}">{{ $contract->name or 'без имени'}}</a></td>
+                              <td>{{ $contract->date }}</td>
                               <td>{{ $contract->start_at }}</td>
                               <td>{{ $contract->finish_at }}</td>
                               <td>{{ $contract->price }}</td>
-                              <td>{{ $contract->active }}</td>
+                              
                           </tr>
                           @endforeach
                               </tbody>

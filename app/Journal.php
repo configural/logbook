@@ -17,6 +17,10 @@ class Journal extends Model
         return $this->hasOne('\App\Timetable', 'id', 'timetable_id');
     }
     
+    public function user() {
+        return $this->hasOne('\App\User', 'id', 'teacher_id');
+    }
+    
     public static function state($rasp_id) {
         $journal = \App\Journal::where('rasp_id', $rasp_id)->where('teacher_id', Auth::user()->id)->first();
         //dump($journal);
@@ -25,6 +29,8 @@ class Journal extends Model
         if ($tmp) $state = 1;
         return $state;
     }
+    
+    
     
     public static function teacher($rasp_id) {
         $journal = \App\Journal::where('rasp_id', $rasp_id)->first();

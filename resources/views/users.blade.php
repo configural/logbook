@@ -34,6 +34,7 @@
                                 (внештатный)
                                 @endif
                                 </td>
+                                
                                 <td>{{ $user->department->name or 'не указано' }}</td>
                                 <td>@if ($user->role_id <=3)
                                     {{ $user->email }}
@@ -43,6 +44,7 @@
                                 
                                 </td>
                                 <td>{{ $user->created_at }}</td>
+                                
                                 <td>
                                     @if(in_array(Auth::user()->role_id, [3, 4, 6]))
                                     <center><a href="{{url('/')}}/user/{{$user->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Rasp;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpWord;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -41,7 +42,46 @@ class ReportController extends Controller
         
     }
     
-    public function rasp_group(Request $request) {
+    /*
+     * Формирование акта в Word
+     */
+    public function akt(Request $request) {
+        $template = "templates/temp_akt.docx";
+        $file = "akt/akt.docx";
+
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template);
+        $templateProcessor->setValue('dogovor_n', '111');
+        $templateProcessor->setValue('dogovor_ot', '111');
+        $templateProcessor->setValue('username', 'Вася Пупкин');
+        $templateProcessor->setValue('akt_number', '111');
+        $templateProcessor->setValue('akt_date', '111');
+        $templateProcessor->setValue('month', '111');
+        $templateProcessor->setValue('year', '111');
+        $templateProcessor->setValue('hours', '111');
+        $templateProcessor->setValue('aud_hours', '111');
+        $templateProcessor->setValue('disciplines', '111');
+        $templateProcessor->setValue('hour_price', '111');
+        $templateProcessor->setValue('lessons', '111');
+        $templateProcessor->setValue('total_price', '111');
+        $templateProcessor->setValue('total_price_string', '111');
+        $templateProcessor->setValue('uplata', '111');
+        $templateProcessor->setValue('uplata_string', '111');
+        $templateProcessor->setValue('strah', '111');
+        $templateProcessor->setValue('strah_string', '111');
+        
+        
+        
+        $templateProcessor->saveAs($file);
+        
+     $headers = array('Content-Type: application/docx');
+     return response()->download($file, "akt.docx", $headers);
+        
+    }
+    
+    /*
+     * Формирование расписания в Excel
+     */
+    public function rasp_group(Request $request) { 
         $group_id = $request->group_id;
         $date1 = $request->date1;
         $date2 = $request->date2;
