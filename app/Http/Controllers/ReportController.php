@@ -51,6 +51,7 @@ class ReportController extends Controller
         $request->contract_id = 8;
         $request->month = 1;
         $request->year = 2021;
+        $request->paid = 1;
         $months = Array("", "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь");
         
         $dogovor = \App\Contract::find($request->contract_id);
@@ -58,53 +59,65 @@ class ReportController extends Controller
  
         // подсчитываем часы в месяце
         $hours = \App\Timetable::select(['timetable.hours' ])
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
-                ->where('rasp.date', 'like' , $date_month . '%')    
+                ->where('rasp.date', 'like' , $date_month . '%') 
+                ->where('groups.paid', $request->paid)
                 ->sum('hours'); 
 
         // аудиторные часы
         $aud_h = \App\Timetable::select(['timetable.hours'])
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
                 ->whereIn('timetable.lessontype', [1,2,11,15])
+                ->where('groups.paid', $request->paid)
                 ->sum('hours'); 
         // часы аттестации, экзамены
         $att_h = \App\Timetable::select(['timetable.hours'])
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
                 ->whereIn('timetable.lessontype', [3,4,5,16,17,18,19])
+                ->where('groups.paid', $request->paid)
                 ->sum('hours'); 
         // часы аттестации, экзамены
         $tests_h = \App\Timetable::select(['timetable.hours'])
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
                 ->whereIn('timetable.lessontype', [9,10])
+                ->where('groups.paid', $request->paid)
                 ->sum('hours'); 
 
         // Рецензирование ИР, ВКР
         $rec_vkr_h = \App\Timetable::select(['timetable.hours'])
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
                 ->whereIn('timetable.lessontype', [12, 14])
+                ->where('groups.paid', $request->paid)
                 ->sum('hours');         
         
         // Руководство ИР, ВКР
         $ruk_vkr_h = \App\Timetable::select(['timetable.hours'])
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
                 ->whereIn('timetable.lessontype', [13])
+                ->where('groups.paid', $request->paid)
                 ->sum('hours');         
         
         //$vneaud_h = \App\Vneaud::select()
@@ -124,11 +137,13 @@ class ReportController extends Controller
         // занятия по темам
         $blocks_to_word = "";
         $blocks = \App\Timetable::select(['blocks.name', 'timetable.hours', 'timetable.lessontype'])
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->join('blocks', 'timetable.block_id', '=', 'blocks.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
+                ->where('groups.paid', $request->paid)
                 ->get(); 
                 foreach($blocks as $b) {
                      $blocks_to_word .=  "- " . $b->name . "(" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
@@ -166,7 +181,7 @@ class ReportController extends Controller
         
         $templateProcessor->setValue('uplata', $uplata);
         $templateProcessor->setValue('uplata_string', '111');
-        $templateProcessor->setValue('strah_string', '111');
+        $templateProcessor->setValue('strah_string', $this->num2string($strah));
         $templateProcessor->saveAs($file);
         
         $headers = array('Content-Type: application/docx');
@@ -377,5 +392,5 @@ class ReportController extends Controller
         return view ('report_themes', ['department_id' => $department_id, 'date1' => $date1, 'date2' => $date2, 'year'=> $year, 'disciplines' => $disciplines]);
     }
     
-    
+   
 }

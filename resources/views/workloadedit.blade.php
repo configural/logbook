@@ -21,8 +21,13 @@
                 <p>Период обучения: {{$timetable->group->stream->date_start}} — {{$timetable->group->stream->date_finish}}</p>
                     <hr>
                     <form action='' method='post'>
+                        <p><label>Количество часов: </label>
+                        <input type='number' name='hours' value='{{$timetable->hours}}'>
+                    </p>
+                        <p>
                         <label>Подгруппа (если деление на подгруппы не предусмотрено, оставьте поле ПУСТЫМ): </label>
                         <input type='number' name='subgroup' value='{{$timetable->subgroup}}' class='form-control-static'>
+                        </p>
                     @if (isset($timetable->rasp->date))
                     
                         Занятие назначено на 

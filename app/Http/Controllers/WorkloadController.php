@@ -40,6 +40,7 @@ class WorkloadController extends Controller
     public function update_workload(Request $request) {
         $timetable = Timetable::find($request->id);
         $timetable->month = $request->month;
+        $timetable->hours = $request->hours;
         $timetable->subgroup = $request->subgroup;
         DB::table('teachers2timetable')->where('timetable_id', $request->id)->delete();
         if (is_array($request->teachers)){
