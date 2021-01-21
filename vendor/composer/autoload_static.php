@@ -2329,6 +2329,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'League\\Flysystem\\Util\\StreamHasher' => __DIR__ . '/..' . '/league/flysystem/src/Util/StreamHasher.php',
         'LessonInTable' => __DIR__ . '/../..' . '/database/migrations/2020_10_13_094729_lesson_in_table.php',
         'LessonTypes' => __DIR__ . '/../..' . '/database/migrations/2020_07_28_054201_lesson_types.php',
+        'Logbook' => __DIR__ . '/../..' . '/library/logbook.php',
         'Matrix\\Builder' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Builder.php',
         'Matrix\\Exception' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Exception.php',
         'Matrix\\Functions' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Functions.php',

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 
+
 class ReportController extends Controller
 {
     //
@@ -51,8 +52,11 @@ class ReportController extends Controller
         $request->contract_id = 8;
         $request->month = 1;
         $request->year = 2021;
-        $request->paid = 1;
+        $request->paid = 0;
+        $request->akt_date = '25.01.2021';
         $months = Array("", "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь");
+        
+        $finance_source = ["субсидий", "приносящей доход деятельности"];
         
         $dogovor = \App\Contract::find($request->contract_id);
         $date_month = $request->year . "-" . sprintf("%02d", $request->month);
@@ -166,7 +170,7 @@ class ReportController extends Controller
         $templateProcessor->setValue('dogovor_ot', $dogovor->date);
         $templateProcessor->setValue('username', $dogovor->user->name);
         $templateProcessor->setValue('akt_number', $dogovor->name);
-        $templateProcessor->setValue('akt_date', $dogovor->date);
+        $templateProcessor->setValue('akt_date', $request->akt_date);
         $templateProcessor->setValue('month', $months[$request->month]);
         $templateProcessor->setValue('year', $request->year);
         $templateProcessor->setValue('hours', $hours);
@@ -176,12 +180,15 @@ class ReportController extends Controller
         $templateProcessor->setValue('hour_price', $dogovor->price);
         $templateProcessor->setValue('lessons', $blocks_to_word);
         $templateProcessor->setValue('total_price', $total_price);
+        $templateProcessor->setValue('total_price_string', \Logbook::num2str($total_price));
         $templateProcessor->setValue('strah', $strah);
         $templateProcessor->setValue('total_strah_price', $total_strah_price);
-        
+        $templateProcessor->setValue('total_strah_price_string', \Logbook::num2str($total_strah_price));
         $templateProcessor->setValue('uplata', $uplata);
-        $templateProcessor->setValue('uplata_string', '111');
-        $templateProcessor->setValue('strah_string', $this->num2string($strah));
+        $templateProcessor->setValue('uplata_string', \Logbook::num2str($uplata));
+        $templateProcessor->setValue('strah_string', \Logbook::num2str($strah));
+        $templateProcessor->setValue('finance_source', $finance_source[$request->paid]);
+        $templateProcessor->setValue('usernm', $dogovor->user->fio());
         $templateProcessor->saveAs($file);
         
         $headers = array('Content-Type: application/docx');

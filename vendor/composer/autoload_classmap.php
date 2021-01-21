@@ -1885,6 +1885,7 @@ return array(
     'League\\Flysystem\\Util\\StreamHasher' => $vendorDir . '/league/flysystem/src/Util/StreamHasher.php',
     'LessonInTable' => $baseDir . '/database/migrations/2020_10_13_094729_lesson_in_table.php',
     'LessonTypes' => $baseDir . '/database/migrations/2020_07_28_054201_lesson_types.php',
+    'Logbook' => $baseDir . '/library/logbook.php',
     'Matrix\\Builder' => $vendorDir . '/markbaker/matrix/classes/src/Builder.php',
     'Matrix\\Exception' => $vendorDir . '/markbaker/matrix/classes/src/Exception.php',
     'Matrix\\Functions' => $vendorDir . '/markbaker/matrix/classes/src/Functions.php',
