@@ -18,6 +18,7 @@
                             <tr>
                                 <th>Преподаватель</th>
                                 <th>Группа</th>
+                                <th>Поток</th>
                                 <th>Вид работы</th>
                                 <th>Часы</th>
                                 <th>Дата</th>
@@ -28,8 +29,14 @@
                         <tbody>
                         @foreach(\App\Vneaud::get() as $vneaud)
                         <tr>
-                            <td><a href='vneaud/{{$vneaud->id}}/edit'>{{ $vneaud->user->name}}</a></td>
+                            <td><a href='vneaud/{{$vneaud->id}}/edit'>{{ $vneaud->user->name}}</a>
+                            @if ($vneaud->user->freelance == 1) 
+                            (внештатный)
+                            @endif
+                            
+                            </td>
                             <td>{{ $vneaud->group->name}}</td>
+                            <td>{{ $vneaud->group->stream->name}}</td>
                             <td>{{ $vneaud->lessontype->name }}</td>
                             <td>{{ $vneaud->hours }}</td>
                             <td>{{ $vneaud->date }}</td>

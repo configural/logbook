@@ -13,6 +13,24 @@
                         
                         <input type="hidden" name="user_id" value="{{$vneaud->user_id}}">
                         <p>
+                            @if(\App\User::find($vneaud->user_id)->freelance)
+                        <h3>{{ $vneaud->user->name}}</h3>
+                            <label>По какому договору? </label>
+                            <select name="contract_id" class="form-control-static">
+                                @foreach(\App\Contract::where('active', 1)->where('user_id', $vneaud->user_id)->get() as $contract)
+                                @if ($contract->id == $vneaud->contract_id)
+                                <option value='{{$contract->id}}' selected>{{ $contract->name }} от {{ $contract->date}} ({{ $contract->price}} руб./ч)</option>
+                                @else
+                                <option value='{{$contract->id}}'>{{ $contract->name }} от {{ $contract->date}} ({{ $contract->price}} руб./ч)</option>
+                                @endif
+                                @endforeach
+                                
+                            </select>
+                            
+                            @endif
+                        </p>
+                        
+                        <p>
                             <label>Вид работы</label><br/>
                             <select name="lessontype_id" class="form-control-static">
                                 @foreach(\App\LessonType::where('vneaud', 1)->get() as $lessontype)

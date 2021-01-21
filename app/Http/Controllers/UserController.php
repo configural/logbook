@@ -167,4 +167,17 @@ class userController extends Controller
         
     }
     
+    function user_contracts(Request $request) {
+        $user_id = $request->user_id;
+        if (\App\User::find($user_id)->freelance) {
+        $contracts = \App\Contract::select()->where('active', 1)->where('user_id', $request->user_id)->get();
+        
+        echo "<label>По какому контракту?</label> <select name='contract_id' class='form-control-static'>";
+        foreach($contracts as $contract) {
+            echo "<option value='$contract->id'>" . $contract->name . " от " . $contract->date . "(" . $contract->price . " руб./ч)</option>";
+        }
+        echo "</select>";
+        }
+    }
+    
 }

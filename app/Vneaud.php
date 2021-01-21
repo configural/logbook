@@ -10,7 +10,7 @@ class Vneaud extends Model
     protected $table = 'vneaud';
     
     protected $fillable = [
-        'user_id', 'group_id', 'lessontype_id', 'hours', 'date', 'description', 'count'
+        'user_id', 'group_id', 'lessontype_id', 'hours', 'date', 'description', 'count', 'contract_id'
     ];
     
     function user() {

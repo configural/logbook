@@ -216,3 +216,4 @@ Route::get('/ajax/group_blocks/{group_id}', 'WorkloadController@get_group_blocks
 Route::get('/ajax/group_disciplines/{group_id}', 'WorkloadController@get_group_disciplines')->middleware('auth');
 Route::get('/ajax/group_programs/{group_id}', 'WorkloadController@get_group_programs')->middleware('auth');
 Route::get('/ajax/search/block/{text}', 'BlockController@search')->middleware('auth');
+Route::get('/ajax/user_contracts', 'UserController@user_contracts')->name('ajax_contracts')->middleware('auth');

@@ -4241,6 +4241,7 @@ return array(
     'UserVneshtat' => $baseDir . '/database/migrations/2020_09_11_053442_user_vneshtat.php',
     'Users2media' => $baseDir . '/database/migrations/2020_09_24_142204_users2media.php',
     'Vneaud' => $baseDir . '/database/migrations/2020_10_14_095724_vneaud.php',
+    'VneaudContract' => $baseDir . '/database/migrations/2021_01_21_110902_vneaud-contract.php',
     'VneaudCount' => $baseDir . '/database/migrations/2020_10_14_133142_vneaud-count.php',
     'VneaudFloat' => $baseDir . '/database/migrations/2020_10_14_114203_vneaud-float.php',
     'WebinarHours' => $baseDir . '/database/migrations/2020_10_19_152929_webinar_hours.php',

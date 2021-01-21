@@ -48,45 +48,143 @@ class ReportController extends Controller
     public function akt(Request $request) {
         $template = "templates/temp_akt.docx";
         $file = "akt/akt.docx";
+        $request->contract_id = 8;
+        $request->month = 1;
+        $request->year = 2021;
+        $months = Array("", "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь");
+        
+        $dogovor = \App\Contract::find($request->contract_id);
+        $date_month = $request->year . "-" . sprintf("%02d", $request->month);
+ 
+        // подсчитываем часы в месяце
+        $hours = \App\Timetable::select(['timetable.hours' ])
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.contract_id', '=', $request->contract_id)
+                ->where('rasp.date', 'like' , $date_month . '%')    
+                ->sum('hours'); 
 
+        // аудиторные часы
+        $aud_h = \App\Timetable::select(['timetable.hours'])
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.contract_id', '=', $request->contract_id)
+                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereIn('timetable.lessontype', [1,2,11,15])
+                ->sum('hours'); 
+        // часы аттестации, экзамены
+        $att_h = \App\Timetable::select(['timetable.hours'])
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.contract_id', '=', $request->contract_id)
+                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereIn('timetable.lessontype', [3,4,5,16,17,18,19])
+                ->sum('hours'); 
+        // часы аттестации, экзамены
+        $tests_h = \App\Timetable::select(['timetable.hours'])
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.contract_id', '=', $request->contract_id)
+                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereIn('timetable.lessontype', [9,10])
+                ->sum('hours'); 
+
+        // Рецензирование ИР, ВКР
+        $rec_vkr_h = \App\Timetable::select(['timetable.hours'])
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.contract_id', '=', $request->contract_id)
+                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereIn('timetable.lessontype', [12, 14])
+                ->sum('hours');         
+        
+        // Руководство ИР, ВКР
+        $ruk_vkr_h = \App\Timetable::select(['timetable.hours'])
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->where('teachers2timetable.contract_id', '=', $request->contract_id)
+                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereIn('timetable.lessontype', [13])
+                ->sum('hours');         
+        
+        //$vneaud_h = \App\Vneaud::select()
+        $aud_hours = "";
+        if ($aud_h or 1) {$aud_hours .= "Лекции, практика, вебинары, консультации: " . $aud_h . " ч.<w:br/>";}
+        if ($tests_h or 1) {$aud_hours .= "Проверка тестов и практических работ: " . $tests_h . " ч.<w:br/>";}
+        if ($att_h or 1) {$aud_hours .= "Экзамены, итоговая аттестация: " . $att_h . " ч.<w:br/>"; }
+        if ($rec_vkr_h or 1) {$aud_hours .= "Рецензирование ИР, ВКР: " . $rec_vkr_h . " ч.<w:br/>"; }
+        if ($att_h or 1) {$aud_hours .= "Руководство ВКР: " . $ruk_vkr_h . " ч.<w:br/>"; }
+        
+        
+        /*
+         * 
+        */
+
+       
+        // занятия по темам
+        $blocks_to_word = "";
+        $blocks = \App\Timetable::select(['blocks.name', 'timetable.hours', 'timetable.lessontype'])
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('blocks', 'timetable.block_id', '=', 'blocks.id')
+                ->where('teachers2timetable.contract_id', '=', $request->contract_id)
+                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->get(); 
+                foreach($blocks as $b) {
+                     $blocks_to_word .=  "- " . $b->name . "(" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
+                }
+        
+                foreach($blocks as $b) {
+                    //dump($b->lessontype);
+                };
+        //lessontypes
+                
+        // всего начислено
+         $total_price = $dogovor->price * $hours;
+         $strah = $total_price * 0.271;
+         $total_strah_price = $total_price + $strah;
+         $uplata = $total_price - $total_price * 0.13;
+         
+        if ($dogovor) {
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template);
-        $templateProcessor->setValue('dogovor_n', '111');
-        $templateProcessor->setValue('dogovor_ot', '111');
-        $templateProcessor->setValue('username', 'Вася Пупкин');
-        $templateProcessor->setValue('akt_number', '111');
-        $templateProcessor->setValue('akt_date', '111');
-        $templateProcessor->setValue('month', '111');
-        $templateProcessor->setValue('year', '111');
-        $templateProcessor->setValue('hours', '111');
-        $templateProcessor->setValue('aud_hours', '111');
-        $templateProcessor->setValue('disciplines', '111');
-        $templateProcessor->setValue('hour_price', '111');
-        $templateProcessor->setValue('lessons', '111');
-        $templateProcessor->setValue('total_price', '111');
-        $templateProcessor->setValue('total_price_string', '111');
-        $templateProcessor->setValue('uplata', '111');
+        $templateProcessor->setValue('dogovor_n', $dogovor->name);
+        $templateProcessor->setValue('dogovor_ot', $dogovor->date);
+        $templateProcessor->setValue('username', $dogovor->user->name);
+        $templateProcessor->setValue('akt_number', $dogovor->name);
+        $templateProcessor->setValue('akt_date', $dogovor->date);
+        $templateProcessor->setValue('month', $months[$request->month]);
+        $templateProcessor->setValue('year', $request->year);
+        $templateProcessor->setValue('hours', $hours);
+        $templateProcessor->setValue('lessontypes', $aud_hours);
+        $templateProcessor->setValue('disciplines', $blocks_to_word);
+       // $templateProcessor->setValue('attestation', $attestation_hours);
+        $templateProcessor->setValue('hour_price', $dogovor->price);
+        $templateProcessor->setValue('lessons', $blocks_to_word);
+        $templateProcessor->setValue('total_price', $total_price);
+        $templateProcessor->setValue('strah', $strah);
+        $templateProcessor->setValue('total_strah_price', $total_strah_price);
+        
+        $templateProcessor->setValue('uplata', $uplata);
         $templateProcessor->setValue('uplata_string', '111');
-        $templateProcessor->setValue('strah', '111');
         $templateProcessor->setValue('strah_string', '111');
-        
-        
-        
         $templateProcessor->saveAs($file);
         
-     $headers = array('Content-Type: application/docx');
-     return response()->download($file, "akt.docx", $headers);
+        $headers = array('Content-Type: application/docx');
+        return response()->download($file, "akt.docx", $headers);
+        }
+        else {echo "Договор $request->contract_id не найден";}
         
     }
     
     /*
      * Формирование расписания в Excel
      */
+    
     public function rasp_group(Request $request) { 
         $group_id = $request->group_id;
         $date1 = $request->date1;
         $date2 = $request->date2;
         $template_file = "templates/temp_raspOK.xlsx";
-        //$spreadsheet = new Spreadsheet();
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($template_file);
 
         $sheet = $spreadsheet->getActiveSheet();
