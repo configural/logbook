@@ -180,4 +180,32 @@ class userController extends Controller
         }
     }
     
+    
+        function user_contracts_by_month(Request $request) {
+           // dump($request);
+            $month = $request->year . "-" . sprintf("%02d", $request->month);
+            $contracts = \App\Contract::selectRaw('contracts.id as contract_id, users.name as username')
+                    ->distinct()
+                    ->join('users', 'users.id', '=', 'contracts.user_id')
+                    ->join('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
+                    ->join('timetable', 'timetable.id', '=', 'teachers2timetable.timetable_id')
+                    ->join('groups', 'timetable.group_id', '=', 'groups.id')
+                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
+                    ->where('streams.year', $request->year)
+                    ->where('timetable.month', $request->month)
+                    ->where('groups.paid', $request->paid)
+                    ->where('users.freelance', 1)
+                    ->orderBy('users.name')
+                    ->get();
+            echo "<ol>";
+            foreach($contracts as $contract) {
+                echo "<li><a href=" . url('/'). "/reports/akt/$contract->contract_id/$request->year/$request->month/$request->paid/$request->akt_date/$request->rektor>" . $contract->username . "</a></li>";
+            }
+            echo "</ol>";
+            
+            }
+    
+    
+    
 }

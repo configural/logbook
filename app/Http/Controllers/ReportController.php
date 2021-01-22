@@ -49,11 +49,12 @@ class ReportController extends Controller
     public function akt(Request $request) {
         $template = "templates/temp_akt.docx";
         $file = "akt/akt.docx";
-        $request->contract_id = 8;
-        $request->month = 1;
-        $request->year = 2021;
-        $request->paid = 0;
-        $request->akt_date = '25.01.2021';
+        //$request->contract_id = 8;
+        //$request->month = 1;
+        //$request->year = 2021;
+        //$request->paid = 0;
+        //$request->akt_date = '25.01.2021';
+        //$request->rektor = "Беляков Н.Ф.";
         $months = Array("", "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь");
         
         $finance_source = ["субсидий", "приносящей доход деятельности"];
@@ -126,14 +127,13 @@ class ReportController extends Controller
         
         //$vneaud_h = \App\Vneaud::select()
         $aud_hours = "";
-        if ($aud_h or 1) {$aud_hours .= "Лекции, практика, вебинары, консультации: " . $aud_h . " ч.<w:br/>";}
-        if ($tests_h or 1) {$aud_hours .= "Проверка тестов и практических работ: " . $tests_h . " ч.<w:br/>";}
-        if ($att_h or 1) {$aud_hours .= "Экзамены, итоговая аттестация: " . $att_h . " ч.<w:br/>"; }
-        if ($rec_vkr_h or 1) {$aud_hours .= "Рецензирование ИР, ВКР: " . $rec_vkr_h . " ч.<w:br/>"; }
-        if ($att_h or 1) {$aud_hours .= "Руководство ВКР: " . $ruk_vkr_h . " ч.<w:br/>"; }
+        if ($aud_h) {$aud_hours .= "Лекции, практика, вебинары, консультации: " . $aud_h . " ч.<w:br/>";}
+        if ($tests_h) {$aud_hours .= "Проверка тестов и практических работ: " . $tests_h . " ч.<w:br/>";}
+        if ($att_h) {$aud_hours .= "Экзамены, итоговая аттестация: " . $att_h . " ч.<w:br/>"; }
+        if ($rec_vkr_h) {$aud_hours .= "Рецензирование ИР, ВКР: " . $rec_vkr_h . " ч.<w:br/>"; }
+        if ($att_h) {$aud_hours .= "Руководство ВКР: " . $ruk_vkr_h . " ч.<w:br/>"; }
         
-        
-        /*
+       /*
          * 
         */
 
@@ -150,12 +150,9 @@ class ReportController extends Controller
                 ->where('groups.paid', $request->paid)
                 ->get(); 
                 foreach($blocks as $b) {
-                     $blocks_to_word .=  "- " . $b->name . "(" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
+                     $blocks_to_word .=  "- " . str_limit($b->name, 70, '...') . " (" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
                 }
-        
-                foreach($blocks as $b) {
-                    //dump($b->lessontype);
-                };
+
         //lessontypes
                 
         // всего начислено
@@ -167,10 +164,10 @@ class ReportController extends Controller
         if ($dogovor) {
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template);
         $templateProcessor->setValue('dogovor_n', $dogovor->name);
-        $templateProcessor->setValue('dogovor_ot', $dogovor->date);
+        $templateProcessor->setValue('dogovor_ot', \Logbook::normal_date($dogovor->date));
         $templateProcessor->setValue('username', $dogovor->user->name);
         $templateProcessor->setValue('akt_number', $dogovor->name);
-        $templateProcessor->setValue('akt_date', $request->akt_date);
+        $templateProcessor->setValue('akt_date', \Logbook::normal_date($request->akt_date));
         $templateProcessor->setValue('month', $months[$request->month]);
         $templateProcessor->setValue('year', $request->year);
         $templateProcessor->setValue('hours', $hours);
@@ -189,10 +186,11 @@ class ReportController extends Controller
         $templateProcessor->setValue('strah_string', \Logbook::num2str($strah));
         $templateProcessor->setValue('finance_source', $finance_source[$request->paid]);
         $templateProcessor->setValue('usernm', $dogovor->user->fio());
+        $templateProcessor->setValue('rektor', $request->rektor);
         $templateProcessor->saveAs($file);
         
         $headers = array('Content-Type: application/docx');
-        return response()->download($file, "akt.docx", $headers);
+        return response()->download($file, "Акт-" . $dogovor->user->fio() . "-" . $request->year . "-" . $months[$request->month] . ".docx", $headers);
         }
         else {echo "Договор $request->contract_id не найден";}
         

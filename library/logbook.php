@@ -63,5 +63,10 @@ static function morph($n, $f1, $f2, $f5) {
 	if ($n==1) return $f1;
 	return $f5;
 }
+
+
+static function normal_date($date) {
+    return date('d.m.Y', strtotime($date));
+}
     
 }

@@ -158,7 +158,9 @@ Route::get('/reports/tabel_freelance', 'ReportController@tabel_freelance')->name
 Route::get('/reports/no_journal', 'ReportController@no_journal')->name('no_journal')->middleware('auth');
 Route::get('/reports/themes', 'ReportController@themes')->name('themes')->middleware('auth');
 Route::post('/reports/themes', 'ReportController@themes')->middleware('auth');
-Route::get('/reports/akt', 'ReportController@akt')->middleware('auth');
+Route::get('/reports/make_akt', function(){return view('report_akt');})->name('report_akt')->middleware('auth');
+Route::get('/reports/akt/{contract_id}/{year}/{month}/{paid}/{akt_date}/{rektor}', 'ReportController@akt')->name('akt_docx')->middleware('auth');
+
 
 // Медиаконтент
 Route::get('/media', function() {return view('media');})->name('media')->middleware('auth');
@@ -217,3 +219,4 @@ Route::get('/ajax/group_disciplines/{group_id}', 'WorkloadController@get_group_d
 Route::get('/ajax/group_programs/{group_id}', 'WorkloadController@get_group_programs')->middleware('auth');
 Route::get('/ajax/search/block/{text}', 'BlockController@search')->middleware('auth');
 Route::get('/ajax/user_contracts', 'UserController@user_contracts')->name('ajax_contracts')->middleware('auth');
+Route::get('/ajax/user_contracts_by_month', 'UserController@user_contracts_by_month')->name('ajax_contracts_month')->middleware('auth');
