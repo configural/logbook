@@ -327,10 +327,11 @@ class ReportController extends Controller
     function rasp_kafedra(Request $request) {
         $request->date1 ? $date1 = $request->date1 : $date1 = date("Y-m-d");
         $request->date2 ? $date2 = $request->date2 : $date2 = Carbon::now()->addMonth()->format("Y-m-d");
+        $freelance = $request->freelance;
         $users = \App\User::where('department_id', $request->department_id)
-                ->where('freelance', 0)
+                ->where('freelance', $freelance)
                 ->orderBy('name')->get();
-        return view('report_rasp_kafedra', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'department_id' => $request->department_id]);
+        return view('report_rasp_kafedra', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'freelance' => $freelance, 'department_id' => $request->department_id]);
     }
 
 //табель штатных преподавателей    

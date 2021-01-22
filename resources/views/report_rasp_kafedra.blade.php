@@ -27,6 +27,17 @@
                          
                             @include('include.daterange', ['date1' => $date1, 'date2' => $date2])
                         
+                        @if ($freelance == 0)
+                        <p><input type="radio" name="freelance" value="0" checked> Штатные преподаватели</p>
+                        <p><input type="radio" name="freelance" value="1"> Внештатные преподаватели</p>
+                        @else
+                        <p><input type="radio" name="freelance" value="0"> Штатные преподаватели</p>
+                        <p><input type="radio" name="freelance" value="1" checked> Внештатные преподаватели</p>
+                        
+                        @endif
+                        
+                        
+                        
                         <button class="btn btn-success">Сформировать</button>
                         
                         <a href="{{ route('home')}}" class="btn btn-info">Отмена</a>
