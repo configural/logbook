@@ -87,7 +87,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <tbody>
  
                    @foreach(\App\Timetable::select()
-                   ->join('blocks', 'blocks.id', '=', 'timetable.block_id')
+                   ->leftjoin('blocks', 'blocks.id', '=', 'timetable.block_id')
                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
                    ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
@@ -100,7 +100,8 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    )
                    <tr>
                        <td>{{$timetable->month}}</td>
-                       <td>{{ @str_limit($timetable->block->name, 200)}}</td>
+                       <td>
+                           {{ @str_limit($timetable->block->name, 200)}}</td>
                        <td><nobr>{{$timetable->group->name}}</nobr></td>
                        <td>
                         <nobr>{{date('d.m', strtotime($timetable->group->stream->date_start))}}<nobr> - <nobr>{{date('d.m', strtotime($timetable->group->stream->date_finish))}}</nobr>
