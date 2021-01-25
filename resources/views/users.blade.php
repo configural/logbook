@@ -14,11 +14,22 @@
                     
                     <table class="table table-bordered" id="sortTable">
                         <thead class="">
-                            <tr><td>id</td><td>Имя пользователя</td><td>Роль</td><td>Подразделение</td><td>Email</td><td>Создан</td><td>Операции</td></tr>
+                            <tr><td>id</td><td>Имя пользователя</td>
+                                
+                                <td>Роль</td>
+                                <td>Договоры</td>
+                                <td>Подразделение</td><td>Email</td><td>Создан</td><td>Операции</td></tr>
                         </thead>
                         <tfoot>
                         <tr class="">
-                           <td>id</td><td class='filter'>Имя пользователя</td><td>Роль</td><td class='filter'>Подразделение</td><td>Email</td><td>Создан</td><td>Операции</td>
+                           <td>id</td>
+                          <td class='filter'>Имя пользователя</td>
+                           <td>Договоры</td>
+                           <td>Роль</td>
+                           <td class='filter'>Подразделение</td>
+                           <td>Email</td>
+                           <td>Создан</td>
+                           <td>Операции</td>
                         </tr>   
                         </tfoot>
                         
@@ -33,6 +44,12 @@
                                 @if($user->freelance)
                                 (внештатный)
                                 @endif
+                                </td>
+                                
+                                <td>
+                                    @foreach($user->contracts as $contract)
+                                    {{$contract->name}} от {{ $contract->date }}
+                                    @endforeach
                                 </td>
                                 
                                 <td>{{ $user->department->name or 'не указано' }}</td>
