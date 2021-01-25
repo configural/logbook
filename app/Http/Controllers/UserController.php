@@ -148,17 +148,19 @@ class userController extends Controller
         echo "</table>";
         endif;
 
-        
+        //dump($date);
         if (User::find($user_id)->freelance) {
-            $contracts = DB::table('teachers2timetable')->where('timetable_id', '=', $timetable_id)->first();
+            $contract_selected = DB::table('teachers2timetable')->where('timetable_id', '=', $timetable_id)->first()->contract_id;
+            $contracts = User::find($user_id)->contracts;
+           // dump($contract_selected);
             echo "Это внештатный преподаватель! Выберите договор: ";
             echo "<select name='contract_id' class='form-control-static'>";
-            foreach(\App\Contract::where('user_id', $user_id)->where('start_at', '<', $date)->where('finish_at', '>', $date)->get() as $contract) {
-                if ($contract->id == $contracts->contract_id) :
-                    echo "<option value=".$contract->id." selected>" . $contract->name . " (" . $contract->price .  " руб/ч) </option>";
-                else :
-                    echo "<option value=".$contract->id.">" . $contract->name . " (" . $contract->price .  " руб/ч) </option>";    
-                endif;
+            foreach($contracts as $contract) {
+                if ($contract->id == $contract_selected) {
+                echo "<option value=" . $contract->id. ">" . $contract->name . "</option>";
+                } else {
+                echo "<option value=" . $contract->id. ">" . $contract->name . "</option>";
+                }  
             }
             echo "</select>";
             
@@ -192,6 +194,7 @@ class userController extends Controller
                     ->join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
                     ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
+                   // ->where('teachers2timetable.contract_id', 'contracts.id')
                     ->where('streams.year', $request->year)
                     ->where('timetable.month', $request->month)
                     ->where('groups.paid', $request->paid)

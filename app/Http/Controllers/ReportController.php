@@ -148,7 +148,10 @@ class ReportController extends Controller
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
                 ->where('groups.paid', $request->paid)
-                ->get(); 
+                ->get();
+                //->toSql(); 
+        
+       // dd($blocks);
                 foreach($blocks as $b) {
                      $blocks_to_word .=  "- " . str_limit($b->name, 70, '...') . " (" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
                 }

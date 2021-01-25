@@ -47,7 +47,13 @@
                         <h3>Преподаватель(ли)</h3>
                         <p>Для выделения сразу нескольких строк используйте левый клик мыши с нажатой клавишей Ctrl. Если вы выбираете внештатного преподавателя, нужно указать договор, по которому он будет работать.</p>
 
-                        <select id="teacherSelect" name="teachers[]" multiple class="form-control" style="height: 600px;">
+                        <select id="teacherSelect" name="teachers[]" multiple class="form-control" style="height: 600px;"
+                                
+                                @if (Auth::user()->role_id == 2)
+                                disabled
+                                @endif
+                                
+                                >
                             @foreach(\App\User::select()->whereIn('role_id', [2, 5])->orderBy('name')->get() as $user)
                             @php($in_list = 0)
     
@@ -58,9 +64,20 @@
                                 @endif
                                 @endforeach
                                 @if($in_list)
-                                <option value="{{$user->id}}" selected>{{$user->name}}</option>
+                                <option value="{{$user->id}}" selected>{{$user->name}} 
+                                    @if ($user->freelance) 
+                                    (внештат.)
+                                    @endif
+                                </option>
                                 @else
-                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                <option value="{{$user->id}}">{{$user->name}}
+                                
+                                    @if ($user->freelance) 
+                                    (внештат.)
+                                    @endif
+                                
+                                
+                                </option>
                                 @endif
                             
                             @endforeach
