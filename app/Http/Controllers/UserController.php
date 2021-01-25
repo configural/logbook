@@ -115,7 +115,9 @@ class userController extends Controller
     }
         
     public function teacher_busy($user_id, $date, $start_at='00:00:00', $finish_at='23:59:59', $timetable_id = 0) {
+        //if(!$date) $date = date('Y-m-d');
         $busy = false;
+        
         $rasp = \App\Rasp::select()->where('date', $date)->orderBy('start_at')->get();
         echo "<p><strong><span class='red'> " . User::find($user_id)->name . "</span></strong></p>";
  
@@ -150,11 +152,17 @@ class userController extends Controller
 
         //dump($date);
         if (User::find($user_id)->freelance) {
-            $contract_selected = DB::table('teachers2timetable')->where('timetable_id', '=', $timetable_id)->first()->contract_id;
+            $contract_find = DB::table('teachers2timetable')->where('timetable_id', '=', $timetable_id)->where('teacher_id', $user_id)->first();
+            //dump($contract_find);
+            if ($contract_find) {$contract_selected = $contract_find->contract_id;}
+            else {$contract_selected=0;
+            }
+            
             $contracts = User::find($user_id)->contracts;
-           // dump($contract_selected);
-            echo "Это внештатный преподаватель! Выберите договор: ";
-            echo "<select name='contract_id' class='form-control-static'>";
+            if ($contracts) {
+            // dump($contract_selected);
+            echo "Выберите договор: ";
+            echo "<select name='contract_id' class='form-control-static' required>";
             foreach($contracts as $contract) {
                 if ($contract->id == $contract_selected) {
                 echo "<option value=" . $contract->id. ">" . $contract->name . "</option>";
@@ -163,7 +171,8 @@ class userController extends Controller
                 }  
             }
             echo "</select>";
-            
+            echo "<a href='" . url('/') . "/user/" . $user_id . "/edit'> Договоры пользователя</a>";
+            }
         }
         echo "<hr>";
         
