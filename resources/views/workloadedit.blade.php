@@ -50,7 +50,7 @@
                         <select id="teacherSelect" name="teachers[]" multiple class="form-control" style="height: 600px;"
                                 
                                 @if (Auth::user()->role_id == 2)
-                                disabled
+                                
                                 @endif
                                 
                                 >
