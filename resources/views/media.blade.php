@@ -21,12 +21,12 @@
                         <thead>
                         <tr class="info">
                         <th>№</th>
+                        <th>Год</th>
                         <th>Тип</th>
                         <th>Название</th>
                         <th>Преподаватель</th>
                         <th>Продюссер</th>
                         <th>Квартал/Дата начала/завершения</th>
-                        
                         <th>Статус</th>
                         <th>Где посмотреть?</th>
                         
@@ -35,6 +35,7 @@
                         <tfoot>
                         <tr>
                         <td></td>
+                        <td class="filter"></td>
                         <td class="filter"></td>
                         <td class="filter"></td>
                         <td class="filter"></td>
@@ -54,6 +55,7 @@
                     <tr>
                         @php $i++; @endphp
                         <td>{{ $i }}</td>
+                        <td>{{ $media->year }}</td>
                         <td>{{ $media->mediatype->name or ''}}</td>
                         <td>
                             @if (Auth::user()->role_id == 4)

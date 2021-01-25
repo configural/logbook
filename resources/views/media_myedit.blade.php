@@ -12,6 +12,12 @@
                     @if(Auth::user()->role_id >= 2)  
                     
                     <form method="post">
+                        <p>
+                        <label>Год</label>
+                        <input type="number" name="year" value="{{$media->year}}" class="form-control-static">
+                        </p>
+                        
+                        
                         <p><label>Тип:</label>
                             
                             <input type="hidden" name="return" value="my_media">

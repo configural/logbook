@@ -12,6 +12,13 @@
                     @if(Auth::user()->role_id == 2)  
                     
                     <form method="post">
+                        
+                        
+                        <p>
+                        <label>Год</label>
+                        <input type="number" name="year" value="{{ date('Y')}}" class="form-control-static">
+                        </p>
+                        
                         <input type="hidden" name="return" value="my_media">
                         <p><label>Тип:</label>
                         <select name="type" class="form-control-static" required="">

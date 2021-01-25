@@ -27,6 +27,7 @@
                         <thead>
                         <tr class="info">
                         <th>№</th>
+                        <th>Год</th>
                         <th>Тип</th>
                         <th>Название</th>
                         
@@ -49,6 +50,7 @@
                     <tr>
                         @php $i++; @endphp
                         <td>{{ $i }}</td>
+                        <td>{{ $media->year }}</td>
                         <td>{{ $media->mediatype->name or ''}}</td>
                         <td>{{ $media->name or ''}}</td>
                         <td>

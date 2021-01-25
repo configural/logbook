@@ -12,6 +12,12 @@
                     @if(Auth::user()->role_id == 4)  
                     
                     <form method="post">
+                        
+                        <p>
+                        <label>Год</label>
+                        <input type="number" name="year" value="" class="form-control-static">
+                        </p>
+                        
                         <p><label>Тип:</label>
                         <select name="type" class="form-control-static" required="">
                         @foreach(\App\Mediatype::get() as $type)

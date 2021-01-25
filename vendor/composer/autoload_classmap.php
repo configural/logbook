@@ -1899,6 +1899,7 @@ return array(
     'MediaKvartal' => $baseDir . '/database/migrations/2020_09_28_134341_media_kvartal.php',
     'Mediacontent' => $baseDir . '/database/migrations/2020_09_24_131949_mediacontent.php',
     'Mediacontent2' => $baseDir . '/database/migrations/2020_09_25_091458_mediacontent2.php',
+    'MediacontentYear' => $baseDir . '/database/migrations/2021_01_25_095903_mediacontent-year.php',
     'Mediatypes' => $baseDir . '/database/migrations/2020_09_24_134412_mediatypes.php',
     'Metodist2stream' => $baseDir . '/database/migrations/2020_09_17_104254_metodist2stream.php',
     'MetodistId' => $baseDir . '/database/migrations/2020_10_16_144918_metodist_id.php',
