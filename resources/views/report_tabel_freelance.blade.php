@@ -84,20 +84,35 @@ $contract_price = 600;
                             <tr>
                                 <th rowspan="2">ФИО</th>
                                 <th rowspan="2">Таб.№</th>
-                                
                                 <th rowspan="2">Цена, руб/ч</th>
-                                @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
-                                <th colspan="2">{{$lessontype->name}}</th>
-                                @endforeach
+                                <th colspan='2'>Аудиторные занятия, консультации, в т.ч. перед экзаменами, рук.квал.работой</th>
+                                <th colspan='2'>Участие в аттестационной комиссии в качестве члена или председателя комиссии</th>
+                                <th colspan='2'>Проверка итоговых работ и участие в аттестационной комиссии по их защите</th>
+                                <th colspan='2'>Проверка тестов</th>
+                                <th colspan='2'>Проведение вебинаров</th>
+
                             <th  colspan="2">ИТОГО</th>
                             </tr>
                             <tr>
-                                @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
-                                <th>ч.</th>
-                                <th>руб.</th>
-                                @endforeach
+                            
                             <th>часов</th>
                             <th>рублей</th>
+                            
+                            <th>часов</th>
+                            <th>рублей</th>
+                            
+                            <th>часов</th>
+                            <th>рублей</th>
+
+                            <th>часов</th>
+                            <th>рублей</th>
+
+                            <th>часов</th>
+                            <th>рублей</th>
+                            <th>часов</th>
+                            <th>рублей</th>
+                            
+                            
                             </tr>
                       
                         </thead>
@@ -144,54 +159,86 @@ $contract_price = 600;
                    @php
                         $line_price = 0;
                         $line_hours = 0;
+                        $hours = 0;
+                        $aud_h = [1,2,13, 14, 15];
+                        $att_h = [3, 16, 17, 18, 19];
+                        $prov_h = [4,5,10];
+                        $test_h = [9];
+                        $web_h = [11];
+                        
+                        
                    @endphp
                    
-                   @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
-                   @if (!$lessontype->vneaud)
-                   @php
-                      $hours = \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $lessontype->id);
-                      $price = $hours * $contract->price;
-                      
-                      $line_hours += $hours;
-                      $line_price += $price;
-                      
+<!-- аудиторные занятия-->
+                   @foreach($aud_h as $h) 
+                    @php
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $h);
                     @endphp
-                       
-                      <td>{{ $hours }}</td>
-                      
-                      <td>{{ $price }}</td>
-                   
-                   
-                      @else 
-                   @php
-                      $hours = \App\User::user_hours_vneaud($contract->user->id, $date1, $date2, $lessontype->id);
-                      $price = $hours * $contract->price;
-                      
-                      $line_hours += $hours;
-                      $line_price += $price;
-                      
+                   @endforeach
+                    <td>{{ $hours }}</td>
+                    <td>{{ $hours * $contract->price }}</td>                  
+                    @php ($line_hours += $hours)
+                    @php ($hours = 0)
+                    
+<!-- аттестация-->
+                   @foreach($att_h as $h) 
+                    @php
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $h);
                     @endphp
-                       
-                      <td>{{ $hours }}</td>
-                      
-                      <td>{{ $price }}</td>                      
-                      @endif
-                      
-                      @endforeach
+                   @endforeach
+                    <td>{{ $hours }}</td>
+                    <td>{{ $hours * $contract->price }}</td>                                      
+                    @php ($line_hours += $hours)
+                    @php ($hours = 0)
+
+<!-- проверка итоговых работ-->
+                   @foreach($prov_h as $h) 
+                    @php
+                    $hours += \App\User::user_hours_vneaud($contract->user->id, $date1, $date2, $h);
+                    @endphp
+                   @endforeach
+                    <td>{{ $hours }}</td>
+                    <td>{{ $hours * $contract->price }}</td>                                      
+                    @php ($line_hours += $hours)
+                    @php ($hours = 0)
+
+<!-- проверка тестов-->
+                   @foreach($test_h as $h) 
+                    @php
+                    $hours += \App\User::user_hours_vneaud($contract->user->id, $date1, $date2, $h);
+                    @endphp
+                   @endforeach
+                    <td>{{ $hours }}</td>
+                    <td>{{ $hours * $contract->price }}</td>                                      
+                    @php ($line_hours += $hours)
+                    @php ($hours = 0)
+<!-- вебинары-->
+                   @foreach($web_h as $h) 
+                    @php
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $h);
+                    @endphp
+                   @endforeach
+                    <td>{{ $hours }}</td>
+                    <td>{{ $hours * $contract->price }}</td>                                      
+                    @php ($line_hours += $hours)
+                    @php ($hours = 0)
+                    @php ($line_price = $line_hours * $contract->price)
+<!-- Итого -->
+                    <td>{{ $line_hours }}</td>
+                    <td>{{ $line_price }}</td> 
+
                    @php
                         $total_price += $line_price;
                         $total_hours += $line_hours;
                     
                    @endphp
-                   <td>{{$line_hours}}</td>
-                   <td>{{$line_price}}</td>
-                   
+
                    </tr>
                    
                    @endforeach
                    <tr>
                        <td>ИТОГО<td>
-                           @for($i = 0; $i<33; $i++)
+                           @for($i = 0; $i<11; $i++)
                        <td></td>
                            @endfor
                        <td>
@@ -205,7 +252,10 @@ $contract_price = 600;
                     </tbody>
                 </table>
                 
+                       <p>Главный бухгалтер _________________________  М.Г. Цветкова</p>
+                    <p>Проректор по учебной работе________________  И.В. Кожанова</p>
                     
+                    <p class="pagebreak"></p>
 
                     <table class='table table-bordered'>
                         <tr>
@@ -225,12 +275,26 @@ $contract_price = 600;
                                     ->where('groups.paid', $paid)
                                     ->whereBetween('rasp.date', [$date1, $date2])
                                     ->get() 
+                                     as $contract)
                     
-                    as $contract)
-                    <tr>
+                    @foreach(\App\Vneaud::selectRaw('sum(vneaud.hours) as $hours') 
+                                    ->join('users', 'vneaud.user_id', '=', 'users.id')
+                                    ->join('groups', 'vneaud.group_id', '=', 'groups.id')
+                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
+                                    ->whereBetween('vneaud.date', [$date1, $date2])
+                                    ->where('users.freelance', 0)
+                                    ->where('groups.paid', $paid)
+                                    ->where('programs.form_id', $form_id)
+                                    ->get()
+                                    as $vneaud)
+                    
+                    @endforeach
+                                     <tr>
                         <td>{{$contract_price}}</td>
-                        <td>{{$contract->hours}}</td>
-                        <td>{{$contract->hours * $contract_price}}</td>
+                        <td>{{$contract->hours + $vneaud->hours}}</td>
+                        <td>{{($contract->hours + $vneaud->hours) * $contract_price}}</td>
                         @php
                         $hours1 += $contract->hours;
                         $price1 += $contract->hours * $contract_price;
@@ -259,10 +323,26 @@ $contract_price = 600;
                                     ->where('groups.paid', $paid)
                                     ->get() 
                     as $contract)
+                    
+                    @foreach(\App\Vneaud::selectRaw('sum(vneaud.hours) as $hours') 
+                                    ->join('users', 'vneaud.user_id', '=', 'users.id')
+                                    ->join('groups', 'vneaud.group_id', '=', 'groups.id')
+                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
+                                    ->whereBetween('vneaud.date', [$date1, $date2])
+                                    ->where('users.freelance', 1)
+                                    ->where('groups.paid', $paid)
+                                    ->where('programs.form_id', $form_id)
+                                    ->get()
+                                    as $vneaud)
+                    
+                    @endforeach                    
+                    
                     <tr>
                         <td>{{$contract->price}}</td>
-                        <td>{{$contract->hours}}</td>
-                        <td>{{$contract->hours * $contract->price}}</td>
+                        <td>{{$contract->hours + $contract->vneaud}}</td>
+                        <td>{{($contract->hours + $contract->vneaud) * $contract->price}}</td>
                         @php
                         $hours2 += $contract->hours;
                         $price2 += $contract->hours * $contract->price;
