@@ -33,8 +33,8 @@
                               @endforeach
                               </select>
                           </p>
-                          <p><label>Табельный номер (только для штатных)</label>
-                              <input name="table_number" type="number" value="{{$user->table_number}}" class="form-control-static">
+                          <p><label>Табельный номер</label> 
+                              <input name="table_number" type="number" value="{{$user->table_number}}" class="form-control">
                           </p>
                           
                           <p><label>Внештатный?</label><input type="number" value="{{$user->freelance}}" class="form-control" name="freelance" required>

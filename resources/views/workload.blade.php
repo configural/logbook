@@ -290,7 +290,12 @@
                                 @if($timetable->teachers->count())
                                 
                                 @foreach($timetable->teachers as $teacher)
-                                    <span class="green"><strong>{{$teacher->secname()}}</strong> </span>
+                                    <span class="green"><strong>{{$teacher->secname()}}</strong> 
+                                    
+                                    @if ($teacher->freelance) 
+                                     (договор)
+                                    @endif
+                                    </span>
                                         @if($teacher->id == Auth::user()->id)
                                         @php ($i++)
                                     @endif
