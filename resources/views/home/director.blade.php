@@ -13,4 +13,5 @@
                     <div class="icon"><a href="{{route('print_rasp_kafedra')}}"><i class="fa fa-calendar fa-3x orange"></i><br/>Расписание преподавателей кафедры</a></div>
                     <div class="icon"><a href="{{route('themes')}}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Нагрузка по кафедрам</a></div>
                     <div class="icon"><a href="{{route('report_rasp_classrooms')}}"><i class="fa fa-building fa-3x blue"></i><br/>Занятость аудиторий</a></div>
+                    <div class="icon"><a href="{{route('tabel_freelance')}}"><i class="fa fa-clock-o fa-3x green"></i><br/>Табель</a></div>                                
                         
