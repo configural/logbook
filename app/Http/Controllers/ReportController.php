@@ -331,9 +331,18 @@ class ReportController extends Controller
         $request->date1 ? $date1 = $request->date1 : $date1 = date("Y-m-d");
         $request->date2 ? $date2 = $request->date2 : $date2 = Carbon::now()->addMonth()->format("Y-m-d");
         $freelance = $request->freelance;
+        
+        if ($request->department_id != -1)
+        {    
         $users = \App\User::where('department_id', $request->department_id)
                 ->where('freelance', $freelance)
                 ->orderBy('name')->get();
+        } else {
+        $users = \App\User::where('freelance', $freelance)
+                ->orderBy('name')->get();
+            
+        }
+            
         return view('report_rasp_kafedra', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'freelance' => $freelance, 'department_id' => $request->department_id]);
     }
 
@@ -355,7 +364,7 @@ class ReportController extends Controller
 
         
         $users = \App\User::where('freelance', 1)->orderBy('name')->get();
-        return view('report_tabel_freelance', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'form_id' => $request->form_id]);
+        return view('report_tabel_freelance', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'form_id' => $request->form_id, 'paid' => $request->paid]);
     }
 
 

@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
                     <form method="get">
-                        <p><label>Форма обучения</label> <br/>
+                        <p><label>Форма обучения</label> 
                         
                             <select name="form_id" class="form-control-static">
                                 <option value=''>выберите</option>
@@ -24,7 +24,19 @@
                             @endforeach
                             
                         </select>
-                         
+                            
+                            
+                            <label>Источник средств </label> 
+                                        <select id="paid" name="paid" class="form-control-static">
+                                            @if ($paid == 0)
+                                            <option value="0" selected>субсидии</option>
+                                            <option value="1">деятельность, приносящая доход</option>
+                                            @else
+                                            <option value="0">субсидии</option>
+                                            <option value="1" selected>деятельность, приносящая доход</option>
+                                            @endif
+                                        </select> 
+                                    </p>
                             @include('include.daterange', ['date1' => $date1, 'date2' => $date2])
                         
                         <button class="btn btn-success">Сформировать</button>
@@ -39,6 +51,14 @@
                     @if ($form_id)
                     <h2>Форма обучения: {{ \App\Form::find($form_id)->name }}</h2>
                     @endif
+                    
+                    @if ($paid == 1)
+                    <h3>Источник финансирования: деятельность, приносящая доход</h3>
+                    @else
+                    <h3>Источник финансирования: субсидии</h3>
+                    @endif
+                    
+                    
                     <table class='table table-bordered printable' width="100%">
                         
                         <thead>
@@ -77,6 +97,7 @@
                             ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                             ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
                             ->distinct()
+                            ->where('groups.paid', $paid)
                             ->whereBetween('rasp.date', [$date1, $date2])
                             ->where('programs.form_id', $form_id)
                             

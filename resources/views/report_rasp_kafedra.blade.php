@@ -1,4 +1,3 @@
-34
 @extends('layouts.app')
 
 @section('content')
@@ -14,7 +13,7 @@
                         <p><label>Кафедра (подразделение)</label> <br/>
                         
                             <select name="department_id" class="form-control-static">
-                            
+                                
                             @foreach(\App\Department::where('active', 1)->get() as $dep)
                             @if (isset($department_id) && $dep->id == $department_id)
                             <option value="{{ $dep->id }}" selected>{{ $dep->name }}</option>
@@ -22,7 +21,11 @@
                             <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                             @endif
                             @endforeach
-                            
+                            @if (isset($department_id) && $dep->id == $department_id)
+                            <option value='-1' selected>Все кафедры</option>
+                            @else
+                            <option value='-1'>Все кафедры</option>
+                            @endif
                         </select>
                          
                             @include('include.daterange', ['date1' => $date1, 'date2' => $date2])
@@ -44,9 +47,7 @@
                         {{ csrf_field() }}
                     </form>
                     <p></p>
-                    @if (isset($department_id))
-                    <h2>Кафедра {{\App\Department::find($department_id)->name}}</h2>
-                    @endif
+
                     
                     @if(isset($users))
                     
@@ -54,7 +55,8 @@
                     
                     @if (\App\User::rasp($user->id, $date1, $date2))
                             <h4>{{ $user->name}}</h4>
-                            <table class='table table-bordered'>
+                            <hr>
+                            <table>
 
                                 <thead>
                                 <tr class='alert-info'>
