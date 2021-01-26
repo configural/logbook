@@ -201,7 +201,7 @@ $contract_price = 600;
 
                     <table class='table table-bordered'>
                         <tr>
-                                <th colspan='3'>"32"</th>
+                        <th colspan='3'>"32"</th>
                             </tr>
                         
                     @foreach(\App\User::selectRaw('sum(timetable.hours) as hours ')
@@ -225,7 +225,7 @@ $contract_price = 600;
                         <td>{{$contract->hours * $contract_price}}</td>
                         @php
                         $hours1 += $contract->hours;
-                        $price1 += $contract->hours * $contract->price;
+                        $price1 += $contract->hours * $contract_price;
                         @endphp
                     </tr>
                     @endforeach
