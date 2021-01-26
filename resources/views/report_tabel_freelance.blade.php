@@ -68,14 +68,14 @@
                    @endphp
                    
                    
-                   @foreach(\App\Contract::select('contracts.*' )
+                   @foreach(\App\Contract::selectRaw('contracts.*' )
                             ->join('teachers2timetable', 'teachers2timetable.contract_id', '=', 'contracts.id')
                             ->join('timetable', 'timetable.id', '=', 'teachers2timetable.timetable_id')
                             ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                             ->join('groups', 'groups.id', '=', 'timetable.group_id')
                             ->join('streams', 'streams.id', '=', 'groups.stream_id')
                             ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                            ->join('programs', 'programs.id', '=', 'programs2stream.stream_id')
+                            ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
                             ->distinct()
                             ->whereBetween('rasp.date', [$date1, $date2])
                             ->where('programs.form_id', $form_id)
