@@ -12,7 +12,7 @@ $contract_price = 600;
     <div class="row">
         <div class="col">
             <div class="panel panel-primary">
-                <div class="panel-heading "></div>
+<!--                <div class="panel-heading "></div>-->
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
@@ -54,6 +54,14 @@ $contract_price = 600;
                         
                     </form>
                     <p></p>
+                    <div style="float: right; width: 400; display: block"><center>Утверждаю</center>
+                        <p>Ректор Приволжского института повышения<br/>квалификации ФНС России</p>
+                        <p>__________________ Н.Ф. Беляков</p>
+                        <p>"_____" _________ {{ date('Y')}}</p>
+                    
+                    </div>
+                    <div style="clear: both;"></div>
+                    
                     
                     <center><h3>Табель учета проведенных занятий и причитающихся сумм к выплате исполнителям преподавательских услуг</h3></center>
                     
