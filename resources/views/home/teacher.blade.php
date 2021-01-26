@@ -13,7 +13,7 @@
                         <div class="icon"><a href="{{route('myrasp')}}"><i class="fa fa-calendar fa-3x green"></i><br/>Мое расписание</a></div>
                         <div class="icon"><a href="{{route('raspview')}}"><i class="fa fa-calendar fa-3x blue"></i><br/>Общее расписание</a></div>
                         <div class="icon"><a href="{{route('my_media')}}"><i class="fa fa-camera fa-3x orange"></i><br/>Медиаконтент (планы)</a></div>
-                        
+                        <div class="icon"><a href="{{route('report_rasp_classrooms')}}"><i class="fa fa-building fa-3x blue"></i><br/>Занятость аудиторий</a></div>  
                         
                     </p>
                         

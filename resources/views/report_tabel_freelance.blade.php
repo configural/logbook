@@ -6,21 +6,20 @@
     <div class="row">
         <div class="col">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Табель учета проведенных занятий (внештатные преподаватели)</div>
+                <div class="panel-heading ">Табель учета проведенных занятий (внештатные преподаватели): {{ \Logbook::normal_date($date1)}} – {{ \Logbook::normal_date($date2)}}</div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
                     <form method="get">
-                        <p><label>Кафедра (подразделение)</label> <br/>
+                        <p><label>Форма обучения</label> <br/>
                         
-                            <select name="department_id" class="form-control-static">
-                            
-                            @foreach(\App\Department::where('active', 1)->get() as $dep)
-                            @if (isset($department_id) && $dep->id == $department_id)
-                            <option value="{{ $dep->id }}" selected>{{ $dep->name }}</option>
-                            @php $kafedra = $dep->description; @endphp
+                            <select name="form_id" class="form-control-static">
+                                <option value=''>выберите</option>
+                            @foreach(\App\Form::get() as $form)
+                            @if (isset($form_id) && $form->id == $form_id)
+                            <option value="{{ $form->id }}" selected>{{ $form->name }}</option>
                             @else
-                            <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                            <option value="{{ $form->id }}">{{ $form->name }}</option>
                             @endif
                             @endforeach
                             
@@ -37,7 +36,9 @@
                         
                     </form>
                     <p></p>
-                    <h2>{{ $kafedra or '' }}</h2>
+                    @if ($form_id)
+                    <h2>Форма обучения: {{ \App\Form::find($form_id)->name }}</h2>
+                    @endif
                     <table class='table table-bordered printable' width="100%">
                         
                         <thead>
@@ -65,8 +66,22 @@
                        $total_price = 0;
                        $total_hours = 0;         
                    @endphp
-                   @foreach(\App\Contract::get() as $contract)
-                   @if($contract->user->department_id == $department_id)
+                   
+                   
+                   @foreach(\App\Contract::select('contracts.*' )
+                            ->join('teachers2timetable', 'teachers2timetable.contract_id', '=', 'contracts.id')
+                            ->join('timetable', 'timetable.id', '=', 'teachers2timetable.timetable_id')
+                            ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                            ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                            ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                            ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                            ->join('programs', 'programs.id', '=', 'programs2stream.stream_id')
+                            ->distinct()
+                            ->whereBetween('rasp.date', [$date1, $date2])
+                            ->where('programs.form_id', $form_id)
+                            
+                            ->get() as $contract)
+                   
                    <tr>
 
                    
@@ -76,7 +91,7 @@
                        </td> 
                        
                        <td>
-                           {{ $contract->name }}
+                           {{ $contract->name }}  от {{ \Logbook::normal_date($contract->date)}}
                        </td> 
                        
                        <td>
@@ -130,9 +145,13 @@
                    <td>{{$line_price}}</td>
                    
                    </tr>
-                   @endif
+                   
                    @endforeach
                    <tr>
+                       <td>ИТОГО<td>
+                           @for($i = 0; $i<33; $i++)
+                       <td></td>
+                           @endfor
                        <td>
                            {{ $total_hours}}
                        </td>
