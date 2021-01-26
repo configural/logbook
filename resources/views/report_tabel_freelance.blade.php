@@ -1,4 +1,10 @@
-
+@php
+$hours1 = 0;
+$hours2 = 0;
+$price1 = 0;
+$price2 = 0;
+$contract_price = 600;
+@endphp
 @extends('layouts.app')
 
 @section('content')
@@ -6,7 +12,7 @@
     <div class="row">
         <div class="col">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Табель учета проведенных занятий (внештатные преподаватели): {{ \Logbook::normal_date($date1)}} – {{ \Logbook::normal_date($date2)}}</div>
+                <div class="panel-heading "></div>
 
                 <div class="panel-body">
                     @if(Auth::user()->role_id >= 3)  
@@ -48,14 +54,19 @@
                         
                     </form>
                     <p></p>
+                    
+                    <center><h3>Табель учета проведенных занятий и причитающихся сумм к выплате исполнителям преподавательских услуг</h3></center>
+                    
+                    <h4>Период: {{ \Logbook::normal_date($date1)}} – {{ \Logbook::normal_date($date2)}}</h4>
+                    
                     @if ($form_id)
-                    <h2>Форма обучения: {{ \App\Form::find($form_id)->name }}</h2>
+                    <h4>Форма обучения: {{ \App\Form::find($form_id)->name }}</h4>
                     @endif
                     
                     @if ($paid == 1)
-                    <h3>Источник финансирования: деятельность, приносящая доход</h3>
+                    <h4>Источник финансирования: деятельность, приносящая доход</h4>
                     @else
-                    <h3>Источник финансирования: субсидии</h3>
+                    <h4>Источник финансирования: субсидии</h4>
                     @endif
                     
                     
@@ -64,8 +75,9 @@
                         <thead>
                             <tr>
                                 <th rowspan="2">ФИО</th>
-                                <th rowspan="2">Договор</th>
-                                <th rowspan="2">Стоимость часа</th>
+                                <th rowspan="2">Таб.№</th>
+                                
+                                <th rowspan="2">Цена, руб/ч</th>
                                 @foreach(\App\Lessontype::where('in_table', 1)->get() as $lessontype)
                                 <th colspan="2">{{$lessontype->name}}</th>
                                 @endforeach
@@ -96,6 +108,7 @@
                             ->join('streams', 'streams.id', '=', 'groups.stream_id')
                             ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                             ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
+                            ->join('users', 'contracts.user_id', '=', 'users.id')
                             ->distinct()
                             ->where('groups.paid', $paid)
                             ->whereBetween('rasp.date', [$date1, $date2])
@@ -108,13 +121,13 @@
                    
                    
                        <td>
-                           {{ $contract->user->name }}
+                        <nobr>{{ $contract->user->name }}</nobr>
+
+                        <nobr>{{ $contract->name }}  от {{ \Logbook::normal_date($contract->date)}}</nobr>
                        </td> 
-                       
                        <td>
-                           {{ $contract->name }}  от {{ \Logbook::normal_date($contract->date)}}
-                       </td> 
-                       
+                           {{$contract->user->table_number}}
+                       </td>
                        <td>
                            {{ $contract->price }}
                            
@@ -184,7 +197,112 @@
                     </tbody>
                 </table>
                 
+                    
 
+                    <table class='table table-bordered'>
+                        <tr>
+                                <th colspan='3'>"32"</th>
+                            </tr>
+                        
+                    @foreach(\App\User::selectRaw('sum(timetable.hours) as hours ')
+                                    ->leftjoin('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
+                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
+                                    ->where('users.freelance', '=', 0)
+                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->get() 
+                    
+                    as $contract)
+                    <tr>
+                        <td>{{$contract_price}}</td>
+                        <td>{{$contract->hours}}</td>
+                        <td>{{$contract->hours * $contract_price}}</td>
+                        @php
+                        $hours1 += $contract->hours;
+                        $price1 += $contract->hours * $contract->price;
+                        @endphp
+                    </tr>
+                    @endforeach
+                        
+                        
+                        
+                        
+                            <tr>
+                                <th colspan='3'>"34"</th>
+                            </tr>
+                        
+                    @foreach(\App\Contract::selectRaw('contracts.price as price, sum(timetable.hours) as hours ')
+                                    ->join('teachers2timetable', 'teachers2timetable.contract_id', '=', 'contracts.id')
+                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
+                                    ->groupBy('contracts.price')
+                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->get() 
+                    as $contract)
+                    <tr>
+                        <td>{{$contract->price}}</td>
+                        <td>{{$contract->hours}}</td>
+                        <td>{{$contract->hours * $contract->price}}</td>
+                        @php
+                        $hours2 += $contract->hours;
+                        $price2 += $contract->hours * $contract->price;
+                        @endphp
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td>ИТОГО</td>
+                        <td>{{$hours2}}</td>
+                        <td>{{$price2}}</td>
+                    </tr>
+                    <tfoot>
+                        <tr>
+                            <td>ВСЕГО</td>
+                            <td>{{ $hours1 + $hours2 }}</td>
+                            <td>{{ $price1 + $price2 }}</td>
+                        </tr>
+                    </tfoot>
+                    </table>
+                    
+                    
+                    @php
+                    
+                                     $check = \App\User::selectRaw('sum(timetable.hours) as hours ')
+                                    ->leftjoin('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
+                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
+                                    ->where('users.freelance', '=', 1)
+                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->first(); 
+                    
+                    
+                    @endphp
+                    
+                    @if ($check->hours != $hours2)
+                    <div class='red'>Найдено расхождение в часах! У внештатников должно быть 50 часов. Кого-то забыли!</div>
+                    
+                    @foreach(\App\User::selectRaw('users.name as username, timetable.hours as hours, timetable.id as timetable_id, contracts.name as contractname')
+                                    ->leftjoin('contracts', 'contracts.user_id', '=', 'users.id')
+                                    ->leftjoin('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
+                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
+                                    ->where('users.freelance', '=', 1)
+                                    ->where('teachers2timetable.contract_id', NULL)
+                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->get() as $checklist )
+                                    <a href='{{url('/')}}/workload/edit/{{$checklist->timetable_id}}' target="_blank">{{ $checklist->username}} - {{ $checklist->hours}} - {{$checklist->contractname}}</a><br>               
+                    @endforeach
+                    <div class='red'>Причина - отсутствует привязка нагрузки к договору. Найдите нагрузку (кликните по ссылке), выберите из списка номер договора и нажмтите "Сохранить". 
+                        После этого вернитесь на эту страницу и обновите ее (F5)</div>
+
+                    @else
+                    <p>Главный бухгалтер _________________________  М.Г. Цветкова</p>
+                    <p>Проректор по учебной работе________________  И.В. Кожанова</p>
+                    
+                    
+                    
+                    @endif
+                    
+                    
                     @else
                     К сожалению, у вас нет доступа к этой функции
                     @endif
