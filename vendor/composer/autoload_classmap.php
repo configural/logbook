@@ -4217,6 +4217,7 @@ return array(
     'Symfony\\Polyfill\\Util\\TestListenerForV6' => $vendorDir . '/symfony/polyfill-util/TestListenerForV6.php',
     'Symfony\\Polyfill\\Util\\TestListenerForV7' => $vendorDir . '/symfony/polyfill-util/TestListenerForV7.php',
     'Symfony\\Polyfill\\Util\\TestListenerTrait' => $vendorDir . '/symfony/polyfill-util/TestListenerTrait.php',
+    'TableNumber2string' => $baseDir . '/database/migrations/2021_01_27_115840_table-number2string.php',
     'Teachers2timetable' => $baseDir . '/database/migrations/2020_06_30_120023_teachers2timetable.php',
     'Tests' => $baseDir . '/database/migrations/2020_11_02_150749_tests.php',
     'Tests2streams' => $baseDir . '/database/migrations/2020_12_07_151503_tests2streams.php',

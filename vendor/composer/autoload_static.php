@@ -4661,6 +4661,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'Symfony\\Polyfill\\Util\\TestListenerForV6' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListenerForV6.php',
         'Symfony\\Polyfill\\Util\\TestListenerForV7' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListenerForV7.php',
         'Symfony\\Polyfill\\Util\\TestListenerTrait' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListenerTrait.php',
+        'TableNumber2string' => __DIR__ . '/../..' . '/database/migrations/2021_01_27_115840_table-number2string.php',
         'Teachers2timetable' => __DIR__ . '/../..' . '/database/migrations/2020_06_30_120023_teachers2timetable.php',
         'Tests' => __DIR__ . '/../..' . '/database/migrations/2020_11_02_150749_tests.php',
         'Tests2streams' => __DIR__ . '/../..' . '/database/migrations/2020_12_07_151503_tests2streams.php',
