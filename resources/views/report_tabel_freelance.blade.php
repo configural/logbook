@@ -4,6 +4,7 @@ $hours2 = 0;
 $price1 = 0;
 $price2 = 0;
 $contract_price = 600;
+$months_array = ['','январь','фераль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
 @endphp
 @extends('layouts.app')
 
@@ -43,7 +44,10 @@ $contract_price = 600;
                                             @endif
                                         </select> 
                                     </p>
-                            @include('include.daterange', ['date1' => $date1, 'date2' => $date2])
+                        Месяц 1: <input type="number" name="month" value="{{$month}}" min="1" max="12" class="form-control-static">
+                        
+                        Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
+                        </p>
                         
                         <button class="btn btn-success">Сформировать</button>
                         
@@ -63,9 +67,9 @@ $contract_price = 600;
                     <div style="clear: both;"></div>
                     
                     
-                    <h4>Табель учета проведенных занятий и причитающихся сумм к выплате исполнителям преподавательских услуг</h4>
+                    <h4>Табель учета проведенных занятий и причитающихся сумм к выплате исполнителям преподавательских услуг за {{ $months_array[(int)$month]}} {{$year}} года</h4>
                     
-                    <h4>Период: {{ \Logbook::normal_date($date1)}} – {{ \Logbook::normal_date($date2)}}</h4>
+                   {{-- <h4>Период: {{ \Logbook::normal_date($date1)}} – {{ \Logbook::normal_date($date2)}}</h4>--}}
                     
                     @if ($form_id)
                     <h4>Форма обучения: {{ \App\Form::find($form_id)->name }}</h4>
@@ -134,7 +138,7 @@ $contract_price = 600;
                             ->join('users', 'contracts.user_id', '=', 'users.id')
                             ->distinct()
                             ->where('groups.paid', $paid)
-                            ->whereBetween('rasp.date', [$date1, $date2])
+                            ->where('rasp.date', 'like', "$year-$month%")
                             ->where('programs.form_id', $form_id)
                             
                             ->get() as $contract)
@@ -172,7 +176,7 @@ $contract_price = 600;
 <!-- аудиторные занятия-->
                    @foreach($aud_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $h);
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
@@ -183,7 +187,7 @@ $contract_price = 600;
 <!-- аттестация-->
                    @foreach($att_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $h);
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
@@ -194,7 +198,7 @@ $contract_price = 600;
 <!-- проверка итоговых работ-->
                    @foreach($prov_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_vneaud($contract->user->id, $date1, $date2, $h);
+                    $hours += \App\User::user_hours_vneaud($contract->user->id, $month, $year, $h);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
@@ -205,7 +209,7 @@ $contract_price = 600;
 <!-- проверка тестов-->
                    @foreach($test_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_vneaud($contract->user->id, $date1, $date2, $h);
+                    $hours += \App\User::user_hours_vneaud($contract->user->id, $month, $year, $h);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
@@ -215,7 +219,7 @@ $contract_price = 600;
 <!-- вебинары-->
                    @foreach($web_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_rasp($contract->user->id, $date1, $date2, $h);
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
@@ -273,7 +277,7 @@ $contract_price = 600;
                                     ->where('users.freelance', '=', 0)
                                     ->where('programs.form_id', $form_id)
                                     ->where('groups.paid', $paid)
-                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->where('rasp.date', 'like', "$year-$month%")
                                     ->get() 
                                      as $contract)
                     
@@ -283,7 +287,7 @@ $contract_price = 600;
                                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
                                     ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
-                                    ->whereBetween('vneaud.date', [$date1, $date2])
+                                    ->where('vneaud.date', 'like', "$year-$month%")
                                     ->where('users.freelance', 0)
                                     ->where('groups.paid', $paid)
                                     ->where('programs.form_id', $form_id)
@@ -318,7 +322,7 @@ $contract_price = 600;
                                     ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                      
                                     ->groupBy('contracts.price')
-                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->where('rasp.date', 'like', "$year-$month%")
                                     ->where('programs.form_id', $form_id)
                                     ->where('groups.paid', $paid)
                                     ->get() 
@@ -330,7 +334,7 @@ $contract_price = 600;
                                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
                                     ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
-                                    ->whereBetween('vneaud.date', [$date1, $date2])
+                                    ->where('vneaud.date', 'like', "$year-$month%")
                                     ->where('users.freelance', 1)
                                     ->where('groups.paid', $paid)
                                     ->where('programs.form_id', $form_id)
@@ -375,7 +379,7 @@ $contract_price = 600;
                                     ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')  
                                     ->where('users.freelance', '=', 1)
-                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->where('rasp.date', 'like', "$year-$month%")
                                     ->where('programs.form_id', $form_id)
                                     ->where('groups.paid', $paid)
                                     ->first(); 
@@ -399,7 +403,7 @@ $contract_price = 600;
                                     ->where('teachers2timetable.contract_id', NULL)
                                     ->where('programs.form_id', $form_id)
                                     ->where('groups.paid', $paid)                                    
-                                    ->whereBetween('rasp.date', [$date1, $date2])
+                                    ->where('rasp.date', 'like', "$year-$month%")
                                     ->get() as $checklist )
                                     <a href='{{url('/')}}/workload/edit/{{$checklist->timetable_id}}' target="_blank">{{ $checklist->username}} - {{ $checklist->hours}} - {{$checklist->contractname}}</a><br>               
                     @endforeach

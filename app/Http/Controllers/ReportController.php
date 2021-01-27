@@ -358,13 +358,16 @@ class ReportController extends Controller
 
 // табель внештатных пеподавателей
     function tabel_freelance(Request $request) {
-        $request->date1 ? $date1 = $request->date1 :  $date1 = date("Y-m-")."01";
+        /*$request->date1 ? $date1 = $request->date1 :  $date1 = date("Y-m-")."01";
         $request->date2 ? $date2 = $request->date2 :  $date2 = \Carbon\Carbon::now()->endOfMonth()->toDateString();
+        */
+        $request->month ? $month = $request->month : $month = date("m");
+        $request->year ? $year = $request->year : $year = date("Y");
         
-
+        //dump([$date1, $date2]);
         
         $users = \App\User::where('freelance', 1)->orderBy('name')->get();
-        return view('report_tabel_freelance', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'form_id' => $request->form_id, 'paid' => $request->paid]);
+        return view('report_tabel_freelance', ['users' => $users, 'month' => $month, 'year' => $year, 'form_id' => $request->form_id, 'paid' => $request->paid]);
     }
 
 

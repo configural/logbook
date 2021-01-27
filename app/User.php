@@ -121,6 +121,7 @@ class User extends Authenticatable
        // dump([$user_id, $date1, $date2, $lessontype]);
         $date1 = $year . "-" . sprintf("%02d", $month) . "-01";
         $date2 = $year . "-" . sprintf("%02d", $month) . "-" . cal_days_in_month(CAL_GREGORIAN, $month, $year);;
+        
         //dump([$date1, $date2]);
         $tmp = \App\Timetable::select(['timetable.hours', 'timetable.lessontype', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id' ])
                 ->distinct()
