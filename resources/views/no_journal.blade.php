@@ -29,7 +29,7 @@
                         @if ($r->journal == NULL && isset($r->timetable->lessontype) && in_array($r->timetable->lessontype, [1,2,4,5,11]))  
                         <tr>
                             <td>{{ $r->id }}</td>
-                            <td>{{ $r->date }}</td>
+                            <td><span style="display: none">{{ $r->date }}</span>{{ \Logbook::normal_date($r->date)}}</td>
                             <td>@foreach($r->timetable->teachers as $teacher)
                                 {{$teacher->name}}<br/>
                                 @endforeach
