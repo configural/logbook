@@ -59,7 +59,9 @@ $month = (int) substr($date, 5, 2);
                              @foreach($timetable->teachers as $teacher)
                              <tr>
                                  <td>
-                                     <input required type="radio" name="timetable_id" value="{{$timetable->id}}" data-hours="{{$timetable->hours}}" data-teacher="{{$teacher->id}}" data-group_id="{{$timetable->group_id}}">
+                                     <input required type="radio" id="timetableId" name="timetable_id" value="{{$timetable->id}}" 
+                                            data-hours="{{$timetable->hours}}" 
+                                            data-teacher="{{$teacher->id}}" data-group_id="{{$timetable->group_id}}">
                                      
                                  </td>
                                  <td>
@@ -94,27 +96,33 @@ $month = (int) substr($date, 5, 2);
                         
                         
                        </p>
-                                                  <strong>{{\App\Classroom::find($room)->name}} ({{\App\Classroom::find($room)->capacity}} мест) занята:</strong>
-
+                                                  
+                      
                        <div class="container-fluid">
-                       <p>
-                           @php ($i = 0)
-                           @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room)->orderby('start_at')->get() as $rasp)
-                           <br/><span class="red">{{$rasp->start_at}} – {{$rasp->finish_at}}</span>
-                           @php ($i++)
-                           @endforeach
-                           @if ($i == 0) 
-                           свободна весь день!
-                           @endif
-                           <div class="row-fluid">
-                           
-                           <div class="col-lg-6"<span id="teacherBusy"></span></div>
-                           <div class="col-lg-6"><span id="groupBusy"></span></div>
+                            <div class="row-fluid">
+                                <div class="col-lg-3">
+                                    <strong><span class="red">{{\App\Classroom::find($room)->name}} занята:</span></strong>
+                                        @php ($i = 0)
+                                        @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room)->orderby('start_at')->get() as $rasp)
+                                        <br/>{{$rasp->start_at}} – {{$rasp->finish_at}}
+                                        @php ($i++)
+                                        @endforeach
+                                        @if ($i == 0) 
+                                        свободна весь день!
+                                        @endif
+                                </div>    
+                                <div class="col-lg-3"><span id="groupBusy"></span></div>
+                                <div class="col-lg-3"><span id="teacherBusy"></span></div>
+
+                            </div>
                        </div>
-                       </div>
+                       <div style="clear: both"></div>
+                       <hr>
                        {{csrf_field()}}
+                       <p>
                         <button class="btn btn-success" id="saveButton">Сохранить</button>
                         <a href="{{url('room_unlock')}}/{{$date}}/{{$room}}" class="btn btn-info">Выйти без сохранения</a>
+                       </p>
                     </form>
                    
                     
@@ -139,10 +147,11 @@ $month = (int) substr($date, 5, 2);
     ).draw();
 });    
     
-$('#timetableId').change(function(){
-    var hours = $('#timetableId option:selected').data('hours');
-    $('#needHours').html(hours + " часа");
+$('input[type=radio]').change(function(){
     
+    var hours = $('#timetableId:checked').data('hours');
+    $('#needHours').html(hours + " часа");
+    //alert(hours);
     check_teacher();
     
     
@@ -152,31 +161,30 @@ $('#startAt').change(function() {check_teacher(); check_group();});
 $('#finishAt').change(function() {check_teacher(); check_group();});
 
 function check_teacher() {
+    
     var start_at = $('#startAt').val();
     var finish_at = $('#finishAt').val();
-    var teacher = $('#timetableId option:selected').data('teacher');
-
+    var teacher = $('input[type=radio]:checked').data('teacher');
     var date = $('#date').val();
-        if (start_at && finish_at) {
-        console.log(date + ";" + start_at + ";" + finish_at);
+    if (start_at && finish_at) {
+    console.log(date + ";" + start_at + ";" + finish_at);
     $.ajax({
-        url: "{{url('/')}}/ajax/teacher_busy/" + teacher + ";" + date + ";" + start_at + ";" + finish_at, 
+        url: "{{url('/')}}/ajax/teacher_busy/" + teacher + ";" + date + ";" + start_at + ";" + finish_at + ";0" , 
         success: function(param) { $('#teacherBusy').html(param);  }
         
     });
     }
+    console.log("{{url('/')}}/ajax/teacher_busy/" + teacher + ";" + date + ";" + start_at + ";" + finish_at);
+
     check_group();
 }
 
 function check_group() {
-    var start_at = "00:00";//$('#startAt').val();
-    var finish_at = "23:59";// $('#finishAt').val();
-   // var start_at = $('#startAt').val();
-   // var finish_at = $('#finishAt').val();
-    var group_id = $('#timetableId option:selected').data('group_id');
-
+    var start_at = $('#startAt').val();
+    var finish_at = $('#finishAt').val();
+    var group_id = $('input[type=radio]:checked').data('group_id');
     var date = $('#date').val();
-        if (start_at && finish_at) {
+    if (start_at && finish_at) {
         console.log("{{url('/')}}/ajax/group_busy/" + group_id + ";" + date + ";" + start_at + ";" + finish_at);
         
     $.ajax({

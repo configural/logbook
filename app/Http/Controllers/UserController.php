@@ -119,12 +119,10 @@ class userController extends Controller
         $busy = false;
         
         $rasp = \App\Rasp::select()->where('date', $date)->orderBy('start_at')->get();
-        echo "<p><strong><span class='red'> " . User::find($user_id)->name . "</span></strong></p>";
+        echo "<strong><span class='red'> " . User::find($user_id)->name . "</span></strong><br>";
  
         if(trim($date)) :
-        echo "<table class='table table-bordered'>";
-        echo "<tr><th>Дата</th><th>Начало</th><th>Конец</th><th>Группа [подгруппа]</th><th>Аудитория</th></tr>";
-                foreach($rasp as $r) {
+           foreach($rasp as $r) {
            foreach($r->timetable->teachers as $teacher) {
                $cross = false;
                if (     ($start_at>=$r->start_at && $finish_at<=$r->finish_at) or
@@ -135,19 +133,17 @@ class userController extends Controller
                {$cross = true;}
                
                if ($teacher->id == $user_id) { 
-               echo "<tr";
+               echo "<div ";
                if ($cross == true) echo " class='cross' ";
                    echo">";
-                echo "<td>" . $r->date . "</td>";
-                echo "<td>" . $r->start_at . "</td>";
-                echo "<td>" . $r->finish_at . "</td>";
-                echo "<td>" . $r->timetable->group->name . " [" .$r->timetable->subgroup . "]</td>";
-                echo "<td>". $r->classroom->name . "</td>";
-               echo "</tr>";}
+                echo "" . str_limit($r->start_at, 5, '') . " - ";
+                echo "" . str_limit($r->finish_at, 5, '') . ", ";
+                echo "ауд. ". $r->classroom->name . "";
+               echo "</div>";}
            }
             
         }
-        echo "</table>";
+       
         endif;
 
         //dump($date);
@@ -173,6 +169,8 @@ class userController extends Controller
             echo "</select>";
             echo "<a href='" . url('/') . "/user/" . $user_id . "/edit'> Договоры пользователя</a>";
             }
+        
+            
         }
         echo "<hr>";
         

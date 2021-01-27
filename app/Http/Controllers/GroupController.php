@@ -116,21 +116,33 @@ class GroupController extends Controller
 
         public function group_busy($group_id, $date, $start_at, $finish_at) {
                 $busy = false;
-                $rasp = \App\Rasp::where('date', $date)->get();
-                echo "<p><strong>У группы в этот день следующие занятия:</strong></p>";
-                echo "<table class='table table-bordered'>";
-                echo "<tr><th>Начало</th><th>Конец</th><th>Аудитория</th></tr>";
-                        foreach($rasp as $r) {
+                echo "<p><strong><span class='red'>Группа " . \App\Group::find($group_id)->name . "</span></strong></p>";             
+                $rasp = \App\Rasp::selectRaw('rasp.*, groups.name as group_name')
+                        ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
+                        ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                        ->where('groups.id', $group_id)
+                        ->where('rasp.date', $date)
+                        ->get();
+                        
+                foreach($rasp as $r) {
+    
+               $cross = false;
+               if (     ($start_at>=$r->start_at && $finish_at<=$r->finish_at) or
+                        ($start_at<=$r->start_at && $finish_at>=$r->finish_at) or
+                        ($finish_at>=$r->start_at && $finish_at<=$r->finish_at) or
+                        ($start_at>=$r->start_at && $start_at<=$r->finish_at)
+                       )
+               {$cross = true;}                            
 
                        if ($r->timetable->group_id == $group_id) { 
-                       echo "<tr>";
-                        echo "<td>" . $r->start_at . "</td>";
-                        echo "<td>" . $r->finish_at . "</td>";
-                        //echo "<td>". $r->timetable->block->name . "</td>";
-                        echo "<td>". $r->classroom->name . "</td>";
-                       echo "</tr>";}
+                        echo "<div ";
+                            if ($cross == true) echo " class='cross' ";
+                        echo">";
+                        echo "" . str_limit($r->start_at,5,'') . " - ";
+                        echo "" . str_limit($r->finish_at,5,'') . " ";
+                        echo " ". $r->classroom->name . "</td>";
+                       echo "</div>";}
                 }
-                echo "</table>";
             }
 
         public function import_asus(Request $request) {
