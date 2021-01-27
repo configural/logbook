@@ -379,7 +379,13 @@ class ReportController extends Controller
            //dump($journal);     
         return view('no_journal', ['journal' => $journal]);*/
         
-        $rasp =  \App\Rasp::select()->where('date', '<', date('Y-m-d'))->get();
+        $rasp =  \App\Rasp::select('rasp.*')
+                ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->where('streams.year', date('Y'))
+                ->where('date', '<', date('Y-m-d'))
+                ->where('groups.paid', 0)->get();
         
         return view('no_journal', ['rasp' => $rasp]);
     }
