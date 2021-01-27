@@ -17,6 +17,7 @@ class WorkloadController extends Controller
         $timetable->fill($request->all());
         //dump($timetable);
         $timetable->save();
+         \App\ChangeLog::add('timetable', $timetable->id, 'ручное добавление нагрузки');       
         return redirect(route('workload'));
         
         
@@ -25,6 +26,7 @@ class WorkloadController extends Controller
     
     public function take_workload($id) {
        $timetable = Timetable::find($id);
+
        return view('workloadadd', ['timetable' => $timetable]);
 
     }
@@ -34,6 +36,7 @@ class WorkloadController extends Controller
        $timetable->month = $request->month;
        if ($timetable->save()) {
        DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $request->id, 'contract_id' => $request->contract_id]);}
+        \App\ChangeLog::add('timetable', $timetable->id, 'первичное распределение нагрузки');       
        return redirect('workload');#'.$request->id);
     }
     
@@ -56,13 +59,14 @@ class WorkloadController extends Controller
        //if ($rasp_date) {return redirect("rasp/?date" . $rasp_date);
        //} else {
        //return redirect('workload');}
+       \App\ChangeLog::add('timetable', $timetable->id, 'перераспределение нагрузки'); 
        session_start();
             switch($_SESSION["work_with"]) {
                 case "workload": { return redirect('workload/?stream_id=' . $_SESSION["stream_id"]);}
                 case "rasp": { return redirect("rasp/?date=" . $rasp->date);}
                 default: {return redirect(route('workload'));}
             }
-            
+           
     }
     
     public function rebuild_workload(Request $request) {
@@ -132,7 +136,9 @@ class WorkloadController extends Controller
 /////////////                    
                  
               echo "<p><a href='". url('workload') ."?year=" . $stream->year . "&stream_id=" . $stream->id ."'>Перейти в нагрузку</a></p>";  
-
+              
+              
+              
             }
         
         
@@ -141,15 +147,17 @@ class WorkloadController extends Controller
     
     
     public function delete_workload($id) {
-        Timetable::find($id)->delete();
+        $timetable = Timetable::find($id)->delete();
         DB::table('teachers2timetable')->where('timetable_id', $id)->delete();
-
+       \App\ChangeLog::add('timetable', $id, 'удаление нагрузки');        
+      
         return redirect('workload');
     }
     
     public function cancel_workload($id) {
        DB::table('teachers2timetable')->where(['teacher_id' => Auth::user()->id, 'timetable_id' => $id])->delete();
-        return redirect('workload');//#'.$id);
+       \App\ChangeLog::add('timetable', $timetable->id, 'отказ от нагрузки');      
+       return redirect('workload');//#'.$id);
     }    
     
     public function split_workload($id) {
@@ -181,9 +189,12 @@ class WorkloadController extends Controller
             dump($error); 
             dump($w1);
         }
-       
-        
+       \App\ChangeLog::add('timetable', $timetable->id, 'разбиение на '.$subgroup_count .'подгруппы');       
+ 
     }
+//////////////////////////////
+//                AJAX
+///////////////////////////////    
     
     public function get_workload($date, $teacher_id) {
                 

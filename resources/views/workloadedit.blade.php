@@ -126,10 +126,19 @@
                     @endif
                     </p>
                     {{ csrf_field() }}
+                    
+                    <hr>
+                                                        <h3>История изменений</h3>
+                    @foreach($timetable->change_log as $log)
+                    {{ $log->created_at }} - {{ $log->user->fio() }} - {{$log->method}}<br>
+                    @endforeach
+                    
                     </form>
                     
+
                         
                 </div>
+
             </div>
         </div>
     </div>

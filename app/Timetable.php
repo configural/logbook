@@ -52,4 +52,9 @@ class Timetable extends Model
     function lesson_type() {
         return $this->hasOne('\App\LessonType', 'id', 'lessontype');
     }
+    
+    function change_log() {
+        return $this->hasMany('\App\ChangeLog', 'item_id', 'id');
+    }
+    
 }
