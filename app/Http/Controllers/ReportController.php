@@ -348,11 +348,13 @@ class ReportController extends Controller
 
 //табель штатных преподавателей    
     function tabel(Request $request) {
-        $request->date1 ? $date1 = $request->date1 :  $date1 = Carbon::now()->subMonth()->format("Y-m-d");
-        $request->date2 ? $date2 = $request->date2 :  $date2 = date("Y-m-d");
+       /* $request->date1 ? $date1 = $request->date1 :  $date1 = Carbon::now()->subMonth()->format("Y-m-d");
+        $request->date2 ? $date2 = $request->date2 :  $date2 = date("Y-m-d");*/
+        $request->month ? $month = $request->month : $month = date("m");
+        $request->year ? $year = $request->year : $year = date("Y");
         $users = \App\User::where('department_id', $request->department_id)->where('freelance', 0)->orderBy('name')->get();
         
-        return view('report_tabel', ['users' => $users, 'date1' => $date1, 'date2' => $date2, 'department_id' => $request->department_id]);
+        return view('report_tabel', ['users' => $users, 'month' => $month, 'year' => $year, 'department_id' => $request->department_id]);
        
     }
 

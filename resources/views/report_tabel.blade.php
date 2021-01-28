@@ -25,8 +25,9 @@
                             @endforeach
                             
                         </select>
-                         
-                            @include('include.daterange', ['date1' => $date1, 'date2' => $date2])
+                            <label>Месяц:</label> <input type="number" name="month" value="{{$month}}" min="1" max="12" class="form-control-static">
+                        
+                            <label>Год:</label> <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         
                         <button class="btn btn-success">Сформировать</button>
                         
@@ -80,31 +81,31 @@
                             
                            @if(!$lessontype->vneaud)
                            @php 
-                            $total_user += \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id);
+                            $total_user += \App\User::user_hours_rasp($user->id, $month, $year, $lessontype->id);
                             
                             if (!isset($total[$lessontype->id])) { 
                                 $total[$lessontype->id] = 0;
-                                $total[$lessontype->id] += \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id);
+                                $total[$lessontype->id] += \App\User::user_hours_rasp($user->id, $month, $year, $lessontype->id);
                             } else {
-                                $total[$lessontype->id] += \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id);
+                                $total[$lessontype->id] += \App\User::user_hours_rasp($user->id, $month, $year, $lessontype->id);
                             }
                             
                             @endphp
                        
-                            {{ \App\User::user_hours_rasp($user->id, $date1, $date2, $lessontype->id) }}
+                            {{ \App\User::user_hours_rasp($user->id,  $month, $year, $lessontype->id) }}
                         
                             @else
                             
                             @php
-                            $total_user += \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id);
+                            $total_user += \App\User::user_hours_vneaud($user->id, $month, $year,  $lessontype->id);
                                 if (!isset($total[$lessontype->id])) { 
                                     $total[$lessontype->id] = 0;
-                                    $total[$lessontype->id] += \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id);
+                                    $total[$lessontype->id] += \App\User::user_hours_vneaud($user->id, $month, $year,  $lessontype->id);
                                 } else {
-                                 $total[$lessontype->id] += \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id);
+                                 $total[$lessontype->id] += \App\User::user_hours_vneaud($user->id, $month, $year, $lessontype->id);
                                 }
                             @endphp
-                            {{ \App\User::user_hours_vneaud($user->id, $date1, $date2, $lessontype->id) }}
+                            {{ \App\User::user_hours_vneaud($user->id,  $month, $year,  $lessontype->id) }}
                             
                             @endif
                         </td>
