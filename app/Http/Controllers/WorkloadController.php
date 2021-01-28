@@ -155,8 +155,8 @@ class WorkloadController extends Controller
     }
     
     public function cancel_workload($id) {
-       DB::table('teachers2timetable')->where(['teacher_id' => Auth::user()->id, 'timetable_id' => $id])->delete();
-       \App\ChangeLog::add('timetable', $timetable->id, 'отказ от нагрузки');      
+       $timetable = DB::table('teachers2timetable')->where(['teacher_id' => Auth::user()->id, 'timetable_id' => $id])->delete();
+       \App\ChangeLog::add('timetable', $id, 'отказ от нагрузки');      
        return redirect('workload');//#'.$id);
     }    
     
