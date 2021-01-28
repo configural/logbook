@@ -29,7 +29,11 @@ $months_array = ['','январь','фераль','март','апрель','м�
                             <option value="{{ $form->id }}">{{ $form->name }}</option>
                             @endif
                             @endforeach
-                            
+                            @if ($form_id == "1,2,3")
+                            <option value="1,2,3" selected>все формы обучения</option>
+                            @else
+                            <option value="1,2,3">все формы обучения</option>
+                            @endif
                         </select>
                             
                             
@@ -43,10 +47,15 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                             <option value="1" selected>деятельность, приносящая доход</option>
                                             @endif
                                         </select> 
-                                    </p>
-                        Месяц 1: <input type="number" name="month" value="{{$month}}" min="1" max="12" class="form-control-static">
+                                    
+                            <label>Месяц:</label> <input type="number" name="month" value="{{$month}}" min="1" max="12" class="form-control-static">
                         
-                        Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
+                            <label>Год:</label> <input type='number' name='year' value='{{$year}}' class="form-control-static">
+                        </p>
+                        <p>
+                            <label>Кто утверждает: </label>
+                        <input id='rektor_input' value='Ректор' class='form-control-static'>
+                        <input id='rektor_fio_input' value='Н.Ф. Беляков' class='form-control-static'>
                         </p>
                         
                         <button class="btn btn-success">Сформировать</button>
@@ -59,8 +68,8 @@ $months_array = ['','январь','фераль','март','апрель','м�
                     </form>
                     <p></p>
                     <div style="float: right; width: 400; display: block"><center>Утверждаю</center>
-                        <p>Ректор Приволжского института повышения<br/>квалификации ФНС России</p>
-                        <p>__________________ Н.Ф. Беляков</p>
+                        <p><span id="rektor">Ректор</span> Приволжского института повышения<br/>квалификации ФНС России</p>
+                        <p>__________________ <span id="rektor_fio">Н.Ф. Беляков</span></p>
                         <p>"_____" _________ {{ date('Y')}}</p>
                     
                     </div>
@@ -69,12 +78,20 @@ $months_array = ['','январь','фераль','март','апрель','м�
                     
                     <h4>Табель учета проведенных занятий и причитающихся сумм к выплате исполнителям преподавательских услуг за {{ $months_array[(int)$month]}} {{$year}} года</h4>
                     
-                   {{-- <h4>Период: {{ \Logbook::normal_date($date1)}} – {{ \Logbook::normal_date($date2)}}</h4>--}}
+                   {{-- <h4>Период: {{ \Logbook::normal_date($date1)}} – {{ \Logbook::normal_date($date2)}}</h4>
+                    --}}
                     
                     @if ($form_id)
-                    <h4>Форма обучения: {{ \App\Form::find($form_id)->name }}</h4>
+                    <h4>
+                        @if(strlen($form_id) == 1)
+                        Форма обучения: 
+                        {{ \App\Form::find($form_id[0])->name }}
+                        @else
+                        Все формы обучения
+                        @endif
+                    </h4>
                     @endif
-                    
+                   
                     @if ($paid == 1)
                     <h4>Источник финансирования: деятельность, приносящая доход</h4>
                     @else
@@ -139,7 +156,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                             ->distinct()
                             ->where('groups.paid', $paid)
                             ->where('rasp.date', 'like', "$year-$month%")
-                            ->where('programs.form_id', $form_id)
+                            ->whereIn('programs.form_id', [$form_id])
                             
                             ->get() as $contract)
                    
@@ -275,7 +292,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
                                     ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
                                     ->where('users.freelance', '=', 0)
-                                    ->where('programs.form_id', $form_id)
+                                    ->whereIn('programs.form_id', [$form_id])
                                     ->where('groups.paid', $paid)
                                     ->where('rasp.date', 'like', "$year-$month%")
                                     ->get() 
@@ -290,7 +307,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                     ->where('vneaud.date', 'like', "$year-$month%")
                                     ->where('users.freelance', 0)
                                     ->where('groups.paid', $paid)
-                                    ->where('programs.form_id', $form_id)
+                                    ->whereIn('programs.form_id', [$form_id])
                                     ->get()
                                     as $vneaud)
                     
@@ -323,7 +340,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                      
                                     ->groupBy('contracts.price')
                                     ->where('rasp.date', 'like', "$year-$month%")
-                                    ->where('programs.form_id', $form_id)
+                                    ->whereIn('programs.form_id', [$form_id])
                                     ->where('groups.paid', $paid)
                                     ->get() 
                     as $contract)
@@ -337,7 +354,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                     ->where('vneaud.date', 'like', "$year-$month%")
                                     ->where('users.freelance', 1)
                                     ->where('groups.paid', $paid)
-                                    ->where('programs.form_id', $form_id)
+                                    ->whereIn('programs.form_id', [$form_id])
                                     ->get()
                                     as $vneaud)
                     
@@ -380,7 +397,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')  
                                     ->where('users.freelance', '=', 1)
                                     ->where('rasp.date', 'like', "$year-$month%")
-                                    ->where('programs.form_id', $form_id)
+                                    ->whereIn('programs.form_id', [$form_id])
                                     ->where('groups.paid', $paid)
                                     ->first(); 
                     
@@ -401,7 +418,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                     ->join('programs', 'programs.id', '=', 'programs2stream.program_id')  
                                     ->where('users.freelance', '=', 1)
                                     ->where('teachers2timetable.contract_id', NULL)
-                                    ->where('programs.form_id', $form_id)
+                                    ->whereIn('programs.form_id', [$form_id])
                                     ->where('groups.paid', $paid)                                    
                                     ->where('rasp.date', 'like', "$year-$month%")
                                     ->get() as $checklist )
@@ -429,4 +446,19 @@ $months_array = ['','январь','фераль','март','апрель','м�
         </div>
     </div>
 </div>
+
+
+<script>
+
+$(document).ready(function() {
+        $('#rektor_input').keyup(function(){
+        $('#rektor').html($('#rektor_input').val());
+        });
+        
+        $('#rektor_fio_input').keyup(function(){
+        $('#rektor_fio').html($('#rektor_fio_input').val());
+        });
+});      
+</script>
+    
 @endsection
