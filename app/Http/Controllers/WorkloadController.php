@@ -36,7 +36,7 @@ class WorkloadController extends Controller
        $timetable->month = $request->month;
        if ($timetable->save()) {
        DB::table('teachers2timetable')->insert(['teacher_id' => Auth::user()->id, 'timetable_id' => $request->id, 'contract_id' => $request->contract_id]);}
-        \App\ChangeLog::add('timetable', $timetable->id, 'первичное распределение нагрузки');       
+        \App\ChangeLog::add('timetable', $timetable->id, 'сохранение нагрузки (store_workload)');       
        return redirect('workload');#'.$request->id);
     }
     
@@ -59,7 +59,7 @@ class WorkloadController extends Controller
        //if ($rasp_date) {return redirect("rasp/?date" . $rasp_date);
        //} else {
        //return redirect('workload');}
-       \App\ChangeLog::add('timetable', $timetable->id, 'перераспределение нагрузки'); 
+       \App\ChangeLog::add('timetable', $timetable->id, 'обновление нагрузки (update_workload)'); 
        session_start();
             switch($_SESSION["work_with"]) {
                 case "workload": { return redirect('workload/?stream_id=' . $_SESSION["stream_id"]);}
@@ -189,7 +189,7 @@ class WorkloadController extends Controller
             dump($error); 
             dump($w1);
         }
-       \App\ChangeLog::add('timetable', $timetable->id, 'разбиение на '.$subgroup_count .'подгруппы');       
+       \App\ChangeLog::add('timetable', $id, 'разбиение на '.$subgroup_count .'подгруппы');       
  
     }
 //////////////////////////////
