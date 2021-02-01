@@ -9,8 +9,8 @@ if (isset($_GET["date"]))
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row-fluid">
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading ">Занятость аудиторий</div>
@@ -47,10 +47,20 @@ if (isset($_GET["date"]))
                         <td>{{$rasp->timetable->group->name}}</td>
                         <td>
                             @foreach($rasp->timetable->teachers as $teacher) 
-                            {{$teacher->secname() or ''}}
+                            @if ($teacher)
+                            {{$teacher->fio() }}
+                            @else
+                            n/a
+                            @endif
                             @endforeach
                         </td>
-                        <td></td>
+                        <td>@if ($rasp->timetable->group->stream->metodist)
+                            {{ $rasp->timetable->group->stream->metodist->secname() }}
+                            @else
+                            n/a
+                            
+                            @endif
+                        </td>
                         
                     
                     
