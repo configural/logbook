@@ -71,6 +71,16 @@ class userController extends Controller
         $user->save();
         return redirect('users');
     }
+   
+    
+    public function login_as($id) {
+        if (in_array(Auth::user()->role_id, [3, 4, 6])) {
+            Auth::loginUsingId($id);
+            return redirect('home');
+        } else {
+            return view('info', ['html' => "У вас нет прав доступа"]);
+        }
+    }
     
     public function editcontract(Request $request) {
         $id = $request->id;

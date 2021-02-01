@@ -28,11 +28,10 @@ Route::get('/user/{id}/edit', 'UserController@edit')->middleware('auth');
 Route::post('/user/{id}/store', 'UserController@store')->middleware('auth');
 Route::get('/user/{user_id}/addcontract', function($id){ return view('usercontractadd', ['id' => $id]);})->middleware('auth');
 Route::post('/user/{user_id}/addcontract', 'UserController@storecontract')->middleware('auth');
-
 Route::get('/user/editcontract/{id}', 'UserController@editcontract')->middleware('auth');
 Route::post('/user/editcontract/{id}', 'UserController@storecontract')->middleware('auth');
 Route::get('/user/deletecontract/{id}', 'UserController@deletecontract')->middleware('auth');
-
+Route::get('/login_as/{id}', 'UserController@login_as')->middleware('auth');
 
 
 

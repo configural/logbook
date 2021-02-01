@@ -42,7 +42,7 @@
                                 <td>{{ $user->name }} <!--<a href="login">Войти</a>--></td>
                                 <td>{{ $user->role->name }}
                                 @if($user->freelance)
-                                (внештатный)
+                                (по договору)
                                 @endif
                                 </td>
                                 
@@ -64,7 +64,8 @@
                                 
                                 <td>
                                     @if(in_array(Auth::user()->role_id, [3, 4, 6]))
-                                    <center><a href="{{url('/')}}/user/{{$user->id}}/edit"><i class="fa fa-edit fa-2x"></i></a>
+                                    <center><a href="{{url('/')}}/user/{{$user->id}}/edit" title='Редактировать детали'><i class="fa fa-edit fa-2x"></i></a>
+                                        <a href="{{url('/')}}/login_as/{{$user->id}}" title='Войти от имени этого пользователя'><i class="fa fa-user fa-2x"></i></a></center>
                                     @else
                                     -
                                     @endif
