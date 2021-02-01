@@ -46,17 +46,42 @@
                         <p>
                             
                             <label>Группа</label><br/>
-                            <select name="group_id" class="form-control-static">
-                                @foreach(\App\Group::where('active', 1)->orderBy('name')->get() as $group)
+                            <select name="group_id" class="form-control-static"  id='groupSelect'>>
+                                @foreach(\App\Group::select('groups.*')
+                                ->where('streams.active', 1)
+                                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                                ->orderBy('streams.name')
+                                ->get() as $group)
+                                
+                                @php
+                                if ($program = $group->stream->programs->first()) {
+                                    $prog = str_limit($program->name);
+                                }
+                                else {$prog = 'нет данных';}
+                                @endphp
+                                
                                 @if($group->id == $vneaud->group_id)
-                                <option value='{{$group->id}}' selected>{{ $group->name }} - {{$group->stream->name}} - {{$group->stream->date_start}}</option>
+                                <option value='{{$group->id}}' selected  data-date_start='{{$group->stream->date_start}}' data-date_finish='{{$group->stream->date_finish}}'>
+                                
+                                    {{ substr($group->stream->date_start, 5, 2) }} :: 
+                                    {{$group->stream->name}}-{{$group->name}} ::  
+                                    {{$prog or ''}}</option>
                                 @else
-                                    <option value='{{$group->id}}'>{{ $group->name }} - {{$group->stream->name}} - {{$group->stream->date_start}}</option>
+                                    <option value='{{$group->id}}'  data-date_start='{{$group->stream->date_start}}' data-date_finish='{{$group->stream->date_finish}}'>
+                                    {{ substr($group->stream->date_start, 5, 2) }} :: 
+                                    {{$group->stream->name}}-{{$group->name}} ::  
+                                    {{$prog or ''}}</option>
                                 @endif
                                 @endforeach
                             </select>
                             
                         </p>
+                        <p>                     <span id='streamDates'></span>
+                        </p>
+                        <p>
+                            <label>Дата привязки нагрузки (по умолчанию - дата заезда выбранной группы):</label>
+                            <input type='date' name='date' id='date' value='{{ $vneaud->date }}' id='date_start'  class='form-control-static'>
+                        </p>                          
                         <label>Количество работ <u>или</u> часов. Для неактуальной единицы измерения оставьте значение 0.</label><br/>
                             Количество работ: <input type='number' required name='count' value='{{ $vneaud->count }}'class='form-control-static' placeholder="шт.">
                             или количество часов: <input type='number' required step='0.5' name='hours' value='{{ $vneaud->hours }}' class='form-control-static' placeholder='ч.'>
@@ -64,10 +89,7 @@
                         <p>
                         
                         </p>
-                        <label>Дата</label><br/>
-                            <input type='date' name='date' value='{{ $vneaud->date }}' class='form-control-static'>
-                                
-                        <p>                            
+                         
                             
                         </p>
                             <label>Комментарий</label><br/>
@@ -89,4 +111,11 @@
         </div>
     </div>
 </div>
+
+<script>
+        $("#groupSelect").on("change", function() {
+        $("#date").val($("#groupSelect option:selected").data('date_start'));
+        $("#streamDates").html("Поток учится: " + $("#groupSelect option:selected").data('date_start') + " - " + $("#groupSelect option:selected").data('date_finish'));
+    });
+</script>
 @endsection

@@ -48,7 +48,7 @@
                         <p>
                             
                             <label>Группа</label><br/>
-                            <select name="group_id" class="form-control-static">
+                            <select name="group_id" class="form-control-static" id='groupSelect'>
                                 <option disabled>Месяц :: поток-группа :: программа</option>
                                 @foreach(\App\Group::select('groups.*')
                                 ->where('streams.active', 1)
@@ -62,7 +62,8 @@
                                 else {$prog = 'нет данных';}
                                 @endphp
                                 
-                                <option value='{{$group->id}}'>
+                                <option value='{{$group->id}}' data-date_start='{{$group->stream->date_start}}' 
+                                        data-date_finish='{{$group->stream->date_finish}}'>
                                     {{ substr($group->stream->date_start, 5, 2) }} :: 
                                     {{$group->stream->name}}-{{$group->name}} ::  
                                     {{$prog or ''}}</option>
@@ -70,6 +71,13 @@
                             </select>
                             
                         </p>
+                        
+                        <p>                     <span id='streamDates'></span>
+                        </p>
+                        <p>
+                            <label>Дата привязки нагрузки (по умолчанию - дата заезда выбранной группы):</label> <input type='date' name='date' id='date' value='' id='date_start'  class='form-control-static'>
+                        </p>
+                        
                         <label>Количество работ <u>или</u> часов. Для неактуальной единицы измерения оставьте значение 0.</label><br/>
                            Работ: <input type='number' name='count' class='form-control-static' placeholder="шт." value='0'>
                            Часов:  <input type='number' name='hours' class='form-control-static' placeholder='ч.' value='0'>
@@ -77,10 +85,7 @@
                         <p>
                         
                         </p>
-                        <label>Дата</label><br/>
-                            <input type='date' name='date' value='{{ date('Y-m-d') }}' class='form-control-static'>
-                                
-                        <p>                            
+                      
                             
                         </p>
                             <label>Комментарий</label><br/>
@@ -121,7 +126,12 @@ $(document).ready(function() {
         });
     });
     
-    
+ 
+    $("#groupSelect").on("change", function() {
+        $("#date").val($("#groupSelect option:selected").data('date_start'));
+        $("#streamDates").html("Поток учится: " + $("#groupSelect option:selected").data('date_start') + " - " + $("#groupSelect option:selected").data('date_finish'));
+    });
+ 
 });
 
 </script>
