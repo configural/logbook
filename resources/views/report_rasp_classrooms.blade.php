@@ -50,7 +50,7 @@ if (isset($_GET["date"]))
                             {{$teacher->secname()}}
                             @endforeach
                         </td>
-                        <td>{{ $rasp->timetable->group->stream->metodist->fio()}}</td>
+                        <td>{{ $rasp->timetable->group->stream->metodist->secname()}}</td>
                         
                     
                     
