@@ -54,8 +54,9 @@
                     @foreach($users as $user)
                     
                     @if (\App\User::rasp($user->id, $date1, $date2))
-                            <h4>{{ $user->name}}</h4>
-                            <hr>
+                    <hr>        
+                    <h4>{{ $user->name}}</h4>
+                            
                             <table>
 
                                 <thead>
