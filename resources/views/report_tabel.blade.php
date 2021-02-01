@@ -2,8 +2,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row-fluid">
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading ">Табель учета проведенных занятий (штатные преподаватели)</div>
