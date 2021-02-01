@@ -87,7 +87,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    @foreach(\App\Timetable::selectRaw('blocks.name, sum(hours) as hours')
                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                   ->join('blocks', 'blocks.id', '=', 'timetable.block_id')
+                   ->leftjoin('blocks', 'blocks.id', '=', 'timetable.block_id')
                    ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                    ->groupBy('blocks.name')
                    ->where('teachers2timetable.teacher_id', $user_id)
@@ -97,7 +97,12 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    ->get() as $timetable
                    )
                    <tr>
-                       <td>{{ @str_limit($timetable->name)}}</td>
+                       <td>@if ($timetable->name)
+                           {{ @str_limit($timetable->name)}}
+                           @else
+                           Аттестации, экзамены, защиты ВКР, ИР
+                           @endif
+                       </td>
 
                        <td>{{ $timetable->hours}}</td>
                    </tr>

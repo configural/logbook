@@ -57,13 +57,13 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             @if($user->id == $user_id)
                             <option value='{{$user->id}}' selected>{{ $user->name }}
                                 @if($user->freelance) 
-                                (внештат.)
+                                (по договору)
                                 @endif
                             </option>
                             @else
                             <option value='{{$user->id}}'>{{ $user->name }}
                             @if($user->freelance) 
-                                (внештат.)
+                                (по договору)
                                 @endif
                             </option>
                             @endif
@@ -111,7 +111,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         </tr>  
                         </thead>
                         <tbody>
-                    
+ <tr><th colspan='14'>Аудиторная нагрузка:</th></tr>                   
                         @foreach(\App\Lessontype::where('vneaud', 0)->where('in_table', 1)->orderby('id')->get() as $lessontype)
                         @php 
                         $hours_total = 0;
@@ -140,19 +140,21 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         </tr>    
                         @endforeach
                          
-                        <tr><td></td></tr>
+                        <tr><td colspan='14'>Внеаудиторная нагрузка в этом отчете не отображается, так как она не вносится в расписание.</td></tr>
                         
                         
                         
+                        {{--
                         
-                        
-                        @foreach(\App\Lessontype::where('vneaud', 1)->where('in_table', 1)->orderby('id')->get() as $lessontype)
+                        @foreach(\App\Lessontype::where('vneaud', 1)
+                        ->where('in_table', 1)->orderby('id')->get() as $lessontype)
                         @php ($hours_total = 0)
                         <tr>
                             <td>{{ $lessontype->name }}</td>
                             @for ($month = $month1; $month<=$month2; $month++)
                             <td>
                                 @php
+                                
                                 $hours = \App\User::user_hours_vneaud($user_id, $month, $year, $lessontype->id);
                                 $hours_total += $hours;
                                 $hours_total_month[$month] += $hours;
@@ -168,8 +170,8 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             <td>{{ $hours_total or ''}}</td>
                         </tr>    
                         @endforeach                            
-                            
-
+                        --}}
+                        
                         <tfoot>
                             <tr>
                         <td>ИТОГО</td>
@@ -203,7 +205,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         </tr>  
                         </thead>
                         <tbody>
-                    
+                        <tr><th colspan='14'>Аудиторная нагрузка:</th></tr>
                         @foreach(\App\Lessontype::where('vneaud', 0)->where('in_table', 1)->orderby('id')->get() as $lessontype)
                         @php 
                         $hours_total = 0;
@@ -232,7 +234,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         </tr>    
                         @endforeach
                          
-                        <tr><td></td></tr>
+                        <tr><th colspan='14'>Внеаудиторная нагрузка:</th></tr>
                         @foreach(\App\Lessontype::where('vneaud', 1)->where('in_table', 1)->orderby('id')->get() as $lessontype)
                         @php ($hours_total = 0)
                         <tr>
