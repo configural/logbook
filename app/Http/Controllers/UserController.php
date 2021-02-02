@@ -75,8 +75,15 @@ class userController extends Controller
     
     public function login_as($id) {
         if (in_array(Auth::user()->role_id, [3, 4, 6])) {
-            Auth::loginUsingId($id);
-            return redirect('home');
+            $user = \App\User::find($id);
+            if ($user->role_id == 2) 
+                {Auth::loginUsingId($id); 
+                return redirect('home');
+                }
+            else {
+                return view('info', ['html' => "Вы пытаетесь залогигиться как " . $user->role->name . ". Из соображений безопасности можно логиниться только в профили преподавателей. В остальные роли - нельзя!"]);
+            }
+            
         } else {
             return view('info', ['html' => "У вас нет прав доступа"]);
         }

@@ -64,8 +64,10 @@
                                 
                                 <td>
                                     @if(in_array(Auth::user()->role_id, [3, 4, 6]))
-                                    <center><a href="{{url('/')}}/user/{{$user->id}}/edit" title='Редактировать детали'><i class="fa fa-edit fa-2x"></i></a>
-                                        <a href="{{url('/')}}/login_as/{{$user->id}}" title='Войти от имени этого пользователя'><i class="fa fa-user fa-2x"></i></a></center>
+                                   <a href="{{url('/')}}/user/{{$user->id}}/edit" title='Редактировать детали'><i class="fa fa-edit fa-2x"></i></a>
+                                        @if($user->role_id == 2)
+                                        <a href="{{url('/')}}/login_as/{{$user->id}}" title='Войти от имени этого пользователя'><i class="fa fa-user fa-2x"></i></a>
+                                        @endif
                                     @else
                                     -
                                     @endif
