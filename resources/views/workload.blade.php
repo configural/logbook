@@ -68,7 +68,12 @@
                             Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static' onChange='form.submit()'>
 
                             <select name='stream_id' id='produce' class='form-control-static blue' onChange='form.submit()' >
-                                <option value='0' >Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
+                                <option value='0'>Выберите</option>
+                                @if ($stream_id == -1)
+                                    <option value='-1' selected>Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
+                                    @else 
+                                    <option value='-1'>Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
+                                @endif
                                 @foreach(\App\Stream::selectRaw('streams.*, programs.name as program_name')
                                 ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                                 ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
@@ -147,7 +152,7 @@
 
                          @include('include.excel_button')
                          
-                        @if ($stream_id)
+                        @if ($stream_id > 0)
                         
 
                         
@@ -343,7 +348,7 @@
                         <a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a>
                         </p>
                         
-                        @else
+                        @elseif ($stream_id == -1)
                         <h3>Нераспределенная нагрузка</h3>
                         
 
@@ -517,6 +522,8 @@
                         </tr></tfoot>
                         
                         </table>
+                        @else
+                        
                         @endif
                     </div>
 

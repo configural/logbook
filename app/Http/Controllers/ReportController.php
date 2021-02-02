@@ -352,7 +352,7 @@ class ReportController extends Controller
         $request->date2 ? $date2 = $request->date2 :  $date2 = date("Y-m-d");*/
         $request->month ? $month = $request->month : $month = date("m");
         $request->year ? $year = $request->year : $year = date("Y");
-        $users = \App\User::where('department_id', $request->department_id)->where('freelance', 0)->orderBy('name')->get();
+        $users = \App\User::where('department_id', $request->department_id)->where('freelance', 0)->where('role_id', 2)->orderBy('name')->get();
         
         return view('report_tabel', ['users' => $users, 'month' => $month, 'year' => $year, 'department_id' => $request->department_id]);
        
@@ -388,6 +388,7 @@ class ReportController extends Controller
                 ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->whereIn('timetable.lessontype', [1, 2, 3])
                 ->where('streams.year', date('Y'))
                 ->where('date', '<', date('Y-m-d'))
                 ->where('groups.paid', 0)->get();
