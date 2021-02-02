@@ -388,7 +388,7 @@ class ReportController extends Controller
                 ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                ->whereIn('timetable.lessontype', [1, 2, 3])
+               // ->whereIn('timetable.lessontype', [1, 2, 3])
                 ->where('streams.year', date('Y'))
                 ->where('date', '<', date('Y-m-d'))
                 ->where('groups.paid', 0)->get();
