@@ -366,6 +366,7 @@ class ReportController extends Controller
         $request->month ? $month = $request->month : $month = date("m");
         $request->year ? $year = $request->year : $year = date("Y");
         
+        //
         //dump([$date1, $date2]);
         
         $users = \App\User::where('freelance', 1)->orderBy('name')->get();

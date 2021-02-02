@@ -5,6 +5,7 @@ $price1 = 0;
 $price2 = 0;
 $contract_price = 600;
 $months_array = ['','январь','фераль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+
 @endphp
 @extends('layouts.app')
 
@@ -48,7 +49,18 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                             @endif
                                         </select> 
                                     
-                            <label>Месяц:</label> <input type="number" name="month" value="{{$month}}" min="1" max="12" class="form-control-static">
+                            <label>Месяц:</label> 
+                            <select name="month"  class="form-control-static">
+                                @for($i = 1; $i<=12; $i++)
+                                @if ($month == $i)
+                                <option value="{{ sprintf("%02d", $i)}}" selected>{{ $months_array[$i]}}</option>
+                                @else
+                                <option value="{{ sprintf("%02d", $i)}}">{{ $months_array[$i]}}</option>
+                                @endif
+                                
+                                @endfor
+                            </select>
+                            
                         
                             <label>Год:</label> <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         </p>
@@ -427,7 +439,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                         После этого вернитесь на эту страницу и обновите ее (F5)</div>
 
                     @else
-
+                    
                     <p>Проректор по учебной работе________________  И.В. Кожанова</p>
                     
                     
