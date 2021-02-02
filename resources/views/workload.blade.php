@@ -74,11 +74,16 @@
                                     @else 
                                     <option value='-1'>Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
                                 @endif
+                                
                                 @foreach(\App\Stream::selectRaw('streams.*, programs.name as program_name')
                                 ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                                 ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
                                 ->orderby('programs.name')
-                                ->where('streams.active', 1)->where('streams.year', $year)->orderby('streams.date_start')->get() as $stream)
+                                ->where('streams.active', 1)
+                                ->where('streams.year', $year)
+                                ->where('streams.date_finish', '>=', date('Y-m-d'))
+                                ->orderby('streams.date_start')
+                                ->get() as $stream)
 
                                     @if ($prev_program_name != str_limit($stream->program_name, 1))
                                     <option disabled="">{{ str_limit($stream->program_name, 1, '') }}</option>
@@ -106,6 +111,7 @@
 
                             
                             <button class='btn btn-primary'>Отфильтровать</button>
+                            <br><small>Внимание! В выпадающем списке не отображаются потоки, которые уже отучились, но в пункте "нераспределенная нагрузка" отображается все за выбранный год без учета даты.</small>
                         </p>
                         <p>
                             {{--
@@ -134,7 +140,7 @@
                             Если нужной нагрузки в таблице нет, создайте ее вручную. Если нагрузка сформирована не полностью, или учебный план поменялся нажмите кнопку "Синхронизировать с учебным планом"</p>
                         <p><a href='workload/add' class='btn btn-success'>Создать элемент нагрузки вручную</a> 
                         
-                        @if ($stream_id) 
+                        @if ($stream_id > 0) 
                         <a href='workload/rebuild?stream_id={{$stream_id}}' class='btn btn-danger'>Синхронизировать с учебным планом</a></p>
                         @endif
                         
