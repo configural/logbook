@@ -60,13 +60,17 @@ class WorkloadController extends Controller
        //} else {
        //return redirect('workload');}
        \App\ChangeLog::add('timetable', $timetable->id, 'обновление нагрузки (update_workload)'); 
+       
        session_start();
+       if (isset($_SESSION["work_with"])) {
             switch($_SESSION["work_with"]) {
                 case "workload": { return redirect('workload/?stream_id=' . $_SESSION["stream_id"]);}
                 case "rasp": { return redirect("rasp/?date=" . $rasp->date);}
                 default: {return redirect(route('workload'));}
             }
-           
+       } else {
+                return redirect(route('workload'));
+       }   
     }
     
     public function rebuild_workload(Request $request) {
