@@ -65,10 +65,10 @@ $months_array = ['','январь','фераль','март','апрель','м�
                             <label>Год:</label> <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         </p>
                         <p>
-                            <label>Кто утверждает: </label>
+                        <!--    <label>Кто утверждает: </label>
                         <input id='rektor_input' value='Ректор' class='form-control-static'>
                         <input id='rektor_fio_input' value='Н.Ф. Беляков' class='form-control-static'>
-                        </p>
+                        </p>-->
                         
                         <button class="btn btn-success">Сформировать</button>
                         
@@ -79,14 +79,14 @@ $months_array = ['','январь','фераль','март','апрель','м�
                         
                     </form>
                     <p></p>
-                    <div style="float: right; width: 400; display: block"><center>Утверждаю</center>
+                   <!-- <div style="float: right; width: 400; display: block"><center>Утверждаю</center>
                         <p><span id="rektor">Ректор</span> Приволжского института повышения<br/>квалификации ФНС России</p>
                         <p>__________________ <span id="rektor_fio">Н.Ф. Беляков</span></p>
                         <p>"_____" _________ {{ date('Y')}}</p>
                     
                     </div>
                     <div style="clear: both;"></div>
-                    
+                    -->
                     
                     <h4>Табель учета проведенных занятий и причитающихся сумм к выплате исполнителям преподавательских услуг за {{ $months_array[(int)$month]}} {{$year}} года</h4>
                     
