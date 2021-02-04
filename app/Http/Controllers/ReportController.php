@@ -252,7 +252,7 @@ class ReportController extends Controller
         $date = "";
         
         $rasp = Rasp::select()->whereBetween('date', [$date1, $date2])->orderBy('date')->orderby('start_at')->get();
-        
+        //dump(count($rasp))
         foreach ($rasp as $r) {
         
             $pair = 0;    
@@ -321,6 +321,8 @@ class ReportController extends Controller
         $html =  "Расписание сформировано. <p><a href='".$filename."' class='btn btn-success'>Скачать в формате Excel</a></p>";
         
         return view('info', ['html' => $html]);
+        
+        
     }
 
     

@@ -1,4 +1,24 @@
+@php
 
+if (isset($_GET["group_id"]))
+{$group_id = $_GET["group_id"];
+$date_start = \App\Group::select('streams.date_start')
+    ->join('streams', 'streams.id', '=',  'groups.stream_id')
+    ->where('groups.id', $group_id)
+    ->first()->date_start;
+
+$date_finish = \App\Group::select('streams.date_finish')
+    ->join('streams', 'streams.id', '=', 'groups.stream_id')
+    ->where('groups.id', $group_id)
+    ->first()->date_finish;    
+}
+else 
+{$group_id = 0;
+$date_start = date('Y') ."-01-01";
+$date_finish = date('Y') ."-12-31";
+}
+
+@endphp
 @extends('layouts.app')
 
 @section('content')
@@ -17,19 +37,21 @@
                             @foreach(\App\Group::select('groups.*')
                             ->join('streams', 'groups.stream_id','=', 'streams.id')
                             ->where('streams.active', 1)
-                            ->where('streams.date_start', '<=', $date)
                             ->where('streams.date_finish', '>=', $date)
+                            ->orderby('groups.name')
                             ->get() as $group)
-                            @if($group->stream->active)
-                            <option value="{{ $group->id }}">{{ $group->name }} :: {{ $group->stream->name }}</option>
+                            @if($group->id == $group_id)
+                            <option value="{{ $group->id }}" selected>Группа {{ $group->name }} :: {{ $group->stream->name }}</option>
+                            @else
+                            <option value="{{ $group->id }}">Группа {{ $group->name }} :: {{ $group->stream->name }}</option>
                             @endif
                             @endforeach
                             
                         </select>
                         <p>
                             <label>Период: </label><br/>
-                            <input type="date" name="date1" class="form-control-static" required>
-                            <input type="date" name="date2" class="form-control-static" required>
+                            <input type="date" name="date1" class="form-control-static" min="{{ $date_start}}" max="{{ $date_finish}}" required>
+                            <input type="date" name="date2" class="form-control-static" min="{{ $date_start}}" max="{{ $date_finish}}" required>
 
                         </p>
                         <p>

@@ -139,7 +139,7 @@ $month = (int) substr($date, 5, 2);
 <script>
     
 
-    $('#filterGroup').change(function() {
+$('#filterGroup').change(function() {
     var group_name = $("#filterGroup option:selected").val();
    $('#sortTable').DataTable().column( 1 ).search(
         $('#filterGroup').val(),

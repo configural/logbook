@@ -105,13 +105,15 @@ Route::post('/student/{id}/store', 'StudentController@store')->middleware('auth'
 Route::get('/timetable', function(){return view('timetable');})->middleware('auth');
 Route::get('/my_rasp', 'RaspController@my_rasp')->name('myrasp')->middleware('auth');
 Route::get('/rasp', 'RaspController@view')->name('rasp')->middleware('auth');
+Route::get('/rasp_group', function(){return view('rasp_group');})->name('rasp_group')->middleware('auth');
+Route::get('/rasp_modal/{timetable_id}', 'RaspController@edit_modal')->middleware('auth');
 Route::get('/rasp/delete/{id}', 'RaspController@delete')->middleware('auth');
 Route::get('/rasp/edit/{id}', 'RaspController@edit')->middleware('auth');
 Route::post('/rasp/edit/{id}', 'RaspController@store')->middleware('auth');
 Route::get('/raspadd/{date}/{room}', 'RaspController@add')->middleware('auth');
 Route::get('/room_unlock/{date}/{room}', function($date, $room_id){\App\Classroom::unblock_classroom($date, $room_id); return redirect(url('rasp')."?date=".$date);})->middleware('auth');
 Route::get('/raspview', 'RaspController@raspview')->name('raspview')->middleware('auth');
-
+Route::get('/ajax/rasp_update', 'RaspController@ajax_update')->middleware('auth');
 // Журнал
 
 Route::get('/journal', 'JournalController@index')->name('journal')->middleware('auth');
@@ -220,3 +222,5 @@ Route::get('/ajax/group_programs/{group_id}', 'WorkloadController@get_group_prog
 Route::get('/ajax/search/block/{text}', 'BlockController@search')->middleware('auth');
 Route::get('/ajax/user_contracts', 'UserController@user_contracts')->name('ajax_contracts')->middleware('auth');
 Route::get('/ajax/user_contracts_by_month', 'UserController@user_contracts_by_month')->name('ajax_contracts_month')->middleware('auth');
+Route::get('/ajax/rasp_group', 'RaspController@rasp_group_ajax')->middleware('auth');
+Route::get('/ajax/check_all', 'RaspController@check_all')->middleware('auth');

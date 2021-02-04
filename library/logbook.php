@@ -68,5 +68,23 @@ static function morph($n, $f1, $f2, $f5) {
 static function normal_date($date) {
     return date('d.m.Y', strtotime($date));
 }
+ 
+// пересечение временных интервалов. interval1 и interval2 - массивы из 2 элементов - [старт, финиш]
+static function time_cross($interval1, $interval2) {
+    $start1 = $interval1[0];
+    $start2 = $interval2[0];
     
+    $finish1 = $interval1[1];
+    $finish2 = $interval2[1];
+    
+    $cross = false;
+               if (     ($start1    >=  $start2 &&   $finish1 <=   $finish2) or // один меньше другого и внутри
+                        ($start1    <=  $start2 &&   $finish1 >=   $finish2) or // один больше другого и поглощает его
+                        ($finish1   >=  $start2 &&   $finish1 <=   $finish2) or // зацепляет концом
+                        ($finish1   >=  $start2 &&   $start1 <=    $finish2)    // зацепляет началом
+                  )
+               {$cross = true;}
+    return $cross;
+}
+
 }

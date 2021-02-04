@@ -9,6 +9,7 @@
 
                         
                         <div class="icon"><a href="{{ route('rasp') }}"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание</a></div>
+                        <div class="icon"><a href="{{route('rasp_group')}}"><i class="fa fa-calendar fa-3x brown"></i><br/>Расписание (НОВАЯ ВЕРСИЯ)</a></div>
                 
                         <h3>Отчеты и документы</h3>
                         <hr>

@@ -124,4 +124,187 @@ class RaspController extends Controller
         return view('raspmy', ['date1' => $date1, 'date2' => $date2]);
     }
     
+
+    
+    function rasp_group_ajax(Request $request) {
+        $group_id = $request->group_id;
+        $timetable = \App\Timetable::select()
+                ->where('group_id', $group_id)
+                ->get();
+       
+        echo "<table class='table table-bordered' id='sortTable'>";
+        echo "<thead><tr>"
+                . "<th>Занятие</th>"
+                . "<th>Тема</th>"
+                . "<th>Преподаватель</th>"
+                . "<th>Месяц</th>"
+                . "<th>Дата</th>"
+                . "<th>Аудитория</th>"
+                . "<th>Начало</th>"
+                . "<th>Конец</th>"
+                . "<th></th>"
+                . "</tr></thead><tbody>";
+        
+        foreach($timetable as $t) {
+            echo "<tr>";
+
+            if (isset($t->lesson_type->name)) {echo "<td>" .$t->hours ."ч. - " .$t->lesson_type->name . "</td>";
+                                 } else {echo "<td></td>";}
+            if (isset($t->block->name)) {echo "<td>".str_limit($t->block->name, 50, '...') ."</td>";
+                                 } else {echo "<td></td>";}
+
+            if (isset($t->teachers)) {echo "<td>";
+                                      foreach($t->teachers as $teacher) {
+                                          echo $teacher->secname() . " ";
+                                      }  
+                                     echo "</td>";
+                                 } else {echo "<td></td>";}          
+            
+            echo "<td>". sprintf("%02d", $t->month) ."</td>";
+            if (isset($t->rasp))
+            {
+            if ($t->rasp->date) {echo "<td>" . \Logbook::normal_date($t->rasp->date) . " </td>";} else echo "<td>-</td>";
+            if ($t->rasp->classroom) {echo "<td>" . $t->rasp->classroom->name . " </td>";} else echo "<td>-</td>";
+            if ($t->rasp->start_at) {echo "<td>" . str_limit($t->rasp->start_at,5, '') . " </td>";} else echo "<td>-</td>";
+            if ($t->rasp->finish_at) {echo "<td>" . str_limit($t->rasp->finish_at,5, '') . " </td>";} else echo "<td>-</td>";
+            
+            }
+            
+            else {echo "<td>-</td><td>-</td><td>-</td><td>-</td>";}            
+            
+            if (count($t->teachers)) {
+            echo "<td><button class='btn btn-success btnChange' data-timetable_id=" . $t->id. "  data-toggle='modal' data-target='#myModal'>Назначить</button></td>";
+            } else {
+            echo "<td>Нагрузка не распределена</td>";
+            }
+            
+            echo "</tr>";
+        }
+        echo "</tbody></table>";
+        
+        
+    }
+   
+    
+    function edit_modal($timetable_id) {
+       
+        $timetable = \App\Timetable::selectRaw('timetable.*')
+                ->leftjoin('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->where('timetable.id', $timetable_id)
+                ->first();
+        $teachers = serialize($timetable->teachers->toArray());
+        
+        return view('modal.rasp_edit_modal', ['timetable' => $timetable, 'teachers' => $teachers]);
+    }
+    
+    function check_all(Request $request) {
+       // dump($request);
+        $group_id = html_entity_decode($request->group_id);
+        $date = html_entity_decode($request->date);
+        $room_id = html_entity_decode($request->room_id);
+        $start_at = html_entity_decode($request->start_at);
+        $finish_at = html_entity_decode($request->finish_at);
+        $teachers = unserialize(html_entity_decode($request->teachers));
+        
+        if (!$date) $date = '1970-01-01';
+        if (!$start_at) $start_at = '00:00:00';
+        if (!$finish_at) $finish_at = '00:00:00';
+      echo "<table valign='top'><tr>";  
+// проверяем аудиторию в этот день
+      echo "<td>";
+        $rasp = \App\Rasp::select('rasp.*')
+                ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
+                ->where('timetable.group_id', $group_id)
+                ->where('rasp.date', $date)
+                ->where('rasp.room_id', $room_id)
+                ->orderby('rasp.start_at')
+                ->get();
+        if ($rasp->count()) {
+        echo "Аудитория занята:<br>";
+        foreach($rasp as $r) {
+            if (\Logbook::time_cross([$start_at, $finish_at], [$r->start_at, $r->finish_at]))
+            {echo  "<span class='cross'>" . $r->start_at . " - ". $r->finish_at . "</span><br/>";}
+            else
+            {echo  "<span class=''>" . $r->start_at . " - ". $r->finish_at . "</span><br/>";}
+        }
+        }
+       echo "</td><td>"; 
+// проверяем занятость группы
+        $rasp = \App\Rasp::select('rasp.*')
+                ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
+                ->where('timetable.group_id', $group_id)
+                ->where('rasp.date', $date)
+                ->orderby('rasp.start_at')
+                ->get();
+        if ($rasp->count()) {
+            echo "Группа занята:<br>";
+        foreach($rasp as $r) {
+            if (\Logbook::time_cross([$start_at, $finish_at], [$r->start_at, $r->finish_at]))
+            {echo  "<span class='cross'>" . $r->start_at . " - ". $r->finish_at . "</span><br/>";}
+            else
+            {echo  "<span class=''>" . $r->start_at . " - ". $r->finish_at . "</span><br/>";}
+        }
+        }
+        echo "</td><td>";
+// проверяем занятость преподавателей
+    foreach($teachers as $teacher) {
+        $teacher_id = $teacher["id"];
+         $rasp = \App\Rasp::selectRaw('rasp.*, users.name as uname')
+                ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('users', 'users.id', '=', 'teachers2timetable.teacher_id') 
+                ->where('rasp.date', $date)
+                ->where('users.id', $teacher_id)
+                ->orderby('rasp.start_at')
+                ->get();
+        if ($rasp->count()) {
+        echo "Преподаватель занят:<br>";
+        foreach($rasp as $r) {
+            if (\Logbook::time_cross([$start_at, $finish_at], [$r->start_at, $r->finish_at]))
+            {echo  "<span class='cross'>" . $r->start_at . " - ". $r->finish_at . "</span><br/>";}
+            else
+            {echo  "<span class=''>" . $r->start_at . " - ". $r->finish_at . "</span><br/>";}
+        }
+               
+        }
+    }
+    echo "</td></tr></table>";
+        
+        //
+  
+    }
+    
+    function ajax_update(Request $request) {
+        $timetable_id = $request->timetable_id;
+        $date = $request->date;
+        $start_at = $request->start_at;
+        $finish_at = $request->finish_at;
+        $room_id = $request->room_id;
+        
+        $timetable = \App\Timetable::find($timetable_id);
+        if ($timetable->rasp_id) {
+            $rasp = \App\Rasp::find($timetable->rasp_id);
+            $rasp->date = $date;
+            $rasp->start_at = $start_at;
+            $rasp->finish_at = $finish_at;
+            $rasp->room_id = $room_id;
+            $rasp->timetable_id = $timetable->id;
+            $rasp->save();
+        }
+        else {
+            $rasp = new Rasp();
+            $rasp->date = $date;
+            $rasp->start_at = $start_at;
+            $rasp->finish_at = $finish_at;
+            $rasp->room_id = $room_id;
+            $rasp->timetable_id = $timetable_id;
+            $rasp->save();
+            $timetable->rasp_id = $rasp->id;
+            $timetable->save();
+        }
+        
+        
+    }
+    
+    
 }
