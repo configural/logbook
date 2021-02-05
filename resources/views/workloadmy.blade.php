@@ -80,10 +80,10 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <p>Откуда брать данные?</p>
                         @if ($from_rasp)
                         <p><input type="radio" name="from_rasp" value="0"> Из нагрузки (запланированная нагрузка)</p>
-                        <p><input type="radio" name="from_rasp" value="1" checked> Из расписания (фактическая нагрузка)</p>
+                        <p><input type="radio" name="from_rasp" value="1" checked> Из расписания (фактическая нагрузка с учетом объединения занятий в расписании)</p>
                         @else
                         <p><input type="radio" name="from_rasp" value="0" checked> Из нагрузки (запланированная нагрузка)</p>
-                        <p><input type="radio" name="from_rasp" value="1"> Из расписания (фактическая нагрузка)</p>
+                        <p><input type="radio" name="from_rasp" value="1"> Из расписания (фактическая нагрузка с учетом объединения занятий в расписании)</p>
                         @endif
                         <button class="btn btn-success">Обновить</button>
                     <p>Для печати нажмите Ctrl + P</p>
@@ -129,7 +129,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <details>
                             <summary>{{ $hours }}</summary>
                             @foreach(\App\User::user_workload_groups($user_id, $month, $year, $lessontype->id) as $tmp)
-                            <li><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">Группа {{$tmp->group->name}} ::  {{$tmp->hours}}ч.</a></li>
+                            <li><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">Группа {{$tmp->group->name}}.{{$tmp->subgroup}} ::  {{$tmp->hours}}ч. :: id{{$tmp->block_id}}</a></li>
                             @endforeach
                         </details>
                         
@@ -223,7 +223,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <details>
                             <summary>{{ $hours }}</summary>
                             @foreach(\App\User::user_workload_groups($user_id, $month, $year, $lessontype->id) as $tmp)
-                            <li><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">Группа {{$tmp->group->name}} ::  {{$tmp->hours}}ч.</a></li>
+                            <li><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">Группа {{$tmp->group->name}}.{{$tmp->subgroup}} ::  {{$tmp->hours}}ч. :: id{{$tmp->block_id}}</a></li>
                             @endforeach
                         </details>
                         

@@ -43,7 +43,7 @@
                     ->orderby('rasp.date')->get() as $timetable)
                         
                         <tr>
-                            <td><nobr>{{ $timetable->rasp->date or ''}}</nobr></td>
+                            <td><span style='display: none'>{{ $timetable->rasp->date or ''}}</span>{{\Logbook::normal_date($timetable->rasp->date)}}</td>
                     <td>{{ str_limit($timetable->rasp->start_at,5, '') }} - {{ str_limit($timetable->rasp->finish_at, 5, '')}}</td>
                             
                             <td>{{ $timetable->rasp->classroom->name or ''}}</td>

@@ -148,7 +148,9 @@ class RaspController extends Controller
         foreach($timetable as $t) {
             echo "<tr>";
 
-            if (isset($t->lesson_type->name)) {echo "<td>" .$t->hours ."ч. - " .$t->lesson_type->name . "</td>";
+            if (isset($t->lesson_type->name)) {echo "<td>" .$t->hours ."ч. - " .$t->lesson_type->name;  
+                                 if ($t->subgroup) { echo ", " . $t->subgroup . "&nbsp;подгруппа";}
+                                 echo "</td>";
                                  } else {echo "<td></td>";}
             if (isset($t->block->name)) {echo "<td>".str_limit($t->block->name, 50, '...') ."</td>";
                                  } else {echo "<td></td>";}

@@ -13,7 +13,7 @@
                 Журнал преподавателя
                 <form action='' method='get'>
                     
-                    <input name='date' type='date' value='{{$date}}' onchange="javascript:form.submit()" class="form-control-static" style="color: black;">
+                   
                     
                 </form>
                 </div>
@@ -25,10 +25,12 @@
 
                 $me = Auth::user()->id;
                 ?>
-                    <h3>Занятия на {{$date}}</h3>
-                <table class='table table-bordered'>
+                    <h3>Сегодня <span class='green'>{{ \Logbook::normal_date(date('Y-m-d'))}}</span></h3>
+                <table class='table table-bordered' id='sortTable'>
+                    <thead>
                     <tr>
-                        <th>id</th>
+                        
+                        <th>Дата</th>
                         <th>Время</th>
                         <th>Группа</th>
                         <th>Тема занятия</th>
@@ -36,11 +38,29 @@
                         <th>Операции</th>
                         <th>Состояние журнала</th>
                     </tr>
-                @foreach(\App\Rasp::select()->where('date', $date)->get() as $rasp)
+                    </thead>
+                    <tbody>
+                @foreach(\App\Rasp::select('rasp.*')
+                ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('users', 'teachers2timetable.teacher_id', '=', 'users.id')
+                ->where('users.id', $me)
+                ->where('date', '<=', date('Y-m-d'))
+                ->orderby('rasp.date', 'desc')
+                ->get() as $rasp)
+                
                 @foreach($rasp->timetable->teachers as $teacher)
-                    @if($teacher->id == $me)
+                    
                     <tr>
-                        <td>{{ $rasp->id }}</td>
+                        
+                        <td class="largetext"><span style='display: none'>{{$rasp->date}}</span>
+                        @if ($rasp->date == date('Y-m-d'))
+                            <span class='green'>{{ \Logbook::normal_date($rasp->date)}}</span>
+                        @else
+                            {{ \Logbook::normal_date($rasp->date)}}
+                        @endif
+                        
+                        </td>
                         <td  class="largetext">{{ substr($rasp->start_at, 0, 5)}}</td>
                         <td  class="largetext"><nobr>{{$rasp->timetable->group->name or ''}}</nobr>
                         @if ($rasp->timetable->subgroup or '')
@@ -53,14 +73,15 @@
                     <td class="largetext"><a href='journal/item/{{$rasp->id}}' class="btn btn-primary">Открыть журнал</a></td>
                     <td class="largetext">
                         @if (\App\Journal::state($rasp->id))
-                        <i class='fa fa-check-circle green fa'></i>
+                        <i class='fa fa-check-circle green fa fa-2x'> заполнен</i>
                         @endif
    
                     </td>
                 </tr>
-                    @endif
+                    
                 @endforeach
                 @endforeach
+                </tbody>
                 </table>    
                 </div>
             </div>

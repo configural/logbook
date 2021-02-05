@@ -78,7 +78,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             <tr>
                                 <th>Месяц</th>
                                 <th>Тема</th>
-                                <th>Группа</th>
+                                <th>Поток :: Группа/подгр.</th>
                                 <th>Период обучения</th>
                                 <th>тип занятия</th>
                                 <th>часы</th>
@@ -102,7 +102,11 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                        <td>{{$timetable->month}}</td>
                        <td>
                            {{ @str_limit($timetable->block->name, 200)}}</td>
-                       <td><nobr>{{$timetable->group->name}}</nobr></td>
+                       <td><nobr>{{$timetable->group->stream->name}} :: группа {{$timetable->group->name}}
+                        @if ($timetable->subgroup)
+                        /{{$timetable->subgroup}}
+                        @endif 
+                        </nobr></td>
                        <td>
                         <nobr>{{date('d.m', strtotime($timetable->group->stream->date_start))}}<nobr> - <nobr>{{date('d.m', strtotime($timetable->group->stream->date_finish))}}</nobr>
                        </td>
