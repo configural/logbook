@@ -62,7 +62,7 @@
                         
                         </td>
                         <td  class="largetext">{{ substr($rasp->start_at, 0, 5)}}</td>
-                        <td  class="largetext"><nobr>{{$rasp->timetable->group->name or ''}}</nobr>
+                        <td  class="largetext"><nobr>({{$rasp->timetable->group->name or ''}})</nobr>
                         @if ($rasp->timetable->subgroup or '')
                         <br/><nobr>{{$rasp->timetable->subgroup or ''}}</nobr>
                         @endif
@@ -73,7 +73,7 @@
                     <td class="largetext"><a href='journal/item/{{$rasp->id}}' class="btn btn-primary">Открыть журнал</a></td>
                     <td class="largetext">
                         @if (\App\Journal::state($rasp->id))
-                        <i class='fa fa-check-circle green fa fa-2x'> заполнен</i>
+                        <i class='fa fa-check-circle green fa fa-1x'> заполнен</i>
                         @endif
    
                     </td>
