@@ -37,7 +37,7 @@
     $_SESSION["year"] = $year;    
     $_SESSION["hide_finished"] = $hide_finished;
     
-    dump($hide_finished);
+   // dump($hide_finished);
     
     $prev_program_name = "";
     
@@ -79,9 +79,9 @@
                             
                             <p>
                                 @if ($hide_finished == 1)
-                                <input type="checkbox" name="hide_finished" checked  onChange='form.submit()'> Скрыть отучившиеся потоки</p>
+                                <input type="checkbox" name="hide_finished" value="1" checked  onChange='form.submit()'> Показать отучившиеся потоки</p>
                                 @else
-                                <input type="checkbox" name="hide_finished" onChange='form.submit()'> Скрыть отучившиеся потоки</p>
+                                <input type="checkbox" name="hide_finished" value="1" onChange='form.submit()'> Показать отучившиеся потоки</p>
                                 @endif
                                 Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static' onChange='form.submit()'>
                             
@@ -95,7 +95,7 @@
                                     <option value='-1'>Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
                                 @endif
                                 
-                                @if ($hide_finished == 0)
+                                @if ($hide_finished == 1)
                                     @php
                                         $streams = \App\Stream::selectRaw('streams.*, programs.name as program_name')
                                         ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
