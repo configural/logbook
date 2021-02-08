@@ -52,7 +52,12 @@ $_SESSION["work_with"] = "rasp";
                         <td width='40%'>   {{$rasp->timetable->lesson_type->name or 'n/a' }}:  {{$rasp->timetable->block->name or 'n/a'}}</td>
                          <td width='15%'>{{$rasp->timetable->group->name or ''}}</td>
                             <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
-                            {{$teacher->fio() }}
+                                <p>{{$teacher->fio() }}
+                            
+                            @if($j = \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->count())
+                            <a href="{{ url('/')}}/reports/journal/view/{{ \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->first()->id }}"><i class="fa fa-list red" title="Журнал создан!"></i></a>
+                            @endif
+                                </p>
                             @endforeach</td>
 
                             @endforeach</tr>

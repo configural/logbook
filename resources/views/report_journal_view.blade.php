@@ -9,15 +9,16 @@
                 <div class="panel-heading ">Журналы преподавателей</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id >= 3)  
+                    @if(Auth::user()->role_id)  
                     
                     <p><a href="{{ route('home')}}">В начало</a> —
                     <a href="{{ route('report_journal')}}">Журналы преподавателей</a> –
                     <a href="{{url('reports/journal')}}/{{$user->id}}">{{$user->name}}</a>
                     </p>
-                    <h3>{{$journal->rasp->timetable->block->name or ''}}</h3>
-                    <h4>{{$journal->rasp->timetable->group->name  or ''}}, {{$journal->rasp->date}}</h4>
-                    <h4>{{$journal->rasp->timetable->lesson_type->name}}</h4>
+                    <h2>{{$user->name}}</h2>
+                    <h4>Группа: {{$journal->rasp->timetable->group->name  or ''}}</h4>
+                    <h4>Дата: {{ \Logbook::normal_date($journal->rasp->date)}}</h4>
+                    <h4>{{$journal->rasp->timetable->lesson_type->name}}: {{$journal->rasp->timetable->block->name or ''}}</h4>
                     <table class="table table-bordered" id="sortTable">
                         <thead>
                             <tr>

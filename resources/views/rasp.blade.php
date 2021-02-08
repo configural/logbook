@@ -63,7 +63,14 @@ $_SESSION["work_with"] = "rasp";
                             <td width='15%'>
                             @if($rasp->timetable)
                                 @foreach($rasp->timetable->teachers as $teacher)
-                            <nobr>{{$teacher->fio() }}</nobr><br>
+                            <nobr>{{$teacher->fio() }} 
+                            
+                            @if($j = \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->count())
+                            
+                            <a href="{{ url('/')}}/reports/journal/view/{{ \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->first()->id }}"><i class="fa fa-list red" title="Журнал создан!"></i></a>
+                            @endif
+                            
+                            </nobr><br>
                             
                             @endforeach
                             @endif
@@ -72,9 +79,7 @@ $_SESSION["work_with"] = "rasp";
                                 @if(in_array(Auth::user()->role_id, [3, 4] ))
                                 <p><a href="{{url('rasp')}}/edit/{{$rasp->id}}">Изменить</a></p>
                                 <p><a href="{{url('rasp')}}/delete/{{$rasp->id}}"  onClick="return window.confirm('Действительно удалить?');" >Удалить</a></p>
-                                @if (isset($rasp->journal->id))
-                                <i class="fa fa-list red" title="Журнал создан!"></i>
-                                @endif
+ 
                             </td>
                                 @endif
                             @endforeach</tr>
