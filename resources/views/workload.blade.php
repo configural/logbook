@@ -26,16 +26,18 @@
         
     if (isset($_GET["hide_finished"])) {
             $hide_finished = $_GET["hide_finished"];
-            $_SESSION["hide_finished"] = $hide_finished;
+            
         } else {
             $hide_finished = 0;
-            $_SESSION["hide_finished"] = 0;
+            
         }
 
     $_SESSION["work_with"] = "workload";
     $_SESSION["stream_id"] = $stream_id;
     $_SESSION["year"] = $year;    
-    //dump($stream_id);
+    $_SESSION["hide_finished"] = $hide_finished;
+    
+    dump($hide_finished);
     
     $prev_program_name = "";
     
@@ -76,10 +78,10 @@
                             <p>
                             
                             <p>
-                                @if ($hide_finished)
-                                <input type="checkbox" name="hide_finished" value="1" checked  onChange='form.submit()'> Скрыть отучившиеся потоки</p>
+                                @if ($hide_finished == 1)
+                                <input type="checkbox" name="hide_finished" checked  onChange='form.submit()'> Скрыть отучившиеся потоки</p>
                                 @else
-                                <input type="checkbox" name="hide_finished" value="1" onChange='form.submit()'> Скрыть отучившиеся потоки</p>
+                                <input type="checkbox" name="hide_finished" onChange='form.submit()'> Скрыть отучившиеся потоки</p>
                                 @endif
                                 Год: <input type='number' name='year' min='2020' max='2099' value='{{ $year }}' class='form-control-static' onChange='form.submit()'>
                             
@@ -93,8 +95,20 @@
                                     <option value='-1'>Показать всю нераспределенную нагрузку (первые 2000 записей)</option>
                                 @endif
                                 
-                                @if ($hide_finished == 1)
+                                @if ($hide_finished == 0)
                                     @php
+                                        $streams = \App\Stream::selectRaw('streams.*, programs.name as program_name')
+                                        ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                                        ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
+                                        ->orderby('programs.name')
+                                        ->where('streams.active', 1)
+                                        ->where('streams.year', $year)
+                                        ->orderby('streams.date_start')
+                                        ->get()
+                                    @endphp
+                                @else
+                                    @php
+
                                         $streams = \App\Stream::selectRaw('streams.*, programs.name as program_name')
                                         ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                                         ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
@@ -103,18 +117,7 @@
                                         ->where('streams.year', $year)
                                         ->where('streams.date_finish', '>=', date('Y-m-d'))
                                         ->orderby('streams.date_start')
-                                        ->get()
-                                    @endphp
-                                @else
-                                    @php
-                                        $streams = \App\Stream::selectRaw('streams.*, programs.name as program_name')
-                                        ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                                        ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
-                                        ->orderby('programs.name')
-                                        ->where('streams.active', 1)
-                                        ->where('streams.year', $year)
-                                        ->orderby('streams.date_start')
-                                        ->get()
+                                        ->get()                                        
                                     @endphp
                                 @endif
                                 
