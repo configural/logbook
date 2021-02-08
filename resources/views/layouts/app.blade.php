@@ -108,7 +108,7 @@
                             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Все"]],
                             "pageLength": 25,
                             "scrollX": true,
-
+                            
                             "scrollY": false, 
                             "language" : {
                                 "processing": "Подождите...",

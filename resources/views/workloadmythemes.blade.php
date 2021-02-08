@@ -28,8 +28,8 @@ $user_id = $_GET["user_id"];
 $hours_total = 0;
 $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 @endphp
-<div class="container">
-    <div class="row">
+<div class="container-fluid ">
+    <div class="row-fluid">
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading ">Темы преподавателя - {{$year}}</div>
@@ -72,16 +72,16 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     
                     
                     
-                    <table class='table table-bordered' id="sortTable" width='100%'>
+                    <table class='table table-bordered' id="" width='100%'>
                         <caption><h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3></caption>
                         <thead>
                             <tr>
-                                <th>Месяц</th>
-                                <th>Тема</th>
-                                <th>Поток :: Группа/подгр.</th>
-                                <th>Период обучения</th>
-                                <th>тип занятия</th>
-                                <th>часы</th>
+                                <th width="5%">Месяц</th>
+                                <th width="60%">Тема</th>
+                                <th width="10%">Поток<br>Группа/подгр.</th>
+                                <th width="10%">Период обучения</th>
+                                <th width="10%">тип занятия</th>
+                                <th width="5">часы</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,14 +95,16 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    ->where('streams.year', $year)
                    ->whereBetween('timetable.month', [$month1, $month2])
                    ->orderby('timetable.month')
+                   ->orderby('streams.date_start')
                    ->orderby('blocks.name')
                    ->get() as $timetable
                    )
                    <tr>
                        <td>{{$timetable->month}}</td>
                        <td>
-                           {{ @str_limit($timetable->block->name, 200)}}</td>
-                       <td><nobr>{{$timetable->group->stream->name}} :: группа {{$timetable->group->name}}
+                           {{ @str_limit($timetable->block->name, 80)}}
+                       </td>
+                       <td><nobr>{{$timetable->group->stream->name}}</nobr><br/><nobr>группа {{$timetable->group->name}}
                         @if ($timetable->subgroup)
                         /{{$timetable->subgroup}}
                         @endif 
@@ -143,5 +145,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
         </div>
     </div>
 </div>
+
+
 
 @endsection
