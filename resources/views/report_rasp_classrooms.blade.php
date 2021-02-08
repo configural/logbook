@@ -43,8 +43,8 @@ if (isset($_GET["date"]))
                     <tr>
                         <td><nobr>{{$rasp->classroom->name}}</nobr></td>
                         <td><nobr>{{ @str_limit($rasp->start_at, 5, '')}} – {{@str_limit($rasp->finish_at, 5, '')}}</nobr></td>
-                        <td><nobr>{{$rasp->timetable->group->stream->name}}</nobr></td>
-                        <td>{{$rasp->timetable->group->name}}</td>
+                        <td><nobr>{{$rasp->timetable->group->stream->name or ''}}</nobr></td>
+                        <td>{{$rasp->timetable->group->name or ''}}</td>
                         <td>
                             @foreach($rasp->timetable->teachers as $teacher) 
                             @if ($teacher)
