@@ -46,7 +46,7 @@
                 ->join('users', 'teachers2timetable.teacher_id', '=', 'users.id')
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                ->where('users.id', $me)
+                ->where('teachers2timetable.teacher_id', $me)
                 ->where('streams.year', date('Y'))
                 ->where('streams.date_start', '<=', date('Y-m-d'))
                 ->where('streams.date_finish', '>=', date('Y-m-d'))
@@ -121,7 +121,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                @foreach(\App\Rasp::select('rasp.*')
+                @foreach(\App\Rasp::selectRaw('rasp.*')
                 ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->join('users', 'teachers2timetable.teacher_id', '=', 'users.id')
@@ -135,7 +135,9 @@
                 ->orderby('rasp.date', 'desc')
                 ->get() as $rasp)
                 
-                @foreach($rasp->timetable->teachers as $teacher)
+               
+                
+                
                     
                     <tr>
                         
@@ -165,7 +167,7 @@
                     </td>
                 </tr>
                     
-                @endforeach
+                
                 @endforeach
                 </tbody>
                 </table>                    
