@@ -51,7 +51,7 @@
                 ->where('streams.date_start', '<=', date('Y-m-d'))
                 ->where('streams.date_finish', '>=', date('Y-m-d'))
                 ->where('date', '=', date('Y-m-d'))
-                ->orderby('rasp.date', 'desc')
+                ->orderby('rasp.date')
                 ->get() as $rasp)
                 
                 @foreach($rasp->timetable->teachers as $teacher)
