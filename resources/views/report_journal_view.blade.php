@@ -9,7 +9,7 @@
                 <div class="panel-heading ">Журналы преподавателей</div>
 
                 <div class="panel-body">
-                    @if(Auth::user()->role_id)  
+                    @if(in_array(Auth::user()->role_id, [3,4,5,6]))  
                     
                     <p><a href="{{ route('home')}}">В начало</a> —
                     <a href="{{ route('report_journal')}}">Журналы преподавателей</a> –
