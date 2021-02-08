@@ -54,9 +54,15 @@ $_SESSION["work_with"] = "rasp";
                             <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
                                 <p>{{$teacher->fio() }}
                             
-                            @if($j = \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->count())
-                            <a href="{{ url('/')}}/reports/journal/view/{{ \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->first()->id }}"><i class="fa fa-list red" title="Журнал создан!"></i></a>
-                            @endif
+                                @if (in_array(Auth::user()->role_id,[3,4,5,6]))
+                                    @if($j = \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->count())
+                                    <a href="{{ url('/')}}/reports/journal/view/{{ \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->first()->id }}"><i class="fa fa-list red" title="Журнал создан!"></i></a>
+                                    @endif
+                                @else
+                                    @if($j = \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->count())
+                                    <i class="fa fa-list" title="Журнал создан!"></i>
+                                    @endif
+                                @endif
                                 </p>
                             @endforeach</td>
 
