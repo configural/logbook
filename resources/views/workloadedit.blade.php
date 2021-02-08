@@ -54,7 +54,7 @@
                                 @endif
                                 
                                 >
-                            @foreach(\App\User::select()->whereIn('role_id', [2, 5])->orderBy('name')->get() as $user)
+                            @foreach(\App\User::select()->whereIn('role_id', [2])->orderBy('name')->get() as $user)
                             @php($in_list = 0)
     
                             @foreach($timetable->teachers as $teacher)
