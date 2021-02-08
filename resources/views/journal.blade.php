@@ -54,7 +54,7 @@
                 ->orderby('rasp.date')
                 ->get() as $rasp)
                 
-                @foreach($rasp->timetable->teachers as $teacher)
+                
                     
                     <tr>
                         
@@ -84,7 +84,7 @@
                     </td>
                 </tr>
                     
-                @endforeach
+                
                 @endforeach
                 </tbody>
                 </table>    
