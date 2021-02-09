@@ -31,7 +31,10 @@
                             <td>{{ $r->id }}</td>
                             <td><span style="display: none">{{ $r->date }}</span>{{ \Logbook::normal_date($r->date)}}</td>
                             <td>@foreach($r->timetable->teachers as $teacher)
-                                {{$teacher->name}}<br/>
+                                {{$teacher->fio()}}
+                                @if ($teacher->freelance)
+                                 (по договору)
+                                @endif
                                 @endforeach
                             </td>
                             <td>{{ $r->timetable->group->name or '' }}</td>
