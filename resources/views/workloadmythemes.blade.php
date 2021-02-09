@@ -74,7 +74,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     
                     <h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3>
                     
-                    <table class='table table-bordered' id="" width='100%'>
+                    <table class='table table-bordered' id="sortTable" width='100%'>
                         <caption></caption>
                         <thead>
                             <tr>

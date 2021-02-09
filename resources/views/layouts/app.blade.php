@@ -141,9 +141,13 @@
         <script src="{{url('/')}}/js/filter.js"></script>
 <script>
 $("#toExcel").click(function(){
-$("table").table2excel({
+$("#sortTable").table2excel({
 filename: "result.xls"
 });
+
+
+
+
 });
 </script>
         <!---->
