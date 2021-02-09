@@ -284,8 +284,11 @@ class ReportController extends Controller
                 foreach($r->timetable->teachers as $teacher) {
                     $teachers .= $teacher->fio() . chr(10);                   
                     }
-                
+                if ($r->classroom->name) {
                 $sheet->setCellValue('e'.$i, $r->classroom->name . chr(10) . $teachers);
+                } else {
+                $sheet->setCellValue('e'.$i, $teachers);    
+                }
                
                 } else {
                      $sheet->setCellValue('c'.$i, $r->timetable->lesson_type->name);
