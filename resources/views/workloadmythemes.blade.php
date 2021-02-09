@@ -41,6 +41,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <p>
                             <a href="{{route('home')}}">В начало</a>
                         </p>
+                        <p>
                         @if (in_array(Auth::user()->role_id, [3,4,5,6]))
                             <select name="user_id" class="form-control-static" onChange="form.submit()">
                             
@@ -60,18 +61,19 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         Год: <input type='number' name='year' value='{{$year}}' class="form-control-static">
                         
                         <button class="btn btn-success">Сформировать</button>
-                    
+                    </p>
+                    <p>
                         @if ($user_id)
                         @include('include.excel_button')
                         @endif
-                        
+                    </p>    
                     </form>
                     
                     @if($user_id)
                     
                     
                     <h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3>
-                    <h4>Аудиторная нагрузка</h4>
+                    
                     <table class='table table-bordered' id="" width='100%'>
                         <caption></caption>
                         <thead>
@@ -85,7 +87,10 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             </tr>
                         </thead>
                         <tbody>
- 
+                            <tr>
+                                <th colspan='6'>Аудиторная нагрузка</th>
+                            </tr>
+                            
                    @foreach(\App\Timetable::select()
                    ->leftjoin('blocks', 'blocks.id', '=', 'timetable.block_id')
                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
@@ -121,28 +126,15 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    $hours_total += $timetable->hours;
                    @endphp
                    @endforeach
-                        </tbody>
 
-                    {{--</table>
-                    
-                    
-                    <h4>Внеаудиторная нагрузка</h4>
-                    <table class='table table-bordered'>--}}
-                        <thead>
+
                         <tr>
-                            <th width='5%'></th>
                         
-                        <th width=''>Внеаудиторная нагрузка</th>
-                        <th width='10%'></th>
-                        <th width='10%'></th>
                         
-                        <th width='10%'></th>
+                        <th colspan='6'>Внеаудиторная нагрузка</th>
                         
-                        <th width='10%'></th>
                         </tr>
                         
-                        </thead>
-                        <tbody>
                     @foreach(\App\Vneaud::where('user_id', $user_id)
                     ->whereMonth('date', '>=', $month1)
                     ->whereMonth('date', '<=', $month2)
