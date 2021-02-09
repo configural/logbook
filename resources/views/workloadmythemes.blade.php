@@ -26,6 +26,7 @@ $user_id = $_GET["user_id"];
 }
 
 $hours_total = 0;
+$vneaud_hours = 0;
 $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 @endphp
 <div class="container-fluid ">
@@ -69,19 +70,18 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                     @if($user_id)
                     
                     
-                    
-                    
-                    
+                    <h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3>
+                    <h4>Аудиторная нагрузка</h4>
                     <table class='table table-bordered' id="" width='100%'>
-                        <caption><h3>{{ Auth::user()->where('id', $user_id)->first()->name}}</h3></caption>
+                        <caption></caption>
                         <thead>
                             <tr>
                                 <th width="5%">Месяц</th>
-                                <th width="60%">Тема</th>
+                                <th width="">Тема</th>
                                 <th width="10%">Поток<br>Группа/подгр.</th>
                                 <th width="10%">Период обучения</th>
                                 <th width="10%">тип занятия</th>
-                                <th width="5">часы</th>
+                                <th width="10%">часы</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,7 +104,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                        <td>
                            {{ @str_limit($timetable->block->name, 80)}}
                        </td>
-                       <td><nobr>{{$timetable->group->stream->name}}</nobr><br/><nobr>группа {{$timetable->group->name}}
+                       <td><nobr>{{$timetable->group->stream->name}}</nobr>, <nobr>группа {{$timetable->group->name}}
                         @if ($timetable->subgroup)
                         /{{$timetable->subgroup}}
                         @endif 
@@ -122,20 +122,79 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    @endphp
                    @endforeach
                         </tbody>
-                   <tfoot>
-                       <tr>
-                           <td>Итого</td>
-                           <td></td>
 
-                             <td></td>
-                              <td></td>
-                              <td></td>
+                    {{--</table>
+                    
+                    
+                    <h4>Внеаудиторная нагрузка</h4>
+                    <table class='table table-bordered'>--}}
+                        <thead>
+                        <tr>
+                            <th width='5%'></th>
+                        
+                        <th width=''>Внеаудиторная нагрузка</th>
+                        <th width='10%'></th>
+                        <th width='10%'></th>
+                        
+                        <th width='10%'></th>
+                        
+                        <th width='10%'></th>
+                        </tr>
+                        
+                        </thead>
+                        <tbody>
+                    @foreach(\App\Vneaud::where('user_id', $user_id)
+                    ->whereMonth('date', '>=', $month1)
+                    ->whereMonth('date', '<=', $month2)
+                    ->orderby('date')->get() as $vneaud)
+                    <tr><td></td>
+                        <td>{{ $vneaud->lessontype->name }}</td>
+                        <td><nobr>{{ $vneaud->group->stream->name }}</nobr>, <nobr>{{ $vneaud->group->name }}</nobr></td>
+                        <td>{{ substr(\Logbook::normal_date($vneaud->group->stream->date_start),0, 5) }} - {{ substr(\Logbook::normal_date($vneaud->group->stream->date_finish), 0, 5) }}</td>
+                        
+                        
+                        <td></td>
+                        <td>{{ $vneaud->hours }}</td>
+                    </tr>
+                    @php 
+                    $vneaud_hours += $vneaud->hours;
+                    @endphp
+                    
+                    @endforeach
+                        </tbody>
+                        
+                        <tfoot>
+                       <tr>
+                           <td colspan='5'>ИТОГО</td>
+
+                            <td>{{ ($hours_total + $vneaud_hours) }}</td>
+                           
+                           
+                       </tr>
+                   </tfoot>        
+                        
+                        <tfoot>
+                            
+                            <tr>
+                                <td colspan='5'>Итого внеаудиторной нагрузки</td>
+                                <td>{{ $vneaud_hours}}</td>
+                            </tr>
+                        </tfoot>
+                        
+                       <tfoot>
+                       <tr>
+                           <td colspan='5'>Итого аудиторной нагрузки</td>
+
                             <td>{{$hours_total}}</td>
                            
                            
                        </tr>
                    </tfoot> 
+                                   
+                        
                     </table>
+                    
+
                     
                     @endif
                     
