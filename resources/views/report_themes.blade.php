@@ -116,7 +116,42 @@ $total_hours_distributed = 0;
                         </tr>
                         @endforeach
                         
+
                         <tr>
+                            <td>Аттестация, защита (укрупненная тема не указана или отсутствует)</td>
+                            
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                -
+                                
+                            </td>
+                            
+                            
+                            <td>{{
+                                $attest_distrib = \App\Timetable::select()
+                                    ->leftjoin('blocks', 'blocks.id', '=', 'timetable.block_id')
+                                    ->leftjoin('largeblocks', 'largeblocks.id', '=', 'blocks.largeblock_id')
+                                    ->join('lesson_types', 'lesson_types.id', '=', 'timetable.lessontype')
+                                    ->leftjoin('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                                    ->join('users', 'users.id', '=', 'teachers2timetable.teacher_id')
+                                    ->join('departments', 'departments.id', '=', 'users.department_id')
+                                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                                    ->join('streams', 'groups.stream_id', '=', 'streams.id')
+                                    ->where('users.department_id', $department_id)
+                                    ->where('streams.year', $year)
+                                    ->whereBetween('timetable.month', [$date1, $date2])
+                                    ->where('largeblocks.id', NULL)
+                                    ->where('lesson_types.in_table', 1)
+                                    ->where('teachers2timetable.id', '!=',  NULL)
+                                    ->sum('timetable.hours')
+                                }}
+                            </td>
+
+                            
+                        </tr>
+                         <tr>
                             <td>Внеаудиторная нагрузка</td>
                             <td>-</td>
                             <td>-</td>
@@ -133,8 +168,7 @@ $total_hours_distributed = 0;
                                 
                             </td>
                             
-                        </tr>
-                        
+                        </tr>                       
                         
                     </tbody>
                     <tfoot>
@@ -150,7 +184,7 @@ $total_hours_distributed = 0;
                     <tr><td>ВСЕГО</td>
                         <td></td>
                         <td></td>
-                        <td> {{ $total_vneaud + $delta }}</td>
+                        <td> {{ $total_vneaud + $delta + $attest_distrib}}</td>
                     </tr>
                         </tfoot>
                     </table>
