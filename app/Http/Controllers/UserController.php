@@ -141,6 +141,7 @@ class userController extends Controller
         if(trim($date)) :
            foreach($rasp as $r) {
            foreach($r->timetable->teachers as $teacher) {
+               
                $cross = false;
                if (     ($start_at>=$r->start_at && $finish_at<=$r->finish_at) or
                         ($start_at<=$r->start_at && $finish_at>=$r->finish_at) or
@@ -153,9 +154,18 @@ class userController extends Controller
                echo "<div ";
                if ($cross == true) echo " class='cross' ";
                    echo">";
+                echo $r->id . ": ";
+                if ($r->start_at and $r->finish_at){
                 echo "" . str_limit($r->start_at, 5, '') . " - ";
-                echo "" . str_limit($r->finish_at, 5, '') . ", ";
-                echo "ауд. ". $r->classroom->name . "";
+                echo "" . str_limit($r->finish_at, 5, '') . ", ";}
+                else {
+                    echo "Время не указано - ";
+                }
+                if ($r->classroom) {
+                    echo "ауд. ". @$r->classroom->name . "";
+                } else {
+                    echo "Аудитория не указана";
+                }
                echo "</div>";}
            }
             

@@ -138,9 +138,20 @@ class GroupController extends Controller
                         echo "<div ";
                             if ($cross == true) echo " class='cross' ";
                         echo">";
-                        echo "" . str_limit($r->start_at,5,'') . " - ";
-                        echo "" . str_limit($r->finish_at,5,'') . " ";
-                        echo " ". $r->classroom->name . "</td>";
+                        
+                        echo $r->id .": ";
+                        if ($r->start_at and $r->finish_at) {
+                            echo "" . str_limit($r->start_at,5,'') . " - ";
+                            echo "" . str_limit($r->finish_at,5,'') . " ";}
+                        else {
+                            echo  ": Время не указано - ";
+                        }
+                        
+                        if ($r->classroom) {
+                            echo " ". $r->classroom->name . "</td>";
+                        } else {
+                            echo "Аудитория не указана";
+                        }
                        echo "</div>";}
                 }
             }

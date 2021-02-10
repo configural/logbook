@@ -11,7 +11,7 @@ $month = (int) substr($date, 5, 2);
             <div class="panel panel-default">
                 <div class="panel-heading">
                                     <form >
-                        Редактирование строки расписания
+                        Аудитория {{ \App\Classroom::find($room)->name }}
                     </form>
                 </div>
 
@@ -19,18 +19,23 @@ $month = (int) substr($date, 5, 2);
 
                     @if(Auth::user()->role_id >= 3)
                     <form action="{{url('rasp/edit')}}/0" method="post">
-                        <input name="id" type="" value="" id="raspId" readonly>
+                        <input name="id" type="hidden" value="" id="raspId" readonly>
                         
-                        Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static">
+                        Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static" readonly="">
                         
                         <input name="date_copy" type="hidden" value="{{$date}}" class="form-control-static">
                         
                        Группа: <select id="filterGroup" class='form-control-static'>
                            <option value=''>Выберите</option>
-                           @foreach(\App\Group::select()->where('active',1)->orderby('name')->get() as $group)
-                           @if($group->stream->active && $group->stream->date_start <= $date && $group->stream->date_finish >= $date  )
-                           <option value='{{$group->name}}'>Группа {{$group->name}} ({{$group->students->count()}} чел.) - {{$group->stream->name}}</option>
-                           @endif
+                           @foreach(\App\Group::selectRaw('groups.*, streams.date_start, streams.date_finish')
+                                        ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                                        ->where('streams.date_start', '<=', $date)
+                                        ->where('streams.date_finish', '>=', $date)
+                                        ->where('streams.active', 1)
+                                        ->orderby('name')->get() as $group)
+                           
+                           <option value='{{$group->name}}'>Группа {{$group->name}} - {{ \Logbook::normal_date($group->date_start)}} - {{$group->stream->name}}</option>
+                           
                            @endforeach
                        </select>                        
                         
@@ -54,12 +59,29 @@ $month = (int) substr($date, 5, 2);
                             <th width="10%">Дата</th>
                             <th width="10%">Время</th>
                             
+                            
                             </thead>
                             <tbody>
                              
                              @foreach(\App\Timetable::selectRaw('timetable.*, rasp.start_at, rasp.finish_at, rasp.date')
                              ->leftjoin('rasp', 'rasp.timetable_id', '=', 'timetable.id')
+                             ->join('groups', 'timetable.group_id', '=', 'groups.id')
+                             ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                             ->where('streams.date_start', '<=', $date)
+                             ->where('streams.date_finish', '>=', $date)
                              ->where('timetable.month', $month)
+                             ->where(
+                                function($query) use ($date) {
+                                    $query->select()->where('rasp.date', NULL)->orWhere('rasp.date', $date);
+                                }
+                             )
+                             ->where(
+                                function($query) {
+                                    $query->select()->where('rasp.start_at', NULL)->orWhere('rasp.finish_at', NULL)->orWhere('rasp.room_id', NULL);
+                                }
+                             )
+                             
+                             ->orderby('rasp.date')
                              ->orderBy('block_id')
                              ->orderBy('lessontype')
                              ->get() as $timetable)
@@ -98,7 +120,7 @@ $month = (int) substr($date, 5, 2);
                                      @endif
                                  </td>
                                  <td><nobr>{{ $timetable->start_at}} - {{ $timetable->finish_at}}</nobr></td>
-
+                        
                                                            </tr>
                              @endforeach
                              @endforeach
