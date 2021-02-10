@@ -162,6 +162,8 @@ $total_hours_distributed = 0;
                                         ->join('users', 'users.id', '=', 'vneaud.user_id')
                                         ->join('departments', 'departments.id', '=', 'users.department_id')
                                         ->where('departments.id', $department_id)
+                                        ->whereMonth('date', '>=', $date1 )
+                                        ->whereMonth('date', '<=', $date2 )
                                         ->sum('vneaud.hours')
                                 }}
                                 
