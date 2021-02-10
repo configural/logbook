@@ -17,6 +17,7 @@
                         <thead>
                             <tr>
                                 <th>Преподаватель</th>
+                                <th>Кафедра</th>
                                 <th>Группа</th>
                                 <th>Поток</th>
                                 <th>Вид работы</th>
@@ -33,13 +34,13 @@
                             @if ($vneaud->user->freelance == 1) 
                             (внештатный)
                             @endif
-                            
+                            <td>({{ $vneaud->user->department->name}})</td>
                             </td>
                             <td>{{ $vneaud->group->name}}</td>
                             <td>{{ $vneaud->group->stream->name}}</td>
                             <td>{{ $vneaud->lessontype->name }}</td>
                             <td>{{ $vneaud->hours }}</td>
-                            <td>{{ $vneaud->date }}</td>
+                            <td><span style='display: none'>{{ $vneaud->date }}</span>{{ \Logbook::normal_date($vneaud->date) }}</td>
                             <td>{{ $vneaud->description }}</td>
                         </tr>
                         @endforeach
