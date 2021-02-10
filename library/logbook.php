@@ -7,6 +7,32 @@
  */
 class Logbook {
     
+/**
+ * Возвращает название месяца по его номеру
+ *  */
+static function month($index, $short = 0)
+{
+    $months = ['-', 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь' ];
+    $months_short = ['-', 'янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек' ];
+    
+    if (is_numeric($index) and $index >= 0 and $index <= 12) 
+        {
+        if ($short) {$month = $months_short[$index];}
+        else {$month = $months[$index];}
+        } 
+    elseif (is_numeric(strtotime($index))) {
+        $index = (int)substr($index, 5, 2);
+        if ($short) {$month = $months_short[$index];}
+        else {$month = $months[$index];}
+    }
+    else {
+        $month = 'n/a';
+    }
+    //dump($month);
+    return $month;
+}
+
+
     /**
  * Возвращает сумму прописью
  * @author runcore

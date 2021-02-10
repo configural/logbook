@@ -36,7 +36,7 @@ if (isset($_GET["group_id"]))
                         ->orderby('groups.id')
                         ->get()
                         as $group)
-                        <option value="{{ $group->id}}">{{ @substr(\Logbook::normal_date($group->date_start), 3, 2)}} :: {{ str_pad(str_limit($group->pname, 40), 40, ".", STR_PAD_RIGHT)}} :: {{ $group->streamname}} :: Группа {{ $group->groupname}}</option>
+                        <option value="{{ $group->id}}">{{ \Logbook::month($group->date_start, 1)}} :: {{ str_limit($group->pname, 40) }} :: {{ $group->streamname}} :: Группа {{ $group->groupname}}</option>
                         @endforeach
                     </select>
                         

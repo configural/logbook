@@ -105,7 +105,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             
                             <td>Занятия / месяцы</td>
                             @for ($month = $month1; $month<=$month2; $month++)
-                            <td>{{ $month }}</td>
+                            <td>{{ \Logbook::month($month, 1) }}</td>
                             @endfor        
                             <td>Итого</td>
                         </tr>  
@@ -199,7 +199,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             
                             <td>Занятия / месяцы</td>
                             @for ($month = $month1; $month<=$month2; $month++)
-                            <td>{{ $month }}</td>
+                            <td>{{ \Logbook::month($month, 1) }}</td>
                             @endfor        
                             <td>Итого</td>
                         </tr>  

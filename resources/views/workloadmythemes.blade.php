@@ -105,7 +105,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                    ->get() as $timetable
                    )
                    <tr>
-                       <td>{{$timetable->month}}</td>
+                       <td>{{ \Logbook::month($timetable->month)}}</td>
                        <td>
                            {{ @str_limit($timetable->block->name, 80)}}
                        </td>
