@@ -19,7 +19,7 @@ $month = (int) substr($date, 5, 2);
 
                     @if(Auth::user()->role_id >= 3)
                     <form action="{{url('rasp/edit')}}/0" method="post">
-                        <input name="id" type="hidden" value="">
+                        <input name="id" type="" value="" id="raspId" readonly>
                         
                         Дата: <input name="date" id="date" type="date" value="{{$date}}" class="form-control-static">
                         
@@ -29,7 +29,7 @@ $month = (int) substr($date, 5, 2);
                            <option value=''>Выберите</option>
                            @foreach(\App\Group::select()->where('active',1)->orderby('name')->get() as $group)
                            @if($group->stream->active && $group->stream->date_start <= $date && $group->stream->date_finish >= $date  )
-                           <option value='{{$group->name}}'>{{$group->name}} ({{$group->students->count()}} чел.) - {{$group->stream->name}}</option>
+                           <option value='{{$group->name}}'>Группа {{$group->name}} ({{$group->students->count()}} чел.) - {{$group->stream->name}}</option>
                            @endif
                            @endforeach
                        </select>                        
@@ -44,42 +44,60 @@ $month = (int) substr($date, 5, 2);
                
                         <p>Занятие (из распределенной нагрузки):
                            
-                        <table class="table table-bordered" id="sortTable" data-page-length='10'>
+                        <table class="" id="sortTable" data-page-length='20'>
                             <thead>
-                            <th width="50"></th>
-                            <th>Группа</th>
-                            <th>Преподаватель</th>
-                            <th>Время и тип занятия</th>
+                            <th width="1%"></th>
+                            <th width="10%">Группа</th>
+                            <th width="10%">Преподаватель</th>
+                            <th width="10%">Время и тип занятия</th>
                             <th>Тема</th>
+                            <th width="10%">Дата</th>
+                            <th width="10%">Время</th>
                             
                             </thead>
                             <tbody>
                              
-                             @foreach(\App\Timetable::select()->where('month', $month)->whereNull('rasp_id')->orderBy('block_id')->orderBy('lessontype')->get() as $timetable)
+                             @foreach(\App\Timetable::selectRaw('timetable.*, rasp.start_at, rasp.finish_at, rasp.date')
+                             ->leftjoin('rasp', 'rasp.timetable_id', '=', 'timetable.id')
+                             ->where('timetable.month', $month)
+                             ->orderBy('block_id')
+                             ->orderBy('lessontype')
+                             ->get() as $timetable)
                              @foreach($timetable->teachers as $teacher)
                              <tr>
                                  <td>
                                      <input required type="radio" id="timetableId" name="timetable_id" value="{{$timetable->id}}" 
                                             data-hours="{{$timetable->hours}}" 
-                                            data-teacher="{{$teacher->id}}" data-group_id="{{$timetable->group_id}}">
-                                     
+                                            data-teacher="{{$teacher->id}}" 
+                                            data-group_id="{{$timetable->group_id}}"
+                                            data-rasp_id="{{$timetable->rasp_id}}"
+                                            data-start_at="{{$timetable->start_at}}"
+                                            data-finish_at="{{$timetable->finish_at}}"
+                                            >
                                  </td>
                                  <td>
-                                     {{$timetable->group->name}} 
+                            <nobr>Группа {{$timetable->group->name}} 
                                 @if($timetable->subgroup)
-                                (подгруппа {{$timetable->subgroup }})
-                                @endif
+                                /{{$timetable->subgroup }}
+                                @endif</nobr>
                                  </td>
                                  <td>
                                      
-                                     {{$teacher->name}}
+                                     {{$teacher->secname()}}
                                  </td>
                                   <td>
-                                     {{$timetable->hours}} ч ({{$timetable->lesson_type->name}})
+                            <nobr>{{$timetable->hours}} ч ({{$timetable->lesson_type->name}})</nobr>
                                  </td>  
                                  <td>
                                      {{ $timetable->block->name or ''}}
                                  </td>
+                                 <td>@if ($timetable->date)
+                                     {{ \Logbook::normal_date($timetable->date)}}
+                                     @else
+                                     -
+                                     @endif
+                                 </td>
+                                 <td><nobr>{{ $timetable->start_at}} - {{ $timetable->finish_at}}</nobr></td>
 
                                                            </tr>
                              @endforeach
@@ -150,7 +168,15 @@ $('#filterGroup').change(function() {
 $('input[type=radio]').change(function(){
     
     var hours = $('#timetableId:checked').data('hours');
+    var start_at = $('#timetableId:checked').data('start_at');
+    var finish_at = $('#timetableId:checked').data('finish_at');
+    var rasp_id =  $('#timetableId:checked').data('rasp_id');
     $('#needHours').html(hours + " часа");
+    $('#startAt').val(start_at);
+     $('#finishAt').val(finish_at);
+    $('#raspId').val(rasp_id);
+    
+    
     //alert(hours);
     check_teacher();
     
