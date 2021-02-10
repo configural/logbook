@@ -115,17 +115,42 @@ $total_hours_distributed = 0;
                         <td>{{ $delta }}</td>
                         </tr>
                         @endforeach
+                        
+                        <tr>
+                            <td>Внеаудиторная нагрузка</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>
+                                
+                                {{
+                                $total_vneaud = \App\Vneaud::select('vneaud.hours')
+                                        ->join('users', 'users.id', '=', 'vneaud.user_id')
+                                        ->join('departments', 'departments.id', '=', 'users.department_id')
+                                        ->where('departments.id', $department_id)
+                                        ->sum('vneaud.hours')
+                                }}
+                                
+                                
+                            </td>
+                            
+                        </tr>
+                        
+                        
                     </tbody>
                     <tfoot>
                         <tr>
-                        <td>ИТОГО</td>
+                        <td>ИТОГО аудиторной</td>
                         <td>{{$total_hours}}</td>
                         <td>{{$total_hours_distributed}}</td>
                         <td>
                             @php ($delta = $total_hours + $total_hours_distributed)
                             {{$delta}}
-                            
                         </td>
+                    </tr>
+                    <tr><td>ВСЕГО</td>
+                        <td></td>
+                        <td></td>
+                        <td> {{ $total_vneaud + $delta }}</td>
                     </tr>
                         </tfoot>
                     </table>
