@@ -1115,6 +1115,7 @@ return array(
     'Hamcrest\\Util' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
     'Hamcrest\\Xml\\HasXPath' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
     'HoursFloat' => $baseDir . '/database/migrations/2021_02_12_113802_hours-float.php',
+    'HoursFloat1' => $baseDir . '/database/migrations/2021_02_12_123941_hours_float1.php',
     'Illuminate\\Auth\\Access\\AuthorizationException' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
     'Illuminate\\Auth\\Access\\Gate' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
     'Illuminate\\Auth\\Access\\HandlesAuthorization' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/HandlesAuthorization.php',
