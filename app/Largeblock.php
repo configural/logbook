@@ -41,20 +41,29 @@ class Largeblock extends Model
         $hours = 0;
         
         foreach($largeblock->blocks as $block) {
-            $timetable = \App\Timetable::join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+            
+            $timetable = \App\Timetable::selectRaw('timetable.*')
+                    ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                     ->join('groups', 'timetable.group_id', '=', 'groups.id')
                     ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                    ->join('users', 'users.id', '=', 'teachers2timetable.teacher_id')
+                    ->leftjoin('blocks', 'timetable.block_id', '=', 'blocks.id')
                     ->whereBetween('timetable.month', [$month1, $month2])
                     ->where('teachers2timetable.timetable_id', '!=', NULL)
                     ->where('timetable.block_id', $block->id)
                     ->where('streams.year', $year)
-                    ->sum('hours');
-                     
-                $hours += $timetable;
-
-
-
-        };
+                    ->get();
+                foreach($timetable as $t){     
+                $hours += $t->hours;
+                
+               // echo "<br>";
+               // echo $t->rasp->date ." - ". $t->hours;
+                foreach($t->teachers as $teacher) {
+                 //   echo $teacher->secname();
+                }
+                //echo $t->rasp->start_at."-".$t->rasp->finish_at;
+                }
+        }
         return $hours;
     }
     

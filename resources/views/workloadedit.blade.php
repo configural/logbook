@@ -22,7 +22,7 @@
                     <hr>
                     <form action='' method='post'>
                         <p><label>Количество часов: </label>
-                        <input type='number' name='hours' value='{{$timetable->hours}}' class='form-control-static'>
+                        <input  type="number" step="0.01" name='hours' value='{{$timetable->hours}}' class='form-control-static'>
                     </p>
                         <p>
                         <label>Подгруппа (если деление на подгруппы не предусмотрено, оставьте поле ПУСТЫМ): </label>

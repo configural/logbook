@@ -42,7 +42,7 @@
                         <p>
                         <div id="hours" style="display: none;">
                         <label>Количество часов:</label><br/>
-                        <input  name="hours" type="number" class="form-control-static" value="4"  required>
+                        <input  name="hours"  type="number" step="0.01" class="form-control-static" value="4"  required>
                         </div>
                     </p>
                         <p>

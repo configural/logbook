@@ -91,7 +91,11 @@ $total_hours_distributed = 0;
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(\App\Largeblock::where('department_id', $department_id)->orderby('name')->get() as $largeblock)
+                        @foreach(\App\Largeblock::select('largeblocks.*')
+                                    //->leftjoin('blocks', 'blocks.largeblock_id', '=', 'largeblocks.id')            
+                                    ->where('largeblocks.department_id', $department_id)
+                                    ->orderby('largeblocks.name')
+                                    ->get() as $largeblock)
                         <tr>
                         <td>{{ $largeblock->name}}</td>
                         

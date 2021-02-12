@@ -233,6 +233,12 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             <td>{{ $hours_total or ''}}</td>
                         </tr>    
                         @endforeach
+                        <tr><td>Итого аудиторной нагрузки</td>
+                            @for ($month = $month1; $month<=$month2; $month++)
+                            <td></td>
+                            @endfor
+                            <td>{{ array_sum($hours_total_month)}}</td>
+                        </tr>
                          
                         <tr><th colspan='14'>Внеаудиторная нагрузка:</th></tr>
                         @foreach(\App\Lessontype::where('vneaud', 1)->where('in_table', 1)->orderby('id')->get() as $lessontype)

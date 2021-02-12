@@ -15,10 +15,10 @@
                           
                         <p><input type="hidden" name="discipline_id" value="{{$id}}"></p>
                         <p><label>Название блока</label><textarea class="form-control" name="name" required></textarea></p>
-                          <p><label>Лекции (часов)</label><input type="text" value="0" class="form-control" name="l_hours"></p>
-                          <p><label>Практика (часов)</label><input type="text" value="0" class="form-control" name="p_hours"></p>
-                          <p><label>Самост. работа (часов)</label><input type="text" value="0" class="form-control" name="s_hours"></p>
-                          <p><label>Вебинары (часов)</label><input type="text" value="0" class="form-control" name="w_hours"></p>
+                          <p><label>Лекции (часов)</label><input type="number" step="0.01" value="0" class="form-control" name="l_hours"></p>
+                          <p><label>Практика (часов)</label><input  type="number" step="0.01" value="0" class="form-control" name="p_hours"></p>
+                          <p><label>Самост. работа (часов)</label><input  type="number" step="0.01" value="0" class="form-control" name="s_hours"></p>
+                          <p><label>Вебинары (часов)</label><input  type="number" step="0.01" value="0" class="form-control" name="w_hours"></p>
                           <p><label>Кафедра:</label>
                               <select name="department_id" class="form-control-static">
                                   <option value="">Наследуется от дисциплины</option>

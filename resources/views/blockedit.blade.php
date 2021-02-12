@@ -13,10 +13,10 @@
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $block->id }}" class="form-control" name="id"></p>
                           <p><label>Название блока</label><textarea class="form-control" name="name">{{ $block->name }}</textarea></p>
-                          <p><label>Лекции (часов): </label><input type="text" value="{{ $block->l_hours }}" class="form-control" name="l_hours"></p>
-                          <p><label>Практика (часов)</label><input type="text" value="{{ $block->p_hours }}" class="form-control" name="p_hours"></p>
-                          <p><label>Самост. работа (часов)</label><input type="text" value="{{ $block->s_hours }}" class="form-control" name="s_hours"></p>
-                          <p><label>Вебинары (часов)</label><input type="text" value="{{ $block->w_hours }}" class="form-control" name="w_hours"></p>
+                          <p><label>Лекции (часов): </label><input  type="number" step="0.01" value="{{ $block->l_hours }}" class="form-control" name="l_hours"></p>
+                          <p><label>Практика (часов)</label><input  type="number" step="0.01" value="{{ $block->p_hours }}" class="form-control" name="p_hours"></p>
+                          <p><label>Самост. работа (часов)</label><input  type="number" step="0.01" value="{{ $block->s_hours }}" class="form-control" name="s_hours"></p>
+                          <p><label>Вебинары (часов)</label><input  type="number" step="0.01" value="{{ $block->w_hours }}" class="form-control" name="w_hours"></p>
                           
                           <p><label>Кафедра:</label>
                               <select name="department_id" class="form-control-static">
