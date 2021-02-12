@@ -15,7 +15,7 @@
                     <form action="add" method="post">
                           
                           <p><label>Название</label><input type="text" value="" class="form-control" name="name"></p>
-                          <p><label>Часы</label><input type="text" value="" class="form-control" name="hours"></p>
+                          <p><label>Часы</label><input  type="number" step="0.01" value="" class="form-control" name="hours"></p>
                           <p><label>Аттестация по дисциплине</label>
                               <select name="attestation_id" class="form-control">
                                   @foreach(\App\Attestation::select()->get() as $attestation)

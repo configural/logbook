@@ -16,7 +16,7 @@
                           <p><label>Название</label>
                           <textarea value="" class="form-control" name="name" required></textarea>
                           <p><label>Год</label><input type="number" value="" class="form-control" name="year" required></p>
-                          <p><label>Планируемое количество часов</label><input type="number" value="" class="form-control" name="hours"></p>
+                          <p><label>Планируемое количество часов</label><input  type="number" step="0.01" value="" class="form-control" name="hours"></p>
                           <p><label>Форма обучения</label>
                               <select name="form_id" class="form-control">
                                   @foreach(\App\Form::select()->get() as $form)

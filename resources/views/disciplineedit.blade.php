@@ -13,7 +13,7 @@
                       <form action="store" method="post">
                           <p><input type="hidden" value="{{ $discipline->id }}" class="form-control" name="id"></p>
                           <p><label>Название дисциплины</label><input type="text" value="{{ $discipline->name }}" class="form-control" name="name"></p>
-                          <p><label>Часы. </label> Здесь нужно ввести количество часов, предусмотренное УТП.<input type="text" value="{{ $discipline->hours }}" class="form-control" name="hours"></p>
+                          <p><label>Часы. </label> Здесь нужно ввести количество часов, предусмотренное УТП.<input  type="number" step="0.01" value="{{ $discipline->hours }}" class="form-control" name="hours"></p>
                          
                           <p><label>Аттестация по дисциплине</label>
                               <select name="attestation_id" class="form-control">

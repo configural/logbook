@@ -19,7 +19,7 @@
                           
                           <p><label>Год</label><input type="number" value="{{\App\Program::find($id)->year}}" class="form-control" name="year" required></p>
                           <p><label>Планируемое количество часов</label>
-                              <input type="number" value="{{ \App\Program::find($id)->hours }}" class="form-control" name="hours" required></p>
+                              <input  type="number" step="0.01" value="{{ \App\Program::find($id)->hours }}" class="form-control" name="hours" required></p>
                           <p><label>Форма обучения</label>
                               <select name="form_id" class="form-control">
                                   @foreach(\App\Form::select()->get() as $form)
