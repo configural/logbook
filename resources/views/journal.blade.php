@@ -25,22 +25,22 @@
 
                 $me = Auth::user()->id;
                 ?>
-                    <h3>Сегодня <span class='green'>{{ \Logbook::normal_date(date('Y-m-d'))}}</span></h3>
+                    <h1>Сегодня <span class='green'>{{ \Logbook::normal_date(date('Y-m-d'))}}</span></h1>
                 <table class='table table-bordered' id=''>
                     <thead>
                     <tr>
                         
-                        <th>Дата</th>
-                        <th>Время</th>
-                        <th>Группа</th>
+                        <th width="10%">Дата</th>
+                        <th width="10%">Время</th>
+                        <th width="10%">Группа</th>
                         <th>Тема занятия</th>
-                        <th>Тип занятия</th>
-                        <th>Операции</th>
-                        <th>Состояние журнала</th>
+                        <th width="10%">Тип занятия</th>
+                        <th width="10%">Операции</th>
+                        <th width="10%">Состояние журнала</th>
                     </tr>
                     </thead>
                     <tbody>
-                @foreach(\App\Rasp::select('rasp.*')
+                @foreach($rasp = \App\Rasp::select('rasp.*')
                 ->join('timetable', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->join('users', 'teachers2timetable.teacher_id', '=', 'users.id')
@@ -83,9 +83,14 @@
    
                     </td>
                 </tr>
-                    
-                
                 @endforeach
+                
+                @if($rasp->count() == 0)
+                <tr>
+                    <td colspan="7">Сегодня занятий нет</td>
+                </tr>
+                @endif
+                
                 </tbody>
                 </table>    
                 
@@ -96,28 +101,25 @@
                         <a href="{{ route('workloadmythemes')}}" class="btn btn-primary">Моя нагрузка по темам и месяцам</a>
                     </p>
                     
-                    <p>
-                        <a href="#" onClick="$('#previous').toggle()">Показать/скрыть предыдущие занятия</a>
-                    </p>
+                    <hr>
                     
                     
-                   <div id="previous" style="display: none; width: 100%"> 
-                    <h3>Предыдущие записи журнала</h3>    
+                   <div id="previous" style="display: block; width: 100%"> 
+                    <h4>Предыдущие записи журнала</h4>    
                     <p>
-                        В этом списке отображаются ранее проведенные занятия групп, которые в настоящий момент обучаются. 
-                        Пожалуйста, следите, чтобы журнал по всем занятиям имел статус "Заполнен".
+                        В этой таблице отображаются ранее проведенные занятия.                         Пожалуйста, следите, чтобы журнал по всем занятиям имел статус "Заполнен".
                     </p>
-                <table class='table table-bordered' id=''>
+                <table class='table table-bordered' id='sortTable'>
                     <thead>
                     <tr>
                         
-                        <th>Дата</th>
-                        <th>Время</th>
-                        <th>Группа</th>
+                        <th width="10%">Дата</th>
+                        <th width="10%">Время</th>
+                        <th width="10%">Группа</th>
                         <th>Тема занятия</th>
-                        <th>Тип занятия</th>
-                        <th>Операции</th>
-                        <th>Состояние журнала</th>
+                        <th width="10%">Тип занятия</th>
+                        <th width="10%">Операции</th>
+                        <th width="10%">Состояние журнала</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -129,8 +131,6 @@
                 ->join('streams', 'streams.id', '=', 'groups.stream_id')
                 ->where('users.id', $me)
                 ->where('streams.year', date('Y'))
-                ->where('streams.date_start', '<=', date('Y-m-d'))
-                ->where('streams.date_finish', '>=', date('Y-m-d'))
                 ->where('date', '<', date('Y-m-d'))
                 ->orderby('rasp.date', 'desc')
                 ->get() as $rasp)
@@ -162,6 +162,8 @@
                     <td class="">
                         @if (\App\Journal::state($rasp->id))
                         <i class='fa fa-check-circle green fa fa-1x'> заполнен</i>
+                        @else
+                        <i class='fa fa-times-circle red fa fa-1x'> не заполнен</i>
                         @endif
    
                     </td>
@@ -177,6 +179,8 @@
         </div>
     </div>
 </div>
+
+
 
 @endsection
 
