@@ -36,7 +36,11 @@
                         <p><label>Преподаватель:</label><br/>
                         <select name="users[]" class="form-control-static" required="" multiple style="height: 200px;">
                         @foreach(\App\User::orderBy('name')->get() as $user)
-                        <option value='{{$user->id}}'>{{ $user->name }}</option>
+                        <option value='{{$user->id}}'>{{ $user->name }} 
+                            @if($user->freelance) (по договору)
+                            @endif
+
+                        </option>
                         @endforeach
                         </select>
                         </p>

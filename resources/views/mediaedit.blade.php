@@ -51,9 +51,16 @@
                                 @endif
                                 @endforeach
                                 @if($in_list)
-                                    <option value="{{$user->id}}" selected>{{$user->name}}</option>
+                                    <option value="{{$user->id}}" selected>{{$user->name}}
+                                    @if($user->freelance) (по договору)
+                                    @endif
+                                    </option>
+                                    
                                 @else
-                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                    <option value="{{$user->id}}">{{$user->name}}
+                                    @if($user->freelance) (по договору)
+                                    @endif
+                                    </option>
                                 @endif
                             
                             @endforeach
