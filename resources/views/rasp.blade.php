@@ -22,7 +22,7 @@ $_SESSION["work_with"] = "rasp";
 
                 <div class="panel-body">
 
-                    @if(Auth::user()->role_id >= 3)
+                    @if(in_array(Auth::user()->role_id, [2,3,4,6]))
  
                     <table class="table table-bordered" id="sortTable">
                         <thead>

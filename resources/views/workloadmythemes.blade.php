@@ -109,7 +109,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                        <td>
                            {{ @str_limit($timetable->block->name, 80)}}
                        </td>
-                       <td><nobr>{{$timetable->group->stream->name}}</nobr>, <nobr>группа {{$timetable->group->name}}
+                       <td><nobr><a href="{{ url('/')}}/stream/{{$timetable->group->stream_id}}/edit">{{$timetable->group->stream->name}}</a></nobr>, <nobr>группа {{$timetable->group->name}}
                         @if ($timetable->subgroup)
                         /{{$timetable->subgroup}}
                         @endif 
