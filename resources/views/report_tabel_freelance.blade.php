@@ -169,6 +169,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                             ->where('groups.paid', $paid)
                             ->where('rasp.date', 'like', "$year-$month%")
                             ->whereIn('programs.form_id', [$form_id])
+                            ->orderBy('users.name')
                             
                             ->get() as $contract)
                    
@@ -416,7 +417,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                     @endphp
                     
                     @if ($check->hours != $hours2)
-                    <div class='red'>Найдено расхождение в часах! У внештатников должно быть 50 часов. Кого-то забыли!</div>
+                    <div class='red'>Найдено расхождение в часах - кого-то забыли!</div>
                     
                     @foreach(\App\User::selectRaw('users.name as username, timetable.hours as hours, timetable.id as timetable_id, contracts.name as contractname')
                                     ->leftjoin('contracts', 'contracts.user_id', '=', 'users.id')
@@ -433,7 +434,7 @@ $months_array = ['','январь','фераль','март','апрель','м�
                                     ->where('groups.paid', $paid)                                    
                                     ->where('rasp.date', 'like', "$year-$month%")
                                     ->get() as $checklist )
-                                    <a href='{{url('/')}}/workload/edit/{{$checklist->timetable_id}}' target="_blank">{{ $checklist->username}} - {{ $checklist->hours}} - {{$checklist->contractname}}</a><br>               
+                                    <a href='{{url('/')}}/workload/edit/{{$checklist->timetable_id}}' target="_blank">{{ $checklist->username}} - {{ $checklist->hours}} ч - договор {{$checklist->contractname}}</a><br>               
                     @endforeach
                     <div class='red'>Причина - отсутствует привязка нагрузки к договору. Найдите нагрузку (кликните по ссылке), выберите из списка номер договора и нажмтите "Сохранить". 
                         После этого вернитесь на эту страницу и обновите ее (F5)</div>
