@@ -13,7 +13,7 @@ $tmp_class = "";
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <div class="row-fluid">
         <div class="col-md-12">
             <div class="panel panel-primary">
@@ -30,7 +30,7 @@ $tmp_class = "";
                         {{ csrf_field() }}
                     </form>
                     <p></p>
-                        <table id='sortTable'>
+                        <table id=''>
                             <thead>
                                 <tr>
                             
@@ -43,11 +43,16 @@ $tmp_class = "";
                             
                             </thead>
                             <tbody>
-                    @foreach(\App\Rasp::where('date', $date)->where('room_id', '!=', NULL)->orderby('room_id')->get() as $rasp)
+                    @foreach(\App\Rasp::where('date', $date)
+                            ->join('classrooms', 'classrooms.id', '=', 'rasp.room_id')
+                            ->where('room_id', '!=', NULL)
+                            ->orderby('classrooms.name')
+                            ->orderby('rasp.start_at')
+                            ->get() as $rasp)
                     
                     @if ($tmp_class != $rasp->classroom->name)
                     @php ($tmp_class = $rasp->classroom->name)
-                    <tr><th><br/><nobr>{{$rasp->classroom->name}}</nobr></th></tr>
+                    <tr><th  colspan='6'><br/><nobr>{{$rasp->classroom->name}}</nobr></th></tr>
                         
                     @endif
                     <tr>
