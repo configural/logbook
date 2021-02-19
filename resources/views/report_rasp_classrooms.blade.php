@@ -43,7 +43,7 @@ $tmp_class = "";
                             
                             </thead>
                             <tbody>
-                    @foreach(\App\Rasp::where('date', $date)->where('room_id', '!=', NULL)->get() as $rasp)
+                    @foreach(\App\Rasp::where('date', $date)->where('room_id', '!=', NULL)->orderby('room_id')->get() as $rasp)
                     
                     @if ($tmp_class != $rasp->classroom->name)
                     @php ($tmp_class = $rasp->classroom->name)
