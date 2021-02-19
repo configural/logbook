@@ -102,7 +102,7 @@ $group_id = NULL;
                                             <td>{{ @str_limit($r->start_at, 5, '')}} - {{ @str_limit($r->finish_at, 5, '')}}</td>
                                             <td>{{$r->timetable->lesson_type->name}}, {{$r->timetable->hours}} ч</td>
                                             <td>{{ $r->timetable->block->name or ''}}</td>
-                                            <td>{{ $r->classroom->name }}</td>
+                                            <td>{{ $r->classroom->name or '' }}</td>
                                             <td>@foreach($r->timetable->teachers as $t)
                                                 {{ $t->fio() }} 
                                                 @endforeach

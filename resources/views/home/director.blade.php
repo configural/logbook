@@ -3,7 +3,8 @@
                     <h3>Контроль и мониторинг</h3>
                     <hr>
                     <div class="icon"><a href="{{url('/')}}/reports/journal"><i class="fa fa-list fa-3x orange"></i><br/>Журналы преподавателей</a></div>
-                    <div class="icon"><a href="{{route('raspview')}}"><i class="fa fa-calendar fa-3x blue"></i><br/>Общее расписание</a></div>
+                    <div class="icon"><a href="{{route('rasp')}}"><i class="fa fa-calendar fa-3x blue"></i><br/>Расписание по аудиториям</a></div>
+                    <div class="icon"><a href="{{route('raspview')}}"><i class="fa fa-calendar fa-3x blue"></i><br/>Расписание по группам</a></div>
                     <div class="icon"><a href="{{route('print_rasp_kafedra')}}"><i class="fa fa-calendar fa-3x orange"></i><br/>Расписание преподавателей кафедры</a></div>
                     <div class="icon"><a href="{{route('themes')}}"><i class="fa fa-pie-chart fa-3x orange"></i><br/>Нагрузка по кафедрам</a></div>
                     <div class="icon"><a href="{{route('report_rasp_classrooms')}}"><i class="fa fa-building fa-3x blue"></i><br/>Занятость аудиторий</a></div>
