@@ -45,10 +45,14 @@ $group_id = NULL;
                                 ->orWhere(function($query) use($date1, $date2) {
                                     $query->where('streams.date_start', '<=', $date1)
                                           ->where('streams.date_finish', '>=', $date2);
+                                          
                                     })
                                     ->orderby('groups.name')
                                     ->get()
                                 as $group)
+                                
+                                
+                                
                                 @if ($group->id == $group_id)
                                 <option value='{{ $group->id }}' selected>Группа: {{ $group->name }} ({{ $group->stream->name}})</option>
                                 @else

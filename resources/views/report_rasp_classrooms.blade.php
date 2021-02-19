@@ -4,7 +4,11 @@ if (isset($_GET["date"]))
     else 
     {$date = date('Y-m-d');}
 
-@endphp
+$tmp_class = "";
+    
+    @endphp
+
+
 
 @extends('layouts.app')
 
@@ -19,7 +23,7 @@ if (isset($_GET["date"]))
                     
                     <form method="get">
                          
-                        <input type="date" name="date" value="{{ date('Y-m-d')}}" class="form-control-static">   
+                        <input type="date" name="date" value="{{ $date }}" class="form-control-static" onchange="this.form.submit()">   
                         <button class="btn btn-success">Сформировать</button>
                         
                         <a href="{{ route('home')}}" class="btn btn-info">Отмена</a>
@@ -29,7 +33,7 @@ if (isset($_GET["date"]))
                         <table id='sortTable'>
                             <thead>
                                 <tr>
-                            <td>Ауд.</td>
+                            
                             <td>Время</td>
                             <td>Поток</td>
                             <td>Группа</td>
@@ -39,9 +43,15 @@ if (isset($_GET["date"]))
                             
                             </thead>
                             <tbody>
-                    @foreach(\App\Rasp::where('date', $date)->get() as $rasp)
+                    @foreach(\App\Rasp::where('date', $date)->where('room_id', '!=', NULL)->get() as $rasp)
+                    
+                    @if ($tmp_class != $rasp->classroom->name)
+                    @php ($tmp_class = $rasp->classroom->name)
+                    <tr><th><br/><nobr>{{$rasp->classroom->name}}</nobr></th></tr>
+                        
+                    @endif
                     <tr>
-                        <td><nobr>{{$rasp->classroom->name}}</nobr></td>
+                        
                         <td><nobr>{{ @str_limit($rasp->start_at, 5, '')}} – {{@str_limit($rasp->finish_at, 5, '')}}</nobr></td>
                         <td><nobr>{{$rasp->timetable->group->stream->name or ''}}</nobr></td>
                         <td>{{$rasp->timetable->group->name or ''}}</td>

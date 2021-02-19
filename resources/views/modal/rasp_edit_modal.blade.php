@@ -18,7 +18,7 @@
     <p><label>Аудитория:</label> <select id='room_id' name='room_id' class='form-control-static'>
             <option value=''>не выбрана</option>
     @if (isset($timetable->rasp->room_id))
-    @foreach(\App\Classroom::orderby('name')->get() as $room)
+    @foreach(\App\Classroom::orderby('name')->where('capacity', '!=', 0)->get() as $room)
         @if ($room->id == $timetable->rasp->room_id)
             <option value='{{$room->id}}' selected>{{$room->name}}</option>
         @else

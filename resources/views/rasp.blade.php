@@ -30,7 +30,7 @@ $_SESSION["work_with"] = "rasp";
                         <th>Занятия</th>
                         </thead>
                         <tbody>    
-                    @foreach(\App\Classroom::select()->orderby('name')->get() as $room)
+                    @foreach(\App\Classroom::select()->orderby('name')->where('capacity', '!=', 0)->get() as $room)
                     <tr>
                         <td width="20%"><h3>{{$room->name}}</h3>{{$room->capacity}} мест
                         @if(in_array( Auth::user()->role_id, [4, 3]))
