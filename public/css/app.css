@@ -45,7 +45,7 @@
 
  table.dataTable thead .sorting_desc:after {content: "▼" !important; color: darkorange;}
  table.dataTable thead .sorting_asc:after {content: "▲" !important; color: darkorange;}
- table.dataTable thead .sorting:after {opacity: 0.2; content: "▲▼" !important;}
+ table.dataTable thead .sorting:after {opacity: 0.2; content: "" !important;}
  table {width: 100% !important;   }
  
  .cross {background: red; color: white;}
@@ -68,3 +68,7 @@
 summary {color: blue; font-weight: bold; cursor: pointer; }
 select option[disabled] { color: #000;  background: #eee; }
 option {font-size: 12pt; }
+
+td, th {padding: 3px;}
+thead td, th {background: #dff0d8;}
+tbody th {background: #bce8f1;}

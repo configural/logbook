@@ -130,13 +130,13 @@
                                     @if ($stream->id == $stream_id)
 
                                         <option value='{{ $stream->id }}' selected>
-                                        {{substr($stream->date_start, 5, 2)}} :: 
+                                        {{\Logbook::month($stream->date_start, 1)}} :: 
                                         {{ str_limit($stream->program_name, 70) }}
                                         :: {{$stream->name}}
                                         </option>
                                     @else
                                         <option value='{{ $stream->id }}'>
-                                        {{substr($stream->date_start, 5, 2)}} :: 
+                                        {{\Logbook::month($stream->date_start, 1)}} :: 
                                         
                                         {{ str_limit($stream->program_name, 70) }} ::
                                         {{$stream->name}}

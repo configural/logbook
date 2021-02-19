@@ -17,7 +17,7 @@ $tmp_class = "";
     <div class="row-fluid">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading ">Занятость аудиторий</div>
+                <div class="panel-heading ">Занятость аудиторий: {{ \Logbook::normal_date($date) }}</div>
 
                 <div class="panel-body">
                     
@@ -30,15 +30,15 @@ $tmp_class = "";
                         {{ csrf_field() }}
                     </form>
                     <p></p>
-                        <table id=''>
+                        <table id='' class='table-bordered'>
                             <thead>
                                 <tr>
                             
-                            <td>Время</td>
-                            <td>Поток</td>
-                            <td>Группа</td>
-                            <td>Преподавател(и)</td>
-                            <td>Методист</td>
+                            <th>Время</th>
+                            <th>Поток</th>
+                            <th>Группа</th>
+                            <th>Преподавател(и)</th>
+                            <th>Методист</th>
                                 </tr>
                             
                             </thead>
@@ -52,7 +52,7 @@ $tmp_class = "";
                     
                     @if ($tmp_class != $rasp->classroom->name)
                     @php ($tmp_class = $rasp->classroom->name)
-                    <tr><th  colspan='6'><br/><nobr>{{$rasp->classroom->name}}</nobr></th></tr>
+                    <tr><th  colspan='6'><nobr>{{$rasp->classroom->name}}</nobr></th></tr>
                         
                     @endif
                     <tr>
