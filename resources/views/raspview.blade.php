@@ -1,6 +1,25 @@
 @php
 session_start();
 $_SESSION["work_with"] = "rasp";
+
+if (isset($_GET["date1"])) {
+$date1 = $_GET["date1"];
+} else {
+$date1 = date('Y-m-d');
+}
+
+if (isset($_GET["date2"])) {
+$date2 = $_GET["date2"];
+} else {
+$date2 = date("Y-m-d", strtotime("+7 days"));;
+}
+
+if (isset($_GET["group_id"])) {
+$group_id = $_GET["group_id"];
+} else {
+$group_id = NULL;
+}
+
 @endphp
 
 @extends('layouts.app')
@@ -15,66 +34,88 @@ $_SESSION["work_with"] = "rasp";
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <form action='raspview' method='get'>
-                        Общее расписание <input type="date" name="date" value="{{$date}}" onchange="javascript:form.submit()" >
+                        @include('include.daterange')
                         
+                        <select name='group_id' class='form-control-static'>
+                            <option value=''>Выберите группу</option>
+                            @foreach($groups = \App\Group::selectRaw('groups.*, streams.date_start, streams.date_finish')
+                                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                                ->whereBetween('streams.date_start',  [$date1, $date2])
+                                ->orWhereBetween('streams.date_finish',  [$date1, $date2])
+                                ->orWhere(function($query) use($date1, $date2) {
+                                    $query->where('streams.date_start', '<=', $date1)
+                                          ->where('streams.date_finish', '>=', $date2);
+                                    })
+                                    ->orderby('groups.name')
+                                    ->get()
+                                as $group)
+                                @if ($group->id == $group_id)
+                                <option value='{{ $group->id }}' selected>Группа: {{ $group->name }} ({{ $group->stream->name}})</option>
+                                @else
+                                <option value='{{ $group->id }}'>Группа: {{ $group->name }} ({{ $group->stream->name}})</option>
+                                @endif
+                                
+                            @endforeach    
+                            
+                            
+                        </select>
+                        <button>Показать</button>
                     </form>
                 </div>
 
                 <div class="panel-body">
 
                     @if(Auth::user()->role_id)
- 
-                    <table class="table table-bordered" id="sortTable">
+                    @if ($group = \App\Group::find($group_id))
+                    <table class="table table-bordered" id="">
+                        <caption><h3>Расписание группы {{$group->name}}</h3></caption>
                         <thead>
+                        <th>Время</th>
+                        <th>Занятие</th>
+                        <th>Тема</th>
                         <th>Аудитория</th>
-                        <th>Занятия</th>
+                        <th>Преподаватель</th>
                         </thead>
-                        <tbody>    
-                    @foreach(\App\Classroom::select()->orderby('name')->get() as $room)
-                    <tr>
-                        <td width="20%"><h3>{{$room->name}}</h3>
-                            {{$room->address}}
-                        </td>
-                        <td><!--вывод строк расписания-->
-                            <table class='table table-borderless'>
-                            @php($start = 0)
-                            @php($finish = 0)
+                        
+                        <tbody>   
+                            @php 
+                            $tmp_date = "";
+                            @endphp
+                        @foreach($rasp = \App\Rasp::select('rasp.*')
+                                        ->leftjoin('timetable', 'timetable.id', '=', 'rasp.timetable_id')
+                                        ->where('timetable.group_id', '=', $group_id)
+                                        ->whereBetween('rasp.date', [$date1, $date2])
+                                        ->orderby('rasp.date')
+                                        ->get() as $r)
+                                        
+                                        @if ($tmp_date != $r->date)
+                                        <tr>
+                                            <th colspan='10'>{{ \Logbook::normal_date($r->date)}}</th>
+                                        </tr>
+                                        @php
+                                        $tmp_date = $r->date;
+                                        @endphp
+                                        @endif
+                                        
+                                        <tr>
+                                            
+                                            <td>{{ @str_limit($r->start_at, 5, '')}} - {{ @str_limit($r->finish_at, 5, '')}}</td>
+                                            <td>{{$r->timetable->lesson_type->name}}, {{$r->timetable->hours}} ч</td>
+                                            <td>{{ $r->timetable->block->name or ''}}</td>
+                                            <td>{{ $r->classroom->name }}</td>
+                                            <td>@foreach($r->timetable->teachers as $t)
+                                                {{ $t->fio() }} 
+                                                @endforeach
+                                            </td>
+                                        </tr>
+                        
+                        @endforeach
                             
-                            @foreach(\App\Rasp::select()->where('date', $date)->where('room_id', $room->id)->orderBy('start_at')->get() as $rasp)                            
-                            <tr><td width='20%'>
-                                @if($start != $rasp->start_at) 
-                                {{$rasp->start_at}}–{{$rasp->finish_at}}
-                                @endif
-                                </td>
-                            @php($start = $rasp->start_at)
-                            @php($finish = $rasp->finish_at)    
-                             
-                        <td width='40%'>   {{$rasp->timetable->lesson_type->name or 'n/a' }}:  {{$rasp->timetable->block->name or 'n/a'}}</td>
-                         <td width='15%'>{{$rasp->timetable->group->name or ''}}</td>
-                            <td width='15%'>@foreach($rasp->timetable->teachers as $teacher)
-                                <p>{{$teacher->fio() }}
                             
-                                @if (in_array(Auth::user()->role_id,[3,4,5,6]))
-                                    @if($j = \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->count())
-                                    <a href="{{ url('/')}}/reports/journal/view/{{ \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->first()->id }}"><i class="fa fa-list red" title="Журнал создан!"></i></a>
-                                    @endif
-                                @else
-                                    @if($j = \App\Journal::where('rasp_id', $rasp->id)->where('teacher_id', $teacher->id)->count())
-                                    <i class="fa fa-list" title="Журнал создан!"></i>
-                                    @endif
-                                @endif
-                                </p>
-                            @endforeach</td>
-
-                            @endforeach</tr>
                     
-                            </table>
-                            <!--/ вывод строк расписания-->
-                        </td>
-                    </tr>
-                    @endforeach
                         </tbody>
                     </table>
+                    @endif
                     @else
                     Доступ только для администраторов
                     @endif
@@ -86,6 +127,12 @@ $_SESSION["work_with"] = "rasp";
                 
                 
 <script>
+
+$('select, input').change(function(){
+    $('form').submit();    
+});
+
+
 
 var $window = $(window)
 /* Restore scroll position */
