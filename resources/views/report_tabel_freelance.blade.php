@@ -6,6 +6,10 @@ $price2 = 0;
 $contract_price = 600;
 $months_array = ['','январь','фераль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
 
+$table32 = 0;
+$table34 = [];
+
+
 @endphp
 @extends('layouts.app')
 
@@ -157,20 +161,19 @@ $months_array = ['','январь','фераль','март','апрель','м�
                    
                    
                    @foreach(\App\Contract::selectRaw('contracts.*' )
-                            ->join('teachers2timetable', 'teachers2timetable.contract_id', '=', 'contracts.id')
+                            ->join('users', 'contracts.user_id', '=', 'users.id')         
+                            ->join('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
                             ->join('timetable', 'timetable.id', '=', 'teachers2timetable.timetable_id')
-                            ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                            ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
                             ->join('groups', 'groups.id', '=', 'timetable.group_id')
                             ->join('streams', 'streams.id', '=', 'groups.stream_id')
                             ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                             ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
-                            ->join('users', 'contracts.user_id', '=', 'users.id')
-                            ->distinct()
                             ->where('groups.paid', $paid)
                             ->where('rasp.date', 'like', "$year-$month%")
                             ->whereIn('programs.form_id', [$form_id])
+                            ->distinct()
                             ->orderBy('users.name')
-                            
                             ->get() as $contract)
                    
                    <tr>
@@ -265,7 +268,13 @@ $months_array = ['','январь','фераль','март','апрель','м�
                         $total_price += $line_price;
                         $total_hours += $line_hours;
                     
+                     if (!isset($table34[$contract->price])) {$table34[$contract->price] = $line_hours;}
+                     else {$table34[$contract->price] += $line_hours;}
+                   
+                   
+                   
                    @endphp
+                   
 
                    </tr>
                    
@@ -292,160 +301,64 @@ $months_array = ['','январь','фераль','март','апрель','м�
 
                     <table class='table table-bordered'>
                         <tr>
-                        <th colspan='3'>"32"</th>
-                            </tr>
-                        
-                    @foreach(\App\User::selectRaw('sum(timetable.hours) as hours ')
-                                    ->leftjoin('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
-                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
-                                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
-                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
-                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
-                                    ->where('users.freelance', '=', 0)
-                                    ->whereIn('programs.form_id', [$form_id])
-                                    ->where('groups.paid', $paid)
-                                    ->where('rasp.date', 'like', "$year-$month%")
-                                    ->get() 
-                                     as $contract)
-                    
-                    @foreach(\App\Vneaud::selectRaw('sum(vneaud.hours) as $hours') 
-                                    ->join('users', 'vneaud.user_id', '=', 'users.id')
-                                    ->join('groups', 'vneaud.group_id', '=', 'groups.id')
-                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
-                                    ->where('vneaud.date', 'like', "$year-$month%")
-                                    ->where('users.freelance', 0)
-                                    ->where('groups.paid', $paid)
-                                    ->whereIn('programs.form_id', [$form_id])
-                                    ->get()
-                                    as $vneaud)
-                    
-                    @endforeach
-                                     <tr>
-                        <td>{{$contract_price}}</td>
-                        <td>{{$contract->hours + $vneaud->hours}}</td>
-                        <td>{{($contract->hours + $vneaud->hours) * $contract_price}}</td>
-                        @php
-                        $hours1 += $contract->hours;
-                        $price1 += $contract->hours * $contract_price;
-                        @endphp
-                    </tr>
-                    @endforeach
-                        
-                        
-                        
-                        
-                            <tr>
-                                <th colspan='3'>"34"</th>
-                            </tr>
-                        
-                    @foreach(\App\Contract::selectRaw('contracts.price as price, sum(timetable.hours) as hours ')
-                                    ->join('teachers2timetable', 'teachers2timetable.contract_id', '=', 'contracts.id')
-                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
-                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
-                                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
-                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                      
-                                    ->groupBy('contracts.price')
-                                    ->where('rasp.date', 'like', "$year-$month%")
-                                    ->whereIn('programs.form_id', [$form_id])
-                                    ->where('groups.paid', $paid)
-                                    ->get() 
-                    as $contract)
-                    
-                    @foreach(\App\Vneaud::selectRaw('sum(vneaud.hours) as $hours') 
-                                    ->join('users', 'vneaud.user_id', '=', 'users.id')
-                                    ->join('groups', 'vneaud.group_id', '=', 'groups.id')
-                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')                                    
-                                    ->where('vneaud.date', 'like', "$year-$month%")
-                                    ->where('users.freelance', 1)
-                                    ->where('groups.paid', $paid)
-                                    ->whereIn('programs.form_id', [$form_id])
-                                    ->get()
-                                    as $vneaud)
-                    
-                    @endforeach                    
-                    
-                    <tr>
-                        <td>{{$contract->price}}</td>
-                        <td>{{$contract->hours + $contract->vneaud}}</td>
-                        <td>{{($contract->hours + $contract->vneaud) * $contract->price}}</td>
-                        @php
-                        $hours2 += $contract->hours;
-                        $price2 += $contract->hours * $contract->price;
-                        @endphp
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td>ИТОГО</td>
-                        <td>{{$hours2}}</td>
-                        <td>{{$price2}}</td>
-                    </tr>
-                    <tfoot>
-                        <tr>
-                            <td>ВСЕГО</td>
-                            <td>{{ $hours1 + $hours2 }}</td>
-                            <td>{{ $price1 + $price2 }}</td>
+                            <th colspan='3'>"32"</th>
                         </tr>
-                    </tfoot>
+                            @foreach(\App\User::where('role_id', '2')->where('freelance', 0)->get() as $user)
+                            
+                                @foreach(\App\LessonType::where('in_table', 1)->where('vneaud', 0)->get() as $lessontype)
+                                    @php 
+                                    $table32 += \App\User::user_hours_rasp($user->id, $month, $year, $lessontype->id);
+                                    @endphp
+                                @endforeach
+                                
+                                @foreach(\App\LessonType::where('in_table', 1)->where('vneaud', 1)->get() as $lessontype)
+                                    @php 
+                                    $table32 += \App\User::user_hours_vneaud($user->id, $month, $year, $lessontype->id);
+                                    @endphp
+                                @endforeach                                
+                        
+                            
+                            @endforeach
+                        <tr>
+                            <td>{{ $contract_price }}</td>
+                            <td>{{ $table32 }}</td>
+                            <td>{{ $table32 * $contract_price }}</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <th colspan='3'>"34"</th>
+                        </tr>
+                        @php
+                        $total_hours = 0;
+                        $total_price = 0;
+                        @endphp
+                        
+                        @foreach($table34 as $key => $value)
+                        <tr>
+                        <td>{{ $key }}</td>
+                        <td>{{ $value }}</td>
+                        <td>{{ $key * $value }}</td>
+                        
+                        @php
+                        $total_price += $key * $value;
+                        @endphp
+                        
+                        <tr>
+                        @endforeach
+                        <tfoot>
+                        <tr><td colspan='2'>Итого</td><td>{{ $total_price }}</td></tr>
+                        <tr><td colspan='2'>Всего</td><td>{{ $total_price + $table32 * $contract_price }}</td></tr>
+                        </tfoot>
                     </table>
+                        
                     
-                    
-                    @php
-                    
-                                     $check = \App\User::selectRaw('sum(timetable.hours) as hours ')
-                                    ->leftjoin('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
-                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
-                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
-                                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
-                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')  
-                                    ->where('users.freelance', '=', 1)
-                                    ->where('rasp.date', 'like', "$year-$month%")
-                                    ->whereIn('programs.form_id', [$form_id])
-                                    ->where('groups.paid', $paid)
-                                    ->first(); 
-                    
-                    
-                    @endphp
-                    
-                    @if ($check->hours != $hours2)
-                    <div class='red'>Найдено расхождение в часах - кого-то забыли!</div>
-                    
-                    @foreach(\App\User::selectRaw('users.name as username, timetable.hours as hours, timetable.id as timetable_id, contracts.name as contractname')
-                                    ->leftjoin('contracts', 'contracts.user_id', '=', 'users.id')
-                                    ->leftjoin('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
-                                    ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
-                                    ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
-                                    ->join('groups', 'groups.id', '=', 'timetable.group_id')
-                                    ->join('streams', 'streams.id', '=', 'groups.stream_id')
-                                    ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
-                                    ->join('programs', 'programs.id', '=', 'programs2stream.program_id')  
-                                    ->where('users.freelance', '=', 1)
-                                    ->where('teachers2timetable.contract_id', NULL)
-                                    ->whereIn('programs.form_id', [$form_id])
-                                    ->where('groups.paid', $paid)                                    
-                                    ->where('rasp.date', 'like', "$year-$month%")
-                                    ->get() as $checklist )
-                                    <a href='{{url('/')}}/workload/edit/{{$checklist->timetable_id}}' target="_blank">{{ $checklist->username}} - {{ $checklist->hours}} ч - договор {{$checklist->contractname}}</a><br>               
-                    @endforeach
-                    <div class='red'>Причина - отсутствует привязка нагрузки к договору. Найдите нагрузку (кликните по ссылке), выберите из списка номер договора и нажмтите "Сохранить". 
-                        После этого вернитесь на эту страницу и обновите ее (F5)</div>
-
-                    @else
                     
                     <p>Проректор по учебной работе________________  И.В. Кожанова</p>
                     
                     
                     
-                    @endif
+                    
                     
                     
                     @else

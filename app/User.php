@@ -118,7 +118,7 @@ class User extends Authenticatable
  * lessontype - тип занятия
  */
     public static function user_hours_rasp($user_id, $month, $year, $lessontype) {
-       // dump([$user_id, $date1, $date2, $lessontype]);
+        //dump([$user_id, $month, $year, $lessontype]);
         $date1 = $year . "-" . sprintf("%02d", $month) . "-01";
         $date2 = $year . "-" . sprintf("%02d", $month) . "-" . cal_days_in_month(CAL_GREGORIAN, $month, $year);;
         

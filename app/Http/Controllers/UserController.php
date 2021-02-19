@@ -186,6 +186,7 @@ class userController extends Controller
             // dump($contract_selected);
             echo "Выберите договор: ";
             echo "<select name='contract_id' class='form-control-static' required>";
+            echo "<option value=''>Не выбран</option>";
             foreach($contracts as $contract) {
                 if ($contract->id == $contract_selected) {
                 echo "<option value=" . $contract->id. ">" . $contract->name . "</option>";
