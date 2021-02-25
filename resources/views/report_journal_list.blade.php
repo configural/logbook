@@ -21,17 +21,19 @@
                         <thead>
                             <tr>
                                 <th widh="10%">Дата, время</th>
-                                <th width="50%">Тема занятия</th>
-                                <th widh="10%">Часов</th>
-                                <th widh="10%">Вид занятия</th>
-                                <th widh="10%">Группа</th>
+                                <th width="">Тема занятия</th>
+                                <th widh="5%">Часов</th>
+                                <th widh="5%">Вид занятия</th>
+                                <th widh="5%">Группа</th>
                                 <th widh="10%">Посещаемость</th>
+                                <th widh="10%">Аттестация</th>
                             </tr>
                         </thead>    
                         <tbody>
                             @foreach($journals as $journal)
                             <tr>
-                                <td>{{$journal->rasp->date or 'n/a'}}</td>
+                                <td><span class="hidden">{{$journal->rasp->date}}</span>
+                                    {{ \Logbook::normal_date($journal->rasp->date) }}</td>
                                 <td><a href="view/{{$journal->id}}">{{$journal->rasp->timetable->block->name or 'n/a'}}</a></td>
                                 <td>{{$journal->rasp->timetable->hours or 'n/a'}}</td>
                                 <td>{{$journal->rasp->timetable->lesson_type->name or 'n/a'}}</td>
@@ -40,8 +42,26 @@
                                     <br/>Подгруппа {{$journal->rasp->timetable->subgroup or 'n/a'}}
                                     @endif
                                 </td>
-                                <td>{{$journal->percent() * 100}} %</td>
-
+                                <td>
+                                    @if ($journal->percent())
+                                    <i class="fa fa-check-circle green"></i> {{$journal->percent() * 100}} %
+                                    @else
+                                    <i class="fa fa-minus-circle orange"></i>
+                                    
+                                    @endif
+                                </td>
+                                
+                                <td>
+                                    @if (array_sum(unserialize($journal->attestation)) > 0)
+                                    <i class="fa fa-check-circle green"></i>
+                                    
+                                    {{ (int) (count(unserialize($journal->attestation)) / $journal->rasp->timetable->group->students->count() * 100) }}%
+                                    
+                                    
+                                    @else
+                                    <i class="fa fa-minus-circle orange"></i>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

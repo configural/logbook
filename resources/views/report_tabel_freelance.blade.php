@@ -34,10 +34,10 @@ $table34 = [];
                             <option value="{{ $form->id }}">{{ $form->name }}</option>
                             @endif
                             @endforeach
-                            @if ($form_id == "1,2,3")
-                            <option value="1,2,3" selected>все формы обучения</option>
+                            @if ($form_id == "-1")
+                            <option value="-1" selected>все формы обучения</option>
                             @else
-                            <option value="1,2,3">все формы обучения</option>
+                            <option value="-1">все формы обучения</option>
                             @endif
                         </select>
                             
@@ -159,8 +159,9 @@ $table34 = [];
                        $total_hours = 0;         
                    @endphp
                    
-                   
-                   @foreach(\App\Contract::selectRaw('contracts.*' )
+                   @php
+                   if ($form_id == -1){
+                   $contracts = \App\Contract::selectRaw('contracts.*' )
                             ->join('users', 'contracts.user_id', '=', 'users.id')         
                             ->join('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
                             ->join('timetable', 'timetable.id', '=', 'teachers2timetable.timetable_id')
@@ -170,11 +171,34 @@ $table34 = [];
                             ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                             ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
                             ->where('groups.paid', $paid)
-                            ->where('rasp.date', 'like', "$year-$month%")
-                            ->whereIn('programs.form_id', [$form_id])
+                            ->whereMonth('rasp.date', $month)
+                            ->whereIn('programs.form_id', [1,2,3])
                             ->distinct()
                             ->orderBy('users.name')
-                            ->get() as $contract)
+                            ->get();
+                            }
+                    else    {
+                    $contracts = \App\Contract::selectRaw('contracts.*' )
+                            ->join('users', 'contracts.user_id', '=', 'users.id')         
+                            ->join('teachers2timetable', 'teachers2timetable.teacher_id', '=', 'users.id')
+                            ->join('timetable', 'timetable.id', '=', 'teachers2timetable.timetable_id')
+                            ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
+                            ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                            ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                            ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                            ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
+                            ->where('groups.paid', $paid)
+                            ->whereMonth('rasp.date', $month)
+                            ->where('programs.form_id', $form_id)
+                            ->distinct()
+                            ->orderBy('users.name')
+                            ->get();
+                          }  
+                   @endphp
+                   
+                   
+                   
+                   @foreach($contracts as $contract)
                    
                    <tr>
 
@@ -358,7 +382,26 @@ $table34 = [];
                     
                     
                     
-                    
+<!--- Проверка на привязанность элементов нагрузки к договорам --->             
+
+@foreach($timetable = \App\Timetable::selectraw('timetable.*, users.id as uid, users.name as uname')
+            ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+            ->join('users', 'users.id', '=', 'teachers2timetable.teacher_id')
+            ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+            ->where('users.freelance', 1)
+            ->whereMonth('rasp.date', $month)
+            ->where('teachers2timetable.contract_id', NULL)
+            ->get() as $t
+
+)
+
+Нет договора: <a href="{{url('/')}}/workload/edit/{{$t->id}}" target="_blank">{{ @$t->rasp->date }} {{ @$t->lesson_type->name }} {{ @$t->block->name }} {{ @$t->uname}}</a> <br>
+
+@endforeach
+
+
+
+
                     
                     
                     @else

@@ -57,13 +57,14 @@
                     <hr>        
                     <h4>{{ $user->name}}</h4>
                             
-                            <table>
+                            <table class='table-bordered'>
 
                                 <thead>
                                 <tr class='alert-info'>
 
                                     <th width='10%'>Дата</th>
                                     <th width='15%'>Время</th>
+                                    <th width='2%'>Ак.ч.</th>
                                     <th width='10%'>Группа</th>
                                     <th width='10%'>Аудитория</th>
                                     <th width='15%'>Методист</th>
@@ -82,6 +83,7 @@
                                     <td><nobr>{{ date('d.m.Y', strtotime($timetable->rasp->date))}}</nobr></td>
                                     <td>{{ @str_limit($timetable->rasp->start_at, 5, '')}} —
                                         {{ @str_limit($timetable->rasp->finish_at, 5,'')}}</td>
+                                    <td>{{ $timetable->hours}}</td>
                                     <td>{{ $timetable->group->name or ''}}</td>
                                     <td>{{ $timetable->rasp->classroom->name or ''}}</td>
                                     <td>

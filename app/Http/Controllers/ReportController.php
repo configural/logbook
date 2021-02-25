@@ -21,7 +21,10 @@ class ReportController extends Controller
         $journals = \App\Journal::select('journal.*')
                 ->join('rasp', 'rasp.id', '=', 'journal.rasp_id')
                 ->where('teacher_id', $user_id)
-                ->orderBy('journal.created_at', 'desc')->get();
+                ->whereYear('journal.created_at', date('Y'))
+                ->orderBy('journal.created_at', 'desc')
+                ->get();
+        
         return view('report_journal_list', ['journals' => $journals,  "user" => $user]);
         
     }

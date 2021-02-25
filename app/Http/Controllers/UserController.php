@@ -189,7 +189,7 @@ class userController extends Controller
             echo "<option value=''>Не выбран</option>";
             foreach($contracts as $contract) {
                 if ($contract->id == $contract_selected) {
-                echo "<option value=" . $contract->id. ">" . $contract->name . "</option>";
+                echo "<option value=" . $contract->id. " selected>" . $contract->name . "</option>";
                 } else {
                 echo "<option value=" . $contract->id. ">" . $contract->name . "</option>";
                 }  

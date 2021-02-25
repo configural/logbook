@@ -337,7 +337,15 @@
                                     <span class="green"><strong>{{$teacher->secname()}}</strong> 
                                     
                                     @if ($teacher->freelance) 
-                                     (договор)
+                                     (договор
+                                     
+                                     {{ \App\Timetable::select('contracts.name')
+                                            ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                                            ->join('contracts', 'contracts.id', '=', 'teachers2timetable.contract_id')
+                                            ->where('teachers2timetable.teacher_id', $teacher->id)
+                                            ->first()
+                                            ->name
+                                     }})
                                     @endif
                                     </span>
                                         @if($teacher->id == Auth::user()->id)
