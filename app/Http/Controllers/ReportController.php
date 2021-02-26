@@ -190,7 +190,7 @@ class ReportController extends Controller
         
        // dd($blocks);
                 foreach($blocks as $b) {
-                     $blocks_to_word .=  "- " . str_limit($b->name, 70, '...') . " (" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
+                     $blocks_to_word .=  \Logbook::normal_date($b->date) . " - ". str_limit($b->name, 70, '...') . " (" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
                 }
 
         //lessontypes
