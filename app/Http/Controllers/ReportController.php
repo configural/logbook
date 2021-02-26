@@ -52,6 +52,12 @@ class ReportController extends Controller
     public function akt(Request $request) {
         $template = "templates/temp_akt.docx";
         $file = "akt/akt.docx";
+        $hours = 0;
+        $aud_h = 0;
+        $att_h = 0;
+        $tests_h = 0;
+        $rec_vkr_h = 0;
+        $ruk_vkr_h = 0;
         //$request->contract_id = 8;
         //$request->month = 1;
         //$request->year = 2021;
@@ -66,67 +72,94 @@ class ReportController extends Controller
         $date_month = $request->year . "-" . sprintf("%02d", $request->month);
  
         // подсчитываем часы в месяце
-        $hours = \App\Timetable::select(['timetable.hours' ])
+        $timetable = \App\Timetable::select(['timetable.hours', 'rasp.date', 'rasp.room_id', 'rasp.start_at', 'rasp.finish_at' ])
+                ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%') 
                 ->where('groups.paid', $request->paid)
-                ->sum('hours'); 
-
+                ->get(); 
+        foreach($timetable as $t)
+        { $hours += $t->hours;            
+        }
         // аудиторные часы
-        $aud_h = \App\Timetable::select(['timetable.hours'])
+        $timetable = \App\Timetable::select(['timetable.hours', 'rasp.date', 'rasp.room_id', 'rasp.start_at', 'rasp.finish_at' ])
+                ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
-                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereMonth('rasp.date', $request->month)   
                 ->whereIn('timetable.lessontype', [1,2,11,15])
                 ->where('groups.paid', $request->paid)
-                ->sum('hours'); 
+                ->get();
+        foreach($timetable as $t)
+        { $aud_h += $t->hours; }    
+        
+        
         // часы аттестации, экзамены
-        $att_h = \App\Timetable::select(['timetable.hours'])
+        
+        $timetable = \App\Timetable::select(['timetable.hours', 'rasp.date', 'rasp.room_id', 'rasp.start_at', 'rasp.finish_at' ])
+                ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
-                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereMonth('rasp.date', $request->month)   
                 ->whereIn('timetable.lessontype', [3,4,5,16,17,18,19])
                 ->where('groups.paid', $request->paid)
-                ->sum('hours'); 
+                ->get();
+        foreach($timetable as $t)
+        { $att_h += $t->hours; }           
+        
+        
+        
         // часы аттестации, экзамены
-        $tests_h = \App\Timetable::select(['timetable.hours'])
+        
+        $timetable = \App\Timetable::select(['timetable.hours', 'rasp.date', 'rasp.room_id', 'rasp.start_at', 'rasp.finish_at' ])
+                ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
-                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereMonth('rasp.date', $request->month)   
                 ->whereIn('timetable.lessontype', [9,10])
                 ->where('groups.paid', $request->paid)
-                ->sum('hours'); 
+                ->get();
+        foreach($timetable as $t)
+        { $tests_h += $t->hours; }           
+
 
         // Рецензирование ИР, ВКР
-        $rec_vkr_h = \App\Timetable::select(['timetable.hours'])
+        $timetable = \App\Timetable::select(['timetable.hours', 'rasp.date', 'rasp.room_id', 'rasp.start_at', 'rasp.finish_at' ])
+                ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
-                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereMonth('rasp.date', $request->month)   
                 ->whereIn('timetable.lessontype', [12, 14])
                 ->where('groups.paid', $request->paid)
-                ->sum('hours');         
+                ->get();
+        foreach($timetable as $t)        
+        { $rec_vkr_h += $t->hours; }   
+      
         
         // Руководство ИР, ВКР
-        $ruk_vkr_h = \App\Timetable::select(['timetable.hours'])
+        $timetable = \App\Timetable::select(['timetable.hours', 'rasp.date', 'rasp.room_id', 'rasp.start_at', 'rasp.finish_at' ])
+                ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
-                ->where('rasp.date', 'like' , $date_month . '%')   
+                ->whereMonth('rasp.date', $request->month)   
                 ->whereIn('timetable.lessontype', [13])
                 ->where('groups.paid', $request->paid)
-                ->sum('hours');         
+                ->get();
+        foreach($timetable as $t)        
+        { $ruk_vkr_h += $t->hours; }       
         
         //$vneaud_h = \App\Vneaud::select()
         $aud_hours = "";
@@ -143,7 +176,8 @@ class ReportController extends Controller
        
         // занятия по темам
         $blocks_to_word = "";
-        $blocks = \App\Timetable::select(['blocks.name', 'timetable.hours', 'timetable.lessontype'])
+        $blocks = \App\Timetable::select(['blocks.name', 'timetable.hours', 'timetable.lessontype', 'rasp.date'])
+                ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')

@@ -132,6 +132,9 @@ class User extends Authenticatable
                 ->where('timetable.lessontype', $lessontype)
                 ->get();
         $hours = 0;
+        
+        //dump($tmp);
+        
         foreach($tmp as $t) {
             $hours += $t->hours;
         }
