@@ -50,7 +50,7 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             <a href="{{route('home')}}">В начало</a>
                         </p>
                         <p>
-                        @if (in_array(Auth::user()->role_id, [3,4,5,6]))
+                        @if (in_array(Auth::user()->role_id, [3,5,6]))
                             <select name="user_id" class="form-control-static">
                             
                             @foreach(\App\User::where('department_id', Auth::user()->department_id)->where('role_id', 2)->orderby('name')->get() as $user)
@@ -69,6 +69,25 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                             @endif
                             @endforeach
                             </select>
+                        @elseif(in_array(Auth::user()->role_id, [4]))
+                             <select name="user_id" class="form-control-static">
+                            
+                            @foreach(\App\User::where('role_id', 2)->orderby('name')->get() as $user)
+                            @if($user->id == $user_id)
+                            <option value='{{$user->id}}' selected>{{ $user->name }}
+                                @if($user->freelance) 
+                                (по договору)
+                                @endif
+                            </option>
+                            @else
+                            <option value='{{$user->id}}'>{{ $user->name }}
+                            @if($user->freelance) 
+                                (по договору)
+                                @endif
+                            </option>
+                            @endif
+                            @endforeach
+                            </select>                       
                         @else
                         <input type='hidden' name='user_id' value='{{Auth::user()->id}}'>
                         @endif
@@ -129,7 +148,12 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <details>
                             <summary>{{ $hours }}</summary>
                             @foreach(\App\User::user_workload_groups($user_id, $month, $year, $lessontype->id) as $tmp)
-                            <li><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">Группа {{$tmp->group->name}}.{{$tmp->subgroup}} ::  {{$tmp->hours}}ч. :: id{{$tmp->block_id}}</a></li>
+                            <nobr><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">{{$tmp->group->name}}.{{$tmp->subgroup}} ::  
+                                    {{ @str_limit($tmp->block->name, 50) }} :: 
+                                    {{ @\Logbook::normal_date($tmp->rasp->date)}}, {{ @$tmp->rasp->start_at }} 
+                                    :: {{$tmp->hours}} ч. 
+                                    :: {{ @$tmp->rasp->classroom->name}}
+                                    </a></nobr><br/>
                             @endforeach
                         </details>
                         
@@ -223,7 +247,12 @@ $hours_total_month = [0,0,0,0,0,0,0,0,0,0,0,0,0];
                         <details>
                             <summary>{{ $hours }}</summary>
                             @foreach(\App\User::user_workload_groups($user_id, $month, $year, $lessontype->id) as $tmp)
-                            <li><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">Группа {{$tmp->group->name}}.{{$tmp->subgroup}} ::  {{$tmp->hours}}ч. :: id{{$tmp->block_id}}</a></li>
+                            <nobr><a href="{{url('/')}}/workload/edit/{{$tmp->id}}">{{$tmp->group->name}}.{{$tmp->subgroup}} ::  
+                                    {{ @str_limit($tmp->block->name, 50) }} :: 
+                                    {{ @\Logbook::month($tmp->month, 1) }} 
+                                    :: {{$tmp->hours}} ч. 
+                                    
+                                    </a></nobr><br/>
                             @endforeach
                         </details>
                         

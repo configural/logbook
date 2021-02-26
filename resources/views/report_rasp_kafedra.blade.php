@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php 
+    $hours = 0;
+@endphp
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -95,6 +99,9 @@
                                     <td><strong>{{$timetable->lesson_type->name}}</strong>: {{ $timetable->block->name or ''}} </td>
 
                                 </tr>
+                                @php
+                                $hours += $timetable->hours;
+                                @endphp
                                 @endforeach
                             </tbody>
                         </table>
