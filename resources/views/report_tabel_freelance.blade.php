@@ -370,19 +370,22 @@ $table34 = [];
                             @php ($value -= $table32)
                             @endif
                             {{ $value }}
+                            
+                            
                         
                         </td>
                         <td>{{ $key * $value }}</td>
                         
                         @php
                         $total_price += $key * $value;
+                        $total_hours += $value;
                         @endphp
                         
                         <tr>
                         @endforeach
                         <tfoot>
-                        <tr><td colspan='2'>Итого</td><td>{{ $total_price }}</td></tr>
-                        <tr><td colspan='2'>Всего</td><td>{{ $total_price + $table32 * $contract_price }}</td></tr>
+                        <tr><td>Итого</td><td>{{$total_hours}}</td><td>{{ $total_price }}</td></tr>
+                        <tr><td>Всего</td><td>{{$total_hours + $table32}}</td><td>{{ $total_price + $table32 * $contract_price }}</td></tr>
                         </tfoot>
                     </table>
                         
