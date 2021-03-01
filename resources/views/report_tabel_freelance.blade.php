@@ -329,6 +329,8 @@ $table34 = [];
                         </tr>
                             @foreach(\App\User::where('role_id', '2')->where('freelance', 1)->where('staff', 32)->get() as $user)
                             
+                            
+                            
                                 @foreach(\App\LessonType::where('in_table', 1)->where('vneaud', 0)->get() as $lessontype)
                                     @php 
                                     $table32 += \App\User::user_hours_rasp($user->id, $month, $year, $lessontype->id);
@@ -363,10 +365,9 @@ $table34 = [];
                         <td>{{ $key }}</td>
                         <td>
                             @if ($key == $contract_price)
-                            {{ $value -= $table32 }}
-                            @else
-                            {{ $value }}
+                            @php ($value -= $table32)
                             @endif
+                            {{ $value }}
                         
                         </td>
                         <td>{{ $key * $value }}</td>
