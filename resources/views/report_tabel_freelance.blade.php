@@ -206,7 +206,7 @@ $table34 = [];
                    
                        <td>
                         <nobr>{{ $contract->user->name }}</nobr>
-
+                        
                         <nobr>{{ $contract->name }}  от {{ \Logbook::normal_date($contract->date)}}</nobr>
                        </td> 
                        <td>
@@ -295,6 +295,8 @@ $table34 = [];
                      if (!isset($table34[$contract->price])) {$table34[$contract->price] = $line_hours;}
                      else {$table34[$contract->price] += $line_hours;}
                    
+                     if ($contract->user->staff == 32)
+                     $table32 += $line_hours;
                    
                    
                    @endphp
@@ -327,7 +329,7 @@ $table34 = [];
                         <tr>
                             <th colspan='3'>"32"</th>
                         </tr>
-                            @foreach(\App\User::where('role_id', '2')->where('freelance', 1)->where('staff', 32)->get() as $user)
+                          {{--  @foreach(\App\User::where('role_id', '2')->where('freelance', 1)->where('staff', 32)->get() as $user)
                             
                             
                             
@@ -344,7 +346,7 @@ $table34 = [];
                                 @endforeach                                
                         
                             
-                            @endforeach
+                            @endforeach--}}
                         <tr>
                             <td>{{ $contract_price }}</td>
                             <td>{{ $table32 }}</td>
