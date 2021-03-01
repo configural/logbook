@@ -362,6 +362,10 @@ $table34 = [];
                         $total_price = 0;
                         @endphp
                         
+                        @php
+                        ksort($table34);
+                        @endphp
+                        
                         @foreach($table34 as $key => $value)
                         <tr>
                         <td>{{ $key }}</td>
