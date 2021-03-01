@@ -4689,6 +4689,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'UpdateHelper\\NotUpdateInterfaceInstanceException' => __DIR__ . '/..' . '/kylekatarnls/update-helper/src/UpdateHelper/NotUpdateInterfaceInstanceException.php',
         'UpdateHelper\\UpdateHelper' => __DIR__ . '/..' . '/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelper.php',
         'UpdateHelper\\UpdateHelperInterface' => __DIR__ . '/..' . '/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelperInterface.php',
+        'UserStaff' => __DIR__ . '/../..' . '/database/migrations/2021_03_01_121245_user_staff.php',
         'UserVneshtat' => __DIR__ . '/../..' . '/database/migrations/2020_09_11_053442_user_vneshtat.php',
         'Users2media' => __DIR__ . '/../..' . '/database/migrations/2020_09_24_142204_users2media.php',
         'Vneaud' => __DIR__ . '/../..' . '/database/migrations/2020_10_14_095724_vneaud.php',

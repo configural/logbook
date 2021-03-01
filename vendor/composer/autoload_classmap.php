@@ -4245,6 +4245,7 @@ return array(
     'UpdateHelper\\NotUpdateInterfaceInstanceException' => $vendorDir . '/kylekatarnls/update-helper/src/UpdateHelper/NotUpdateInterfaceInstanceException.php',
     'UpdateHelper\\UpdateHelper' => $vendorDir . '/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelper.php',
     'UpdateHelper\\UpdateHelperInterface' => $vendorDir . '/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelperInterface.php',
+    'UserStaff' => $baseDir . '/database/migrations/2021_03_01_121245_user_staff.php',
     'UserVneshtat' => $baseDir . '/database/migrations/2020_09_11_053442_user_vneshtat.php',
     'Users2media' => $baseDir . '/database/migrations/2020_09_24_142204_users2media.php',
     'Vneaud' => $baseDir . '/database/migrations/2020_10_14_095724_vneaud.php',

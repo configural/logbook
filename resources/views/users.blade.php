@@ -18,14 +18,17 @@
                                 
                                 <td>Роль</td>
                                 <td>Договоры</td>
+                                <td>Категория в табеле</td>
                                 <td>Подразделение</td><td>Email</td><td>Создан</td><td>Операции</td></tr>
                         </thead>
                         <tfoot>
                         <tr class="">
                            <td>id</td>
                           <td class='filter'>Имя пользователя</td>
-                           <td>Договоры</td>
-                           <td>Роль</td>
+                          
+                          <td>Договоры</td>
+                          <td>Категория в табеле</td>
+                          <td>Роль</td>
                            <td class='filter'>Подразделение</td>
                            <td>Email</td>
                            <td>Создан</td>
@@ -51,6 +54,7 @@
                                     {{$contract->name}} от {{ $contract->date }}
                                     @endforeach
                                 </td>
+                                <td>{{$user->staff}}</td>
                                 
                                 <td>{{ $user->department->name or 'не указано' }}</td>
                                 <td>@if ($user->role_id <=3)

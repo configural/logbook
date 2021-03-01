@@ -37,9 +37,11 @@
                               <input name="table_number" type="text" value="{{$user->table_number}}" class="form-control">
                           </p>
                           
-                          <p><label>Внештатный?</label><input type="number" value="{{$user->freelance}}" class="form-control" name="freelance" required>
-                              <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
-                          
+                          <p><label>Внештатный?</label> <input type="number" value="{{$user->freelance}}" class="form-control-static" name="freelance" required>
+                               Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
+ 
+                          <p><label>Категория в табеле</label> <input type="number" value="{{$user->staff}}" class="form-control-static" name="staff" required>
+                               Для штатных по договору - 32, для внештатных - 34, для остальных - пустое поле.</p>
                           
                           @if ($user->freelance)
                           

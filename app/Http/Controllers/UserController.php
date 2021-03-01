@@ -46,6 +46,7 @@ class userController extends Controller
         $user->department_id = $request->department_id;
         $user->freelance = $request->freelance;
         $user->table_number = $request->table_number;
+        $user->staff = $request->staff;
         $user->save();
         return view('users');
         
@@ -68,6 +69,7 @@ class userController extends Controller
         $user->department_id = $request->department_id;
         $user->freelance = $request->freelance;
         $user->table_number = $request->table_number;
+        $user->staff = $request->staff;
         $user->save();
         return redirect('users');
     }

@@ -34,9 +34,11 @@
                           <p><label>Табельный номер (только для штатных)</label>
                               <input name="table_number" type="text" value="" class="form-control-static">
                           </p>
-                          <p><label>Внештатный?</label><input type="number" value="0" class="form-control" name="freelance" required>
-                              <br/>Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
+                          <p><label>Внештатный?</label> <input type="number" value="0" class="form-control-static" name="freelance" required>
+                               Если преподаватель внештатный, поставьте 1, в остальных случаях 0.</p>
 
+                          <p><label>Категория в табеле</label> <input type="number" value="{{$user->staff}}" class="form-control-static" name="staff" required>
+                              Для штатных по договору - 32, для внештатных - 34, для остальных - пустое поле.</p>
                           
                           <p><button class="btn btn-success">Создать пользователя</button>
                     {{ csrf_field() }}

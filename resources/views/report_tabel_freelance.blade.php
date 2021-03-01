@@ -222,8 +222,8 @@ $table34 = [];
                         $line_hours = 0;
                         $hours = 0;
                         $aud_h = [1,2,13, 14, 15];
-                        $att_h = [3, 16, 17, 18, 19];
-                        $prov_h = [4,5,10];
+                        $att_h = [3, 4, 5, 16, 17, 18, 19];
+                        $prov_h = [ 10];
                         $test_h = [9];
                         $web_h = [11];
                         
@@ -327,7 +327,7 @@ $table34 = [];
                         <tr>
                             <th colspan='3'>"32"</th>
                         </tr>
-                            @foreach(\App\User::where('role_id', '2')->where('freelance', 0)->get() as $user)
+                            @foreach(\App\User::where('role_id', '2')->where('freelance', 1)->where('staff', 32)->get() as $user)
                             
                                 @foreach(\App\LessonType::where('in_table', 1)->where('vneaud', 0)->get() as $lessontype)
                                     @php 
@@ -361,7 +361,14 @@ $table34 = [];
                         @foreach($table34 as $key => $value)
                         <tr>
                         <td>{{ $key }}</td>
-                        <td>{{ $value }}</td>
+                        <td>
+                            @if ($key == $contract_price)
+                            {{ $value -= $table32 }}
+                            @else
+                            {{ $value }}
+                            @endif
+                        
+                        </td>
                         <td>{{ $key * $value }}</td>
                         
                         @php
