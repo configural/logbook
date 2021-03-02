@@ -150,8 +150,20 @@ class User extends Authenticatable
         return $hours;
     }
 
-    public static function user_hours_vneaud ($user_id, $month, $year, $lessontype_id, $form_id = 1) {
+    public static function user_hours_vneaud ($user_id, $month, $year, $lessontype_id, $form_id = -1) {
         //dump([$user_id, $month, $year, $lessontype_id]);
+        if ($form == -1) {
+                 $vneaud = \App\Vneaud::select('vneaud.hours')
+                ->where('user_id', $user_id)
+                ->join('groups', 'groups.id', '=', 'vneaud.group_id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
+                ->whereMonth('date', $month)
+                ->where('lessontype_id', $lessontype_id)
+                ->sum('vneaud.hours');  
+        }
+        else {
         $vneaud = \App\Vneaud::select('vneaud.hours')
                 ->where('user_id', $user_id)
                 ->join('groups', 'groups.id', '=', 'vneaud.group_id')
@@ -162,7 +174,7 @@ class User extends Authenticatable
                 ->where('lessontype_id', $lessontype_id)
                 ->where('programs.form_id', $form_id)
                 ->sum('vneaud.hours');
-        
+        }
         return $vneaud;
         
     }
