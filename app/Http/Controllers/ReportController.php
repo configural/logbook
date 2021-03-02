@@ -176,7 +176,7 @@ class ReportController extends Controller
        
         // занятия по темам
         $blocks_to_word = "";
-        $blocks = \App\Timetable::select(['blocks.name', 'timetable.hours', 'timetable.lessontype', 'rasp.date'])
+        $blocks = \App\Timetable::select(['blocks.name', 'timetable.hours', 'timetable.lessontype', 'rasp.date', 'rasp.start_at', 'rasp.finish_at'])
                 ->distinct()
                 ->join('groups', 'groups.id', '=', 'timetable.group_id')
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
@@ -185,12 +185,13 @@ class ReportController extends Controller
                 ->where('teachers2timetable.contract_id', '=', $request->contract_id)
                 ->where('rasp.date', 'like' , $date_month . '%')   
                 ->where('groups.paid', $request->paid)
+                ->orderby('rasp.date')
                 ->get();
                 //->toSql(); 
         
        // dd($blocks);
                 foreach($blocks as $b) {
-                     $blocks_to_word .=  \Logbook::normal_date($b->date) . " - ". str_limit($b->name, 70, '...') . " (" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
+                     $blocks_to_word .=  \Logbook::normal_date($b->date) . " - ". str_limit($b->name, 60, '...') . " (" . \App\LessonType::find($b->lessontype)->name . ", ". $b->hours. " ч)<w:br/>";
                 }
 
         //lessontypes

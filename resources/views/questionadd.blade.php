@@ -1,7 +1,14 @@
 
 @extends('layouts.app')
 
+@section('head_links')
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+@endsection
+
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -15,7 +22,7 @@
                         <div class="row-fluid">
                             <div class="col-lg-12">
                                <p>Текст вопроса:
-                                <textarea name="name" class="form-control" required></textarea>
+                                <textarea name="name" class="form-control" id='summernote' required></textarea>
                                </p>
                             
                                 <p><label>Тип вопроса:</label>
@@ -110,4 +117,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('footer_code')
+<script>
+$(document).ready(function() {
+  $('#summernote').summernote();
+});
+</script>
 @endsection
