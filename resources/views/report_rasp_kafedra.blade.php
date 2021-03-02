@@ -30,7 +30,7 @@
                             <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                             @endif
                             @endforeach
-                            @if (isset($department_id) && $dep->id == $department_id)
+                            @if (isset($department_id) && $dep->id == -1)
                             <option value='-1' selected>Все кафедры</option>
                             @else
                             <option value='-1'>Все кафедры</option>
