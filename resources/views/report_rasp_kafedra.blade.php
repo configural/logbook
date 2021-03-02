@@ -2,6 +2,11 @@
 
 @php 
     $hours = 0;
+    $date = "";
+    $time1 = "";
+    $time2 = "";
+    $room = "";
+    
 @endphp
 
 @section('content')
@@ -68,7 +73,7 @@
 
                                     <th width='10%'>Дата</th>
                                     <th width='15%'>Время</th>
-                                    <th width='2%'>Ак.ч.</th>
+                                    <th width='2%'>Часов</th>
                                     <th width='10%'>Группа</th>
                                     <th width='10%'>Аудитория</th>
                                     <th width='15%'>Методист</th>
@@ -81,13 +86,20 @@
                             @foreach($user->timetable()
                             ->join('rasp', 'rasp.id', '=', 'rasp_id')
                             ->whereBetween('rasp.date', [$date1, $date2])
+                            ->whereNotNull('rasp.room_id')
                             ->orderby('rasp.date')->get() as $timetable)
 
+                            @if (!($date == $timetable->rasp->date 
+                                and $time1 == $timetable->rasp->start_at 
+                                and $time2 == $timetable->rasp->finish_at
+                                and $room ==  $timetable->rasp->classroom->name
+                                
+                                ))
                                 <tr>
-                                    <td><nobr>{{ date('d.m.Y', strtotime($timetable->rasp->date))}}</nobr></td>
+                                    <td><nobr>{{ \Logbook::normal_date($timetable->rasp->date)}}</nobr></td>
                                     <td>{{ @str_limit($timetable->rasp->start_at, 5, '')}} —
                                         {{ @str_limit($timetable->rasp->finish_at, 5,'')}}</td>
-                                    <td>{{ $timetable->hours}}</td>
+                                    <td><center>{{ $timetable->hours}}</center></td>
                                     <td>{{ $timetable->group->name or ''}}</td>
                                     <td>{{ $timetable->rasp->classroom->name or ''}}</td>
                                     <td>
@@ -101,11 +113,52 @@
                                 </tr>
                                 @php
                                 $hours += $timetable->hours;
+                                
+                                $date = $timetable->rasp->date;
+                                $time1 = $timetable->rasp->start_at ;
+                                $time2 = $timetable->rasp->finish_at;
+                                $room =  $timetable->rasp->classroom->name;
+                                
+                                
+                                
                                 @endphp
-                                @endforeach
+                            
+                                @else
+                                <tr><td><center><i class="fa fa-arrow-up" title="Объединено с предыдущим"></i></center></td>
+                                    <td>{{ @str_limit($timetable->rasp->start_at, 5, '')}} —
+                                        {{ @str_limit($timetable->rasp->finish_at, 5,'')}}</td>
+                                    <td><center><i class="fa fa-arrow-up" title="Объединено с предыдущим"></i></center></td>
+                                    <td>{{ $timetable->group->name or ''}}</td>
+                                    <td>{{ $timetable->rasp->classroom->name or ''}}</td>
+                                    <td>
+                                        @if ($timetable->group->stream->metodist_id)
+                                        {{ $timetable->group->stream->metodist->fio()}}
+                                        @endif
+                                    </td>
+
+                                    <td><strong>{{$timetable->lesson_type->name}}</strong>: {{ $timetable->block->name or ''}} </td>
+                                </tr>
+                                
+                                @endif
+                            
+                            
+                            
+                            @endforeach
+                            
+                             
+                             
                             </tbody>
+                            
+                            <tfoot>
+                                <tr>
+                                    <td>Итого<td>
+                                    <td><center>{{ $hours }}</center></td>
+                                    <td colspan="10"></td>
+                                </tr>
+                            </tfoot>
                         </table>
                         @endif
+                        @php ($hours = 0)
                     @endforeach
                     @endif
                 
