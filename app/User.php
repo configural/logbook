@@ -152,7 +152,7 @@ class User extends Authenticatable
 
     public static function user_hours_vneaud ($user_id, $month, $year, $lessontype_id, $form_id = -1) {
         //dump([$user_id, $month, $year, $lessontype_id]);
-        if ($form == -1) {
+        if ($form_id == -1) {
                  $vneaud = \App\Vneaud::select('vneaud.hours')
                 ->where('user_id', $user_id)
                 ->join('groups', 'groups.id', '=', 'vneaud.group_id')
