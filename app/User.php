@@ -117,7 +117,7 @@ class User extends Authenticatable
  * date2 - конец периода
  * lessontype - тип занятия
  */
-    public static function user_hours_rasp($user_id, $month, $year, $lessontype) {
+    public static function user_hours_rasp($user_id, $month, $year, $lessontype, $form_id = 1) {
         //dump([$user_id, $month, $year, $lessontype]);
         $date1 = $year . "-" . sprintf("%02d", $month) . "-01";
         $date2 = $year . "-" . sprintf("%02d", $month) . "-" . cal_days_in_month(CAL_GREGORIAN, $month, $year);;
@@ -127,26 +127,41 @@ class User extends Authenticatable
                 ->distinct()
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
                 ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
                 ->where('teachers2timetable.teacher_id', '=', $user_id)
                 ->whereBetween('rasp.date', [$date1, $date2])    
                 ->where('timetable.lessontype', $lessontype)
+                ->where('programs.form_id', $form_id)
                 ->get();
         $hours = 0;
+        
         
         //dump($tmp);
         
         foreach($tmp as $t) {
             $hours += $t->hours;
+            
+            //dump($t->form_id);
+            
         }
         return $hours;
     }
 
-    public static function user_hours_vneaud ($user_id, $month, $year, $lessontype_id) {
+    public static function user_hours_vneaud ($user_id, $month, $year, $lessontype_id, $form_id = 1) {
         //dump([$user_id, $month, $year, $lessontype_id]);
-        $vneaud = \App\Vneaud::where('user_id', $user_id)
-                ->where('date', 'like', $year . '-' . sprintf('%02d', $month) . '%')
+        $vneaud = \App\Vneaud::select('vneaud.hours')
+                ->where('user_id', $user_id)
+                ->join('groups', 'groups.id', '=', 'vneaud.group_id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
+                ->whereMonth('date', $month)
                 ->where('lessontype_id', $lessontype_id)
-                ->sum('hours');
+                ->where('programs.form_id', $form_id)
+                ->sum('vneaud.hours');
         
         return $vneaud;
         
