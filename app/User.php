@@ -117,12 +117,15 @@ class User extends Authenticatable
  * date2 - конец периода
  * lessontype - тип занятия
  */
-    public static function user_hours_rasp($user_id, $month, $year, $lessontype, $form_id = 1) {
+    public static function user_hours_rasp($user_id, $month, $year, $lessontype, $form_id = -1) {
         //dump([$user_id, $month, $year, $lessontype]);
         $date1 = $year . "-" . sprintf("%02d", $month) . "-01";
         $date2 = $year . "-" . sprintf("%02d", $month) . "-" . cal_days_in_month(CAL_GREGORIAN, $month, $year);;
         
         //dump([$date1, $date2]);
+        
+        if ($form_id == -1) {
+        
         $tmp = \App\Timetable::select(['timetable.hours', 'timetable.lessontype', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id' ])
                 ->distinct()
                 ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
@@ -134,8 +137,24 @@ class User extends Authenticatable
                 ->where('teachers2timetable.teacher_id', '=', $user_id)
                 ->whereBetween('rasp.date', [$date1, $date2])    
                 ->where('timetable.lessontype', $lessontype)
-                ->where('programs.form_id', $form_id)
+                
                 ->get();
+        } else {
+            
+         $tmp = \App\Timetable::select(['timetable.hours', 'timetable.lessontype', 'rasp.date', 'rasp.start_at', 'rasp.finish_at', 'rasp.room_id' ])
+                ->distinct()
+                ->join('rasp', 'timetable.rasp_id', '=', 'rasp.id')
+                ->join('teachers2timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
+                ->join('groups', 'groups.id', '=', 'timetable.group_id')
+                ->join('streams', 'streams.id', '=', 'groups.stream_id')
+                ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
+                ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
+                ->where('teachers2timetable.teacher_id', '=', $user_id)
+                ->whereBetween('rasp.date', [$date1, $date2])    
+                ->where('timetable.lessontype', $lessontype)
+                ->where('programs.form_id', $form_id)           
+                 ->get();
+        }
         $hours = 0;
         
         
