@@ -162,6 +162,8 @@ Route::post('/reports/themes', 'ReportController@themes')->middleware('auth');
 Route::get('/reports/make_akt', function(){return view('report_akt');})->name('report_akt')->middleware('auth');
 Route::get('/reports/akt/{contract_id}/{year}/{month}/{paid}/{akt_date}/{rektor}', 'ReportController@akt')->name('akt_docx')->middleware('auth');
 Route::get('/reports/classrooms', function(){return view('report_rasp_classrooms');})->name('report_rasp_classrooms')->middleware('auth');
+Route::get('/reports/z_vedomost', function(){return view('report_z_vedomost');})->name('report_z_vedomost')->middleware('auth');
+
 
 
 // Медиаконтент
