@@ -47,7 +47,7 @@ $disc_count = 0;
                         @endforeach
                     </select>
                     <p>Щелкайте по ячейкам, чтобы вкл/выкл отметку "зачтено". Для печати нажмите Ctrl+P.</p>
-                                          @if ($group_id)
+                </form>
 
                         
                     @if ($group_id)
