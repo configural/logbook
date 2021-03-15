@@ -32,7 +32,8 @@ $disc_count = 0;
                         ->join('programs2stream', 'programs2stream.stream_id', '=', 'streams.id')
                         ->join('programs', 'programs.id', '=', 'programs2stream.program_id')
                         ->where('streams.active', 1)
-                        ->where('streams.date_finish', '>=', date('Y-m-d'))
+                        ->where('streams.year', date('Y'))
+                        //->where('streams.date_finish', '>=', date('Y-m-d'))
                         ->orderby('streams.date_start')
                         ->orderby('programs.name')
                         ->orderby('groups.id')
@@ -40,6 +41,10 @@ $disc_count = 0;
                         as $group)
                         @if ($group_id == $group->id)
                             <option value="{{ $group->id}}" selected>{{ \Logbook::month($group->date_start, 1)}} :: {{ str_limit($group->pname, 40) }} :: {{ $group->streamname}} :: Группа {{ $group->groupname}}</option>
+                            @php
+                            $pr = \App\Program::find($group->pid);
+                            $gr = \App\Group::find($group_id);
+                            @endphp
                         @else
                             <option value="{{ $group->id}}">{{ \Logbook::month($group->date_start, 1)}} :: {{ str_limit($group->pname, 40) }} :: {{ $group->streamname}} :: Группа {{ $group->groupname}}</option>
                         @endif
@@ -58,8 +63,8 @@ $disc_count = 0;
                         
                         <p><strong>ЗАЧЕТНАЯ ВЕДОМОСТЬ<br>промежуточной аттестации по дисциплинам</strong></p>
                         <p>
-                            Наименование программы: «{{$group->pname}}», группа {{$group->groupname}}.<br>
-                            Период обучения: {{\Logbook::normal_date($group->date_start)}} – {{\Logbook::normal_date($group->date_finish)}}
+                            Наименование программы: «{{$pr->name}}», группа {{$gr->name}}.<br>
+                            Период обучения: {{\Logbook::normal_date($gr->stream->date_start)}} – {{\Logbook::normal_date($gr->stream->date_finish)}}
                             
                         </p>
                         <table class="table-bordered">
@@ -69,17 +74,17 @@ $disc_count = 0;
                                     <td colspan='100'>Наименование разделов и дисциплин</td>
                                 </tr>
                                 <tr>
-                            @foreach(\App\Program::where('id', $group->pid)->get() as $program)
-                                @foreach($program->disciplines as $discipline)
+                            
+                                @foreach($pr->disciplines as $discipline)
                             <td>{{$discipline->name}}</td>
                             @php($disc_count++)
                                 @endforeach
-                            @endforeach
+                            
                             </tr>
                             </thead>
                             <tbody>
                                 
-                                @foreach(\App\Student::where('group_id', $group_id)->orderby('secname')->get() as $student)
+                                @foreach(\App\Student::where('group_id', $gr->id)->orderby('secname')->get() as $student)
                                 <tr>    
                                 <td>{{$student->secname}} {{$student->name}} {{$student->fathername}}</td>
                                 @for($i = 0; $i < $disc_count; $i++)
