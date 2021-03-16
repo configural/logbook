@@ -233,7 +233,7 @@ $table34 = [];
 <!-- аудиторные занятия-->
                    @foreach($aud_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h, $form_id);
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h, $form_id, $contract->id);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
@@ -244,7 +244,7 @@ $table34 = [];
 <!-- аттестация-->
                    @foreach($att_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h, $form_id);
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h, $form_id, $contract->id);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
@@ -276,7 +276,7 @@ $table34 = [];
 <!-- вебинары-->
                    @foreach($web_h as $h) 
                     @php
-                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h, $form_id);
+                    $hours += \App\User::user_hours_rasp($contract->user->id, $month, $year, $h, $form_id, $contract->id);
                     @endphp
                    @endforeach
                     <td>{{ $hours }}</td>
