@@ -17,17 +17,25 @@ class Contract extends Model
     
     function hours_left() {
        
-        $hours = \App\Contract::selectRaw('contracts.id, timetable.hours, timetable.lessontype, rasp.date, rasp.start_at, rasp.finish_at, rasp.room_id')
+        /*select distinct contracts.id, timetable.lessontype, timetable.hours, rasp.date, rasp.start_at, rasp.finish_at, rasp.room_id 
+         * from contracts 
+         * join teachers2timetable on teachers2timetable.contract_id=contracts.id 
+         * join timetable on teachers2timetable.timetable_id=timetable.id 
+         * join rasp on rasp.id=timetable.rasp_id 
+         * where contracts.id=2*/
+        
+        
+        $hours_contract = \App\Contract::selectRaw('contracts.id, timetable.hours, timetable.lessontype, rasp.date, rasp.start_at, rasp.finish_at, rasp.room_id')
                 ->distinct()
                 ->join('teachers2timetable', 'teachers2timetable.contract_id', '=', 'contracts.id')
                 ->join('timetable', 'teachers2timetable.timetable_id', '=', 'timetable.id')
                 ->join('rasp', 'rasp.id', '=', 'timetable.rasp_id')
                 ->where('contracts.id', $this->id)
                 ->whereBetween('rasp.date', [$this->start_at, $this->finish_at])
-                ->sum('timetable.hours');
-       /* $hours = 0;
-        foreach ($contract as $c) {
-            $hours++;
+                ->get();
+        $hours = 0;
+        foreach ($hours_contract as $h) {
+            $hours += $h->hours;
         }
          //dd($hours);   
          // */
