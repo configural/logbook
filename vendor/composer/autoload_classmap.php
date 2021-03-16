@@ -96,6 +96,7 @@ return array(
     'CleanTimetable' => $baseDir . '/database/migrations/2020_07_14_100604_clean_timetable.php',
     'Complex\\Complex' => $vendorDir . '/markbaker/complex/classes/src/Complex.php',
     'Complex\\Exception' => $vendorDir . '/markbaker/complex/classes/src/Exception.php',
+    'ContractHours' => $baseDir . '/database/migrations/2021_03_16_114914_contract-hours.php',
     'ContractId' => $baseDir . '/database/migrations/2020_10_13_120410_contract_id.php',
     'Contracts' => $baseDir . '/database/migrations/2020_09_29_131427_contracts.php',
     'Contracts1' => $baseDir . '/database/migrations/2020_09_29_132644_contracts1.php',

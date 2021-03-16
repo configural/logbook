@@ -53,6 +53,7 @@
                               <th>Дата заключения</th>
                               <th>Дата начала</th>
                               <th>Дата окончания</th>
+                              <th>Часов</th>
                               <th>Стоимость часа</th>
                               
                               </thead>    
@@ -64,6 +65,7 @@
                               <td>{{ $contract->date }}</td>
                               <td>{{ $contract->start_at }}</td>
                               <td>{{ $contract->finish_at }}</td>
+                              <td>{{ $contract->hours }}</td>
                               <td>{{ $contract->price }}</td>
                               
                           </tr>

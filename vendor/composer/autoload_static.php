@@ -540,6 +540,7 @@ class ComposerStaticInit69eedb6dac4ddd9816d9cdf8fc22f8fe
         'CleanTimetable' => __DIR__ . '/../..' . '/database/migrations/2020_07_14_100604_clean_timetable.php',
         'Complex\\Complex' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Complex.php',
         'Complex\\Exception' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Exception.php',
+        'ContractHours' => __DIR__ . '/../..' . '/database/migrations/2021_03_16_114914_contract-hours.php',
         'ContractId' => __DIR__ . '/../..' . '/database/migrations/2020_10_13_120410_contract_id.php',
         'Contracts' => __DIR__ . '/../..' . '/database/migrations/2020_09_29_131427_contracts.php',
         'Contracts1' => __DIR__ . '/../..' . '/database/migrations/2020_09_29_132644_contracts1.php',

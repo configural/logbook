@@ -25,7 +25,10 @@
                         <label>Дата заключения договора</label><br>
                         <input type="date" name="date" class="form-control-static" required>
                     </p>
-                    
+                    <p>
+                        <label>Количество часов</label><br>
+                        <input type="number" name="hours" class="form-control-static" required>
+                    </p>                
                     <p>
                         <label>Стоимость часа, руб</label><br>
                         <input type="number" name="price" class="form-control-static" required>

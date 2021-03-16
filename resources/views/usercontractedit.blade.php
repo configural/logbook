@@ -32,6 +32,10 @@
 
 
                     <p>
+                        <label>Количество часов</label><br>
+                        <input type="number" name="hours" value="{{ $contract->hours}}" class="form-control-static" required>
+                    </p>
+                    <p>
                         <label>Стоимость часа, руб</label><br>
                         <input type="number" name="price" value="{{ $contract->price}}" class="form-control-static" required>
                     </p>
