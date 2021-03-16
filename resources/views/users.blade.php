@@ -51,7 +51,7 @@
                                 
                                 <td>
                                     @foreach($user->contracts as $contract)
-                                    {{$contract->name}} от {{ $contract->date }}
+                        <nobr>{{$contract->name}} от {{ $contract->date }}, ({{$contract->hours}} часов)</nobr>
                                     @endforeach
                                 </td>
                                 <td>{{$user->staff}}</td>
